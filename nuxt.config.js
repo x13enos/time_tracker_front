@@ -43,13 +43,22 @@ export default {
     'bootstrap-vue/nuxt',
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/proxy'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
   axios: {},
+  proxy: {
+    '/api': {
+      target: 'http://localhost:3000/graphql',
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
+  },
   /*
    ** Build configuration
    */
