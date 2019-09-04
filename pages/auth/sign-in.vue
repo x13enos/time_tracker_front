@@ -2,6 +2,7 @@
   <b-container class="bv-example-row bv-example-row-flex-cols">
     <b-row class="mt-5" align-h="center">
       <b-col lg="6" md="8" sm="12">
+        <h3>Please sign in to site.</h3>
         <b-form>
           <b-form-group
             id="input-group-1"
@@ -51,11 +52,13 @@ export default {
 
   methods: {
     onSubmit () {
-      this.$store.dispatch('signIn', {
-        email: this.form.email,
-        password: this.form.password
-      }).then((message) => {
-        this.errorMessage = message
+      this.$store.dispatch('signIn', this.form).then((response) => {
+        if (response.status === 'success') {
+          localStorage.setItem('authToken', response.data.token)
+          this.$router.replace({ path: '/' })
+        } else {
+          this.errorMessage = response.errors
+        }
       })
     }
   }

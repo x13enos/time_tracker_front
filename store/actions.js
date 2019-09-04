@@ -1,19 +1,19 @@
 import endpoints from '~/plugins/endpoints.js'
 
-function handleResponse (response, successFn) {
+function handleResponse (response, actionMethod) {
   if (response.data.data != null) {
-    successFn()
+    return { status: 'success', data: response.data.data[actionMethod] }
   } else {
-    return response.data.errors[0].message
+    return { status: 'fail', errors: response.data.errors[0].message }
   }
 }
 
 export default {
   async signIn ({ commit }, data) {
-    const response = await endpoints.signIn(data)
-    return handleResponse(
-      response,
-      function () { commit('updateUserData', response.data.data.signInUser) }
-    )
+    const response = handleResponse(await endpoints.signIn(data), 'signInUser')
+    if (response.status === 'success') {
+      commit('updateUserData', response.data)
+    }
+    return response
   }
 }
