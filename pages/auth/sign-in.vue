@@ -1,46 +1,36 @@
-/* istanbul ignore next */
 <template>
-  <b-container class="bv-example-row bv-example-row-flex-cols">
-    <b-row class="mt-5" align-h="center">
-      <b-col lg="6" md="8" sm="12">
-        <h3>Please sign in to site.</h3>
-        <b-form id="sign-in-form">
-          <b-form-group
-            id="input-group-1"
-            label="Email address:"
-            label-for="input-email"
-          >
-            <b-form-input
-              id="input-email"
-              v-model="form.email"
-              type="email"
-              required
-              placeholder="Enter email"
-            />
-          </b-form-group>
-
-          <b-form-group id="input-group-2" label="Your password:" label-for="input-password">
-            <b-form-input
-              id="input-password"
-              v-model="form.password"
-              type="password"
-              required
-              placeholder="Enter password"
-            />
-          </b-form-group>
-
-          <div>{{ errorMessage }}</div>
-          <b-button id="btn" type="submit" variant="primary" @click.stop.prevent="onSubmit()">
-            Sign In
-          </b-button>
-        </b-form>
-      </b-col>
-    </b-row>
-  </b-container>
+  <v-card class="elevation-12">
+    <v-toolbar color="primary" dark flat>
+      <v-toolbar-title>Login form</v-toolbar-title>
+    </v-toolbar>
+    <v-card-text>
+      <v-form>
+        <v-text-field
+          v-model="form.email"
+          label="Login"
+          name="login"
+          type="text"
+        />
+        <v-text-field
+          id="password"
+          v-model="form.password"
+          label="Password"
+          name="password"
+          type="password"
+        />
+      </v-form>
+    </v-card-text>
+    <v-card-actions>
+      <v-btn color="primary" @click="onSubmit()">
+        Login
+      </v-btn>
+    </v-card-actions>
+  </v-card>
 </template>
 
 <script>
 export default {
+  layout: 'auth',
   data () {
     return {
       form: {
