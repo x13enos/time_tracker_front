@@ -21,15 +21,6 @@ test('Route /sign-in exists and render HTML', async t => {
   t.true(html.includes('<h3>Please sign in to site.</h3>'))
 })
 
-// test('Route / exits and render HTML with CSS applied', async t => {
-//   const window = await nuxt.renderAndGetWindow('http://localhost:4000/')
-//   const element = window.document.querySelector('.red')
-//   t.not(element, null)
-//   t.is(element.textContent, 'Hello world!')
-//   t.is(element.className, 'red')
-//   t.is(window.getComputedStyle(element).color, 'red')
-// })
-
 test.after('Closing server and nuxt.js', t => {
   nuxt.close()
 })

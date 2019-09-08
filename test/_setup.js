@@ -5,22 +5,22 @@ if (process.env.TEST === 'unit') {
   require('browser-env');
   const Vue = require('vue');
   Vue.config.productionTip = false;
-  // https://github.com/nuxt/create-nuxt-app/issues/180#issuecomment-463069941
   window.Date = global.Date = Date;
+  global.fakeStoreData = require("./support/fake_store_data.js");
 }
 
 if (process.env.TEST === 'e2e') {
+  const jsdom = require("jsdom");
+  global.JSDOM = jsdom.JSDOM;
   const Vue = require('vue');
   Vue.config.productionTip = false;
 }
 
 global.sinon = require('sinon')
 
-// Setup vue files to be processed by `require-extension-hooks-vue`
 hooks('vue')
   .plugin('vue')
   .push();
-// Setup vue and js files to be processed by `require-extension-hooks-babel`
 hooks(['vue', 'js'])
   .exclude(({ filename }) => filename.match(/\/node_modules\//))
   .plugin('babel')
