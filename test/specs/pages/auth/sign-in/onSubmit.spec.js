@@ -51,7 +51,6 @@ test('it should write token to the local storage', async t => {
 });
 
 test('it should redirect user to main page if status is success', async t => {
-  global.localStorage = localStorageMock
   const routerStub = sinon.stub(router, 'replace')
   const actionStub = sinon.stub(store, "dispatch").resolves(successResponse)
   const wrapper = shallowMount(signIn, { localVue, store, router })
@@ -64,7 +63,6 @@ test('it should redirect user to main page if status is success', async t => {
 });
 
 test('it should write errors from response to variable if status is "fail"', async t => {
-  global.localStorage = localStorageMock
   const actionStub = sinon.stub(store, "dispatch").resolves(failResponse)
   const wrapper = shallowMount(signIn, { localVue, store, router })
 
