@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import VueRouter from "vue-router"
-import BootstrapVue from 'bootstrap-vue'
+import Vuetify from 'vuetify'
 import { localStorageMock } from '@/test/support/local_storage_mock'
 import {serial as test} from 'ava';
 import signIn from '@/pages/auth/sign-in'
@@ -9,7 +9,7 @@ import signIn from '@/pages/auth/sign-in'
 const localVue = createLocalVue()
 localVue.use(Vuex);
 localVue.use(VueRouter)
-localVue.use(BootstrapVue)
+localVue.use(Vuetify)
 
 const store = new Vuex.Store(fakeStoreData);
 const router = new VueRouter()
@@ -51,7 +51,6 @@ test('it should write token to the local storage', async t => {
 });
 
 test('it should redirect user to main page if status is success', async t => {
-  global.localStorage = localStorageMock
   const routerStub = sinon.stub(router, 'replace')
   const actionStub = sinon.stub(store, "dispatch").resolves(successResponse)
   const wrapper = shallowMount(signIn, { localVue, store, router })
@@ -64,7 +63,6 @@ test('it should redirect user to main page if status is success', async t => {
 });
 
 test('it should write errors from response to variable if status is "fail"', async t => {
-  global.localStorage = localStorageMock
   const actionStub = sinon.stub(store, "dispatch").resolves(failResponse)
   const wrapper = shallowMount(signIn, { localVue, store, router })
 
