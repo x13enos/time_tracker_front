@@ -1,12 +1,7 @@
-import axios from 'axios'
-
-function makeRequest (query) {
-  return axios.post('/api', { query })
-}
-
 export default {
-  signIn (data) {
-    const query = `
+
+  "signInUser": (data) => {
+    return `
       mutation{
         signInUser(
           signInData:{
@@ -17,7 +12,7 @@ export default {
           token
           user{ name }
         }
-      }`
-    return makeRequest(query)
+    }`
   }
+  
 }

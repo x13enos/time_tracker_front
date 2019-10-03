@@ -10,9 +10,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test:unit": "cross-env TEST=unit nyc ava --config unit-tests.config.js  --color",
-    "test:e2e": "cross-env TEST=e2e nyc ava --config e2e-tests.config.js --verbose --color",
-    "test": "npm run test:unit & npm run test:e2e"
+    "test": "ava --color --watch"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",

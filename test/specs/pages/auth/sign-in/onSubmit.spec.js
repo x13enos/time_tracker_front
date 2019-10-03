@@ -15,58 +15,68 @@ const store = new Vuex.Store(fakeStoreData);
 const router = new VueRouter()
 
 const successResponse = {
-  status: "success",
+  success: () => { return true },
   data: {
     token: "123"
   }
 }
 
-const failResponse = {
-  status: "fail",
-  errors: "ERROR!!!"
-}
+global.localStorage = localStorageMock
 
 test('it should call action with filled data', async t => {
-  global.localStorage = localStorageMock
-  const actionStub = sinon.stub(store, "dispatch").resolves(successResponse)
-  const wrapper = shallowMount(signIn, { localVue, store, router })
+  const $api = {
+    signIn: () => { return successResponse }
+  }
+
+  const actionSpy = sinon.spy($api, "signIn")
+  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
   Object.assign(wrapper.vm, { form: { email: 'example@gmail.com', password: '11111111' } })
   await wrapper.vm.onSubmit()
-  t.true(actionStub.calledOnce)
-  t.deepEqual(actionStub.args[0], ['signIn', { email: 'example@gmail.com', password: '11111111' }])
-  actionStub.restore()
+  t.true(actionSpy.calledOnce)
+  t.deepEqual(actionSpy.args[0], [{ email: 'example@gmail.com', password: '11111111' }])
+  actionSpy.restore()
 });
 
 test('it should write token to the local storage', async t => {
-  global.localStorage = localStorageMock
+  const $api = {
+    signIn: () => { return successResponse }
+  }
+
   const localStorageStub = sinon.stub(localStorageMock, "setItem")
-  const actionStub = sinon.stub(store, "dispatch").resolves(successResponse)
-  const wrapper = shallowMount(signIn, { localVue, store, router })
+  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
 
   await wrapper.vm.onSubmit()
   t.true(localStorageStub.calledOnce)
   t.deepEqual(localStorageStub.args[0], ['authToken', '123'])
-  actionStub.restore()
   localStorageStub.restore()
 });
 
 test('it should redirect user to main page if status is success', async t => {
+  const $api = {
+    signIn: () => { return successResponse }
+  }
+
   const routerStub = sinon.stub(router, 'replace')
-  const actionStub = sinon.stub(store, "dispatch").resolves(successResponse)
-  const wrapper = shallowMount(signIn, { localVue, store, router })
+  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
 
   await wrapper.vm.onSubmit()
   t.true(routerStub.calledOnce)
   t.deepEqual(routerStub.args[0], [{ path: '/' }])
-  actionStub.restore()
   routerStub.restore()
 });
 
 test('it should write errors from response to variable if status is "fail"', async t => {
-  const actionStub = sinon.stub(store, "dispatch").resolves(failResponse)
-  const wrapper = shallowMount(signIn, { localVue, store, router })
+  const failResponse = {
+    success: () => { return false },
+    errors: "ERROR!!!"
+  }
+
+  const $api = {
+    signIn: () => { return failResponse }
+  }
+
+  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
 
   await wrapper.vm.onSubmit()
   t.is(wrapper.vm.errorMessage, "ERROR!!!")
-  actionStub.restore()
 });

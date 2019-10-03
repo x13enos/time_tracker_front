@@ -29,8 +29,11 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   layout: 'auth',
+
   data () {
     return {
       form: {
@@ -42,15 +45,17 @@ export default {
   },
 
   methods: {
-    onSubmit () {
-      this.$store.dispatch('signIn', this.form).then((response) => {
-        if (response.status === 'success') {
-          localStorage.setItem('authToken', response.data.token)
-          this.$router.replace({ path: '/' })
-        } else {
-          this.errorMessage = response.errors
-        }
-      })
+    ...mapMutations([ "updateUserData" ]),
+
+    async onSubmit () {
+      const response = await this.$api.signIn(this.form);
+      if (response.success()) {
+        this.updateUserData(response.data);
+        localStorage.setItem('authToken', response.data.token);
+        this.$router.replace({ path: '/' });
+      } else {
+        this.errorMessage = response.errors;
+      }
     }
   }
 }
