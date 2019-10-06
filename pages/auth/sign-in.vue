@@ -44,6 +44,10 @@ export default {
     }
   },
 
+  mounted: function(){
+    localStorage.setItem('authToken', undefined)
+  },
+
   methods: {
     ...mapMutations([ "updateUserData" ]),
 

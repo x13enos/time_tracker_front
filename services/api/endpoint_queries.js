@@ -13,6 +13,17 @@ export default {
           user{ name }
         }
     }`
+  },
+
+  "allProjects": () => {
+    return `
+      query{
+        allProjects  {
+          id,
+          name
+        }
+      }
+    `
   }
-  
+
 }

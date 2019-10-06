@@ -4,21 +4,21 @@ import handler from '@/services/api/handler';
 
 test("it should call handler", async t => {
   const handlerStub = sinon.stub(handler, 'perform')
-  await Api.signIn('data')
+  await Api.allProjects()
   t.truthy(handlerStub.calledOnce)
   handlerStub.restore()
 })
 
 test("it should pass data to handler", async t => {
   const handlerStub = sinon.stub(handler, 'perform')
-  await Api.signIn('data')
-  t.deepEqual(handlerStub.args[0], ['signInUser', 'data'])
+  await Api.allProjects()
+  t.deepEqual(handlerStub.args[0], ['allProjects'])
   handlerStub.restore()
 })
 
 test("it should return response", async t => {
   const handlerStub = sinon.stub(handler, 'perform').returns("responseData")
-  const response = await Api.signIn('data')
+  const response = await Api.allProjects()
   t.is(response, "responseData")
   handlerStub.restore()
 })
