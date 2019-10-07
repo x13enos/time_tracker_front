@@ -20,7 +20,11 @@
         </thead>
         <tbody>
           <template v-for="(task, index) in tasks">
-            <task :task="task" :projects="projects" />
+            <task
+              :task="task"
+              :projects="projects"
+              @updateInfo="updateTaskData($event, task)"
+            />
           </template>
         </tbody>
       </template>
@@ -45,6 +49,12 @@ export default {
     const response = await this.$api.allProjects()
     this.projects = response.data;
     this.tasks.push({})
+  },
+
+  methods: {
+    updateTaskData(data, task){
+      Object.assign(task, data)
+    }
   }
 }
 </script>

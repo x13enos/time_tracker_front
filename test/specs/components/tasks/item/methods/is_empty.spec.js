@@ -32,7 +32,3 @@ test('it should return true for empty array', t => {
 test('it should return false for non empty string', t => {
   t.false(wrapper.vm.isEmpty("test"))
 });
-
-// isEmpty(val){
-//   return (val === undefined || val == null || val.length <= 0) ? true : false;
-// }
