@@ -48,7 +48,13 @@ export default {
   mounted: async function() {
     const response = await this.$api.allProjects()
     this.projects = response.data;
-    this.tasks.push({})
+    this.tasks.push({
+      id: null,
+      project: null,
+      description: null,
+      time: 0.0,
+      active: false
+    })
   },
 
   methods: {

@@ -13,6 +13,10 @@ function Api() {
   this.createTimeRecord = async (data) => {
     return handler.perform('createTimeRecord', data);
   }
+
+  this.updateTimeRecord = async (data) => {
+    return handler.perform('updateTimeRecord', data);
+  }
 }
 
 export default new Api();

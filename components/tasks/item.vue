@@ -53,9 +53,10 @@ export default {
 
   data: function() {
     return {
+      id: this.task.id,
       project: this.task.project,
       description: this.task.description,
-      time: this.task.time,
+      time: this.task.time || 0.0,
       active: this.task.active || false
     }
   },
@@ -67,7 +68,7 @@ export default {
 
     newObject(){
       return this.isEmpty(this.task.id);
-    }
+    },
   },
 
   methods: {
@@ -83,7 +84,13 @@ export default {
       this.$emit('updateInfo', params)
     },
 
-    updateTask(){
+    async updateTask(){
+      if(!this.newObject){
+        const params = this.formData()
+        const requestParams = Object.assign({}, params, { id: this.task.id })
+        const response = await this.$api.updateTimeRecord(requestParams)
+        this.$emit('updateInfo', params)
+      }
     },
 
     isEmpty(val){
@@ -93,7 +100,7 @@ export default {
     formData(){
       return {
         project: this.project,
-        description: this.description,
+        description: this.description || 0.0,
         time: this.time,
         active: this.active
       }

@@ -24,5 +24,11 @@ test('it should assign received response', async t => {
 
 test('it should add new item to the tasks array', async t => {
   const wrapper = await shallowMount(tasks, { localVue, mocks: { $api } })
-  t.deepEqual(wrapper.vm.tasks, [{}])
+  t.deepEqual(wrapper.vm.tasks, [{
+    active: false,
+    description: null,
+    id: null,
+    project: null,
+    time: 0,
+  }])
 });

@@ -49,6 +49,32 @@ export default {
         }
       }
     `
+  },
+
+  "updateTimeRecord": (data, id) => {
+    return `
+      mutation{
+        updateTimeRecord(
+          timeRecordId: "${ data.id }",
+          startTask: ${ data.active },
+          projectId: "${ data.project }"
+          data: {
+            description: "${ data.description }",
+            spentTime: ${ data.time },
+          }
+        ){
+          timeRecord {
+            id,
+            description,
+            spentTime,
+            timeStart,
+            project{
+              id
+            }
+          }
+        }
+      }
+    `
   }
 
 }
