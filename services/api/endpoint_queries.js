@@ -75,6 +75,20 @@ export default {
         }
       }
     `
+  },
+
+  "allTimeRecords": () => {
+    return `query{
+      allTimeRecords  {
+    		id,
+        description,
+        timeStart,
+        spentTime,
+        project {
+          id
+        },
+      }
+    }`
   }
 
 }

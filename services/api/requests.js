@@ -17,6 +17,10 @@ function Api() {
   this.updateTimeRecord = async (data) => {
     return handler.perform('updateTimeRecord', data);
   }
+
+  this.allTimeRecords = async () => {
+    return handler.perform('allTimeRecords');
+  }
 }
 
 export default new Api();

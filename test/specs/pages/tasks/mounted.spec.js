@@ -6,29 +6,28 @@ import tasks from '@/pages/tasks'
 const localVue = createLocalVue()
 localVue.use(Vuetify)
 
-const $api = {
-  allProjects: () => { return { data: "data" } }
+let wrapper, fetchProjectsStub, fetchTasksStub;
+
+const methods = {
+  fetchProjects: () => {},
+  fetchTasks: () => {}
 }
 
-test('it should fetch list of projects for user', async t => {
-  const actionSpy = sinon.spy($api, "allProjects")
-  const wrapper = await shallowMount(tasks, { localVue, mocks: { $api } })
-  t.true(actionSpy.calledOnce)
-  actionSpy.restore()
-});
+test.beforeEach(async (t) => {
+  fetchProjectsStub = sinon.stub(methods, "fetchProjects")
+  fetchTasksStub = sinon.stub(methods, "fetchTasks")
+  wrapper = await shallowMount(tasks, { localVue, methods })
+})
 
-test('it should assign received response', async t => {
-  const wrapper = await shallowMount(tasks, { localVue, mocks: { $api } })
-  t.is(wrapper.vm.projects, "data")
-});
+test.afterEach((t) => {
+  fetchProjectsStub.restore()
+  fetchTasksStub.restore()
+})
 
-test('it should add new item to the tasks array', async t => {
-  const wrapper = await shallowMount(tasks, { localVue, mocks: { $api } })
-  t.deepEqual(wrapper.vm.tasks, [{
-    active: false,
-    description: null,
-    id: null,
-    project: null,
-    time: 0,
-  }])
-});
+test('it should call method for fetching projects', t => {
+  t.true(fetchProjectsStub.calledOnce)
+})
+
+test('it should call method for fetching tasks', t => {
+  t.true(fetchTasksStub.calledOnce)
+})

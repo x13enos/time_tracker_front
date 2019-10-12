@@ -42,12 +42,12 @@ export default {
   props: {
     task: {
       type: Object,
-      default: {}
+      default: () => { return {} }
     },
 
     projects: {
       type: Array,
-      default: []
+      default: () => { return [] }
     }
   },
 
