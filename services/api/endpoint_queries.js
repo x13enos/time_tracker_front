@@ -34,7 +34,7 @@ export default {
           projectId: "${ data.project }"
           data: {
             description: "${ data.description }",
-            spentTime: ${ data.time },
+            spentTime: ${ data.spentTime },
           }
         ){
           timeRecord {
@@ -60,7 +60,7 @@ export default {
           projectId: "${ data.project }"
           data: {
             description: "${ data.description }",
-            spentTime: ${ data.time },
+            spentTime: ${ data.spentTime },
           }
         ){
           timeRecord {

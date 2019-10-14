@@ -9,28 +9,27 @@
         item-key="id"
         single-line
         label="Project"
-        @change="updateTask"
+        @change="update"
       ></v-select>
     </td>
     <td width="40%">
       <v-text-field
         v-model="description"
         placeholder="description"
-        @blur="updateTask"
+        @blur="update"
       />
     </td>
     <td width="20%">
       <v-row>
         <v-col>
           <v-text-field
-            v-model="time"
+            v-model="spentTime"
             placeholder="0.0"
-            :disabled="doesNotReadyForAction"
-            @blur="[newObject ? createTask() : updateTask()]"
+            @blur="update"
           />
         </v-col>
         <v-col>
-          <v-btn @click="startTask" :disabled="doesNotReadyForAction"> Start </v-btn>
+          <v-btn @click="update">Start</v-btn>
         </v-col>
       </v-row>
     </td>
@@ -56,41 +55,15 @@ export default {
       id: this.task.id,
       project: this.task.project,
       description: this.task.description,
-      time: this.task.time || 0.0,
-      active: this.task.active || false
+      spentTime: this.task.spentTime,
+      timeStart: this.task.timeStart,
+      active: this.isEmpty(this.task.timeStart) || false
     }
   },
 
-  computed: {
-    doesNotReadyForAction(){
-      return this.isEmpty(this.project) || this.isEmpty(this.description);
-    },
-
-    newObject(){
-      return this.isEmpty(this.task.id);
-    },
-  },
-
   methods: {
-    startTask(){
-      this.active = !this.active
-      this.newObject ? this.createTask() : this.updateTask()
-    },
-
-    async createTask(){
-      const params = this.formData()
-      const { data } = await this.$api.createTimeRecord(params)
-      params.id = data.timeRecord.id
-      this.$emit('updateInfo', params)
-    },
-
-    async updateTask(){
-      if(!this.newObject){
-        const params = this.formData()
-        const requestParams = Object.assign({}, params, { id: this.task.id })
-        const response = await this.$api.updateTimeRecord(requestParams)
-        this.$emit('updateInfo', params)
-      }
+    async update(){
+      this.$emit('updateTask', this.formData())
     },
 
     isEmpty(val){
@@ -99,9 +72,10 @@ export default {
 
     formData(){
       return {
+        id: this.task.id,
         project: this.project,
         description: this.description || 0.0,
-        time: this.time,
+        spentTime: this.spentTime,
         active: this.active
       }
     }

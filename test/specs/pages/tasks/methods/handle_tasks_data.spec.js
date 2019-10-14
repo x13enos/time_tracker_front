@@ -21,26 +21,14 @@ const tasksData = [{
 
 test('it should add handled data to the tasks array', async t => {
   const wrapper = shallowMount(tasks, { localVue, methods })
-  const addEmptyTaskStub = sinon.stub(wrapper.vm, "addEmptyTask")
 
   await wrapper.vm.handleTasksData(tasksData)
   t.deepEqual(wrapper.vm.tasks, [{
+    description: "text",
     id: 111,
     project: 222,
-    description: "text",
-    time: 0.5,
-    active: true
+    spentTime: 0.5,
+    timeStart: "today"
   }])
 
-  addEmptyTaskStub.restore()
-})
-
-test('it should call methods for adding empty task', async t => {
-  const wrapper = shallowMount(tasks, { localVue, methods })
-  const addEmptyTaskStub = sinon.stub(wrapper.vm, "addEmptyTask")
-
-  await wrapper.vm.handleTasksData(tasksData)
-  t.true(addEmptyTaskStub.calledOnce)
-
-  addEmptyTaskStub.restore()
 })

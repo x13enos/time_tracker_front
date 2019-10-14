@@ -23,9 +23,10 @@
             <task
               :task="task"
               :projects="projects"
-              @updateInfo="updateTaskData($event, task)"
+              @updateTask="updateTask($event, task)"
             />
           </template>
+          <new-task :projects="projects" @addTask="addTask($event)" />
         </tbody>
       </template>
     </v-simple-table>
@@ -33,10 +34,14 @@
 </template>
 
 <script>
-import Item from '~/components/tasks/item.vue'
+import createItem from '~/components/tasks/create_item.vue'
+import updateItem from '~/components/tasks/update_item.vue'
 
 export default {
-  components: { 'task': Item },
+  components: {
+    "new-task": createItem,
+    "task": updateItem
+  },
 
   data: function(){
     return {
@@ -51,10 +56,6 @@ export default {
   },
 
   methods: {
-    updateTaskData(data, task){
-      Object.assign(task, data)
-    },
-
     async fetchProjects(){
       const { data } = await this.$api.allProjects()
       this.projects = data;
@@ -65,28 +66,29 @@ export default {
       this.handleTasksData(data)
     },
 
-    addEmptyTask(){
-      this.tasks.push({
-        id: null,
-        project: null,
-        description: null,
-        time: 0.0,
-        active: false
-      })
-    },
-
     async handleTasksData(data){
-      await data.forEach((taskData) => {
-        this.tasks.push({
+      this.tasks = data.map((taskData) => {
+        return {
           id: taskData.id,
           project: taskData.project.id,
           description: taskData.description,
-          time: taskData.spentTime,
-          active: !this.isEmpty(taskData.timeStart)
-        })
+          spentTime: taskData.spentTime,
+          timeStart: taskData.timeStart
+        }
       })
-      this.addEmptyTask()
     },
+
+    async addTask(params){
+      const { data } = await this.$api.createTimeRecord(params)
+      params.id = data.timeRecord.id
+      this.tasks.push(params)
+    },
+
+    async updateTask(params, task){
+      const data = await this.$api.updateTimeRecord(params)
+      Object.assign(task, params)
+    },
+
 
     isEmpty(val){
       return (val === undefined || val == null || val.length <= 0) ? true : false;

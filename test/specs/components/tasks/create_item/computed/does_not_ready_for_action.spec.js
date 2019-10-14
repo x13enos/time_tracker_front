@@ -1,15 +1,12 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import test from 'ava';
-import task from '@/components/tasks/item'
+import task from '@/components/tasks/create_item'
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
 
-const props = {
-  projects: [],
-  task: {}
-}
+const props = { projects: [] }
 
 test('it should return true if project and description are empty', t => {
   const wrapper = shallowMount(task, { localVue, propsData: props } )

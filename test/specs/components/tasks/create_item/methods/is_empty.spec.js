@@ -1,7 +1,7 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import test from 'ava';
-import task from '@/components/tasks/item'
+import task from '@/components/tasks/create_item'
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
