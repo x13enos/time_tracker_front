@@ -46,8 +46,7 @@ test('it should write token to the local storage', async t => {
   const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
 
   await wrapper.vm.onSubmit()
-  t.true(localStorageStub.calledOnce)
-  t.deepEqual(localStorageStub.args[0], ['authToken', '123'])
+  t.deepEqual(localStorageStub.args[1], ['authToken', '123'])
   localStorageStub.restore()
 });
 

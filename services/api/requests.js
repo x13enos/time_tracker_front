@@ -1,11 +1,26 @@
 import handler from "@/services/api/handler"
 
 function Api() {
-  
+
   this.signIn = async (data) => {
-    return handler.call(data, 'signInUser');
+    return handler.perform('signInUser', data);
   }
 
+  this.allProjects = async (data) => {
+    return handler.perform('allProjects');
+  }
+
+  this.createTimeRecord = async (data) => {
+    return handler.perform('createTimeRecord', data);
+  }
+
+  this.updateTimeRecord = async (data) => {
+    return handler.perform('updateTimeRecord', data);
+  }
+
+  this.allTimeRecords = async () => {
+    return handler.perform('allTimeRecords');
+  }
 }
 
 export default new Api();

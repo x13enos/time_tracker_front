@@ -3,7 +3,8 @@ const hooks = require('require-extension-hooks');
 require('jsdom-global')();
 require('browser-env');
 const Vue = require('vue');
-Vue.config.productionTip = false;
+const config = require('@vue/test-utils');
+config.silent = true;
 window.Date = global.Date = Date;
 
 global.fakeStoreData = require("./support/fake_store_data.js");

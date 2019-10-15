@@ -2,7 +2,11 @@
   <v-app id="inspire">
     <Header />
     <v-container>
-      <nuxt />
+      <v-row align="start" justify="start">
+        <v-col cols="12">
+          <nuxt />
+        </v-col>
+      </v-row>
     </v-container>
   </v-app>
 </template>
@@ -11,6 +15,8 @@
 import Header from '~/components/layout/Header.vue'
 
 export default {
-  components: { Header }
+  components: { Header },
+
+  middleware: ['auth']
 }
 </script>
