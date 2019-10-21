@@ -9,6 +9,7 @@
         item-key="id"
         single-line
         label="Project"
+        :disabled="active"
         @change="update"
       ></v-select>
     </td>
@@ -16,6 +17,7 @@
       <v-text-field
         v-model="description"
         placeholder="description"
+        :disabled="active"
         @blur="update"
       />
     </td>
@@ -25,11 +27,13 @@
           <v-text-field
             v-model="spentTime"
             placeholder="0.0"
+            :disabled="active"
             @blur="update"
           />
         </v-col>
         <v-col>
-          <v-btn @click="update">Start</v-btn>
+          <v-btn v-if="active" @click="stop">Stop</v-btn>
+          <v-btn v-else @click="unpause">Continue</v-btn>
         </v-col>
       </v-row>
     </td>
@@ -41,12 +45,14 @@ export default {
   props: {
     task: {
       type: Object,
-      default: () => { return {} }
+      default: () => { return {} },
+      required: true
     },
 
     projects: {
       type: Array,
-      default: () => { return [] }
+      default: () => { return [] },
+      required: true
     }
   },
 
@@ -56,8 +62,15 @@ export default {
       project: this.task.project,
       description: this.task.description,
       spentTime: this.task.spentTime,
-      timeStart: this.task.timeStart,
-      active: this.isEmpty(this.task.timeStart) || false
+      active: !this.isEmpty(this.task.timeStart),
+      intervalId: null
+    }
+  },
+
+  mounted: function(){
+    if(this.active){
+      this.updateSpentTime()
+      this.start()
     }
   },
 
@@ -78,6 +91,30 @@ export default {
         spentTime: this.spentTime,
         active: this.active
       }
+    },
+
+    unpause(){
+      this.active = true
+      this.update()
+      this.start()
+    },
+
+    start(){
+      this.intervalId = setInterval(() => {
+        this.spentTime = (parseFloat(this.spentTime) + parseFloat("0.01")).toFixed(2)
+      }, 36000);
+    },
+
+    stop(){
+      clearInterval(this.intervalId)
+      this.active = false
+      this.update()
+    },
+
+    updateSpentTime(){
+      const secondsPassedFromStarting = ((new Date().getTime() / 1000) - (new Date(this.task.timeStart).getTime()))
+      const timePassedFromStarting = Math.round((secondsPassedFromStarting / 3600) * 100) / 100
+      this.spentTime = (parseFloat(this.spentTime) + parseFloat(timePassedFromStarting)).toFixed(2)
     }
   }
 }

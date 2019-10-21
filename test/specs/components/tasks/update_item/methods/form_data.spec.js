@@ -10,8 +10,7 @@ const taskData = {
   id: 125,
   project: 1,
   description: "test",
-  spentTime: 0.5,
-  active: true
+  spentTime: 0.5
 }
 
 const props = { projects: [], task: taskData }
@@ -28,6 +27,6 @@ test('it should return task data', t => {
     project: 1,
     description: "new text",
     spentTime: 0.5,
-    active: true
+    active: false
   })
 });

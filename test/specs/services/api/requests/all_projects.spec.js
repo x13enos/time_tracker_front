@@ -1,24 +1,42 @@
 import {serial as test} from 'ava';
 import Api from '@/services/api/requests';
-import handler from '@/services/api/handler';
+import HandlerMock from '@/test/support/handler_mock'
+
+let apiInstance, mock, router
+
+test.beforeEach(() => {
+  router = { push: (path) => {} }
+  apiInstance = new Api(router)
+  mock = new HandlerMock()
+})
+
+test.afterEach(() => {
+  mock.restore()
+})
 
 test("it should call handler", async t => {
-  const handlerStub = sinon.stub(handler, 'perform')
-  await Api.allProjects()
-  t.truthy(handlerStub.calledOnce)
-  handlerStub.restore()
+  mock.stub("responseData")
+  await apiInstance.allProjects()
+  t.truthy(mock.performStub.calledOnce)
 })
 
 test("it should pass data to handler", async t => {
-  const handlerStub = sinon.stub(handler, 'perform')
-  await Api.allProjects()
-  t.deepEqual(handlerStub.args[0], ['allProjects'])
-  handlerStub.restore()
+  mock.stub("responseData")
+  await apiInstance.allProjects()
+  t.deepEqual(mock.performStub.args[0], ['allProjects', null])
 })
 
 test("it should return response", async t => {
-  const handlerStub = sinon.stub(handler, 'perform').returns("responseData")
-  const response = await Api.allProjects()
+  mock.stub("responseData")
+  const response = await apiInstance.allProjects()
   t.is(response, "responseData")
-  handlerStub.restore()
+})
+
+test("it should redirect to route is error has info about unathorized attempt", async t => {
+  mock.stub({ errors: "User must be logged in"})
+  const routerStub = sinon.stub(router, 'push')
+  await apiInstance.allProjects()
+  t.true(routerStub.calledOnce)
+  t.deepEqual(routerStub.args[0], ["/auth/sign-in"])
+  routerStub.restore()
 })

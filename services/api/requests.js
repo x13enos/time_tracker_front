@@ -1,26 +1,41 @@
-import handler from "@/services/api/handler"
+import Handler from "@/services/api/handler"
 
-function Api() {
+function Api(router) {
 
-  this.signIn = async (data) => {
-    return handler.perform('signInUser', data);
+  this.signIn = (data) => {
+    return doRequest('signInUser', data);
   }
 
-  this.allProjects = async (data) => {
-    return handler.perform('allProjects');
+  this.allProjects = (data) => {
+    return doRequest('allProjects');
   }
 
-  this.createTimeRecord = async (data) => {
-    return handler.perform('createTimeRecord', data);
+  this.createTimeRecord = (data) => {
+    return doRequest('createTimeRecord', data);
   }
 
-  this.updateTimeRecord = async (data) => {
-    return handler.perform('updateTimeRecord', data);
+  this.updateTimeRecord = (data) => {
+    return doRequest('updateTimeRecord', data);
   }
 
-  this.allTimeRecords = async () => {
-    return handler.perform('allTimeRecords');
+  this.allTimeRecords = () => {
+    return doRequest('allTimeRecords');
   }
+
+  // private logic
+
+  const doRequest = async (actionName, data=null) => {
+    const response = await new Handler().perform(actionName, data)
+    redirectIfUserUnathorized(response)
+    return response
+  }
+
+  const redirectIfUserUnathorized = (response) => {
+    if(response["errors"] == "User must be logged in"){
+      router.push("/auth/sign-in")
+    }
+  }
+
 }
 
-export default new Api();
+export default Api;

@@ -28,7 +28,7 @@
           />
         </v-col>
         <v-col>
-          <v-btn @click="create" :disabled="doesNotReadyForAction"> Start </v-btn>
+          <v-btn @click="createAndStart" :disabled="doesNotReadyForAction"> Start </v-btn>
         </v-col>
       </v-row>
     </td>
@@ -40,7 +40,8 @@ export default {
   props: {
     projects: {
       type: Array,
-      default: () => { return [] }
+      default: () => { return [] },
+      required: true
     }
   },
 
@@ -55,6 +56,11 @@ export default {
   },
 
   methods: {
+    createAndStart(){
+      this.active = true
+      this.create()
+    },
+
     async create(){
       await this.$emit('addTask', this.formData())
       Object.assign(this, this.defaultData())

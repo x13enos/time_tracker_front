@@ -12,7 +12,14 @@ const methods = {
 }
 
 const $api = {
-  createTimeRecord: () => { return { data: { "timeRecord": { id: 11 } } } }
+  createTimeRecord: () => { return {
+    data: {
+      "timeRecord": {
+        id: 11,
+        timeStart: 'now'
+      }
+    }
+  } }
 }
 
 const params = { description: "text" }
@@ -29,5 +36,9 @@ test('it should call api for creating record', t => {
 test('it should add new task to array', async t => {
   const wrapper = shallowMount(tasks, { localVue, methods, mocks: { $api } })
   await wrapper.vm.addTask(params)
-  t.deepEqual(wrapper.vm.tasks[0], { id: 11, description: "text" })
+  t.deepEqual(wrapper.vm.tasks[0], {
+    id: 11,
+    description: "text",
+    timeStart: "now" 
+  })
 })

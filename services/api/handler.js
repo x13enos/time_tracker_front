@@ -22,8 +22,7 @@ function handler(){
   };
 
   const makeRequest = async () => {
-    const headers = collectHeaders();
-    const rawResponse = await axios.post('/api', { query }, { headers });
+    const rawResponse = await axios.post('/api', { query });
     handleResponse(rawResponse);
     return response;
   };
@@ -37,21 +36,6 @@ function handler(){
       response.errors = rawResponse.data.errors[0].message;
     }
   };
-
-  const collectHeaders = () => {
-    const headers = {};
-    Object.assign(headers, authorizationHeaders() || {})
-    return headers;
-  }
-
-  const authorizationHeaders = () => {
-    const token = localStorage.getItem('authToken');
-    if(token !== "undefined"){
-      return {
-        'Authorization': `Bearer ${token}`
-      }
-    }
-  }
 }
 
-export default new handler();
+export default handler;

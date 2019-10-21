@@ -58,12 +58,14 @@ export default {
   methods: {
     async fetchProjects(){
       const { data } = await this.$api.allProjects()
-      this.projects = data;
+      if(data)
+        this.projects = data
     },
 
     async fetchTasks(){
       const { data } = await this.$api.allTimeRecords()
-      this.handleTasksData(data)
+      if(data)
+        this.handleTasksData(data)
     },
 
     async handleTasksData(data){
@@ -81,6 +83,7 @@ export default {
     async addTask(params){
       const { data } = await this.$api.createTimeRecord(params)
       params.id = data.timeRecord.id
+      params.timeStart = data.timeRecord.timeStart
       this.tasks.push(params)
     },
 
