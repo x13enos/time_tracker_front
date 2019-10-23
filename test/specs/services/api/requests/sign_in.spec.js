@@ -1,24 +1,33 @@
 import {serial as test} from 'ava';
 import Api from '@/services/api/requests';
-import handler from '@/services/api/handler';
+import HandlerMock from '@/test/support/handler_mock'
+
+let apiInstance, mock, router
+
+test.beforeEach(() => {
+  router = { push: (path) => {} }
+  apiInstance = new Api(router)
+  mock = new HandlerMock()
+})
+
+test.afterEach(() => {
+  mock.restore()
+})
 
 test("it should call handler", async t => {
-  const handlerStub = sinon.stub(handler, 'perform')
-  await Api.signIn('data')
-  t.truthy(handlerStub.calledOnce)
-  handlerStub.restore()
+  mock.stub("responseData")
+  await apiInstance.signIn('data')
+  t.truthy(mock.performStub.calledOnce)
 })
 
 test("it should pass data to handler", async t => {
-  const handlerStub = sinon.stub(handler, 'perform')
-  await Api.signIn('data')
-  t.deepEqual(handlerStub.args[0], ['signInUser', 'data'])
-  handlerStub.restore()
+  mock.stub("responseData")
+  await apiInstance.signIn('data')
+  t.deepEqual(mock.performStub.args[0], ['signInUser', 'data'])
 })
 
 test("it should return response", async t => {
-  const handlerStub = sinon.stub(handler, 'perform').returns("responseData")
-  const response = await Api.signIn('data')
+  mock.stub("responseData")
+  const response = await apiInstance.signIn('data')
   t.is(response, "responseData")
-  handlerStub.restore()
 })
