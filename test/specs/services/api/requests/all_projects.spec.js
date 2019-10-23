@@ -33,7 +33,7 @@ test("it should return response", async t => {
 })
 
 test("it should redirect to route is error has info about unathorized attempt", async t => {
-  mock.stub({ errors: "User must be logged in"})
+  mock.stub({ errors: "User must be logged in", code: 401})
   const routerStub = sinon.stub(router, 'push')
   await apiInstance.allProjects()
   t.true(routerStub.calledOnce)

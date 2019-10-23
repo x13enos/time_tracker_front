@@ -31,7 +31,7 @@ function Api(router) {
   }
 
   const redirectIfUserUnathorized = (response) => {
-    if(response["errors"] == "User must be logged in"){
+    if(response["code"] == "401"){
       router.push("/auth/sign-in")
     }
   }

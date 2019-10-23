@@ -43,33 +43,23 @@ export default {
     "task": updateItem
   },
 
-  data: function(){
+  data: function() {
     return {
       projects: [],
       tasks: []
     }
   },
 
-  mounted: async function() {
-    await this.fetchProjects()
-    this.fetchTasks()
-  },
+  async asyncData({ app }){
+    let projects, tasks;
 
-  methods: {
-    async fetchProjects(){
-      const { data } = await this.$api.allProjects()
-      if(data)
-        this.projects = data
-    },
+    const projectsResponse = await app.$api.allProjects()
+    if(projectsResponse.data)
+      projects = projectsResponse.data
 
-    async fetchTasks(){
-      const { data } = await this.$api.allTimeRecords()
-      if(data)
-        this.handleTasksData(data)
-    },
-
-    async handleTasksData(data){
-      this.tasks = data.map((taskData) => {
+    const tasksResponse = await app.$api.allTimeRecords()
+    if(tasksResponse.data){
+      tasks = tasksResponse.data.map((taskData) => {
         return {
           id: taskData.id,
           project: taskData.project.id,
@@ -78,8 +68,15 @@ export default {
           timeStart: taskData.timeStart
         }
       })
-    },
+    }
 
+    return {
+      projects: projects,
+      tasks: tasks
+    }
+  },
+
+  methods: {
     async addTask(params){
       const { data } = await this.$api.createTimeRecord(params)
       params.id = data.timeRecord.id

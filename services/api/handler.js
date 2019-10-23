@@ -13,29 +13,38 @@ function handler(){
   let actionMethod = null;
   let query = null;
   let status = false;
+  let rawResponse = null;
   const response = {
     data: null,
     errors: null,
+    code: null,
     success: () => {
       return status === 'success';
     }
   };
 
   const makeRequest = async () => {
-    const rawResponse = await axios.post('/api', { query });
-    handleResponse(rawResponse);
+    rawResponse = await axios.post('/api', { query });
+    handleResponse();
     return response;
   };
 
-  const handleResponse = (rawResponse) => {
+  const handleResponse = () => {
     if (rawResponse.data.data != null) {
-      status = 'success';
-      response.data = rawResponse.data.data[actionMethod];
+      status = 'success'
+      response.data = rawResponse.data.data[actionMethod]
     } else {
-      status = 'error';
-      response.errors = rawResponse.data.errors[0].message;
+      status = 'error'
+      response.errors = rawResponse.data.errors[0].message
+      checkErrorCode()
     }
   };
+
+  const checkErrorCode = () => {
+    const errorsData = rawResponse.data.errors[0]
+    if(errorsData.extensions)
+      response.code = errorsData.extensions.code
+  }
 }
 
 export default handler;
