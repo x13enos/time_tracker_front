@@ -14,16 +14,17 @@ const taskData = {
 }
 
 const props = { projects: [], task: taskData }
+const $appMethods = { isEmpty: (value) => { return true } }
 
 test('it should set internal id', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
 
   wrapper.vm.start()
   t.true(wrapper.vm.intervalId != null)
 });
 
 test('it should change spent time on 0.01 each 36 seconds', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()
@@ -35,7 +36,7 @@ test('it should change spent time on 0.01 each 36 seconds', t => {
 });
 
 test('it should not change spent time on 0.01 each 35 seconds', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()

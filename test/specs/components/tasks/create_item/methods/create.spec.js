@@ -7,9 +7,10 @@ const localVue = createLocalVue()
 localVue.use(Vuetify)
 
 const props = { projects: [] }
+const $appMethods = { isEmpty: () => {} }
 
 test('it should emit form data', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props })
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } })
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
 
   wrapper.vm.create()
@@ -19,7 +20,7 @@ test('it should emit form data', t => {
 });
 
 test('it should clean form data', async t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props })
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } })
   wrapper.vm.description = "new text"
   await wrapper.vm.create()
   t.is(wrapper.vm.description, null)

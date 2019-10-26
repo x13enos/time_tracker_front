@@ -14,13 +14,14 @@ const taskData = {
 }
 
 const props = { projects: [], task: taskData }
+const $appMethods = { isEmpty: () => { return true} }
 
 const newData = {
   description: "new text"
 }
 
 test('it should return task data', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   Object.assign(wrapper.vm, newData)
   t.deepEqual(wrapper.vm.formData(), {
     id: 125,

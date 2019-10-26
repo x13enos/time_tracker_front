@@ -14,9 +14,10 @@ const taskData = {
 }
 
 const props = { projects: [], task: taskData }
+const $appMethods = { isEmpty: (value) => { return true } }
 
 test('it should clear interval', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   const clock = sinon.useFakeTimers();
   const clockSpy = sinon.spy(clock, "clearInterval")
   wrapper.vm.stop()
@@ -27,7 +28,7 @@ test('it should clear interval', t => {
 });
 
 test('it should set inactive status', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   wrapper.vm.active = true
 
   wrapper.vm.stop()
@@ -35,7 +36,7 @@ test('it should set inactive status', t => {
 });
 
 test('it should call update method', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   const updateStub = sinon.stub(wrapper.vm, "update")
 
   wrapper.vm.stop()

@@ -51,7 +51,8 @@ export default {
 
   computed: {
     doesNotReadyForAction(){
-      return this.isEmpty(this.project) || this.isEmpty(this.description);
+      return this.$appMethods.isEmpty(this.project) ||
+        this.$appMethods.isEmpty(this.description);
     }
   },
 
@@ -64,10 +65,6 @@ export default {
     async create(){
       await this.$emit('addTask', this.formData())
       Object.assign(this, this.defaultData())
-    },
-
-    isEmpty(val){
-      return (val === undefined || val == null || val.length <= 0) ? true : false;
     },
 
     formData(){
