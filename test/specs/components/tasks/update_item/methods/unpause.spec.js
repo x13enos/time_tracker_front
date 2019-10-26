@@ -14,9 +14,10 @@ const taskData = {
 }
 
 const props = { projects: [], task: taskData }
+const $appMethods = { isEmpty: (value) => { return true } }
 
 test('it should set active status', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
 
   wrapper.vm.unpause()
   t.true(wrapper.vm.active)
@@ -24,7 +25,7 @@ test('it should set active status', t => {
 
 
 test('it should call method for update task info', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   const updateTaskStub = sinon.stub(wrapper.vm, "update")
   wrapper.vm.unpause()
   t.true(updateTaskStub.calledOnce)
@@ -32,7 +33,7 @@ test('it should call method for update task info', t => {
 });
 
 test('it should call method for starting task', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
   const startTaskStub = sinon.stub(wrapper.vm, "start")
   wrapper.vm.unpause()
   t.true(startTaskStub.calledOnce)

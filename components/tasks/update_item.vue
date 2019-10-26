@@ -62,7 +62,7 @@ export default {
       project: this.task.project,
       description: this.task.description,
       spentTime: this.task.spentTime,
-      active: !this.isEmpty(this.task.timeStart),
+      active: !this.$appMethods.isEmpty(this.task.timeStart),
       intervalId: null
     }
   },
@@ -77,10 +77,6 @@ export default {
   methods: {
     async update(){
       this.$emit('updateTask', this.formData())
-    },
-
-    isEmpty(val){
-      return (val === undefined || val == null || val.length <= 0) ? true : false;
     },
 
     formData(){

@@ -87,12 +87,7 @@ export default {
     async updateTask(params, task){
       const data = await this.$api.updateTimeRecord(params)
       Object.assign(task, params)
-    },
-
-
-    isEmpty(val){
-      return (val === undefined || val == null || val.length <= 0) ? true : false;
-    },
+    }
   }
 }
 </script>

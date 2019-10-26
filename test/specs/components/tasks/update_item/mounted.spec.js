@@ -17,6 +17,7 @@ const taskData = {
 }
 
 const props = { projects: [], task: taskData }
+const $appMethods = { isEmpty: (value) => { return false } }
 
 const newData = {
   description: "new text"
@@ -30,7 +31,7 @@ const methods = {
 test.beforeEach( t => {
   updatingSpentTimeStub = sinon.stub(methods, "updateSpentTime")
   startTaskStub = sinon.stub(methods, "start")
-  wrapper = shallowMount(task, { localVue, methods, propsData: props })
+  const wrapper = shallowMount(task, { localVue, methods, propsData: props, mocks: { $appMethods } })
 })
 
 test.afterEach((t) => {
