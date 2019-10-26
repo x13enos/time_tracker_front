@@ -10,7 +10,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "ava --color --watch"
+    "test": "ava --color --watch",
+    "ci_test": "ava --color"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
