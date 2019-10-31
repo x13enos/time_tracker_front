@@ -18,8 +18,8 @@ function Api(router) {
     return doRequest('updateTimeRecord', data);
   }
 
-  this.allTimeRecords = () => {
-    return doRequest('allTimeRecords');
+  this.allTimeRecords = (dateTime) => {
+    return doRequest('allTimeRecords', dateTime);
   }
 
   // private logic

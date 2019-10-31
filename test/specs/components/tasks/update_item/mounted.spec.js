@@ -1,10 +1,12 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import {serial as test} from 'ava';
+import Vuex from 'vuex'
 import task from '@/components/tasks/update_item'
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
+localVue.use(Vuex)
 
 let wrapper, updatingSpentTimeStub, startTaskStub;
 
@@ -16,7 +18,8 @@ const taskData = {
   timeStart: 28218231828
 }
 
-const props = { projects: [], task: taskData }
+const props = { task: taskData }
+const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return false } }
 
 const newData = {
@@ -31,7 +34,7 @@ const methods = {
 test.beforeEach( t => {
   updatingSpentTimeStub = sinon.stub(methods, "updateSpentTime")
   startTaskStub = sinon.stub(methods, "start")
-  const wrapper = shallowMount(task, { localVue, methods, propsData: props, mocks: { $appMethods } })
+  const wrapper = shallowMount(task, { localVue, store, methods, propsData: props, mocks: { $appMethods } })
 })
 
 test.afterEach((t) => {

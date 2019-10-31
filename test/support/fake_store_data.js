@@ -1,5 +1,6 @@
 const store_data = {
   state: {
+    projects: [],
     user: {
       name: ''
     }
@@ -8,7 +9,8 @@ const store_data = {
     signIn: () => {}
   },
   mutations: {
-    updateUserData: () => {}
+    updateUserData: () => {},
+    updateProjects: () => {}
   }
 }
 
