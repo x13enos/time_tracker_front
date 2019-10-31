@@ -16,21 +16,17 @@ const app = {
       timeStart: "today",
       spentTime: 0.5
     }] } }
-  }
+  },
+  store: { commit: (name, data) => {} }
 }
 
 test('it should call method for fetching projects', async t => {
-  const wrapper = await shallowMount(tasks, { localVue })
+  const commitStub = sinon.stub(app.store, 'commit')
 
-  const mergedData = await wrapper.vm.$options.asyncData({ app })
-  t.deepEqual(mergedData, {
-    projects: ["First"],
-    tasks: [{
-      id: 1,
-      project: 2,
-      description: "Test",
-      timeStart: "today",
-      spentTime: 0.5
-    }]
-  })
+  const wrapper = await shallowMount(tasks, { localVue })
+  await wrapper.vm.$options.fetch({ app })
+  t.true(commitStub.calledOnce)
+  t.deepEqual(commitStub.args[0], ['updateProjects', ["First"]])
+
+  commitStub.restore();
 })

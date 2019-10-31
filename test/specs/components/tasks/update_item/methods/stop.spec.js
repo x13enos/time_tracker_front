@@ -1,10 +1,12 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
 import test from 'ava';
+import Vuex from 'vuex'
 import task from '@/components/tasks/update_item'
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
+localVue.use(Vuex)
 
 const taskData = {
   id: 125,
@@ -14,10 +16,11 @@ const taskData = {
 }
 
 const props = { projects: [], task: taskData }
+const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
 test('it should clear interval', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
   const clock = sinon.useFakeTimers();
   const clockSpy = sinon.spy(clock, "clearInterval")
   wrapper.vm.stop()
@@ -28,7 +31,7 @@ test('it should clear interval', t => {
 });
 
 test('it should set inactive status', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
   wrapper.vm.active = true
 
   wrapper.vm.stop()
@@ -36,7 +39,7 @@ test('it should set inactive status', t => {
 });
 
 test('it should call update method', t => {
-  const wrapper = shallowMount(task, { localVue, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
   const updateStub = sinon.stub(wrapper.vm, "update")
 
   wrapper.vm.stop()

@@ -33,6 +33,7 @@ export default {
           startTask: ${ data.active },
           projectId: "${ data.project }"
           data: {
+            assignedDate: "${ data.assignedDate }",
             description: "${ data.description }",
             spentTime: ${ data.spentTime },
           }
@@ -77,9 +78,11 @@ export default {
     `
   },
 
-  "allTimeRecords": () => {
+  "allTimeRecords": (date) => {
     return `query{
-      allTimeRecords  {
+      allTimeRecords(
+        date: "${ date }"
+      ){
     		id,
         description,
         timeStart,

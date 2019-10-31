@@ -47,12 +47,6 @@ export default {
       type: Object,
       default: () => { return {} },
       required: true
-    },
-
-    projects: {
-      type: Array,
-      default: () => { return [] },
-      required: true
     }
   },
 
@@ -71,6 +65,12 @@ export default {
     if(this.active){
       this.updateSpentTime()
       this.start()
+    }
+  },
+
+  computed: {
+    projects(){
+      return this.$store.state.projects;
     }
   },
 

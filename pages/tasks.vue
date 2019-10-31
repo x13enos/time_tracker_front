@@ -1,96 +1,27 @@
 <template>
   <div>
     <h1>
-      Tasks
+      Time Sheet
     </h1>
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">
-              Project
-            </th>
-            <th class="text-left">
-              Description
-            </th>
-            <th class="text-left">
-              Time
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <template v-for="(task, index) in tasks">
-            <task
-              :task="task"
-              :projects="projects"
-              @updateTask="updateTask($event, task)"
-            />
-          </template>
-          <new-task :projects="projects" @addTask="addTask($event)" />
-        </tbody>
-      </template>
-    </v-simple-table>
+
+    <daysBar />
   </div>
 </template>
 
 <script>
-import createItem from '~/components/tasks/create_item.vue'
-import updateItem from '~/components/tasks/update_item.vue'
+import daysBar from '~/components/days/bar.vue'
 
 export default {
-  components: {
-    "new-task": createItem,
-    "task": updateItem
-  },
+  components: { daysBar },
 
-  data: function() {
-    return {
-      projects: [],
-      tasks: []
-    }
-  },
-
-  async asyncData({ app }){
+  async fetch({ app }){
     let projects, tasks;
 
     const projectsResponse = await app.$api.allProjects()
     if(projectsResponse.data)
       projects = projectsResponse.data
 
-    const tasksResponse = await app.$api.allTimeRecords()
-    if(tasksResponse.data){
-      tasks = tasksResponse.data.map((taskData) => {
-        return {
-          id: taskData.id,
-          project: taskData.project.id,
-          description: taskData.description,
-          spentTime: taskData.spentTime,
-          timeStart: taskData.timeStart
-        }
-      })
-    }
-
-    return {
-      projects: projects,
-      tasks: tasks
-    }
-  },
-
-  methods: {
-    async addTask(params){
-      const { data } = await this.$api.createTimeRecord(params)
-      params.id = data.timeRecord.id
-      params.timeStart = data.timeRecord.timeStart
-      this.tasks.push(params)
-    },
-
-    async updateTask(params, task){
-      const data = await this.$api.updateTimeRecord(params)
-      Object.assign(task, params)
-    }
+    app.store.commit("updateProjects", projects)
   }
 }
 </script>
-
-<style>
-</style>

@@ -37,14 +37,6 @@
 
 <script>
 export default {
-  props: {
-    projects: {
-      type: Array,
-      default: () => { return [] },
-      required: true
-    }
-  },
-
   data: function() {
     return this.defaultData()
   },
@@ -53,6 +45,10 @@ export default {
     doesNotReadyForAction(){
       return this.$appMethods.isEmpty(this.project) ||
         this.$appMethods.isEmpty(this.description);
+    },
+
+    projects(){
+      return this.$store.state.projects;
     }
   },
 
