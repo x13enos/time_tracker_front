@@ -60,7 +60,7 @@ test('it should redirect user to main page if status is success', async t => {
 
   await wrapper.vm.onSubmit()
   t.true(routerStub.calledOnce)
-  t.deepEqual(routerStub.args[0], [{ path: '/' }])
+  t.deepEqual(routerStub.args[0], [{ path: '/tasks' }])
   routerStub.restore()
 });
 

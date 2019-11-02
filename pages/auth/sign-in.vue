@@ -19,6 +19,9 @@
           type="password"
         />
       </v-form>
+      <span class='red--text' v-if="errorMessage">
+        {{ errorMessage }}
+      </span>
     </v-card-text>
     <v-card-actions>
       <v-btn color="primary" @click="onSubmit()">
@@ -52,11 +55,12 @@ export default {
     ...mapMutations([ "updateUserData" ]),
 
     async onSubmit () {
+      this.errorMessage = "";
       const response = await this.$api.signIn(this.form);
       if (response.success()) {
         this.updateUserData(response.data);
         localStorage.setItem('authToken', response.data.token);
-        this.$router.replace({ path: '/' });
+        this.$router.replace({ path: '/tasks' });
       } else {
         this.errorMessage = response.errors;
       }

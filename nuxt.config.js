@@ -60,6 +60,9 @@ export default {
       }
     }
   },
+  serverMiddleware: [
+    '~/middleware/redirects.js'
+  ],
   /*
    ** Build configuration
    */
