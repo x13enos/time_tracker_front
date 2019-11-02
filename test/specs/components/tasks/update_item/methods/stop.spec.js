@@ -19,24 +19,12 @@ const props = { projects: [], task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should clear interval', t => {
+test('it should emit method of clearing interval id', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
-  const clock = sinon.useFakeTimers();
-  const clockSpy = sinon.spy(clock, "clearInterval")
   wrapper.vm.stop()
-
-  t.true(clockSpy.calledOnce)
-  t.deepEqual(clockSpy.args[0], [wrapper.vm.intervalId])
-  clock.restore();
+  t.is(wrapper.emitted('clearIntervalId').length, 1)
 });
 
-test('it should set inactive status', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
-  wrapper.vm.active = true
-
-  wrapper.vm.stop()
-  t.false(wrapper.vm.active)
-});
 
 test('it should call update method', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )

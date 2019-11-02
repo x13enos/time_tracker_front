@@ -11,14 +11,23 @@ const methods = {
   fetchTasks: () => {}
 }
 
+const $appMethods = { isEmpty: (value) => { return true } }
 const $api = {
-  updateTimeRecord: () => { return { data: "data" } },
-  allTimeRecords: () => { return { data: [] } }
+  allTimeRecords: () => { return { data: [] } },
+  updateTimeRecord: () => { return {
+    data: {
+      "timeRecord": {
+        id: 11,
+        timeStart: 'now'
+      }
+    }
+  } }
 }
 
 const task = {
   id: 11,
-  description: "old text"
+  description: "old text",
+  timeStart: null
 }
 
 const params = { description: "new text" }
@@ -26,7 +35,7 @@ const props = { day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000') }
 
 test('it should call api for updating record', t => {
   const apiSpy = sinon.spy($api, "updateTimeRecord")
-  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData: props })
   wrapper.vm.updateTask(params, task)
   t.true(apiSpy.calledOnce)
   t.deepEqual(apiSpy.args[0], [{ description: "new text" }])
@@ -34,7 +43,23 @@ test('it should call api for updating record', t => {
 })
 
 test('it should update passed task', async t => {
-  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData: props })
   await wrapper.vm.updateTask(params, task)
-  t.deepEqual(task, { id: 11, description: "new text" })
+  t.deepEqual(task, { id: 11, description: "new text", timeStart: null })
+})
+
+test('it should call method for stopping other active tasks', async t => {
+  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData: props })
+  const methodStub = sinon.stub(wrapper.vm, 'stopOtherTasks')
+  await wrapper.vm.updateTask(params, task)
+
+  t.true(methodStub.calledOnce)
+  t.deepEqual(methodStub.args[0], [{
+    "timeRecord": {
+      id: 11,
+      timeStart: 'now'
+    }
+  }])
+
+  methodStub.restore()
 })

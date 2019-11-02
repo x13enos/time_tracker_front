@@ -19,11 +19,16 @@ const props = { projects: [], task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should set internal id', t => {
+test('it should emit interval id', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const timer = sinon.useFakeTimers()
+  const intervalStub = sinon.stub(timer, 'setInterval').returns(101)
 
   wrapper.vm.start()
-  t.true(wrapper.vm.intervalId != null)
+  t.deepEqual(wrapper.emitted('keepIntervalId')[0], [101])
+
+  timer.restore()
+  intervalStub.restore()
 });
 
 test('it should change spent time on 0.01 each 36 seconds', t => {
