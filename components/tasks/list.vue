@@ -18,6 +18,8 @@
         <template v-for="(task, index) in tasks">
           <task
             :task="task"
+            @keepIntervalId="keepIntervalId($event, intervalId)"
+            @clearIntervalId="clearIntervalId"
             @updateTask="updateTask($event, task)"
           />
         </template>
@@ -46,7 +48,8 @@ export default {
 
   data: function() {
     return {
-      tasks: []
+      tasks: [],
+      intervalId: null
     }
   },
 
@@ -71,16 +74,33 @@ export default {
       const { data } = await this.$api.createTimeRecord(params)
       params.id = data.timeRecord.id
       params.timeStart = data.timeRecord.timeStart
+      this.stopOtherTasks(data)
       this.tasks.push(params)
     },
 
     async updateTask(params, task){
-      await this.$api.updateTimeRecord(params)
+      const { data } = await this.$api.updateTimeRecord(params)
+      this.stopOtherTasks(data)
       Object.assign(task, params)
     },
 
     dateInUnixFormat(){
       return this.day.getTime() / 1000
+    },
+
+    stopOtherTasks(data){
+      if(!this.$appMethods.isEmpty(data.timeRecord.timeStart)){
+        this.clearIntervalId()
+        this.tasks.forEach((task) => { task.timeStart = null })
+      }
+    },
+
+    keepIntervalId(intervalId){
+      this.intervalId = intervalId
+    },
+
+    clearIntervalId(){
+      clearInterval(this.intervalId)
     }
   }
 }

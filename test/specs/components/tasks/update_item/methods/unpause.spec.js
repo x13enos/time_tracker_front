@@ -19,14 +19,6 @@ const props = { projects: [], task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should set active status', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
-
-  wrapper.vm.unpause()
-  t.true(wrapper.vm.active)
-});
-
-
 test('it should call method for update task info', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
   const updateTaskStub = sinon.stub(wrapper.vm, "update")

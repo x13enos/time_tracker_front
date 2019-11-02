@@ -56,7 +56,6 @@ export default {
       project: this.task.project,
       description: this.task.description,
       spentTime: this.task.spentTime,
-      active: !this.$appMethods.isEmpty(this.task.timeStart),
       intervalId: null
     }
   },
@@ -71,6 +70,10 @@ export default {
   computed: {
     projects(){
       return this.$store.state.projects;
+    },
+
+    active(){
+      return !this.$appMethods.isEmpty(this.task.timeStart)
     }
   },
 
@@ -96,14 +99,14 @@ export default {
     },
 
     start(){
-      this.intervalId = setInterval(() => {
+      const intervalId = setInterval(() => {
         this.spentTime = (parseFloat(this.spentTime) + parseFloat("0.01")).toFixed(2)
       }, 36000);
+      this.$emit("keepIntervalId", intervalId)
     },
 
     stop(){
-      clearInterval(this.intervalId)
-      this.active = false
+      this.$emit("clearIntervalId")
       this.update()
     },
 

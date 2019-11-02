@@ -1,13 +1,15 @@
 <template>
-  <v-app id="inspire">
+  <v-app>
     <Header />
-    <v-container>
-      <v-row align="start" justify="start">
-        <v-col cols="12">
-          <nuxt />
-        </v-col>
-      </v-row>
-    </v-container>
+    <v-content>
+      <v-container>
+        <v-row align="start" justify="start">
+          <v-col cols="12">
+            <nuxt />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-content>
   </v-app>
 </template>
 
