@@ -11,5 +11,5 @@ const date = new Date('Sun Oct 27 2019 00:00:00 GMT+0000');
 test('it should return a date in the right format', t => {
   const wrapper = shallowMount(bar, { localVue })
 
-  t.is(wrapper.vm.getFormattedDate(date), "10/27/2019")
+  t.is(wrapper.vm.getFormattedDateForWeek(date), "27 October")
 });
