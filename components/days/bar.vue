@@ -1,8 +1,31 @@
 <template>
   <div>
+    <v-divider />
+
+      <v-row align="center" justify="start">
+        <v-col cols="2">
+          <v-btn @click="changeWeek(-7)" class="previous-week" :min-width="0" outlined color="blue lighten-3">
+            <v-icon>mdi-chevron-left</v-icon>
+            <span class="d-none d-sm-flex">Previous week</span>
+          </v-btn>
+        </v-col>
+
+        <v-col cols="8" class="text-center">
+          <span v-if="days.length" class="title">{{ currentWeek }}</span>
+        </v-col>
+
+        <v-col cols="2" class="text-right">
+          <v-btn @click="changeWeek(7)" class="next-week" :min-width="0" outlined color="blue lighten-3">
+            <span class="d-none d-sm-flex">Next week</span>
+            <v-icon>mdi-chevron-right</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
+    <v-divider />
+
     <v-tabs v-model="tab" background-color="transparent" grow>
       <v-tab v-for="(day, index) in days" :key="index">
-        {{ getFormattedDate(day) }}
+        {{ getFormattedDateForTab(day) }}
       </v-tab>
     </v-tabs>
 
@@ -26,15 +49,23 @@
 
     data: function() {
       return {
-        days: [],
         currentDate: new Date(),
         tab: null
       }
     },
 
     mounted: function(){
-      this.days = this.weekDays(this.currentDate)
-      this.setTheRightTab(this.currentDate)
+      this.setTheRightTab()
+    },
+
+    computed: {
+      days(){
+        return this.weekDays(this.currentDate)
+      },
+
+      currentWeek(){
+        return `${this.getFormattedDateForWeek(this.days[0])} - ${this.getFormattedDateForWeek(this.days[6])}`
+      }
     },
 
     methods: {
@@ -49,7 +80,7 @@
         return week;
       },
 
-      getFormattedDate(date) {
+      getFormattedDateForTab(date) {
         const year = date.getFullYear();
         const month = (1 + date.getMonth()).toString().padStart(2, '0');
         const day = date.getDate().toString().padStart(2, '0');
@@ -57,9 +88,38 @@
         return month + '/' + day + '/' + year;
       },
 
-      setTheRightTab(date) {
+      getFormattedDateForWeek(date) {
+        const monthNames = [
+          "January", "February", "March", "April", "May", "June", "July",
+          "August", "September", "October", "November", "December"
+        ]
+
+        const month = date.getMonth()
+        const day = date.getDate().toString()
+
+        return `${day} ${monthNames[month]}`
+      },
+
+      setTheRightTab() {
+        const date = this.currentDate
         this.tab = date.getDay() == 0 ? 6 : date.getDay() - 1
+      },
+
+      changeWeek(number){
+        const actualDate = this.currentDate.getDate() + number
+        this.currentDate = new Date(this.currentDate.setDate(actualDate))
+        this.setTheRightTab()
       }
     }
   }
 </script>
+
+<style scoped>
+  .previous-week{
+    padding: 0 16px 0 8px;
+  }
+
+  .next-week{
+    padding: 0 8px 0 16px;
+  }
+</style>
