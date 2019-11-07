@@ -18,12 +18,13 @@
         <template v-for="(task, index) in tasks">
           <task
             :task="task"
+            :activeDay="activeDay"
             @keepIntervalId="keepIntervalId($event, intervalId)"
             @clearIntervalId="clearIntervalId"
-            @updateTask="updateTask($event, task)"
+            @updateTask="updateTask($event, task, index)"
           />
         </template>
-        <new-task @addTask="addTask($event)" />
+        <new-task :activeDay="activeDay" @addTask="addTask($event)" />
       </tbody>
     </template>
   </v-simple-table>
@@ -36,6 +37,11 @@ import updateItem from '~/components/tasks/update_item.vue'
 export default {
   props: {
     day: {
+      type: Date,
+      required: true
+    },
+
+    currentDate: {
       type: Date,
       required: true
     }
@@ -68,6 +74,12 @@ export default {
     }
   },
 
+  computed: {
+    activeDay(){
+      return this.currentDate.setHours(0,0,0,0) === this.day.setHours(0,0,0,0)
+    }
+  },
+
   methods: {
     async addTask(params){
       params.assignedDate = this.dateInUnixFormat()
@@ -78,10 +90,10 @@ export default {
       this.tasks.push(params)
     },
 
-    async updateTask(params, task){
+    async updateTask(params, task, index){
       const { data } = await this.$api.updateTimeRecord(params)
       this.stopOtherTasks(data)
-      Object.assign(task, params)
+      this.$set(this.tasks, index, data.timeRecord)
     },
 
     dateInUnixFormat(){

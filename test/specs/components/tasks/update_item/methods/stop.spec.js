@@ -15,19 +15,19 @@ const taskData = {
   spentTime: '0.50'
 }
 
-const props = { projects: [], task: taskData }
+const propsData = { activeDay: false, task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
 test('it should emit method of clearing interval id', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   wrapper.vm.stop()
   t.is(wrapper.emitted('clearIntervalId').length, 1)
 });
 
 
 test('it should call update method', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const updateStub = sinon.stub(wrapper.vm, "update")
 
   wrapper.vm.stop()

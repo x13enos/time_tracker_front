@@ -15,12 +15,12 @@ const taskData = {
   spentTime: '0.50'
 }
 
-const props = { projects: [], task: taskData }
+const propsData = { activeDay: false, task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
 test('it should emit interval id', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const timer = sinon.useFakeTimers()
   const intervalStub = sinon.stub(timer, 'setInterval').returns(101)
 
@@ -32,7 +32,7 @@ test('it should emit interval id', t => {
 });
 
 test('it should change spent time on 0.01 each 36 seconds', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()
@@ -44,7 +44,7 @@ test('it should change spent time on 0.01 each 36 seconds', t => {
 });
 
 test('it should not change spent time on 0.01 each 35 seconds', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()

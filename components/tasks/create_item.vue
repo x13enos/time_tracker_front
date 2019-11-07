@@ -37,6 +37,13 @@
 
 <script>
 export default {
+  props: {
+    activeDay: {
+      type: Boolean,
+      required: true
+    }
+  },
+
   data: function() {
     return this.defaultData()
   },
@@ -44,7 +51,8 @@ export default {
   computed: {
     doesNotReadyForAction(){
       return this.$appMethods.isEmpty(this.project) ||
-        this.$appMethods.isEmpty(this.description);
+        this.$appMethods.isEmpty(this.description) ||
+        !this.activeDay;
     },
 
     projects(){

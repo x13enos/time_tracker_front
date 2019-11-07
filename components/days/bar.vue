@@ -35,7 +35,7 @@
         :key="(day, index)"
         :transition="false"
         :reverse-transition="false" >
-        <tasksList :day="day" />
+        <tasksList :day="day" :currentDate="currentDate" />
       </v-tab-item>
     </v-tabs-items>
   </div>
@@ -49,8 +49,10 @@
 
     data: function() {
       return {
+        selectedDate: new Date(),
         currentDate: new Date(),
-        tab: null
+        tab: null,
+        intervalId: null
       }
     },
 
@@ -58,9 +60,17 @@
       this.setTheRightTab()
     },
 
+    created: function () {
+      this.intervalId = setInterval(() => { this.currentDate = new Date() }, 5000)
+    },
+
+    destroyed: function(){
+      clearInterval(this.intervalId)
+    },
+
     computed: {
       days(){
-        return this.weekDays(this.currentDate)
+        return this.weekDays(this.selectedDate)
       },
 
       currentWeek(){
@@ -101,13 +111,13 @@
       },
 
       setTheRightTab() {
-        const date = this.currentDate
+        const date = this.selectedDate
         this.tab = date.getDay() == 0 ? 6 : date.getDay() - 1
       },
 
       changeWeek(number){
-        const actualDate = this.currentDate.getDate() + number
-        this.currentDate = new Date(this.currentDate.setDate(actualDate))
+        const actualDate = this.selectedDate.getDate() + number
+        this.selectedDate = new Date(this.selectedDate.setDate(actualDate))
         this.setTheRightTab()
       }
     }

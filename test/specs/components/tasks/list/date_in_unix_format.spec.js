@@ -10,9 +10,12 @@ const $api = {
   allTimeRecords: () => { return { data: [] } }
 }
 
-const props = { day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000') }
+const propsData = {
+  day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000'),
+  currentDate: new Date('Sun Oct 27 2019 00:00:00 GMT+0000')
+}
 
 test('it should return date in unix format', t => {
-  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api }, propsData })
   t.is(wrapper.vm.dateInUnixFormat(wrapper.vm.day), 1572134400)
 })

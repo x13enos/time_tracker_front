@@ -6,10 +6,13 @@ import bar from '@/components/days/bar'
 const localVue = createLocalVue()
 localVue.use(Vuetify)
 
-const date = new Date('Sun Oct 27 2019 00:00:00 GMT+0000');
 
-test('it should return formatted range of week', t => {
+test('it should set interval id to component data', t => {
+  const timeStub = sinon.useFakeTimers()
+  const intervalStub = sinon.stub(timeStub, 'setInterval').returns(77)
   const wrapper = shallowMount(bar, { localVue })
-  wrapper.vm.selectedDate = date
-  t.is(wrapper.vm.currentWeek, '21 October - 27 October')
+  t.is(wrapper.vm.intervalId, 77)
+
+  intervalStub.restore()
+  timeStub.restore()
 });

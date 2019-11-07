@@ -18,7 +18,7 @@ const taskData = {
   timeStart: 28218231828
 }
 
-const props = { task: taskData }
+const propsData = { activeDay: false, task: taskData }
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return false } }
 
@@ -34,7 +34,7 @@ const methods = {
 test.beforeEach( t => {
   updatingSpentTimeStub = sinon.stub(methods, "updateSpentTime")
   startTaskStub = sinon.stub(methods, "start")
-  const wrapper = shallowMount(task, { localVue, store, methods, propsData: props, mocks: { $appMethods } })
+  const wrapper = shallowMount(task, { localVue, store, methods, propsData, mocks: { $appMethods } })
 })
 
 test.afterEach((t) => {

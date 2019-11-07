@@ -8,22 +8,22 @@ localVue.use(Vuetify)
 
 const date = new Date('Sun Oct 27 2019 00:00:00 GMT+0000');
 
-test('it should call method for selecting days of week', t => {
-  const wrapper = shallowMount(bar, { localVue })
-  const methodStub = sinon.stub(wrapper.vm, "weekDays")
+const methods = {
+  weekDays: (value) => { return [date] },
+  getFormattedDateForWeek: (value) => { return "" }
+}
 
-  wrapper.vm.weekDays(date)
+test('it should call method for selecting days of week', t => {
+  const methodStub = sinon.stub(methods, "weekDays").returns([date])
+  const wrapper = shallowMount(bar, { localVue, methods })
+
   t.true(methodStub.calledOnce)
-  t.deepEqual(methodStub.args[0], [date])
 
   methodStub.restore()
 });
 
 test('it should return days of week', t => {
-  const wrapper = shallowMount(bar, { localVue })
-  const methodStub = sinon.stub(wrapper.vm, "weekDays").returns([1,2,3])
+  const wrapper = shallowMount(bar, { localVue, methods })
 
-  t.deepEqual(wrapper.vm.weekDays(date), [1,2,3])
-
-  methodStub.restore()
+  t.deepEqual(wrapper.vm.days, [date])
 });

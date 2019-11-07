@@ -12,8 +12,13 @@ localVue.use(Vuex)
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return GlobalMethods.isEmpty(value) } }
 
+const propsData = {
+  task: { timeStart: 'now' },
+  activeDay: false
+}
+
 test('it should return list of projects from store', t => {
   store.state.projects = [1,2,3]
-  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData } )
   t.deepEqual(wrapper.vm.projects, [1,2,3])
 });
