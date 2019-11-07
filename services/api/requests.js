@@ -18,6 +18,10 @@ function Api(router) {
     return doRequest('updateTimeRecord', data);
   }
 
+  this.deleteTimeRecord = (data) => {
+    return doRequest('deleteTimeRecord', data);
+  }
+
   this.allTimeRecords = (dateTime) => {
     return doRequest('allTimeRecords', dateTime);
   }
