@@ -52,7 +52,7 @@ export default {
     `
   },
 
-  "updateTimeRecord": (data, id) => {
+  "updateTimeRecord": (data) => {
     return `
       mutation{
         updateTimeRecord(
@@ -63,6 +63,26 @@ export default {
             description: "${ data.description }",
             spentTime: ${ data.spentTime },
           }
+        ){
+          timeRecord {
+            id,
+            description,
+            spentTime,
+            timeStart,
+            project{
+              id
+            }
+          }
+        }
+      }
+    `
+  },
+
+  "deleteTimeRecord": (data) => {
+    return `
+      mutation{
+        deleteTimeRecord(
+          timeRecordId: "${ data.id }"
         ){
           timeRecord {
             id,

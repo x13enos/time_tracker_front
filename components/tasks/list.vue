@@ -22,6 +22,7 @@
             @keepIntervalId="keepIntervalId($event, intervalId)"
             @clearIntervalId="clearIntervalId"
             @updateTask="updateTask($event, task, index)"
+            @deleteTask="deleteTask(task, index)"
           />
         </template>
         <new-task :activeDay="activeDay" @addTask="addTask($event)" />
@@ -94,6 +95,11 @@ export default {
       const { data } = await this.$api.updateTimeRecord(params)
       this.stopOtherTasks(data)
       this.$set(this.tasks, index, data.timeRecord)
+    },
+
+    async deleteTask(task, index){
+      const { data } = await this.$api.deleteTimeRecord({ id: task.id })
+      this.$delete(this.tasks, index)
     },
 
     dateInUnixFormat(){
