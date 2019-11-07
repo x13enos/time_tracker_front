@@ -15,20 +15,21 @@ const taskData = {
   spentTime: 0.5
 }
 
-const props = { projects: [], task: taskData }
+const propsData = { activeDay: false, task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
 test('it should call method for update task info', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const updateTaskStub = sinon.stub(wrapper.vm, "update")
   wrapper.vm.unpause()
   t.true(updateTaskStub.calledOnce)
+  t.true(updateTaskStub.args[0][0])
   updateTaskStub.restore()
 });
 
 test('it should call method for starting task', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const startTaskStub = sinon.stub(wrapper.vm, "start")
   wrapper.vm.unpause()
   t.true(startTaskStub.calledOnce)

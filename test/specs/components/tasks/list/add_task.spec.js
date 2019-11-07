@@ -20,11 +20,14 @@ const $api = {
 }
 
 const params = { description: "text" }
-const props = { day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000') }
+const propsData = {
+  day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000'),
+  currentDate: new Date('Sun Oct 27 2019 00:00:00 GMT+0000')
+}
 
 test('it should call api for creating record', t => {
   const apiSpy = sinon.spy($api, "createTimeRecord")
-  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api, $appMethods }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api, $appMethods }, propsData })
   wrapper.vm.addTask(params)
   t.true(apiSpy.calledOnce)
   t.deepEqual(apiSpy.args[0], [{ description: "text", assignedDate: 1572134400 }])
@@ -32,7 +35,7 @@ test('it should call api for creating record', t => {
 })
 
 test('it should add new task to array', async t => {
-  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api, $appMethods }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api, $appMethods }, propsData })
   await wrapper.vm.addTask(params)
   t.deepEqual(wrapper.vm.tasks[0], {
     assignedDate: 1572134400,
@@ -43,7 +46,7 @@ test('it should add new task to array', async t => {
 })
 
 test('it should call method for stopping other active tasks', async t => {
-  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api, $appMethods }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, mocks: { $api, $appMethods }, propsData })
   const methodStub = sinon.stub(wrapper.vm, 'stopOtherTasks')
   await wrapper.vm.addTask(params)
 

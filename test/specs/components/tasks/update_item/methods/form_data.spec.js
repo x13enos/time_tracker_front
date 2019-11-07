@@ -15,7 +15,7 @@ const taskData = {
   spentTime: 0.5
 }
 
-const props = { projects: [], task: taskData }
+const propsData = { activeDay: false, task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: () => { return true} }
 
@@ -24,13 +24,12 @@ const newData = {
 }
 
 test('it should return task data', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   Object.assign(wrapper.vm, newData)
   t.deepEqual(wrapper.vm.formData(), {
     id: 125,
     project: 1,
     description: "new text",
-    spentTime: 0.5,
-    active: false
+    spentTime: 0.5
   })
 });

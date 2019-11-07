@@ -8,12 +8,12 @@ const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const props = { projects: [] }
+const propsData = { activeDay: false }
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
 test('it should return default data', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   t.deepEqual(wrapper.vm.defaultData(), {
     active: false,
     description: null,

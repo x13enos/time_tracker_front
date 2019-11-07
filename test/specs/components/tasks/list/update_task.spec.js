@@ -31,11 +31,14 @@ const task = {
 }
 
 const params = { description: "new text" }
-const props = { day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000') }
+const propsData = {
+  day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000'),
+  currentDate: new Date('Sun Oct 27 2019 00:00:00 GMT+0000')
+}
 
 test('it should call api for updating record', t => {
   const apiSpy = sinon.spy($api, "updateTimeRecord")
-  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData })
   wrapper.vm.updateTask(params, task)
   t.true(apiSpy.calledOnce)
   t.deepEqual(apiSpy.args[0], [{ description: "new text" }])
@@ -43,13 +46,16 @@ test('it should call api for updating record', t => {
 })
 
 test('it should update passed task', async t => {
-  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData: props })
-  await wrapper.vm.updateTask(params, task)
-  t.deepEqual(task, { id: 11, description: "new text", timeStart: null })
+  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData })
+  await wrapper.vm.updateTask(params, task, 0)
+  t.deepEqual(wrapper.vm.tasks[0], {
+    id: 11,
+    timeStart: 'now'
+  })
 })
 
 test('it should call method for stopping other active tasks', async t => {
-  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData: props })
+  const wrapper = shallowMount(tasksList, { localVue, methods, mocks: { $api, $appMethods }, propsData })
   const methodStub = sinon.stub(wrapper.vm, 'stopOtherTasks')
   await wrapper.vm.updateTask(params, task)
 

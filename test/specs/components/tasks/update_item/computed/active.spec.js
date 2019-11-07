@@ -9,17 +9,16 @@ localVue.use(Vuetify)
 localVue.use(Vuex)
 
 const store = new Vuex.Store(fakeStoreData);
-const props = {
-  task: {
-    timeStart: 'now'
-  }
+const propsData = {
+  task: { timeStart: 'now' },
+  activeDay: false
 }
 
 test('it should call method isEmpty and passed timeStart argument', t => {
   const $appMethods = { isEmpty: (value) => { return true } }
   const isEmptyStub = sinon.stub($appMethods, 'isEmpty')
 
-  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData } )
   t.true(isEmptyStub.calledOnce)
   t.deepEqual(isEmptyStub.args[0], ['now'])
 
@@ -29,13 +28,13 @@ test('it should call method isEmpty and passed timeStart argument', t => {
 test('it should return true if passed timeStart is not empty', t => {
   const $appMethods = { isEmpty: (value) => { return false } }
 
-  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData } )
   t.true(wrapper.vm.active)
 });
 
 test('it should return false if passed timeStart is empty', t => {
   const $appMethods = { isEmpty: (value) => { return true } }
 
-  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData: props } )
+  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData } )
   t.false(wrapper.vm.active)
 });

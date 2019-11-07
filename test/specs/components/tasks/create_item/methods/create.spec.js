@@ -8,12 +8,12 @@ const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const props = { projects: [] }
+const propsData = { activeDay: false }
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
 test('it should emit form data', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } })
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
 
   wrapper.vm.create()
@@ -23,7 +23,7 @@ test('it should emit form data', t => {
 });
 
 test('it should clean form data', async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } })
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
   wrapper.vm.description = "new text"
   await wrapper.vm.create()
   t.is(wrapper.vm.description, null)

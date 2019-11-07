@@ -8,19 +8,19 @@ const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const props = { projects: [] }
+const propsData = { activeDay: false }
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
 test('it should set active status', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
 
   wrapper.vm.createAndStart()
   t.true(wrapper.vm.active)
 });
 
 test('it should clean form data', async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData: props, mocks: { $appMethods } } )
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const methodStub = sinon.stub(wrapper.vm, "create")
   await wrapper.vm.createAndStart()
   t.true(methodStub.calledOnce)

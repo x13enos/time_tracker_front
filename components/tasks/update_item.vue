@@ -33,7 +33,7 @@
         </v-col>
         <v-col>
           <v-btn v-if="active" @click="stop">Stop</v-btn>
-          <v-btn v-else @click="unpause">Continue</v-btn>
+          <v-btn v-else @click="unpause" :disabled="!activeDay">Continue</v-btn>
         </v-col>
       </v-row>
     </td>
@@ -46,6 +46,11 @@ export default {
     task: {
       type: Object,
       default: () => { return {} },
+      required: true
+    },
+
+    activeDay: {
+      type: Boolean,
       required: true
     }
   },
@@ -78,23 +83,23 @@ export default {
   },
 
   methods: {
-    async update(){
-      this.$emit('updateTask', this.formData())
+    async update(state=false){
+      const params = this.formData()
+      params.active = state
+      this.$emit('updateTask', params)
     },
 
     formData(){
       return {
         id: this.task.id,
         project: this.project,
-        description: this.description || 0.0,
-        spentTime: this.spentTime,
-        active: this.active
+        description: this.description,
+        spentTime: this.spentTime || 0.0
       }
     },
 
     unpause(){
-      this.active = true
-      this.update()
+      this.update(true)
       this.start()
     },
 
