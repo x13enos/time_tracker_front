@@ -85,7 +85,6 @@ export default {
 
   watch: {
     active: function(value){
-      console.log(value)
       if(value)
         this.start()
     }
