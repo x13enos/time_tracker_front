@@ -11,6 +11,7 @@
           </th>
           <th class="text-left">
             Time
+            <span class="float-right">Total: {{ totalTime }}</span>
           </th>
         </tr>
       </thead>
@@ -23,6 +24,7 @@
             @clearIntervalId="clearIntervalId"
             @updateTask="updateTask($event, task, index)"
             @deleteTask="deleteTask(task, index)"
+            @updateSpentTime="updateSpentTime($event, task)"
           />
         </template>
         <new-task :activeDay="activeDay" @addTask="addTask($event)" />
@@ -78,6 +80,12 @@ export default {
   computed: {
     activeDay(){
       return this.currentDate.setHours(0,0,0,0) === this.day.setHours(0,0,0,0)
+    },
+
+    totalTime(){
+      return this.tasks.map((task) => {
+        return task.spentTime
+      }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     }
   },
 
@@ -100,6 +108,10 @@ export default {
     async deleteTask(task, index){
       const { data } = await this.$api.deleteTimeRecord({ id: task.id })
       this.$delete(this.tasks, index)
+    },
+
+    updateSpentTime(time, task){
+      task.spentTime = time
     },
 
     dateInUnixFormat(){

@@ -43,6 +43,18 @@ test('it should change spent time on 0.01 each 36 seconds', t => {
   clock.restore();
 });
 
+test('it should pass updated time to parent each 36 seconds', t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+  const clock = sinon.useFakeTimers();
+
+  wrapper.vm.start()
+  clock.tick(37000);
+
+  t.deepEqual(wrapper.emitted("updateSpentTime"), [[0.51]])
+
+  clock.restore();
+});
+
 test('it should not change spent time on 0.01 each 35 seconds', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const clock = sinon.useFakeTimers();

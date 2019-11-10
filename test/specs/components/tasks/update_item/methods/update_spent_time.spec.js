@@ -20,12 +20,23 @@ const propsData = { activeDay: false, task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should emit form data', t => {
+test('it should update time for active task', t => {
   const clock = sinon.useFakeTimers(new Date(Date.UTC(2019, 1, 17, 3, 25)));
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   wrapper.vm.spentTime = 0.5
   wrapper.vm.updateSpentTime()
   t.is(wrapper.vm.spentTime, '0.58')
+
+  clock.restore()
+});
+
+test('it should emit spent time to parent', t => {
+  const clock = sinon.useFakeTimers(new Date(Date.UTC(2019, 1, 17, 3, 25)));
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+  wrapper.vm.spentTime = 0.5
+  wrapper.vm.updateSpentTime()
+
+  t.deepEqual(wrapper.emitted("updateSpentTime"), [[0.58]])
 
   clock.restore()
 });
