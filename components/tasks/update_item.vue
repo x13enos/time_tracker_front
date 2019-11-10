@@ -10,7 +10,7 @@
         single-line
         label="Project"
         :disabled="active"
-        @change="update"
+        @change="update()"
       ></v-select>
     </td>
     <td width="40%">
@@ -18,7 +18,7 @@
         v-model="description"
         placeholder="description"
         :disabled="active"
-        @blur="update"
+        @blur="update()"
       />
     </td>
     <td width="20%">
@@ -28,7 +28,7 @@
             v-model="spentTime"
             placeholder="0.0"
             :disabled="active"
-            @blur="update"
+            @blur="update()"
           />
         </v-col>
         <v-col>
@@ -85,7 +85,6 @@ export default {
 
   watch: {
     active: function(value){
-      console.log(value)
       if(value)
         this.start()
     }
@@ -114,6 +113,7 @@ export default {
     start(){
       const intervalId = setInterval(() => {
         this.spentTime = (parseFloat(this.spentTime) + parseFloat("0.01")).toFixed(2)
+        this.$emit("updateSpentTime", parseFloat(this.spentTime))
       }, 36000);
       this.$emit("keepIntervalId", intervalId)
     },
@@ -127,6 +127,7 @@ export default {
       const secondsPassedFromStarting = ((new Date().getTime() / 1000) - (new Date(this.task.timeStart).getTime()))
       const timePassedFromStarting = Math.round((secondsPassedFromStarting / 3600) * 100) / 100
       this.spentTime = (parseFloat(this.spentTime) + parseFloat(timePassedFromStarting)).toFixed(2)
+      this.$emit("updateSpentTime", parseFloat(this.spentTime))
     }
   }
 }
