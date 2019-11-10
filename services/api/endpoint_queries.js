@@ -5,8 +5,9 @@ export default {
       mutation{
         signInUser(
           signInData:{
-            email:"${data.email}",
-            password:"${data.password}"
+            email:"${ data.email }",
+            password:"${ data.password }",
+            timezoneOffset: ${ -(new Date().getTimezoneOffset() / 60) }
           }
         ){
           token
