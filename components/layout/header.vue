@@ -23,7 +23,7 @@
           </v-icon>
         </v-btn>
         <v-btn icon>
-          <v-icon>
+          <v-icon @click="signOut">
             mdi-logout
           </v-icon>
         </v-btn>
@@ -31,3 +31,14 @@
     </v-app-bar>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    async signOut(){
+      await this.$api.signOut()
+      this.$router.push("/auth/sign-in")
+    },
+  }
+}
+</script>

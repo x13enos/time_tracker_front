@@ -16,6 +16,15 @@ export default {
     }`
   },
 
+  "signOutUser": () => {
+    return `
+      mutation{
+        signOutUser{
+          user{ name }
+        }
+    }`
+  },
+
   "allProjects": () => {
     return `
       query{
