@@ -4,7 +4,7 @@
 
       <v-row align="center" justify="start">
         <v-col cols="2">
-          <v-btn @click="changeWeek(-7)" class="previous-week" :min-width="0" outlined color="blue lighten-3">
+          <v-btn @click="changeDay(-7)" class="previous-week" :min-width="0" outlined color="blue lighten-3">
             <v-icon>mdi-chevron-left</v-icon>
             <span class="d-none d-sm-flex">Previous week</span>
           </v-btn>
@@ -15,7 +15,7 @@
         </v-col>
 
         <v-col cols="2" class="text-right">
-          <v-btn @click="changeWeek(7)" class="next-week" :min-width="0" outlined color="blue lighten-3">
+          <v-btn @click="changeDay(7)" class="next-week" :min-width="0"  outlined color="blue lighten-3">
             <span class="d-none d-sm-flex">Next week</span>
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
@@ -24,17 +24,21 @@
     <v-divider />
 
     <v-tabs v-model="tab" background-color="transparent" grow>
-      <v-tab v-for="(day, index) in days" :key="index">
+      <v-tab
+        v-for="day in days"
+        :key="getFormattedDateForTab(day)"
+        @click="selectedDate = day">
         {{ getFormattedDateForTab(day) }}
       </v-tab>
     </v-tabs>
 
-    <v-tabs-items v-model="tab">
+    <v-tabs-items v-model="tab" @change="setTheRightTab">
       <v-tab-item
-        v-for="(day, index) in days"
-        :key="(day, index)"
+        v-for="day in days"
+        :key="getFormattedDateForTab(day)"
         :transition="false"
-        :reverse-transition="false" >
+        :reverse-transition="false"
+        >
         <tasksList :day="day" :currentDate="currentDate" />
       </v-tab-item>
     </v-tabs-items>
@@ -115,10 +119,10 @@
         this.tab = date.getDay() == 0 ? 6 : date.getDay() - 1
       },
 
-      changeWeek(number){
-        const actualDate = this.selectedDate.getDate() + number
-        this.selectedDate = new Date(this.selectedDate.setDate(actualDate))
-        this.setTheRightTab()
+      async changeDay(number){
+        this.tab = null
+        const newDate = this.selectedDate.getDate() + number
+        this.selectedDate = new Date(this.selectedDate.setDate(newDate))
       }
     }
   }
