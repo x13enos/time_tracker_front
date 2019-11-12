@@ -6,6 +6,10 @@ function Api(router) {
     return doRequest('signInUser', data);
   }
 
+  this.signOut = () => {
+    return doRequest('signOutUser');
+  }
+
   this.allProjects = (data) => {
     return doRequest('allProjects');
   }
