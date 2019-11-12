@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr :class="pendingClass">
     <td width="40%">
       <v-select
         v-model="project"
@@ -10,6 +10,7 @@
         single-line
         label="Project"
         :disabled="active"
+        @focus="selectPendingClass"
         @change="update()"
       ></v-select>
     </td>
@@ -17,6 +18,7 @@
       <v-text-field
         v-model="description"
         placeholder="description"
+        @input="selectPendingClass"
         :disabled="active"
         @blur="update()"
       />
@@ -28,6 +30,7 @@
             v-model="spentTime"
             placeholder="0.0"
             :disabled="active"
+            @input="selectPendingClass"
             @blur="update()"
           />
         </v-col>
@@ -58,6 +61,7 @@ export default {
 
   data: function() {
     return {
+      pendingClass: "",
       id: this.task.id,
       project: this.task.project,
       description: this.task.description,
@@ -90,10 +94,11 @@ export default {
   },
 
   methods: {
-    update(state=false){
+    async update(state=false){
       const params = this.formData()
       params.active = state
-      this.$emit('updateTask', params)
+      await this.$emit('updateTask', params)
+      this.pendingClass = ""
     },
 
     deleteTask(){
@@ -120,6 +125,10 @@ export default {
     stop(){
       this.$emit("clearIntervalId")
       this.update()
+    },
+
+    selectPendingClass(){
+      this.pendingClass = "yellow lighten-3"
     }
   }
 }

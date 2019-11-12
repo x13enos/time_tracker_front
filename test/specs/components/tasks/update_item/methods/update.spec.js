@@ -37,3 +37,10 @@ test('it should emit form data with active status as true', t => {
 
   paramsStub.restore()
 });
+
+test('it should remove pending row class after', async t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+
+  await wrapper.vm.update(true)
+  t.is(wrapper.vm.pendingClass, "")
+});
