@@ -68,7 +68,6 @@ export default {
 
   mounted: function(){
     if(this.active){
-      this.updateSpentTime()
       this.start()
     }
   },
@@ -121,13 +120,6 @@ export default {
     stop(){
       this.$emit("clearIntervalId")
       this.update()
-    },
-
-    updateSpentTime(){
-      const secondsPassedFromStarting = ((new Date().getTime() / 1000) - (new Date(this.task.timeStart).getTime()))
-      const timePassedFromStarting = Math.round((secondsPassedFromStarting / 3600) * 100) / 100
-      this.spentTime = (parseFloat(this.spentTime) + parseFloat(timePassedFromStarting)).toFixed(2)
-      this.$emit("updateSpentTime", parseFloat(this.spentTime))
     }
   }
 }
