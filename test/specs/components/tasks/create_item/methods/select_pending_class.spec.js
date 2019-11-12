@@ -12,13 +12,10 @@ const propsData = { activeDay: false }
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should return default data', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
-  t.deepEqual(wrapper.vm.defaultData(), {
-    pendingClass: "",
-    active: false,
-    description: null,
-    spentTime: null,
-    project: null
-  })
+test('it should set the right pending row class', t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+
+  wrapper.vm.selectPendingClass()
+  t.is(wrapper.vm.pendingClass, "yellow lighten-3")
+
 });

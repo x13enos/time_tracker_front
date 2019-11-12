@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr :class="pendingClass">
     <td width="40%">
       <v-select
         v-model="project"
@@ -9,12 +9,14 @@
         item-key="id"
         single-line
         label="Project"
+        @focus="selectPendingClass"
       ></v-select>
     </td>
     <td width="40%">
       <v-text-field
         v-model="description"
         placeholder="description"
+        @input="selectPendingClass"
       />
     </td>
     <td width="20%">
@@ -71,6 +73,10 @@ export default {
       Object.assign(this, this.defaultData())
     },
 
+    selectPendingClass(){
+      this.pendingClass = "yellow lighten-3"
+    },
+
     formData(){
       return {
         project: this.project,
@@ -82,6 +88,7 @@ export default {
 
     defaultData(){
       return {
+        pendingClass: "",
         project: null,
         description: null,
         spentTime: null,
