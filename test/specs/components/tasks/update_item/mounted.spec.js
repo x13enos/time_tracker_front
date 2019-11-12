@@ -26,26 +26,13 @@ const newData = {
   description: "new text"
 }
 
-const methods = {
-  updateSpentTime: () => {},
-  start: () => {}
-}
-
-test.beforeEach( t => {
-  updatingSpentTimeStub = sinon.stub(methods, "updateSpentTime")
-  startTaskStub = sinon.stub(methods, "start")
-  const wrapper = shallowMount(task, { localVue, store, methods, propsData, mocks: { $appMethods } })
-})
-
-test.afterEach((t) => {
-  updatingSpentTimeStub.restore()
-  startTaskStub.restore()
-})
-
-test('it should call method for updating spent time', t => {
-  t.true(updatingSpentTimeStub.calledOnce)
-});
+const methods = { start: () => {} }
 
 test('it should call method for starting task', t => {
+  startTaskStub = sinon.stub(methods, "start")
+  const wrapper = shallowMount(task, { localVue, store, methods, propsData, mocks: { $appMethods } })
+
   t.true(startTaskStub.calledOnce)
+
+  startTaskStub.restore()
 });
