@@ -8,16 +8,22 @@ const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const propsData = { activeDay: false }
+const day = new Date()
+
+const propsData = { activeDay: false, day }
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should emit form data', t => {
+test('it should call action addTack', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  const actionStub = sinon.stub(wrapper.vm, "addTask")
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
 
   wrapper.vm.create()
-  t.deepEqual(wrapper.emitted("addTask"), [[{ description: "text" }]])
+  t.true(actionStub.calledOnce)
+  t.deepEqual(actionStub.args[0], [
+    { params: { description: "text" }, day }
+  ])
 
   paramsStub.restore()
 });

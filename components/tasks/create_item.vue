@@ -30,7 +30,7 @@
           />
         </v-col>
         <v-col>
-          <v-btn @click="createAndStart" :disabled="doesNotReadyForAction"> Start </v-btn>
+          <v-btn @click="createAndStart" :disabled="doesNotReadyForAction || !this.activeDay"> Start </v-btn>
         </v-col>
       </v-row>
     </td>
@@ -38,8 +38,15 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   props: {
+    day: {
+      type: Date,
+      required: true
+    },
+
     activeDay: {
       type: Boolean,
       required: true
@@ -53,8 +60,7 @@ export default {
   computed: {
     doesNotReadyForAction(){
       return this.$appMethods.isEmpty(this.project) ||
-        this.$appMethods.isEmpty(this.description) ||
-        !this.activeDay;
+        this.$appMethods.isEmpty(this.description);
     },
 
     projects(){
@@ -63,13 +69,15 @@ export default {
   },
 
   methods: {
+    ...mapActions(["addTask"]),
+
     createAndStart(){
       this.active = true
       this.create()
     },
 
-    async create(){
-      await this.$emit('addTask', this.formData())
+    create(){
+      this.addTask({params: this.formData(), day: this.day })
       Object.assign(this, this.defaultData())
     },
 

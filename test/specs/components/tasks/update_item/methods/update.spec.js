@@ -15,26 +15,32 @@ const $appMethods = { isEmpty: () => {} }
 test('it should emit form data with active status as false', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
+  const actionStub = sinon.stub(wrapper.vm, 'updateTask')
 
   wrapper.vm.update()
-  t.deepEqual(wrapper.emitted("updateTask"), [[{
+  t.true(actionStub.calledOnce)
+  t.deepEqual(actionStub.args[0], [{
     description: "text",
     active: false
-   }]])
+   }])
 
+  actionStub.restore()
   paramsStub.restore()
 });
 
-test('it should emit form data with active status as true', t => {
+test('it should call action updateTask and form data should have active status as true', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
+  const actionStub = sinon.stub(wrapper.vm, 'updateTask')
 
   wrapper.vm.update(true)
-  t.deepEqual(wrapper.emitted("updateTask"), [[{
+  t.true(actionStub.calledOnce)
+  t.deepEqual(actionStub.args[0], [{
     description: "text",
     active: true
-   }]])
+  }])
 
+  actionStub.restore()
   paramsStub.restore()
 });
 

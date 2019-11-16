@@ -37,7 +37,7 @@
         <v-col>
           <v-btn v-if="active" @click="stop">Stop</v-btn>
           <v-btn v-else @click="update(true)" :disabled="!activeDay">Continue</v-btn>
-          <v-btn @click="deleteTask" :disabled="active">Del</v-btn>
+          <v-btn @click="deleteTask({ id })" :disabled="active">Del</v-btn>
         </v-col>
       </v-row>
     </td>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
+
 export default {
   props: {
     task: {
@@ -94,15 +96,21 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      "updateTask",
+      "deleteTask"
+    ]),
+    ...mapMutations([
+      "updateTaskSpentTime",
+      "keepActiveTaskIntervalId",
+      "clearActiveTaskIntervalId"
+    ]),
+
     async update(state=false){
       const params = this.formData()
       params.active = state
-      await this.$emit('updateTask', params)
+      await this.updateTask(params)
       this.pendingClass = ""
-    },
-
-    deleteTask(){
-      this.$emit('deleteTask')
     },
 
     formData(){
@@ -117,13 +125,13 @@ export default {
     start(){
       const intervalId = setInterval(() => {
         this.spentTime = (parseFloat(this.spentTime) + parseFloat("0.01")).toFixed(2)
-        this.$emit("updateSpentTime", parseFloat(this.spentTime))
+        this.updateTaskSpentTime({ spentTime: parseFloat(this.spentTime), id: this.id })
       }, 36000);
-      this.$emit("keepIntervalId", intervalId)
+      this.keepActiveTaskIntervalId(intervalId)
     },
 
     stop(){
-      this.$emit("clearIntervalId")
+      this.clearActiveTaskIntervalId()
       this.update()
     },
 

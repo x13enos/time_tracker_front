@@ -6,11 +6,15 @@ const store_data = {
     }
   },
   actions: {
-    signIn: () => {}
+    signIn: () => {},
+    addTask: () => {},
+    updateTask: () => {}
   },
   mutations: {
     updateUserData: () => {},
-    updateProjects: () => {}
+    updateProjects: () => {},
+    updateTaskSpentTime: () => {},
+    keepActiveTaskIntervalId: () => {}
   }
 }
 
