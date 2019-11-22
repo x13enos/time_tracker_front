@@ -1,5 +1,5 @@
 <template>
-  <tr :class="pendingClass">
+  <tr :class="rowClass">
     <td width="40%">
       <v-select
         v-model="project"
@@ -63,7 +63,7 @@ export default {
 
   data: function() {
     return {
-      pendingClass: "",
+      rowClass: "",
       id: this.task.id,
       project: this.task.project,
       description: this.task.description,
@@ -103,14 +103,21 @@ export default {
     ...mapMutations([
       "updateTaskSpentTime",
       "keepActiveTaskIntervalId",
-      "clearActiveTaskIntervalId"
+      "clearActiveTaskIntervalId",
+      "updateSnack"
     ]),
 
     async update(state=false){
       const params = this.formData()
       params.active = state
-      await this.updateTask(params)
-      this.pendingClass = ""
+      const response = await this.updateTask(params)
+
+      if(response.success()){
+        this.rowClass = ""
+      } else {
+        this.updateSnack({ message: response.errors, color: "red" })
+        this.rowClass = "red"
+      }
     },
 
     formData(){
@@ -136,7 +143,7 @@ export default {
     },
 
     selectPendingClass(){
-      this.pendingClass = "yellow lighten-3"
+      this.rowClass = "yellow lighten-3"
     }
   }
 }

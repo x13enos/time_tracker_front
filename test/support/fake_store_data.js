@@ -3,6 +3,10 @@ const store_data = {
     projects: [],
     user: {
       name: ''
+    },
+    snack: {
+      message: "",
+      color: ""
     }
   },
   actions: {
@@ -14,7 +18,8 @@ const store_data = {
     updateUserData: () => {},
     updateProjects: () => {},
     updateTaskSpentTime: () => {},
-    keepActiveTaskIntervalId: () => {}
+    keepActiveTaskIntervalId: () => {},
+    updateSnack: () => {}
   }
 }
 

@@ -1,5 +1,5 @@
 <template>
-  <tr :class="pendingClass">
+  <tr :class="rowClass">
     <td width="40%">
       <v-select
         v-model="project"
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   props: {
@@ -70,19 +70,26 @@ export default {
 
   methods: {
     ...mapActions(["addTask"]),
+    ...mapMutations(["updateSnack"]),
+
 
     createAndStart(){
       this.active = true
       this.create()
     },
 
-    create(){
-      this.addTask({params: this.formData(), day: this.day })
-      Object.assign(this, this.defaultData())
+    async create(){
+      const response = await this.addTask({params: this.formData(), day: this.day })
+      if(response.success()){
+        Object.assign(this, this.defaultData())
+      } else {
+        this.updateSnack({ message: response.errors, color: "red" })
+        this.rowClass = "red"
+      }
     },
 
     selectPendingClass(){
-      this.pendingClass = "yellow lighten-3"
+      this.rowClass = "yellow lighten-3"
     },
 
     formData(){
@@ -96,7 +103,7 @@ export default {
 
     defaultData(){
       return {
-        pendingClass: "",
+        rowClass: "",
         project: null,
         description: null,
         spentTime: null,

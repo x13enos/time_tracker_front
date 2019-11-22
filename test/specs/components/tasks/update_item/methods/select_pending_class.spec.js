@@ -16,5 +16,5 @@ test('it should set the right pending row class', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
 
   wrapper.vm.selectPendingClass()
-  t.is(wrapper.vm.pendingClass, "yellow lighten-3")
+  t.is(wrapper.vm.rowClass, "yellow lighten-3")
 });

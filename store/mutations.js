@@ -48,6 +48,10 @@ export default {
 
   clearTasks(state){
     state.tasks = []
+  },
+
+  updateSnack(state, data){
+    state.snack = data
   }
 }
 

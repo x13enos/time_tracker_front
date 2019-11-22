@@ -18,7 +18,7 @@ const $appMethods = { isEmpty: () => {} }
 test('it should return default data', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   t.deepEqual(wrapper.vm.defaultData(), {
-    pendingClass: "",
+    rowClass: "",
     active: false,
     description: null,
     spentTime: null,
