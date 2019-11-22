@@ -19,10 +19,16 @@ const propsData = { activeDay: false, task: taskData }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should emit method of clearing interval id', t => {
+test('it should call mutation for clearing interval id', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+  const mutationStub = sinon.stub(wrapper.vm, "clearActiveTaskIntervalId")
+  const updateStub = sinon.stub(wrapper.vm, "update")
+
   wrapper.vm.stop()
-  t.is(wrapper.emitted('clearIntervalId').length, 1)
+  t.true(mutationStub.calledOnce)
+
+  updateStub.restore()
+  mutationStub.restore()
 });
 
 

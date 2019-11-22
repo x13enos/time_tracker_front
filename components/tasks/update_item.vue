@@ -1,5 +1,5 @@
 <template>
-  <tr :class="pendingClass">
+  <tr :class="rowClass">
     <td width="40%">
       <v-select
         v-model="project"
@@ -37,7 +37,7 @@
         <v-col>
           <v-btn v-if="active" @click="stop">Stop</v-btn>
           <v-btn v-else @click="update(true)" :disabled="!activeDay">Continue</v-btn>
-          <v-btn @click="deleteTask" :disabled="active">Del</v-btn>
+          <v-btn @click="deleteTask({ id })" :disabled="active">Del</v-btn>
         </v-col>
       </v-row>
     </td>
@@ -45,6 +45,8 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
+
 export default {
   props: {
     task: {
@@ -61,7 +63,7 @@ export default {
 
   data: function() {
     return {
-      pendingClass: "",
+      rowClass: "",
       id: this.task.id,
       project: this.task.project,
       description: this.task.description,
@@ -94,15 +96,28 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      "updateTask",
+      "deleteTask"
+    ]),
+    ...mapMutations([
+      "updateTaskSpentTime",
+      "keepActiveTaskIntervalId",
+      "clearActiveTaskIntervalId",
+      "updateSnack"
+    ]),
+
     async update(state=false){
       const params = this.formData()
       params.active = state
-      await this.$emit('updateTask', params)
-      this.pendingClass = ""
-    },
+      const response = await this.updateTask(params)
 
-    deleteTask(){
-      this.$emit('deleteTask')
+      if(response.success()){
+        this.rowClass = ""
+      } else {
+        this.updateSnack({ message: response.errors, color: "red" })
+        this.rowClass = "red"
+      }
     },
 
     formData(){
@@ -117,18 +132,18 @@ export default {
     start(){
       const intervalId = setInterval(() => {
         this.spentTime = (parseFloat(this.spentTime) + parseFloat("0.01")).toFixed(2)
-        this.$emit("updateSpentTime", parseFloat(this.spentTime))
+        this.updateTaskSpentTime({ spentTime: parseFloat(this.spentTime), id: this.id })
       }, 36000);
-      this.$emit("keepIntervalId", intervalId)
+      this.keepActiveTaskIntervalId(intervalId)
     },
 
     stop(){
-      this.$emit("clearIntervalId")
+      this.clearActiveTaskIntervalId()
       this.update()
     },
 
     selectPendingClass(){
-      this.pendingClass = "yellow lighten-3"
+      this.rowClass = "yellow lighten-3"
     }
   }
 }

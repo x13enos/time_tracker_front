@@ -23,7 +23,7 @@
       </v-row>
     <v-divider />
 
-    <v-tabs v-model="tab" background-color="transparent" grow>
+    <v-tabs v-model="tab" background-color="transparent" @change="getDailyTasks(selectedDate)" grow>
       <v-tab
         v-for="day in days"
         :key="getFormattedDateForTab(day)"
@@ -47,6 +47,7 @@
 
 <script>
   import tasksList from '@/components/tasks/list'
+  import { mapActions } from 'vuex'
 
   export default {
     components: { tasksList },
@@ -83,6 +84,8 @@
     },
 
     methods: {
+      ...mapActions(["getDailyTasks"]),
+
       weekDays(passedDate) {
         const date = new Date(passedDate);
         const week = new Array();

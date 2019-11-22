@@ -10,14 +10,17 @@
         </v-row>
       </v-container>
     </v-content>
+
+    <Snackbar />
   </v-app>
 </template>
 
 <script>
+import Snackbar from '~/components/layout/snackbar.vue'
 import Header from '~/components/layout/Header.vue'
 
 export default {
-  components: { Header }
+  components: { Header, Snackbar }
 }
 </script>
 

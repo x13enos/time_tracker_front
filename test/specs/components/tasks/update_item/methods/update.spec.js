@@ -12,35 +12,56 @@ const propsData = { task: {}, activeDay: false }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: () => {} }
 
-test('it should emit form data with active status as false', t => {
+test('it should call action updateTask and form data should have active status as true', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
-
-  wrapper.vm.update()
-  t.deepEqual(wrapper.emitted("updateTask"), [[{
-    description: "text",
-    active: false
-   }]])
-
-  paramsStub.restore()
-});
-
-test('it should emit form data with active status as true', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
-  const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
+  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
 
   wrapper.vm.update(true)
-  t.deepEqual(wrapper.emitted("updateTask"), [[{
+  t.true(actionStub.calledOnce)
+  t.deepEqual(actionStub.args[0], [{
     description: "text",
     active: true
-   }]])
+  }])
 
+  actionStub.restore()
   paramsStub.restore()
 });
 
-test('it should remove pending row class after', async t => {
+test('it should remove pending row class if request was successful', async t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
 
   await wrapper.vm.update(true)
-  t.is(wrapper.vm.pendingClass, "")
+  t.is(wrapper.vm.rowClass, "")
+  actionStub.restore()
+});
+
+test('it should update snack data with passed errors', async t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  const actionStub = sinon.stub(wrapper.vm, "updateTask").returns({
+    success: () => { return false },
+    errors: "Big message of errors"
+  })
+  const mutationStub = sinon.stub(wrapper.vm, "updateSnack")
+
+  await wrapper.vm.update()
+  t.true(mutationStub.calledOnce)
+  t.deepEqual(mutationStub.args[0], [{
+    message: "Big message of errors",
+    color: "red"
+  }])
+
+  actionStub.restore()
+  mutationStub.restore()
+});
+
+test('it should change pending row class to red if request was failed', async t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return false } })
+
+  await wrapper.vm.update(true)
+  t.is(wrapper.vm.rowClass, "red")
+
+  actionStub.restore()
 });

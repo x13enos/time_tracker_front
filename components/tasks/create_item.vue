@@ -1,5 +1,5 @@
 <template>
-  <tr :class="pendingClass">
+  <tr :class="rowClass">
     <td width="40%">
       <v-select
         v-model="project"
@@ -30,7 +30,7 @@
           />
         </v-col>
         <v-col>
-          <v-btn @click="createAndStart" :disabled="doesNotReadyForAction"> Start </v-btn>
+          <v-btn @click="createAndStart" :disabled="doesNotReadyForAction || !this.activeDay"> Start </v-btn>
         </v-col>
       </v-row>
     </td>
@@ -38,8 +38,15 @@
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex'
+
 export default {
   props: {
+    day: {
+      type: Date,
+      required: true
+    },
+
     activeDay: {
       type: Boolean,
       required: true
@@ -53,8 +60,7 @@ export default {
   computed: {
     doesNotReadyForAction(){
       return this.$appMethods.isEmpty(this.project) ||
-        this.$appMethods.isEmpty(this.description) ||
-        !this.activeDay;
+        this.$appMethods.isEmpty(this.description);
     },
 
     projects(){
@@ -63,18 +69,27 @@ export default {
   },
 
   methods: {
+    ...mapActions(["addTask"]),
+    ...mapMutations(["updateSnack"]),
+
+
     createAndStart(){
       this.active = true
       this.create()
     },
 
     async create(){
-      await this.$emit('addTask', this.formData())
-      Object.assign(this, this.defaultData())
+      const response = await this.addTask({params: this.formData(), day: this.day })
+      if(response.success()){
+        Object.assign(this, this.defaultData())
+      } else {
+        this.updateSnack({ message: response.errors, color: "red" })
+        this.rowClass = "red"
+      }
     },
 
     selectPendingClass(){
-      this.pendingClass = "yellow lighten-3"
+      this.rowClass = "yellow lighten-3"
     },
 
     formData(){
@@ -88,7 +103,7 @@ export default {
 
     defaultData(){
       return {
-        pendingClass: "",
+        rowClass: "",
         project: null,
         description: null,
         spentTime: null,

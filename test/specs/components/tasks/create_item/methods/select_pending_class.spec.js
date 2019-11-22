@@ -8,14 +8,17 @@ const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const propsData = { activeDay: false }
+const propsData = {
+  day: new Date(),
+  activeDay: false
+}
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should set the right pending row class', t => {
+test('it should set the right row class', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
 
   wrapper.vm.selectPendingClass()
-  t.is(wrapper.vm.pendingClass, "yellow lighten-3")
+  t.is(wrapper.vm.rowClass, "yellow lighten-3")
 
 });

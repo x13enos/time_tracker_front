@@ -9,7 +9,7 @@ const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const propsData = { activeDay: false }
+const propsData = { activeDay: true, day: new Date() }
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return GlobalMethods.isEmpty(value) } }
 

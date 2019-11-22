@@ -3,14 +3,23 @@ const store_data = {
     projects: [],
     user: {
       name: ''
+    },
+    snack: {
+      message: "",
+      color: ""
     }
   },
   actions: {
-    signIn: () => {}
+    signIn: () => {},
+    addTask: () => {},
+    updateTask: () => {}
   },
   mutations: {
     updateUserData: () => {},
-    updateProjects: () => {}
+    updateProjects: () => {},
+    updateTaskSpentTime: () => {},
+    keepActiveTaskIntervalId: () => {},
+    updateSnack: () => {}
   }
 }
 
