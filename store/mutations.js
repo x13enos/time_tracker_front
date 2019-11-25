@@ -52,6 +52,14 @@ export default {
 
   updateSnack(state, data){
     state.snack = data
+  },
+
+  updateCounterOfPendingTasks(state, number){
+    state.counterOfPendingTasks += number
+  },
+
+  cleanCounterOfPendingTasks(state){
+    state.counterOfPendingTasks = 0
   }
 }
 

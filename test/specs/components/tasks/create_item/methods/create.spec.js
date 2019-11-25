@@ -40,6 +40,19 @@ test('it should clean form data if request was successful', async t => {
   actionStub.restore()
 });
 
+test('it should decrease number of pending tasks if request was successful', async t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
+  const mutationStub = sinon.stub(wrapper.vm, "updateCounterOfPendingTasks")
+
+  await wrapper.vm.create()
+  t.true(mutationStub.calledOnce)
+  t.deepEqual(mutationStub.args[0], [-1])
+
+  actionStub.restore()
+  mutationStub.restore()
+});
+
 test('it should update snack data with passed errors', async t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
   const actionStub = sinon.stub(wrapper.vm, "addTask").returns({

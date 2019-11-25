@@ -70,7 +70,7 @@ export default {
 
   methods: {
     ...mapActions(["addTask"]),
-    ...mapMutations(["updateSnack"]),
+    ...mapMutations(["updateSnack", "updateCounterOfPendingTasks"]),
 
 
     createAndStart(){
@@ -81,6 +81,7 @@ export default {
     async create(){
       const response = await this.addTask({params: this.formData(), day: this.day })
       if(response.success()){
+        this.updateCounterOfPendingTasks(-1)
         Object.assign(this, this.defaultData())
       } else {
         this.updateSnack({ message: response.errors, color: "red" })
@@ -89,7 +90,10 @@ export default {
     },
 
     selectPendingClass(){
-      this.rowClass = "yellow lighten-3"
+      if(this.$appMethods.isEmpty(this.rowClass)){
+        this.updateCounterOfPendingTasks(1)
+        this.rowClass = "yellow lighten-3"
+      }
     },
 
     formData(){

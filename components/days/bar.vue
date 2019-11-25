@@ -4,7 +4,7 @@
 
       <v-row align="center" justify="start">
         <v-col cols="2">
-          <v-btn @click="changeDay(-7)" class="previous-week" :min-width="0" outlined color="blue lighten-3">
+          <v-btn @click="checkOnPendingTasks(() => { changeDay(-7) })" class="previous-week" :min-width="0" outlined color="blue lighten-3">
             <v-icon>mdi-chevron-left</v-icon>
             <span class="d-none d-sm-flex">Previous week</span>
           </v-btn>
@@ -15,7 +15,7 @@
         </v-col>
 
         <v-col cols="2" class="text-right">
-          <v-btn @click="changeDay(7)" class="next-week" :min-width="0"  outlined color="blue lighten-3">
+          <v-btn @click="checkOnPendingTasks(() => { changeDay(7) })" class="next-week" :min-width="0"  outlined color="blue lighten-3">
             <span class="d-none d-sm-flex">Next week</span>
             <v-icon>mdi-chevron-right</v-icon>
           </v-btn>
@@ -84,7 +84,10 @@
     },
 
     methods: {
-      ...mapActions(["getDailyTasks"]),
+      ...mapActions([
+        "getDailyTasks",
+        "checkOnPendingTasks"
+      ]),
 
       weekDays(passedDate) {
         const date = new Date(passedDate);

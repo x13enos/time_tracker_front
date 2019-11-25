@@ -9,10 +9,29 @@
 </template>
 
 <script>
-import daysBar from '~/components/days/bar.vue'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
-  components: { daysBar },
+  components: {
+    daysBar: () => import('~/components/days/bar.vue')
+  },
+
+  data() {
+    return {
+      dialog: false,
+    }
+  },
+
+  beforeRouteLeave(to, from, next) {
+    this.checkOnPendingTasks(() => { next() })
+  },
+
+  mounted() {
+    window.addEventListener('beforeunload', (event) => {
+      if(this.somePendingTasks())
+        event.returnValue = "Changes that you made may not be saved.";
+    });
+  },
 
   async fetch({ app }){
     let projects, tasks;
@@ -22,6 +41,11 @@ export default {
       projects = projectsResponse.data
 
     app.store.commit("updateProjects", projects)
+  },
+
+  methods: {
+    ...mapGetters(["somePendingTasks"]),
+    ...mapActions(["checkOnPendingTasks"])
   }
 }
 </script>

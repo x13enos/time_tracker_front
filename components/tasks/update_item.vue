@@ -104,7 +104,8 @@ export default {
       "updateTaskSpentTime",
       "keepActiveTaskIntervalId",
       "clearActiveTaskIntervalId",
-      "updateSnack"
+      "updateSnack",
+      "updateCounterOfPendingTasks"
     ]),
 
     async update(state=false){
@@ -113,6 +114,7 @@ export default {
       const response = await this.updateTask(params)
 
       if(response.success()){
+        this.updateCounterOfPendingTasks(-1)
         this.rowClass = ""
       } else {
         this.updateSnack({ message: response.errors, color: "red" })
@@ -143,7 +145,10 @@ export default {
     },
 
     selectPendingClass(){
-      this.rowClass = "yellow lighten-3"
+      if(this.$appMethods.isEmpty(this.rowClass)){
+        this.updateCounterOfPendingTasks(1)
+        this.rowClass = "yellow lighten-3"
+      }
     }
   }
 }
