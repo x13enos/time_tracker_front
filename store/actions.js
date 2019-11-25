@@ -41,6 +41,17 @@ export default {
       commit("clearActiveTaskIntervalId")
       commit("cleanTasksStartTime")
     }
+  },
+
+  checkOnPendingTasks({ commit, getters }, callback){
+    if(getters.somePendingTasks){
+      if(confirm("Changes that you made may not be saved.")){
+        commit("cleanCounterOfPendingTasks")
+        callback()
+      }
+    } else {
+      callback()
+    }
   }
 }
 

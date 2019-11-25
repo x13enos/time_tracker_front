@@ -1,6 +1,7 @@
 const store_data = {
   state: {
     projects: [],
+    counterOfPendingTasks: 0,
     user: {
       name: ''
     },
@@ -19,7 +20,8 @@ const store_data = {
     updateProjects: () => {},
     updateTaskSpentTime: () => {},
     keepActiveTaskIntervalId: () => {},
-    updateSnack: () => {}
+    updateSnack: () => {},
+    updateCounterOfPendingTasks: () => {}
   }
 }
 
