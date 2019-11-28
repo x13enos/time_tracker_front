@@ -17,10 +17,9 @@
       </v-toolbar-items>
 
       <template>
-        <v-btn icon>
-          <v-icon>
-            mdi-account-circle
-          </v-icon>
+        <nuxt-link to="/profile">
+          <v-icon>mdi-account-circle</v-icon>
+        </nuxt-link>
         </v-btn>
         <v-btn icon>
           <v-icon @click="signOut">

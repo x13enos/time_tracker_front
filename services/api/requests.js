@@ -30,6 +30,10 @@ function Api(router) {
     return doRequest('allTimeRecords', dateTime);
   }
 
+  this.personalInfo = () => {
+    return doRequest('personalInfo');
+  }
+
   // private logic
 
   const doRequest = async (actionName, data=null) => {

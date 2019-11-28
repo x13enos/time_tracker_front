@@ -1,4 +1,11 @@
 export default {
+  async getUserInfo ({ commit }) {
+    const response = await this.$api.personalInfo()
+    if (response.success()) {
+      commit('updatePersonalInfo', response.data)
+    }
+  },
+
   async getDailyTasks ({ commit }, day) {
     commit('clearTasks')
     commit('clearActiveTaskIntervalId')

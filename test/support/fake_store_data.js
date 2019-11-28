@@ -3,7 +3,9 @@ const store_data = {
     projects: [],
     counterOfPendingTasks: 0,
     user: {
-      name: ''
+      name: null,
+      email: null,
+      timezone: null
     },
     snack: {
       message: "",
@@ -21,7 +23,8 @@ const store_data = {
     updateTaskSpentTime: () => {},
     keepActiveTaskIntervalId: () => {},
     updateSnack: () => {},
-    updateCounterOfPendingTasks: () => {}
+    updateCounterOfPendingTasks: () => {},
+    updatePersonalInfo: () => {}
   }
 }
 

@@ -122,6 +122,16 @@ export default {
         },
       }
     }`
+  },
+
+  "personalInfo": () => {
+    return `query{
+      personalInfo{
+    		name,
+        email,
+        timezone
+      }
+    }`
   }
 
 }

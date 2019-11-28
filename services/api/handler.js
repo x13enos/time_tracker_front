@@ -30,7 +30,7 @@ function handler(){
   };
 
   const handleResponse = () => {
-    if (rawResponse.data.data != null) {
+    if (!rawResponse.data.errors) {
       status = 'success'
       response.data = rawResponse.data.data[actionMethod]
     } else {
