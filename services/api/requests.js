@@ -34,6 +34,10 @@ function Api(router) {
     return doRequest('personalInfo');
   }
 
+  this.updateUserProfile = (data) => {
+    return doRequest('updateUserProfile', data);
+  }
+
   // private logic
 
   const doRequest = async (actionName, data=null) => {

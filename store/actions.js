@@ -6,6 +6,14 @@ export default {
     }
   },
 
+  async updateUserProfile({commit}, data){
+    const response = await this.$api.updateUserProfile(data)
+    if (response.success()) {
+      commit('updatePersonalInfo', response.data.user)
+    }
+    return response;
+  },
+
   async getDailyTasks ({ commit }, day) {
     commit('clearTasks')
     commit('clearActiveTaskIntervalId')

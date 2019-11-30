@@ -1,4 +1,4 @@
-export default function ({ store }) {
+export default async function ({ store }) {
   if (store.state.user.email) return
-  store.dispatch("getUserInfo")
+  await store.dispatch("getUserInfo")
 }
