@@ -10,24 +10,23 @@
 
       <div class="flex-grow-1" />
 
-      <v-toolbar-items>
+      <nuxt-link to="/tasks">
         <v-btn text>
           Tasks
         </v-btn>
-      </v-toolbar-items>
+      </nuxt-link>
 
-      <template>
+      <nuxt-link to="/profile">
         <v-btn icon>
-          <v-icon>
-            mdi-account-circle
-          </v-icon>
+          <v-icon>mdi-account-circle</v-icon>
         </v-btn>
-        <v-btn icon>
-          <v-icon @click="signOut">
-            mdi-logout
-          </v-icon>
-        </v-btn>
-      </template>
+      </nuxt-link>
+
+      <v-btn icon>
+        <v-icon @click="signOut">
+          mdi-logout
+        </v-icon>
+      </v-btn>
     </v-app-bar>
   </div>
 </template>
@@ -42,3 +41,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .v-application a{
+    text-decoration: none;
+  }
+</style>

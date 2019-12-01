@@ -20,6 +20,7 @@ import Snackbar from '~/components/layout/snackbar.vue'
 import Header from '~/components/layout/Header.vue'
 
 export default {
+  middleware: 'auth',
   components: { Header, Snackbar }
 }
 </script>

@@ -8,6 +8,8 @@ export default {
     color: ""
   },
   user: {
-    name: null
+    name: null,
+    email: null,
+    timezone: null
   }
 }

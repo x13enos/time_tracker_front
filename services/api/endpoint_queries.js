@@ -122,6 +122,33 @@ export default {
         },
       }
     }`
+  },
+
+  "personalInfo": () => {
+    return `query{
+      personalInfo{
+    		name,
+        email,
+        timezone
+      }
+    }`
+  },
+
+  "updateUserProfile": (data) => {
+    return `mutation{
+      updateUserProfile(
+        userData: {
+          email:"${ data.email }",
+          name:"${ data.name }",
+          timezone: ${ data.timezone }
+      }){
+        user{
+          name,
+          email,
+          timezone
+        }
+      }
+    }`
   }
 
 }

@@ -1,6 +1,6 @@
 export default {
-  updateUserData (state, userData) {
-    state.user.name = userData.user.name
+  updatePersonalInfo (state, userData) {
+    Object.assign(state.user, userData)
   },
 
   updateProjects(state, projects) {
