@@ -26,8 +26,8 @@ function Api(router) {
     return doRequest('deleteTimeRecord', data);
   }
 
-  this.allTimeRecords = (dateTime) => {
-    return doRequest('allTimeRecords', dateTime);
+  this.dailyTimeRecords = (dateTime) => {
+    return doRequest('dailyTimeRecords', dateTime);
   }
 
   this.personalInfo = () => {

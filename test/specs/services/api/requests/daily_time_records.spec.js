@@ -17,26 +17,26 @@ test.afterEach(() => {
 
 test("it should call handler", async t => {
   mock.stub("responseData")
-  await apiInstance.allTimeRecords(date)
+  await apiInstance.dailyTimeRecords(date)
   t.truthy(mock.performStub.calledOnce)
 })
 
 test("it should pass data to handler", async t => {
   mock.stub("responseData")
-  await apiInstance.allTimeRecords(date)
-  t.deepEqual(mock.performStub.args[0], ['allTimeRecords', date])
+  await apiInstance.dailyTimeRecords(date)
+  t.deepEqual(mock.performStub.args[0], ['dailyTimeRecords', date])
 })
 
 test("it should return response", async t => {
   mock.stub("responseData")
-  const response = await apiInstance.allTimeRecords(date)
+  const response = await apiInstance.dailyTimeRecords(date)
   t.is(response, "responseData")
 })
 
 test("it should redirect to route is error has info about unathorized attempt", async t => {
   mock.stub({ errors: "User must be logged in", code: 401})
   const routerStub = sinon.stub(router, 'push')
-  await apiInstance.allTimeRecords(date)
+  await apiInstance.dailyTimeRecords(date)
   t.true(routerStub.calledOnce)
   t.deepEqual(routerStub.args[0], ["/auth/sign-in"])
   routerStub.restore()

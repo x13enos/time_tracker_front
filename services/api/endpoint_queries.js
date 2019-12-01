@@ -108,9 +108,9 @@ export default {
     `
   },
 
-  "allTimeRecords": (date) => {
+  "dailyTimeRecords": (date) => {
     return `query{
-      allTimeRecords(
+      dailyTimeRecords(
         date: "${ date }"
       ){
     		id,
