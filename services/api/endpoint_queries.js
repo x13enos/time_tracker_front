@@ -11,7 +11,13 @@ export default {
           }
         ){
           token
-          user{ name }
+          user{
+            id,
+            name,
+            email,
+            timezone,
+            role
+          }
         }
     }`
   },
@@ -127,9 +133,11 @@ export default {
   "personalInfo": () => {
     return `query{
       personalInfo{
-    		name,
+        id,
+        name,
         email,
-        timezone
+        timezone,
+        role
       }
     }`
   },
@@ -143,10 +151,46 @@ export default {
           timezone: ${ data.timezone }
       }){
         user{
+          id,
           name,
           email,
-          timezone
+          timezone,
+          role
         }
+      }
+    }`
+  },
+
+  "allTimeRecords": (data) => {
+    return `query{
+      allTimeRecords(
+        fromDate: ${ data.fromDate },
+        toDate: ${ data.toDate },
+        userId: "${ data.userId }"
+      ){
+    		totalSpentTime,
+    		edges{
+          node{
+            description,
+            spentTime,
+            assignedDate,
+            user{
+              name
+            },
+            project {
+              name
+            }
+          }
+        }
+      }
+    }`
+  },
+
+  "allUsers": () => {
+    return `query{
+      allUsers{
+        id,
+        name
       }
     }`
   }

@@ -16,6 +16,12 @@
         </v-btn>
       </nuxt-link>
 
+      <nuxt-link to="/reports">
+        <v-btn text>
+          Reports
+        </v-btn>
+      </nuxt-link>
+
       <nuxt-link to="/profile">
         <v-btn icon>
           <v-icon>mdi-account-circle</v-icon>

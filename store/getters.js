@@ -5,5 +5,9 @@ export default {
 
   somePendingTasks (state) {
     return state.counterOfPendingTasks > 0
+  },
+
+  isAdmin (state) {
+    return state.user.role === 'admin'
   }
 }

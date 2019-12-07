@@ -25,6 +25,9 @@ const store_data = {
     updateSnack: () => {},
     updateCounterOfPendingTasks: () => {},
     updatePersonalInfo: () => {}
+  },
+  getters: {
+    isAdmin: () => {}
   }
 }
 

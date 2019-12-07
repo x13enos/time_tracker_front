@@ -38,6 +38,14 @@ function Api(router) {
     return doRequest('updateUserProfile', data);
   }
 
+  this.allTimeRecords = (data) => {
+    return doRequest('allTimeRecords', data);
+  }
+
+  this.allUsers = () => {
+    return doRequest('allUsers');
+  }
+
   // private logic
 
   const doRequest = async (actionName, data=null) => {
