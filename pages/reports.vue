@@ -2,6 +2,30 @@
   <div>
     <h1>
       Reports
+      <v-btn
+        v-if='tasks.length && !reportLink'
+        class="ma-2"
+        :loading="loadingReport"
+        :disabled="loadingReport"
+        color="info"
+        @click="getReportLink"
+      >
+        Generate Report
+        <template v-slot:loader>
+          <span class="custom-loader">
+            <v-icon light>mdi-cached</v-icon>
+          </span>
+        </template>
+      </v-btn>
+
+      <v-btn
+        v-if='reportLink'
+        class="ma-2"
+        color="success"
+        :href="reportLink"
+      >
+        Download
+      </v-btn>
     </h1>
 
     <v-row>
@@ -66,6 +90,8 @@ export default {
 
   data() {
     return {
+      reportLink: null,
+      loadingReport: false,
       fromDateMenu: false,
       tasks: [],
       users: [],
@@ -112,6 +138,7 @@ export default {
 
   methods: {
     async getTasks(){
+      this.reportLink = null
       const response = await this.$api.allTimeRecords(this.handledFilters())
       if(response.success()){
         this.totalAmount = response.data.totalSpentTime
@@ -132,6 +159,15 @@ export default {
         toDate: (new Date(this.filters.toDate)).getTime() / 1000,
         userId: this.filters.userId || this.user.id
       }
+    },
+
+    async getReportLink(){
+      this.loadingReport = true
+      const response = await this.$api.generateReport(this.handledFilters())
+      if(response.success()){
+        this.reportLink = response.data.link
+      }
+      this.loadingReport = false
     }
   }
 }
