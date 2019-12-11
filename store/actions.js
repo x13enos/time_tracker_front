@@ -17,7 +17,7 @@ export default {
   async getDailyTasks ({ commit }, day) {
     commit('clearTasks')
     commit('clearActiveTaskIntervalId')
-    const response = await this.$api.allTimeRecords(dateInUnixFormat(day))
+    const response = await this.$api.dailyTimeRecords(dateInUnixFormat(day))
     if (response.success()) {
       commit('updateTasks', response.data)
     }

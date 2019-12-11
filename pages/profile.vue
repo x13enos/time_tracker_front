@@ -103,7 +103,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
   .custom-loader {
     animation: loader 1s infinite;
     display: flex;

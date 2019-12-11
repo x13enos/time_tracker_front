@@ -26,8 +26,8 @@ function Api(router) {
     return doRequest('deleteTimeRecord', data);
   }
 
-  this.allTimeRecords = (dateTime) => {
-    return doRequest('allTimeRecords', dateTime);
+  this.dailyTimeRecords = (dateTime) => {
+    return doRequest('dailyTimeRecords', dateTime);
   }
 
   this.personalInfo = () => {
@@ -36,6 +36,14 @@ function Api(router) {
 
   this.updateUserProfile = (data) => {
     return doRequest('updateUserProfile', data);
+  }
+
+  this.allTimeRecords = (data) => {
+    return doRequest('allTimeRecords', data);
+  }
+
+  this.allUsers = () => {
+    return doRequest('allUsers');
   }
 
   // private logic
