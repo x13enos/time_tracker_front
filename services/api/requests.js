@@ -46,6 +46,10 @@ function Api(router) {
     return doRequest('allUsers');
   }
 
+  this.generateReport = (data) => {
+    return doRequest('generateReport', data);
+  }
+
   // private logic
 
   const doRequest = async (actionName, data=null) => {

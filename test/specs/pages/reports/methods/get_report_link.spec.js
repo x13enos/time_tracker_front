@@ -9,13 +9,12 @@ localVue.use(Vuetify)
 localVue.use(Vuex)
 
 
-const mocks = { $api: { allTimeRecords: () => {} } }
+const mocks = { $api: { generateReport: () => {} } }
 
 const success_response = {
   success: () => { return true },
   data: {
-    totalSpentTime: 110,
-    edges: ['edges']
+    link: "/report.pdf"
   }
 }
 
@@ -26,49 +25,48 @@ const fail_response = {
 
 const store = new Vuex.Store(fakeStoreData);
 
-test("it should drop report link", async t => {
-  const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(fail_response)
+test("it should change status of loader",  t => {
+  const apiStub = sinon.stub(mocks.$api, "generateReport").returns(fail_response)
   const wrapper = shallowMount(reports, { localVue, mocks, store })
   const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
-  wrapper.vm.reportLink = "/report.pdf"
+  wrapper.vm.loadingReport = false
 
-  await wrapper.vm.getTasks()
-  t.is(wrapper.vm.reportLink, null)
+  wrapper.vm.getReportLink()
+  t.true(wrapper.vm.loadingReport)
 
   apiStub.restore()
   filtersData.restore()
 })
 
-test("it should call method for fetching time records", async t => {
-  const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(fail_response)
+test("it should call method for generating report", async t => {
+  const apiStub = sinon.stub(mocks.$api, "generateReport").returns(fail_response)
   const wrapper = shallowMount(reports, { localVue, mocks, store })
   const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
 
-  await wrapper.vm.getTasks()
-
-  t.true(apiStub.calledOnce)
+  await wrapper.vm.getReportLink()
   t.deepEqual(apiStub.args[0], ['filters'])
 
   apiStub.restore()
   filtersData.restore()
 })
 
-test("it should set totalAmount if response was successful", async t => {
-  const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
+test("it should keep report link if response was successful", async t => {
+  const apiStub = sinon.stub(mocks.$api, "generateReport").returns(success_response)
   const wrapper = shallowMount(reports, { localVue, mocks, store })
 
-  await wrapper.vm.getTasks()
-  t.is(wrapper.vm.totalAmount, 110)
+  await wrapper.vm.getReportLink()
+  t.is(wrapper.vm.reportLink, "/report.pdf")
 
   apiStub.restore()
 })
 
-test("it should set tasks from recieved data", async t => {
-  const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
+test("it should drop loading report status", async t => {
+  const apiStub = sinon.stub(mocks.$api, "generateReport").returns(success_response)
   const wrapper = shallowMount(reports, { localVue, mocks, store })
+  wrapper.vm.loadingReport = true
 
-  await wrapper.vm.getTasks()
-  t.deepEqual(wrapper.vm.tasks, ['edges'])
+  await wrapper.vm.getReportLink()
+  t.false(wrapper.vm.loadingReport)
 
   apiStub.restore()
 })

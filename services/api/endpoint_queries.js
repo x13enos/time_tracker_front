@@ -186,6 +186,18 @@ export default {
     }`
   },
 
+  "generateReport": (data) => {
+    return `mutation{
+      generateReport(
+        fromDate: ${ data.fromDate },
+        toDate: ${ data.toDate },
+        userId: "${ data.userId }"
+      ){
+        link
+      }
+    }`
+  },
+
   "allUsers": () => {
     return `query{
       allUsers{
