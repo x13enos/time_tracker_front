@@ -1,0 +1,10 @@
+# dependencies
+node_modules
+
+# logs
+yarn-error.log
+
+.nuxt
+.nyc_output
+
+dist

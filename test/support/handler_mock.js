@@ -7,10 +7,11 @@ function HandlerMock(){
 
   this.performStub = null
 
-  this.stub = function(responseData){
+  this.stub = function(responseData=null){
+    const response = responseData || { success: () => true };
     handlerStub = sinon.stub(Handler, 'default').callsFake((args) => {
       const handlerInstance = new FakeHandler(args)
-      this.performStub = sinon.stub(handlerInstance, "perform").returns(responseData)
+      this.performStub = sinon.stub(handlerInstance, "perform").returns(response)
       return handlerInstance
     })
     return this.performStub
