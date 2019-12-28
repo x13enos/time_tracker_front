@@ -148,7 +148,7 @@ export default {
         userData: {
           email:"${ data.email }",
           name:"${ data.name }",
-          timezone: ${ data.timezone }
+          timezone: "${ data.timezone }"
       }){
         user{
           id,

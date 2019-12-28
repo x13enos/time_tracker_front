@@ -1,6 +1,6 @@
 import Handler from "@/services/api/handler"
 
-function Api(router) {
+function Api(router, store) {
 
   this.signIn = (data) => {
     return doRequest('signInUser', data);
@@ -54,6 +54,7 @@ function Api(router) {
 
   const doRequest = async (actionName, data=null) => {
     const response = await new Handler().perform(actionName, data)
+    showErrorForTestingStages(response)
     redirectIfUserUnathorized(response)
     return response
   }
@@ -64,6 +65,10 @@ function Api(router) {
     }
   }
 
+  const showErrorForTestingStages = (response) => {
+    if(!response.success() && process.env.NODE_ENV !== 'production')
+      store.commit("updateSnack", { message: response.errors, color: "red" })
+  }
 }
 
 export default Api;

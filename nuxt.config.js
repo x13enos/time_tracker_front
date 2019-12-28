@@ -3,6 +3,9 @@ export default {
   /*
    ** Headers of the page
    */
+  server: {
+    host: process.env.HOST_IP || 'localhost' // default: localhost
+  },
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -54,7 +57,7 @@ export default {
   axios: {},
   proxy: {
     '/api': {
-      target: 'http://localhost:3000/graphql',
+      target: process.env.BASE_URL || 'http://localhost:3000/graphql',
       pathRewrite: {
         '^/api' : '/'
       }
