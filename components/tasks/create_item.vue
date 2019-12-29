@@ -26,11 +26,17 @@
             v-model="spentTime"
             placeholder="0.0"
             :disabled="doesNotReadyForAction"
-            @blur="create"
+            @blur="onlyCreate"
           />
         </v-col>
         <v-col>
-          <v-btn @click="createAndStart" :disabled="doesNotReadyForAction || !this.activeDay"> Start </v-btn>
+          <v-btn
+            @click="create"
+            @mouseover="toggleBtnStatus"
+            @mouseout="toggleBtnStatus"
+            :disabled="doesNotReadyForAction || !this.activeDay">
+            Start
+          </v-btn>
         </v-col>
       </v-row>
     </td>
@@ -72,10 +78,9 @@ export default {
     ...mapActions(["addTask"]),
     ...mapMutations(["updateSnack", "updateCounterOfPendingTasks"]),
 
-
-    createAndStart(){
-      this.active = true
-      this.create()
+    onlyCreate(){
+      if(!this.btnStartFocused)
+        this.create()
     },
 
     async create(){
@@ -101,8 +106,12 @@ export default {
         project: this.project,
         description: this.description,
         spentTime: this.spentTime || 0.0,
-        active: this.active
+        active: this.btnStartFocused
       }
+    },
+
+    toggleBtnStatus(){
+        this.btnStartFocused = !this.btnStartFocused
     },
 
     defaultData(){
@@ -111,7 +120,7 @@ export default {
         project: null,
         description: null,
         spentTime: null,
-        active: false
+        btnStartFocused: false
       }
     }
   }

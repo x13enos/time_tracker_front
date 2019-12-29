@@ -16,21 +16,22 @@ const propsData = {
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should set active status', t => {
+test("it should not call create method if start button was focused", async t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const methodStub = sinon.stub(wrapper.vm, "create")
-
-  wrapper.vm.createAndStart()
-  t.true(wrapper.vm.active)
+  wrapper.vm.btnStartFocused = true
+  await wrapper.vm.onlyCreate()
+  t.false(methodStub.called)
 
   methodStub.restore()
 });
 
-test('it should call create method', async t => {
+test("it should call create method if start button wasn't focused", async t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
   const methodStub = sinon.stub(wrapper.vm, "create")
-  await wrapper.vm.createAndStart()
+  wrapper.vm.btnStartFocused = false
+  await wrapper.vm.onlyCreate()
   t.true(methodStub.calledOnce)
-  
+
   methodStub.restore()
 });

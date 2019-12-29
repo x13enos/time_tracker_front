@@ -1,9 +1,19 @@
-version: 2
+version: 2.1
 jobs:
+  build_image:
+    docker:
+      - image: circleci/node:12.10.0
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: |
+          IMAGE=x3enos/time_tracker_front:$CIRCLE_SHA1
+          DEVELOPMENT=x3enos/time_tracker_front:development
+          docker build -t $IMAGE -t $DEVELOPMENT .
+          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker push $IMAGE
+          docker push $DEVELOPMENT
   build:
-    branches:
-      only:
-        - /TT-.*/
     docker:
       - image: circleci/node:12.10.0
 
@@ -27,3 +37,20 @@ jobs:
       - run:
           name: test
           command: npm run ci_test
+
+
+workflows:
+  build_and_deploy:
+    jobs:
+      - build:
+        filters:
+          branches:
+            only:
+              - /TT-.*/
+              - master
+      - build_image:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
