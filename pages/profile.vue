@@ -81,7 +81,7 @@ export default {
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
       passwordRules: [
-        v => (!v || (!!v && (v || "").length > 8)) || 'Password should contain at least 8 characters',
+        v => (!v || (!!v && (v || "").length >= 8)) || 'Password should contain at least 8 characters',
       ],
       form: {
         name: null,
