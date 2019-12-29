@@ -31,6 +31,16 @@
             :disabled="updating"
             required
           />
+
+          <v-text-field
+            v-model="form.password"
+            label="New Password"
+            :disabled="updating"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
+            :rules="passwordRules"
+            @click:append="showPassword = !showPassword"
+          />
         </v-form>
 
         <v-btn
@@ -61,6 +71,7 @@ export default {
   data() {
     return {
       updating: false,
+      showPassword: false,
       valid: true,
       nameRules: [
         v => !!v || 'Name is required',
@@ -69,10 +80,14 @@ export default {
         v => !!v || 'E-mail is required',
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
+      passwordRules: [
+        v => (!v || (!!v && (v || "").length > 8)) || 'Password should contain at least 8 characters',
+      ],
       form: {
         name: null,
         email: null,
-        timezone: null
+        timezone: null,
+        password: null
       }
     }
   },
