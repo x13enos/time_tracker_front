@@ -18,5 +18,5 @@ test("it should set user data from store to the component's data", t => {
   }
   const wrapper = shallowMount(profile, { localVue, store })
 
-  t.deepEqual(wrapper.vm.form, Object.assign(store.state.user, { password: null }))
+  t.deepEqual(wrapper.vm.form, Object.assign(store.state.user, { password: "" }))
 });

@@ -81,13 +81,13 @@ export default {
         v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
       ],
       passwordRules: [
-        v => (!v || (!!v && (v || "").length > 8)) || 'Password should contain at least 8 characters',
+        v => (!v || (!!v && (v || "").length >= 8)) || 'Password should contain at least 8 characters',
       ],
       form: {
-        name: null,
-        email: null,
-        timezone: null,
-        password: null
+        name: "",
+        email: "",
+        timezone: "",
+        password: ""
       }
     }
   },
@@ -112,6 +112,7 @@ export default {
     async save(){
       this.updating = true
       const response = await this.updateUserProfile(this.form)
+      this.form.password = ""
       this.updating = false
     }
   }
