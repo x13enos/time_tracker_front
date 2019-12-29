@@ -17,7 +17,7 @@
 
 <script>
 import Snackbar from '~/components/layout/snackbar.vue'
-import Header from '~/components/layout/Header.vue'
+import Header from '~/components/layout/header.vue'
 
 export default {
   middleware: 'auth',

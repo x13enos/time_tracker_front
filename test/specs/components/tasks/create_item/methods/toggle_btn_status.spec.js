@@ -12,16 +12,13 @@ const propsData = {
   day: new Date(),
   activeDay: false
 }
+
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should return default data', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
-  t.deepEqual(wrapper.vm.defaultData(), {
-    rowClass: "",
-    btnStartFocused: false,
-    description: null,
-    spentTime: null,
-    project: null
-  })
+test('it should set the opposite status for start button', t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  wrapper.vm.btnStartFocused = false
+  wrapper.vm.toggleBtnStatus()
+  t.true(wrapper.vm.btnStartFocused)
 });
