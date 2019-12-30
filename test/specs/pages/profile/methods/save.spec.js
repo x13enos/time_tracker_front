@@ -21,3 +21,14 @@ test("it should call method for updating user profile", t => {
 
   updateStub.restore()
 })
+
+test("it should clean up password field after updating", async t => {
+  const wrapper = shallowMount(profile, { localVue, store })
+  const updateStub = sinon.stub(wrapper.vm, "updateUserProfile")
+  wrapper.vm.form.pasword = "11111111"
+  await wrapper.vm.save()
+
+  t.is(wrapper.vm.form.password, "")
+
+  updateStub.restore()
+})
