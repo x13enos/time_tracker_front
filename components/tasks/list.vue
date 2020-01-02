@@ -37,12 +37,12 @@ import { mapActions, mapState } from 'vuex'
 export default {
   props: {
     day: {
-      type: Date,
+      type: Object,
       required: true
     },
 
     currentDate: {
-      type: Date,
+      type: Object,
       required: true
     }
   },
@@ -62,7 +62,7 @@ export default {
     ...mapState(["tasks"]),
 
     activeDay(){
-      return this.currentDate.setHours(0,0,0,0) === this.day.setHours(0,0,0,0)
+      return this.currentDate.startOf('day').ts === this.day.startOf('day').ts
     },
 
     totalTime(){

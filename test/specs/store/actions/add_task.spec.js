@@ -1,12 +1,13 @@
 import {serial as test} from 'ava';
 import actions from '@/store/actions';
+import { DateTime } from 'luxon';
 
 const commitObject = {
   commit: (type, payload) => {},
   dispatch: (type, payload) => {},
 }
 
-const day = new Date
+const day = DateTime.local();
 
 const success_response = {
   success: () => { return true },
@@ -23,7 +24,7 @@ test("it should call api for creating new time record", async t => {
   const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
   await actions.addTask(commitObject, { params: {}, day })
   t.true(apiStub.calledOnce)
-  t.deepEqual(apiStub.args[0], [{ assignedDate: day.getTime() / 1000 }])
+  t.deepEqual(apiStub.args[0], [{ assignedDate: day.ts / 1000 }])
   apiStub.restore()
 })
 

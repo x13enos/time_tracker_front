@@ -3,12 +3,13 @@ import Vuetify from 'vuetify'
 import { serial as test } from 'ava';
 import Vuex from 'vuex'
 import task from '@/components/tasks/create_item'
+import { DateTime } from 'luxon'
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const day = new Date()
+const day = DateTime.local();
 
 const propsData = { activeDay: false, day }
 const store = new Vuex.Store(fakeStoreData);
