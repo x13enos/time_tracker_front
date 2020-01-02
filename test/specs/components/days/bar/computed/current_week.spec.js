@@ -1,15 +1,19 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
+import Vuex from 'vuex'
 import test from 'ava';
 import bar from '@/components/days/bar'
+import { DateTime } from 'luxon'
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
+localVue.use(Vuex)
 
-const date = new Date('Sun Oct 27 2019 00:00:00 GMT+0000');
+const store = new Vuex.Store(fakeStoreData);
+const date = DateTime.local(2019, 10, 27);
 
 test('it should return formatted range of week', t => {
-  const wrapper = shallowMount(bar, { localVue })
+  const wrapper = shallowMount(bar, { store, localVue })
   wrapper.vm.selectedDate = date
-  t.is(wrapper.vm.currentWeek, '21 October - 27 October')
+  t.is(wrapper.vm.currentWeek, 'October 21 - October 27')
 });

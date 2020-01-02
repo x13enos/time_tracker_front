@@ -3,6 +3,7 @@ import Vuetify from 'vuetify'
 import Vuex from 'vuex'
 import {serial as test} from 'ava';
 import tasksList from '@/components/tasks/list'
+import { DateTime } from 'luxon';
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
@@ -11,8 +12,8 @@ localVue.use(Vuex)
 const $api = { allTimeRecords: () => { return { data: [] } } }
 const store = new Vuex.Store(fakeStoreData)
 const propsData = {
-  day: new Date('Sun Oct 27 2019 00:00:00 GMT+0000'),
-  currentDate: new Date('Sun Oct 27 2019 00:00:00 GMT+0000')
+  day: DateTime.local(2019, 10, 27),
+  currentDate: DateTime.local(2019, 10, 27)
 }
 
 test('it should return total time from received tasks', t => {

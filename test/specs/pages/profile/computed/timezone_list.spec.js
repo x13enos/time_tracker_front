@@ -15,6 +15,6 @@ test("it should collect list of options for timezone select", t => {
   const wrapper = shallowMount(profile, { localVue, store })
   t.deepEqual(wrapper.vm.timezoneList[0], {
     text: "International Date Line West - GMT-12",
-    value: "International Date Line West"
+    value: "Etc/GMT+12"
   })
 });

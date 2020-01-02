@@ -49,7 +49,7 @@ import { mapActions, mapMutations } from 'vuex'
 export default {
   props: {
     day: {
-      type: Date,
+      type: Object,
       required: true
     },
 

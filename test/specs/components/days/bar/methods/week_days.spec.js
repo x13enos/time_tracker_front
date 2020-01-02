@@ -1,27 +1,29 @@
 import { shallowMount, createLocalVue } from '@vue/test-utils'
 import Vuetify from 'vuetify'
+import Vuex from 'vuex'
 import test from 'ava';
-import bar from '@/components/days/bar'
+import bar from '@/components/days/bar';
+import { DateTime } from 'luxon';
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
+localVue.use(Vuex)
 
-const date = new Date('Sun Oct 27 2019 00:00:00 GMT+0000');
+const date = DateTime.local(2019, 10, 24);
+const store = new Vuex.Store(fakeStoreData);
 
 test('it should return 7 days of week', t => {
-  const wrapper = shallowMount(bar, { localVue })
-  const clock = sinon.useFakeTimers(date);
+  const wrapper = shallowMount(bar, { store, localVue })
 
   const days = wrapper.vm.weekDays(date)
   t.deepEqual(days, [
-    new Date('Sun Oct 21 2019 00:00:00 GMT+0000'),
-    new Date('Sun Oct 22 2019 00:00:00 GMT+0000'),
-    new Date('Sun Oct 23 2019 00:00:00 GMT+0000'),
-    new Date('Sun Oct 24 2019 00:00:00 GMT+0000'),
-    new Date('Sun Oct 25 2019 00:00:00 GMT+0000'),
-    new Date('Sun Oct 26 2019 00:00:00 GMT+0000'),
-    new Date('Sun Oct 27 2019 00:00:00 GMT+0000')
+    DateTime.local(2019, 10, 21),
+    DateTime.local(2019, 10, 22),
+    DateTime.local(2019, 10, 23),
+    DateTime.local(2019, 10, 24),
+    DateTime.local(2019, 10, 25),
+    DateTime.local(2019, 10, 26),
+    DateTime.local(2019, 10, 27)
   ])
 
-  clock.restore()
 });

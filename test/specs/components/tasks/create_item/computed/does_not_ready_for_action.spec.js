@@ -4,12 +4,13 @@ import test from 'ava';
 import task from '@/components/tasks/create_item'
 import Vuex from 'vuex'
 import GlobalMethods from '@/services/global_methods'
+import { DateTime } from 'luxon'
 
 const localVue = createLocalVue()
 localVue.use(Vuetify)
 localVue.use(Vuex)
 
-const propsData = { activeDay: true, day: new Date() }
+const propsData = { activeDay: true, day: DateTime.local() }
 
 const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return GlobalMethods.isEmpty(value) } }

@@ -71,5 +71,5 @@ export default {
 }
 
 function dateInUnixFormat(day){
-  return day.getTime() / 1000
+  return day.ts / 1000
 }

@@ -21,7 +21,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    
+
     <v-divider />
 
     <v-tabs v-model="tab" background-color="transparent" @change="getDailyTasks(selectedDate)" grow>
@@ -48,15 +48,16 @@
 
 <script>
   import tasksList from '@/components/tasks/list'
-  import { mapActions } from 'vuex'
+  import { mapActions, mapState } from 'vuex'
+  import { DateTime } from 'luxon'
 
   export default {
     components: { tasksList },
 
     data: function() {
       return {
-        selectedDate: new Date(),
-        currentDate: new Date(),
+        selectedDate: this.currentDateInTimeZone(),
+        currentDate: this.currentDateInTimeZone(),
         tab: null,
         intervalId: null
       }
@@ -67,7 +68,9 @@
     },
 
     created: function () {
-      this.intervalId = setInterval(() => { this.currentDate = new Date() }, 5000)
+      this.intervalId = setInterval(() => {
+        this.currentDate = this.currentDateInTimeZone()
+      }, 5000)
     },
 
     destroyed: function(){
@@ -89,47 +92,34 @@
         "getDailyTasks",
         "checkOnPendingTasks"
       ]),
+      ...mapState(["user"]),
 
       weekDays(passedDate) {
-        const date = new Date(passedDate);
-        const week = new Array();
-        date.setDate((date.getDate() - date.getDay() + (date.getDay() == 0 ? -6 : 1 ) ));
-        for (var i = 0; i < 7; i++) {
-            week.push(new Date(date));
-            date.setDate(date.getDate() +1);
-        }
-        return week;
+        let date = passedDate.startOf('week')
+        return [...Array(7).keys()].map((day) => {
+          return date.plus({ days: day })
+        })
       },
 
       getFormattedDateForTab(date) {
-        const year = date.getFullYear();
-        const month = (1 + date.getMonth()).toString().padStart(2, '0');
-        const day = date.getDate().toString().padStart(2, '0');
-
-        return month + '/' + day + '/' + year;
+        return date.toLocaleString({ month: 'short', day: 'numeric' })
       },
 
       getFormattedDateForWeek(date) {
-        const monthNames = [
-          "January", "February", "March", "April", "May", "June", "July",
-          "August", "September", "October", "November", "December"
-        ]
-
-        const month = date.getMonth()
-        const day = date.getDate().toString()
-
-        return `${day} ${monthNames[month]}`
+        return date.toLocaleString({ month: 'long', day: 'numeric' })
       },
 
       setTheRightTab() {
-        const date = this.selectedDate
-        this.tab = date.getDay() == 0 ? 6 : date.getDay() - 1
+        this.tab = this.selectedDate.weekday - 1
       },
 
       async changeDay(number){
         this.tab = null
-        const newDate = this.selectedDate.getDate() + number
-        this.selectedDate = new Date(this.selectedDate.setDate(newDate))
+        this.selectedDate = this.selectedDate.plus({ days: number })
+      },
+
+      currentDateInTimeZone(){
+        return DateTime.fromObject({ zone: this.user().timezone })
       }
     }
   }
