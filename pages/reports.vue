@@ -46,6 +46,15 @@
         />
       </v-col>
 
+      <v-col cols="3">
+        <v-select
+          v-model="quickDate"
+          :items="quickDates"
+          single-line
+          label="Quick Date"
+        ></v-select>
+      </v-col>
+
       <v-col v-if='users.length' cols="3">
         <v-select
           v-model="filters.userId"
@@ -81,6 +90,7 @@
 <script>
 import dateSelect from "@/components/reports/date_select"
 import { mapGetters, mapState } from 'vuex'
+import { DateTime } from 'luxon'
 
 export default {
 
@@ -90,12 +100,19 @@ export default {
 
   data() {
     return {
+      quickDate: null,
       reportLink: null,
       loadingReport: false,
       fromDateMenu: false,
       tasks: [],
       users: [],
       totalAmount: 0.0,
+      quickDates: [
+        { value: "this_week", text: "This Week" },
+        { value: "last_week", text: "Last Week" },
+        { value: "this_month", text: "This Month" },
+        { value: "last_month", text: "Last Month" }
+      ],
       filters: {
         fromDate: null,
         toDate: null,
@@ -134,6 +151,20 @@ export default {
       },
       deep: true
     },
+
+    quickDate: function(){
+      const currentTime = DateTime.fromObject({ zone: this.user.timezone });
+      switch(this.quickDate){
+        case 'this_week':
+          this.setDates('week', currentTime); break;
+        case 'last_week':
+          this.setDates('week', currentTime.minus({days: 7})); break;
+        case 'this_month':
+          this.setDates('month', currentTime); break;
+        case 'last_month':
+          this.setDates('month', currentTime.minus({month: 1})); break;
+      }
+    }
   },
 
   methods: {
@@ -168,6 +199,11 @@ export default {
         this.reportLink = response.data.link
       }
       this.loadingReport = false
+    },
+
+    setDates(interval, time){
+      this.filters.fromDate = time.startOf(interval).toFormat('yyyy-LL-dd')
+      this.filters.toDate = time.endOf(interval).toFormat('yyyy-LL-dd')
     }
   }
 }
