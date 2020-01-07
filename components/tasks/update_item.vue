@@ -34,10 +34,10 @@
             @blur="update()"
           />
         </v-col>
-        <v-col>
-          <v-btn v-if="active" @click="stop">Stop</v-btn>
-          <v-btn v-else @click="update(true)" :disabled="!activeDay">Continue</v-btn>
-          <v-btn @click="deleteTask({ id })" :disabled="active">Del</v-btn>
+        <v-col class="d-flex text-right">
+          <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
+          <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay">mdi-play-circle</v-icon>
+          <v-icon @click="deleteTask({ id })" :text="true" :large="true" :disabled="active">mdi-delete</v-icon>
         </v-col>
       </v-row>
     </td>
@@ -153,3 +153,12 @@ export default {
   }
 }
 </script>
+
+<style>
+  .clock-image{
+    width: 2.25rem;
+    cursor: pointer;
+    height: inherit;
+    align-items: center;
+  }
+</style>

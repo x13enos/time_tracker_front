@@ -13,7 +13,7 @@ const store = new Vuex.Store(fakeStoreData);
 const mocks = { $api: { allTimeRecords: () => {
   return { success: () => { return false } }
 } } }
-const time = DateTime.fromObject(2020, 1, 2)
+const time = DateTime.fromObject({ year: 2020, month: 1, day: 2 })
 
 test("it should set date from", async t => {
   const wrapper = shallowMount(reports, { localVue, mocks, store })

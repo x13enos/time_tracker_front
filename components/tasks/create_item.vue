@@ -29,14 +29,16 @@
             @blur="onlyCreate"
           />
         </v-col>
-        <v-col>
-          <v-btn
-            @click="create"
-            @mouseover="toggleBtnStatus"
-            @mouseout="toggleBtnStatus"
-            :disabled="doesNotReadyForAction || !this.activeDay">
-            Start
-          </v-btn>
+        <v-col class="d-flex text-right">
+          <v-icon
+          @click="create"
+          :text="true"
+          :large="true"
+          @mouseover="toggleBtnStatus"
+          @mouseout="toggleBtnStatus"
+          :disabled="doesNotReadyForAction || !this.activeDay">
+            mdi-play-circle
+          </v-icon>
         </v-col>
       </v-row>
     </td>
