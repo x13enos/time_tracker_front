@@ -16,6 +16,7 @@
       <v-text-field
         v-model="description"
         placeholder="description"
+        autocomplete="off"
         @input="selectPendingClass"
       />
     </td>

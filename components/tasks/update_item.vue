@@ -18,6 +18,7 @@
       <v-text-field
         v-model="description"
         placeholder="description"
+        autocomplete="off"
         @input="selectPendingClass"
         :disabled="active"
         @blur="update()"
