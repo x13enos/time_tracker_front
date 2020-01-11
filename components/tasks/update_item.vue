@@ -26,17 +26,20 @@
     <td width="20%">
       <v-row>
         <v-col>
-          <v-text-field
-            v-model="spentTime"
-            placeholder="0.0"
-            :disabled="active"
-            @input="selectPendingClass"
-            @blur="update()"
-          />
+          <v-form v-model="valid">
+            <v-text-field
+              v-model="spentTime"
+              placeholder="0.0"
+              :disabled="active"
+              @input="selectPendingClass"
+              :rules="spentTimeRules"
+              @blur="update()"
+            />
+          </v-form>
         </v-col>
         <v-col class="d-flex text-right">
           <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
-          <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay">mdi-play-circle</v-icon>
+          <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
           <v-icon @click="deleteTask({ id })" :text="true" :large="true" :disabled="active">mdi-delete</v-icon>
         </v-col>
       </v-row>
@@ -68,7 +71,11 @@ export default {
       project: this.task.project,
       description: this.task.description,
       spentTime: this.task.spentTime,
-      intervalId: null
+      intervalId: null,
+      valid: true,
+      spentTimeRules: [
+        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) || 'should has format "0.00"',
+      ]
     }
   },
 
@@ -109,6 +116,8 @@ export default {
     ]),
 
     async update(state=false){
+      if(!this.valid)
+        return
       const params = this.formData()
       params.active = state
       const response = await this.updateTask(params)

@@ -22,12 +22,15 @@
     <td width="20%">
       <v-row>
         <v-col>
-          <v-text-field
-            v-model="spentTime"
-            placeholder="0.0"
-            :disabled="doesNotReadyForAction"
-            @blur="onlyCreate"
-          />
+          <v-form v-model="valid">
+            <v-text-field
+              v-model="spentTime"
+              placeholder="0.0"
+              :disabled="doesNotReadyForAction"
+              :rules="spentTimeRules"
+              @blur="onlyCreate"
+            />
+          </v-form>
         </v-col>
         <v-col class="d-flex text-right">
           <v-icon
@@ -36,7 +39,7 @@
           :large="true"
           @mouseover="toggleBtnStatus"
           @mouseout="toggleBtnStatus"
-          :disabled="doesNotReadyForAction || !this.activeDay">
+          :disabled="doesNotReadyForAction || !this.activeDay || !valid">
             mdi-play-circle
           </v-icon>
         </v-col>
@@ -62,7 +65,17 @@ export default {
   },
 
   data: function() {
-    return this.defaultData()
+    return {
+      rowClass: "",
+      project: null,
+      description: null,
+      spentTime: null,
+      btnStartFocused: false,
+      valid: true,
+      spentTimeRules: [
+        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) || 'should has format "0.00"',
+      ],
+    }
   },
 
   computed: {
@@ -81,7 +94,7 @@ export default {
     ...mapMutations(["updateSnack", "updateCounterOfPendingTasks"]),
 
     onlyCreate(){
-      if(!this.btnStartFocused)
+      if(!this.btnStartFocused && this.valid)
         this.create()
     },
 
