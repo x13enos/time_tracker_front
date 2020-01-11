@@ -12,6 +12,17 @@ const propsData = { task: {}, activeDay: false }
 const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: () => {} }
 
+test('it should not call action updateTask if validation was failed', t => {
+  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+  wrapper.vm.valid = false
+  
+  wrapper.vm.update(true)
+  t.false(actionStub.called)
+
+  actionStub.restore()
+});
+
 test('it should call action updateTask and form data should have active status as true', t => {
   const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })

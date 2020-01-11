@@ -4,12 +4,13 @@
       <v-toolbar-title>Login form</v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <v-form>
+      <v-form v-model="valid">
         <v-text-field
           v-model="form.email"
-          label="Login"
-          name="login"
-          type="text"
+          label="Email"
+          name="email"
+          type="email"
+          :rules="emailRules"
         />
         <v-text-field
           id="password"
@@ -24,7 +25,7 @@
       </span>
     </v-card-text>
     <v-card-actions>
-      <v-btn color="primary" @click="onSubmit()">
+      <v-btn color="primary" @click="onSubmit()" :disabled="!valid || !form.password">
         Login
       </v-btn>
     </v-card-actions>
@@ -43,7 +44,11 @@ export default {
         email: '',
         password: ''
       },
-      errorMessage: ''
+      valid: true,
+      errorMessage: '',
+      emailRules: [
+        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+      ],
     }
   },
 

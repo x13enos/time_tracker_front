@@ -9,6 +9,7 @@
         item-key="id"
         single-line
         label="Project"
+        :hide-selected="true"
         :disabled="active"
         @focus="selectPendingClass"
         @change="update()"
@@ -18,6 +19,7 @@
       <v-text-field
         v-model="description"
         placeholder="description"
+        autocomplete="off"
         @input="selectPendingClass"
         :disabled="active"
         @blur="update()"
@@ -26,22 +28,44 @@
     <td width="20%">
       <v-row>
         <v-col>
-          <v-text-field
-            v-model="spentTime"
-            placeholder="0.0"
-            :disabled="active"
-            @input="selectPendingClass"
-            @blur="update()"
-          />
+          <v-form v-model="valid">
+            <v-text-field
+              v-model="spentTime"
+              placeholder="0.0"
+              :disabled="active"
+              @input="selectPendingClass"
+              :rules="spentTimeRules"
+              @blur="update()"
+            />
+          </v-form>
         </v-col>
         <v-col class="d-flex text-right">
           <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
-          <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay">mdi-play-circle</v-icon>
-          <v-icon @click="deleteTask({ id })" :text="true" :large="true" :disabled="active">mdi-delete</v-icon>
+          <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
+          <v-icon @click="dialog = true" :text="true" :large="true" :disabled="active">mdi-delete</v-icon>
         </v-col>
       </v-row>
+      <v-dialog v-model="dialog" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Are you sure?</v-card-title>
+          <v-card-text>
+            Please approve that you want to remove this task.
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="deleteItem">
+              Yes
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </td>
   </tr>
+
+
 </template>
 
 <script>
@@ -68,7 +92,12 @@ export default {
       project: this.task.project,
       description: this.task.description,
       spentTime: this.task.spentTime,
-      intervalId: null
+      intervalId: null,
+      valid: true,
+      dialog: false,
+      spentTimeRules: [
+        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) || 'should has format "0.00"',
+      ]
     }
   },
 
@@ -109,6 +138,8 @@ export default {
     ]),
 
     async update(state=false){
+      if(!this.valid)
+        return
       const params = this.formData()
       params.active = state
       const response = await this.updateTask(params)
@@ -149,6 +180,11 @@ export default {
         this.updateCounterOfPendingTasks(1)
         this.rowClass = "yellow lighten-3"
       }
+    },
+
+    deleteItem(){
+      this.dialog = false
+      this.deleteTask(this.id)
     }
   }
 }
