@@ -9,6 +9,7 @@
         item-key="id"
         single-line
         label="Project"
+        :hide-selected="true"
         :disabled="active"
         @focus="selectPendingClass"
         @change="update()"
