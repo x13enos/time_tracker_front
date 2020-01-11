@@ -79,6 +79,11 @@ export default {
     }
   },
 
+  mounted: function(){
+    if(this.projects.length == 1)
+      this.project = this.projects[0].id
+  },
+
   computed: {
     doesNotReadyForAction(){
       return this.$appMethods.isEmpty(this.project) ||
