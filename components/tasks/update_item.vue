@@ -41,11 +41,30 @@
         <v-col class="d-flex text-right">
           <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
           <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
-          <v-icon @click="deleteTask({ id })" :text="true" :large="true" :disabled="active">mdi-delete</v-icon>
+          <v-icon @click="dialog = true" :text="true" :large="true" :disabled="active">mdi-delete</v-icon>
         </v-col>
       </v-row>
+      <v-dialog v-model="dialog" max-width="290">
+        <v-card>
+          <v-card-title class="headline">Are you sure?</v-card-title>
+          <v-card-text>
+            Please approve that you want to remove this task.
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" text @click="deleteItem">
+              Yes
+            </v-btn>
+            <v-btn color="blue darken-1" text @click="dialog = false">
+              Cancel
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </td>
   </tr>
+
+
 </template>
 
 <script>
@@ -74,6 +93,7 @@ export default {
       spentTime: this.task.spentTime,
       intervalId: null,
       valid: true,
+      dialog: false,
       spentTimeRules: [
         v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) || 'should has format "0.00"',
       ]
@@ -159,6 +179,11 @@ export default {
         this.updateCounterOfPendingTasks(1)
         this.rowClass = "yellow lighten-3"
       }
+    },
+
+    deleteItem(){
+      this.dialog = false
+      this.deleteTask(this.id)
     }
   }
 }
