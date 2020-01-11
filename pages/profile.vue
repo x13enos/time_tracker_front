@@ -64,7 +64,7 @@
 
 <script>
 import Constants from "@/services/constants";
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
 
@@ -107,11 +107,15 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["updateSnack"]),
     ...mapActions(["updateUserProfile"]),
 
     async save(){
       this.updating = true
       const response = await this.updateUserProfile(this.form)
+      if(response.success()){
+        this.updateSnack({ message: "Profile was updated succesfully.", color: "green" })
+      }
       this.form.password = ""
       this.updating = false
     }
