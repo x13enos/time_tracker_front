@@ -184,7 +184,7 @@ export default {
 
     deleteItem(){
       this.dialog = false
-      this.deleteTask(this.id)
+      this.deleteTask({ id: this.id })
     }
   }
 }

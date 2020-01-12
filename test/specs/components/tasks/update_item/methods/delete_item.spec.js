@@ -33,7 +33,7 @@ test('it should call action for deleting time record', t => {
   wrapper.vm.deleteItem()
 
   t.true(actionStub.calledOnce)
-  t.deepEqual(actionStub.args[0], [125])
+  t.deepEqual(actionStub.args[0], [{ id: 125 }])
 
   actionStub.restore()
 });
