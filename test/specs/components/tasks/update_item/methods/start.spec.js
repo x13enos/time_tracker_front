@@ -1,12 +1,5 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const taskData = {
   id: 125,
@@ -14,61 +7,59 @@ const taskData = {
   description: "test",
   spentTime: '0.50'
 }
-
 const propsData = { activeDay: false, task: taskData }
-const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should call mutation keepActiveTaskIntervalId', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should call mutation keepActiveTaskIntervalId', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const mutationStub = sinon.stub(wrapper.vm, "keepActiveTaskIntervalId")
   const timer = sinon.useFakeTimers()
   const intervalStub = sinon.stub(timer, 'setInterval').returns(101)
 
   wrapper.vm.start()
-  t.true(mutationStub.calledOnce)
-  t.deepEqual(mutationStub.args[0], [101])
+  expect(mutationStub.calledOnce).to.be.true
+  expect(mutationStub.args[0]).to.eql([101])
 
   timer.restore()
   intervalStub.restore()
   mutationStub.restore()
 });
 
-test('it should change spent time on 0.01 each 36 seconds', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should change spent time on 0.01 each 36 seconds', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()
   clock.tick(37000);
 
-  t.is(wrapper.vm.spentTime, '0.51')
+  expect(wrapper.vm.spentTime).to.eq('0.51')
 
   clock.restore();
 });
 
-test('it should pass updated time to parent each 36 seconds', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should pass updated time to parent each 36 seconds', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const mutationStub = sinon.stub(wrapper.vm, "updateTaskSpentTime")
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()
   clock.tick(37000);
 
-  t.true(mutationStub.calledOnce)
-  t.deepEqual(mutationStub.args[0], [{ spentTime: 0.51, id: 125 }])
+  expect(mutationStub.calledOnce).to.be.true
+  expect(mutationStub.args[0]).to.eql([{ spentTime: 0.51, id: 125 }])
 
   clock.restore();
   mutationStub.restore();
 });
 
-test('it should not change spent time on 0.01 each 35 seconds', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should not change spent time on 0.01 each 35 seconds', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()
   clock.tick(35000);
 
-  t.is(wrapper.vm.spentTime, '0.50')
+  expect(wrapper.vm.spentTime).to.eq('0.50')
 
   clock.restore();
 });

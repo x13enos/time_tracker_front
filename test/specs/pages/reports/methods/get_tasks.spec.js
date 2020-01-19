@@ -1,16 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import { serial as test } from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import reports from '@/pages/reports'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-
 const mocks = { $api: { allTimeRecords: () => {} } }
-
 const success_response = {
   success: () => { return true },
   data: {
@@ -18,57 +9,54 @@ const success_response = {
     edges: ['edges']
   }
 }
-
 const fail_response = {
   success: () => { return false },
   errors: "errors"
 }
 
-const store = new Vuex.Store(fakeStoreData);
-
-test("it should drop report link", async t => {
+it('should drop report link', async () => {
   const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(fail_response)
-  const wrapper = shallowMount(reports, { localVue, mocks, store })
+  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
   const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
   wrapper.vm.reportLink = "/report.pdf"
 
   await wrapper.vm.getTasks()
-  t.is(wrapper.vm.reportLink, null)
+  expect(wrapper.vm.reportLink).to.eq(null)
 
   apiStub.restore()
   filtersData.restore()
 })
 
-test("it should call method for fetching time records", async t => {
+it('should call method for fetching time records', async () => {
   const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(fail_response)
-  const wrapper = shallowMount(reports, { localVue, mocks, store })
+  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
   const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
 
   await wrapper.vm.getTasks()
 
-  t.true(apiStub.calledOnce)
-  t.deepEqual(apiStub.args[0], ['filters'])
+  expect(apiStub.calledOnce).to.be.true
+  expect(apiStub.args[0]).to.eql(['filters'])
 
   apiStub.restore()
   filtersData.restore()
 })
 
-test("it should set totalAmount if response was successful", async t => {
+it('should set totalAmount if response was successful', async () => {
   const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
-  const wrapper = shallowMount(reports, { localVue, mocks, store })
+  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
   await wrapper.vm.getTasks()
-  t.is(wrapper.vm.totalAmount, 110)
+  expect(wrapper.vm.totalAmount).to.eq(110)
 
   apiStub.restore()
 })
 
-test("it should set tasks from recieved data", async t => {
+it('should set tasks from recieved data', async () => {
   const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
-  const wrapper = shallowMount(reports, { localVue, mocks, store })
+  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
   await wrapper.vm.getTasks()
-  t.deepEqual(wrapper.vm.tasks, ['edges'])
+  expect(wrapper.vm.tasks).to.eql(['edges'])
 
   apiStub.restore()
 })

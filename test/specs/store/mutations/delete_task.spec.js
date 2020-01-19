@@ -1,4 +1,4 @@
-import test from 'ava';
+
 import mutations from '@/store/mutations'
 
 const state = {
@@ -11,7 +11,7 @@ const state = {
   }]
 }
 
-test("it should delete task from list", t => {
+it('should delete task from list', () => {
   mutations.deleteTask(state, 1)
-  t.deepEqual(state.tasks, [])
+  expect(state.tasks).to.eql([])
 })

@@ -1,21 +1,12 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import test from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import bar from '@/components/days/bar'
 import { DateTime } from 'luxon'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
-
-test('it should set interval id to component data', t => {
+it('should set interval id to component data', () => {
   const timeStub = sinon.useFakeTimers()
   const intervalStub = sinon.stub(timeStub, 'setInterval').returns(77)
-  const wrapper = shallowMount(bar, { store, localVue })
-  t.is(wrapper.vm.intervalId, 77)
+  const wrapper = createWrapper(bar, {}, fakeStoreData())
+  expect(wrapper.vm.intervalId).to.eq(77)
 
   intervalStub.restore()
   timeStub.restore()

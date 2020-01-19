@@ -36,7 +36,7 @@ jobs:
 
       - run:
           name: test
-          command: npm run ci_test
+          command: npm run test
 
 
 workflows:

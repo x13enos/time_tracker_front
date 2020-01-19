@@ -36,7 +36,7 @@ module.exports = {
       '@': path.resolve('.'),
       '~': path.resolve('.')
     },
-    extensions: ['.vue']
+    extensions: ['.js', '.vue']
   },
   externals: [require('webpack-node-externals')()],
   devtool: 'inline-cheap-module-source-map'

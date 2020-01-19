@@ -1,4 +1,3 @@
-import test from 'ava';
 import Auth from '@/middleware/auth';
 
 const context = {
@@ -8,22 +7,22 @@ const context = {
   }
 }
 
-test("it should return if store has user email", t => {
+it('should return if store has user email', () => {
   context.store.state.user.email = "john@example.com"
   const dispatchStub = sinon.stub(context.store, "dispatch")
 
   Auth(context)
-  t.false(dispatchStub.called)
+  expect(dispatchStub.called).to.be.false
 
   dispatchStub.restore()
 })
 
-test("it should call action for fecthing user info if store has not user email", t => {
+it('should call action for fecthing user info if store has not user email', () => {
   context.store.state.user.email = null
   const dispatchStub = sinon.stub(context.store, "dispatch")
 
   Auth(context)
-  t.true(dispatchStub.calledOnce)
+  expect(dispatchStub.calledOnce).to.be.true
 
   dispatchStub.restore()
 })

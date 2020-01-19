@@ -1,16 +1,16 @@
-import test from 'ava';
+
 import getters from '@/store/getters'
 
-test("it should return true if user didn't sign in", t => {
+it("should return true if user didn't sign in", () => {
   const state = {
     user: { name: "John Doe" }
   }
-  t.true(getters.userAuthorized(state))
+  expect(getters.userAuthorized(state)).to.be.true
 })
 
-test("it should return false if user already signed in", t => {
+it("should return false if user already signed in", () => {
   const state = {
     user: { name: null }
   }
-  t.false(getters.userAuthorized(state))
+  expect(getters.userAuthorized(state)).to.be.false
 })

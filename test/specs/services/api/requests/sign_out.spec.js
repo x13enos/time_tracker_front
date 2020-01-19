@@ -1,35 +1,38 @@
-import {serial as test} from 'ava';
+
 import Api from '@/services/api/requests';
 import HandlerMock from '@/test/support/handler_mock'
 
 let apiInstance, mock, router, store
+describe("signOut", () =>  {
 
-test.beforeEach(() => {
-  store = { commit: () => {} }
-  router = { push: (path) => {} }
-  apiInstance = new Api(router, store)
-  mock = new HandlerMock()
-})
+  beforeEach(() => {
+    store = { commit: () => {} }
+    router = { push: (path) => {} }
+    apiInstance = new Api(router, store)
+    mock = new HandlerMock()
+  })
 
-test.afterEach(() => {
-  mock.restore()
-})
+  afterEach(() => {
+    mock.restore()
+  })
 
-test("it should call handler", async t => {
-  mock.stub()
-  await apiInstance.signOut()
-  t.truthy(mock.performStub.calledOnce)
-})
+  it('should call handler', async () => {
+    mock.stub()
+    await apiInstance.signOut()
+    expect(mock.performStub.calledOnce).to.be.true
+  })
 
-test("it should pass data to handler", async t => {
-  mock.stub()
-  await apiInstance.signOut()
-  t.deepEqual(mock.performStub.args[0], ['signOutUser', null])
-})
+  it('should pass data to handler', async () => {
+    mock.stub()
+    await apiInstance.signOut()
+    expect(mock.performStub.args[0]).to.eql(['signOutUser', null])
+  })
 
-test("it should return response", async t => {
-  const responceData = { success: () => true, data: "responseData" }
-  mock.stub(responceData)
-  const response = await apiInstance.signOut('data')
-  t.is(response, responceData)
+  it('should return response', async () => {
+    const responceData = { success: () => true, data: "responseData" }
+    mock.stub(responceData)
+    const response = await apiInstance.signOut('data')
+    expect(response).to.eq(responceData)
+  })
+
 })

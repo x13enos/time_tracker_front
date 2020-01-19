@@ -1,28 +1,20 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import { serial as test } from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const day = DateTime.local();
 
 const propsData = { activeDay: false, day }
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should call action addTack', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+it('should call action addTack', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
   const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
 
   wrapper.vm.create()
-  t.true(actionStub.calledOnce)
-  t.deepEqual(actionStub.args[0], [
+  expect(actionStub.calledOnce).to.be.true
+  expect(actionStub.args[0]).to.eql([
     { params: { description: "text" }, day }
   ])
 
@@ -30,32 +22,32 @@ test('it should call action addTack', t => {
   paramsStub.restore()
 });
 
-test('it should clean form data if request was successful', async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+it('should clean form data if request was successful', async () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
   wrapper.vm.description = "new text"
 
   await wrapper.vm.create()
-  t.is(wrapper.vm.description, null)
+  expect(wrapper.vm.description).to.eq(null)
 
   actionStub.restore()
 });
 
-test('it should decrease number of pending tasks if request was successful', async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+it('should decrease number of pending tasks if request was successful', async () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
   const mutationStub = sinon.stub(wrapper.vm, "updateCounterOfPendingTasks")
 
   await wrapper.vm.create()
-  t.true(mutationStub.calledOnce)
-  t.deepEqual(mutationStub.args[0], [-1])
+  expect(mutationStub.calledOnce).to.be.true
+  expect(mutationStub.args[0]).to.eql([-1])
 
   actionStub.restore()
   mutationStub.restore()
 });
 
-test('it should update snack data with passed errors', async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+it('should update snack data with passed errors', async () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const actionStub = sinon.stub(wrapper.vm, "addTask").returns({
     success: () => { return false },
     errors: "Big message of errors"
@@ -63,8 +55,8 @@ test('it should update snack data with passed errors', async t => {
   const mutationStub = sinon.stub(wrapper.vm, "updateSnack")
 
   await wrapper.vm.create()
-  t.true(mutationStub.calledOnce)
-  t.deepEqual(mutationStub.args[0], [{
+  expect(mutationStub.calledOnce).to.be.true
+  expect(mutationStub.args[0]).to.eql([{
     message: "Big message of errors",
     color: "red"
   }])
@@ -73,12 +65,12 @@ test('it should update snack data with passed errors', async t => {
   mutationStub.restore()
 });
 
-test('it should update row color class', async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+it('should update row color class', async () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return false } })
 
   await wrapper.vm.create()
-  t.is(wrapper.vm.rowClass, 'red')
+  expect(wrapper.vm.rowClass).to.eq('red')
 
   actionStub.restore()
 });

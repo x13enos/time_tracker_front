@@ -1,15 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
-import Vuex from 'vuex'
 import GlobalMethods from '@/services/global_methods'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return GlobalMethods.isEmpty(value) } }
 
 const propsData = {
@@ -17,8 +9,9 @@ const propsData = {
   activeDay: false
 }
 
-test('it should return list of projects from store', t => {
+it('should return list of projects from store', () => {
+  const store = fakeStoreData()
   store.state.projects = [1,2,3]
-  const wrapper = shallowMount(task, { localVue, store, mocks: { $appMethods }, propsData } )
-  t.deepEqual(wrapper.vm.projects, [1,2,3])
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, store)
+  expect(wrapper.vm.projects).to.eql([1,2,3])
 });

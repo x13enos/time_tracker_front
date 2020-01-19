@@ -1,12 +1,11 @@
-import test from 'ava';
 import getters from '@/store/getters'
 
-test("it should return true user is admin", t => {
+it('should return true user is admin', () => {
   const state = { user: { role: 'admin' } }
-  t.true(getters.isAdmin(state))
+  expect(getters.isAdmin(state)).to.be.true
 })
 
-test("it should return false if user isn't admin", t => {
+it('should return false if user is not admin', () => {
   const state = { user: { role: 'staff' } }
-  t.false(getters.isAdmin(state))
+  expect(getters.isAdmin(state)).to.be.false
 })

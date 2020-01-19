@@ -1,12 +1,12 @@
-import test from 'ava';
+
 import getters from '@/store/getters'
 
-test("it should return true if number of pending tasks is more than 0", t => {
+it('should return true if number of pending tasks is more than 0', () => {
   const state = { counterOfPendingTasks: 4 }
-  t.true(getters.somePendingTasks(state))
+  expect(getters.somePendingTasks(state)).to.be.true
 })
 
-test("it should return false if number of pending tasks less or equal to 0", t => {
+it('should return false if number of pending tasks less or equal to 0', () => {
   const state = { counterOfPendingTasks: 0 }
-  t.false(getters.somePendingTasks(state))
+  expect(getters.somePendingTasks(state)).to.be.false
 })

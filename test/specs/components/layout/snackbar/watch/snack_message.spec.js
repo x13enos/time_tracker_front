@@ -1,26 +1,19 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava'
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import snackbar from '@/components/layout/snackbar'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
-
-test('it should set show value as true if message is present', t => {
-  const wrapper = shallowMount(snackbar, { localVue, store })
+it('should set show value as true if message is present', () => {
+  const store = fakeStoreData()
+  const wrapper = createWrapper(snackbar, {}, store)
   wrapper.vm.show = false
   store.state.snack.message = "test message"
-  t.true(wrapper.vm.show)
+  expect(wrapper.vm.show).to.be.true
 });
 
-test('it should not set show value as true if message is empty', t => {
-  const wrapper = shallowMount(snackbar, { localVue, store })
+it('should not set show value as true if message is empty', () => {
+  const store = fakeStoreData()
+  const wrapper = createWrapper(snackbar, {}, store)
   store.state.snack.message = "test message"
   wrapper.vm.show = false
   store.state.snack.message = ""
-  t.false(wrapper.vm.show)
+  expect(wrapper.vm.show).to.be.false
 });

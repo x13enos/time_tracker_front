@@ -1,38 +1,30 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import { serial as test } from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const propsData = {
   day: DateTime.local(),
   activeDay: false
 }
 
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test("it should not call create method if start button was focused", async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should not call create method if start button was focused', async () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const methodStub = sinon.stub(wrapper.vm, "create")
   wrapper.vm.btnStartFocused = true
   await wrapper.vm.onlyCreate()
-  t.false(methodStub.called)
+  expect(methodStub.called).to.be.false
 
   methodStub.restore()
 });
 
-test("it should call create method if start button wasn't focused", async t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should call create method if start button was not focused', async () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const methodStub = sinon.stub(wrapper.vm, "create")
   wrapper.vm.btnStartFocused = false
   await wrapper.vm.onlyCreate()
-  t.true(methodStub.calledOnce)
+  expect(methodStub.calledOnce).to.be.true
 
   methodStub.restore()
 });

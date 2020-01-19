@@ -1,23 +1,16 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import test from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
+
 import bar from '@/components/days/bar'
 import { DateTime } from 'luxon'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
-
-test("it should use user's timezone", async t => {
+it("should use user's timezone", async () => {
+  const store = fakeStoreData()
   store.state.user.timezone = "Europe/Kiev"
   const date = DateTime.local()
   const dateTimeStub = sinon.stub(DateTime, 'fromObject').returns(date)
-  const wrapper = await shallowMount(bar, { store, localVue })
+  const wrapper = await createWrapper(bar, {}, store)
 
-  t.true(dateTimeStub.called)
-  t.deepEqual(dateTimeStub.args[0], [{ zone: "Europe/Kiev" }])
+  expect(dateTimeStub.called).to.be.true
+  expect(dateTimeStub.args[0]).to.eql([{ zone: "Europe/Kiev" }])
   dateTimeStub.restore()
 });

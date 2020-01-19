@@ -1,33 +1,37 @@
-const store_data = {
-  state: {
-    projects: [],
-    counterOfPendingTasks: 0,
-    user: {
-      name: null,
-      email: null,
-      timezone: null
+const store_data = function (){
+  return {
+    state: {
+      projects: [],
+      counterOfPendingTasks: 0,
+      user: {
+        name: null,
+        email: null,
+        timezone: null
+      },
+      snack: {
+        message: "",
+        color: ""
+      }
     },
-    snack: {
-      message: "",
-      color: ""
+    actions: {
+      signIn: () => {},
+      addTask: () => {},
+      updateTask: () => {},
+      deleteTask: () => {}
+    },
+    mutations: {
+      updateUserData: () => {},
+      updateProjects: () => {},
+      updateTaskSpentTime: () => {},
+      keepActiveTaskIntervalId: () => {},
+      updateSnack: () => {},
+      updateCounterOfPendingTasks: () => {},
+      updatePersonalInfo: () => {},
+      clearActiveTaskIntervalId: () => {}
+    },
+    getters: {
+      isAdmin: () => {}
     }
-  },
-  actions: {
-    signIn: () => {},
-    addTask: () => {},
-    updateTask: () => {}
-  },
-  mutations: {
-    updateUserData: () => {},
-    updateProjects: () => {},
-    updateTaskSpentTime: () => {},
-    keepActiveTaskIntervalId: () => {},
-    updateSnack: () => {},
-    updateCounterOfPendingTasks: () => {},
-    updatePersonalInfo: () => {}
-  },
-  getters: {
-    isAdmin: () => {}
   }
 }
 

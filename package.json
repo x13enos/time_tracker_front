@@ -10,8 +10,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "mocha-webpack --webpack-config ./test/mocha-webpack.config.js --colors --reporter=dot --require ./test/_setup.js ./test/**/current_week.spec.js",
-    "ci_test": "ava --color"
+    "test": "mocha-webpack --webpack-config ./test/mocha-webpack.config.js --colors --reporter=dot --require ./test/_setup.js ./test/**/*.spec.js"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",

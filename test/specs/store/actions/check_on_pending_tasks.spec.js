@@ -1,4 +1,4 @@
-import test from 'ava';
+
 import actions from '@/store/actions';
 
 const storeObject = {
@@ -10,77 +10,77 @@ const callbackObject = {
   callback: () => {}
 }
 
-test("it should raise confirm if some pending tasks are there", t => {
+it('should raise confirm if some pending tasks are there', () => {
   storeObject.getters.somePendingTasks = true
 
   const confirmStub = sinon.stub(global, "confirm")
   actions.checkOnPendingTasks(storeObject, callbackObject.callback)
 
-  t.true(confirmStub.calledOnce)
-  t.deepEqual(confirmStub.args[0], ['Changes that you made may not be saved.'])
+  expect(confirmStub.calledOnce).to.be.true
+  expect(confirmStub.args[0]).to.eql(['Changes that you made may not be saved.'])
   confirmStub.restore()
 })
 
-test("it should call mutation of cleaning counter pending tasks if confirm was successful", t => {
+it('should call mutation of cleaning counter pending tasks if confirm was successful', () => {
   storeObject.getters.somePendingTasks = true
 
   const confirmStub = sinon.stub(global, "confirm").returns(true)
   const commitStub = sinon.stub(storeObject, "commit")
   actions.checkOnPendingTasks(storeObject, callbackObject.callback)
 
-  t.true(commitStub.calledOnce)
-  t.deepEqual(commitStub.args[0], ["cleanCounterOfPendingTasks"])
+  expect(commitStub.calledOnce).to.be.true
+  expect(commitStub.args[0]).to.eql(["cleanCounterOfPendingTasks"])
 
   confirmStub.restore()
   commitStub.restore()
 })
 
-test("it should launch callback if confirm was successful", t => {
+it('should launch callback if confirm was successful', () => {
   storeObject.getters.somePendingTasks = true
 
   const confirmStub = sinon.stub(global, "confirm").returns(true)
   const callbackSpy = sinon.spy(callbackObject, "callback")
   actions.checkOnPendingTasks(storeObject, callbackObject.callback)
 
-  t.true(callbackSpy.calledOnce)
+  expect(callbackSpy.calledOnce).to.be.true
 
   confirmStub.restore()
   callbackSpy.restore()
 })
 
-test("it should not call mutation of cleaning counter pending tasks if confirm was failed", t => {
+it('should not call mutation of cleaning counter pending tasks if confirm was failed', () => {
   storeObject.getters.somePendingTasks = true
 
   const confirmStub = sinon.stub(global, "confirm").returns(false)
   const commitStub = sinon.stub(storeObject, "commit")
   actions.checkOnPendingTasks(storeObject, callbackObject.callback)
 
-  t.false(commitStub.calledOnce)
+  expect(commitStub.calledOnce).to.be.false
 
   confirmStub.restore()
   commitStub.restore()
 })
 
-test("it should not launch callback if confirm was not successful", t => {
+it('should not launch callback if confirm was not successful', () => {
   storeObject.getters.somePendingTasks = true
 
   const confirmStub = sinon.stub(global, "confirm").returns(false)
   const callbackSpy = sinon.spy(callbackObject, "callback")
   actions.checkOnPendingTasks(storeObject, callbackObject.callback)
 
-  t.false(callbackSpy.calledOnce)
+  expect(callbackSpy.calledOnce).to.be.false
 
   confirmStub.restore()
   callbackSpy.restore()
 })
 
-test("it should launch callback if pending tasks weren't found", t => {
+it("should launch callback if pending tasks weren't found", () => {
   storeObject.getters.somePendingTasks = false
 
   const callbackSpy = sinon.spy(callbackObject, "callback")
   actions.checkOnPendingTasks(storeObject, callbackObject.callback)
 
-  t.true(callbackSpy.calledOnce)
+  expect(callbackSpy.calledOnce).to.be.true
 
   callbackSpy.restore()
 })

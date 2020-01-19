@@ -1,4 +1,4 @@
-import test from 'ava';
+
 import mutations from '@/store/mutations'
 
 const state = {
@@ -7,7 +7,7 @@ const state = {
 
 const projects = [1,2,3]
 
-test("it should update list of projects", t => {
+it('should update list of projects', () => {
   mutations.updateProjects(state, projects)
-  t.deepEqual(state.projects, [1,2,3])
+  expect(state.projects).to.eql([1,2,3])
 })

@@ -1,4 +1,4 @@
-import {serial as test} from 'ava';
+
 import axios from 'axios';
 import Handler from '@/services/api/handler';
 import { localStorageMock } from '@/test/support/local_storage_mock'
@@ -19,37 +19,37 @@ const failedRequest = {
 global.localStorage = localStorageMock
 
 
-test("it should make a request via axios", async t => {
+it('should make a request via axios', async () => {
   const handlerStub = sinon.stub(axios, 'post').returns(successRequest)
   await new Handler().perform('signInUser', 'data')
-  t.truthy(handlerStub.calledOnce)
+  expect(handlerStub.calledOnce).to.be.true
   handlerStub.restore()
 })
 
-test("it should return handled response with data", async t => {
+it('should return handled response with data', async () => {
   const handlerStub = sinon.stub(axios, 'post').returns(successRequest)
   const handledResponse = await new Handler().perform('signInUser', 'data')
-  t.is(handledResponse.data, "response")
+  expect(handledResponse.data).to.eq("response")
   handlerStub.restore()
 })
 
-test("it should return true for success function if request was succesfull", async t => {
+it('should return true for success function if request was succesfull', async () => {
   const handlerStub = sinon.stub(axios, 'post').returns(successRequest)
   const handledResponse = await new Handler().perform('signInUser', 'data')
-  t.truthy(handledResponse.success())
+  expect(handledResponse.success()).to.be.true
   handlerStub.restore()
 })
 
-test("it should return false for success function if request was failed", async t => {
+it('should return false for success function if request was failed', async () => {
   const handlerStub = sinon.stub(axios, 'post').returns(failedRequest)
   const handledResponse = await new Handler().perform('signInUser', 'data')
-  t.false(handledResponse.success())
+  expect(handledResponse.success()).to.be.false
   handlerStub.restore()
 })
 
-test("it should return errors if request was failed", async t => {
+it('should return errors if request was failed', async () => {
   const handlerStub = sinon.stub(axios, 'post').returns(failedRequest)
   const handledResponse = await new Handler().perform('signInUser', 'data')
-  t.is(handledResponse.errors, 'errors!')
+  expect(handledResponse.errors).to.eq('errors!')
   handlerStub.restore()
 })

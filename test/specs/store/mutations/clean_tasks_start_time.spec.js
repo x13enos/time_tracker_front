@@ -1,4 +1,4 @@
-import test from 'ava';
+
 import mutations from '@/store/mutations'
 
 const state = {
@@ -11,7 +11,7 @@ const state = {
   }]
 }
 
-test("it should clear time start for task", t => {
+it('should clear time start for task', () => {
   mutations.cleanTasksStartTime(state)
-  t.is(state.tasks[0].timeStart, null)
+  expect(state.tasks[0].timeStart).to.eq(null)
 })

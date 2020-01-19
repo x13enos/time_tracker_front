@@ -1,12 +1,5 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import {serial as test} from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 let wrapper, updatingSpentTimeStub, startTaskStub;
 
@@ -17,22 +10,18 @@ const taskData = {
   spentTime: 0.5,
   timeStart: 28218231828
 }
-
 const propsData = { activeDay: false, task: taskData }
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return false } }
-
 const newData = {
   description: "new text"
 }
-
 const methods = { start: () => {} }
 
-test('it should call method for starting task', t => {
+it('should call method for starting task', () => {
   startTaskStub = sinon.stub(methods, "start")
-  const wrapper = shallowMount(task, { localVue, store, methods, propsData, mocks: { $appMethods } })
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods }, methods }, fakeStoreData())
 
-  t.true(startTaskStub.calledOnce)
+  expect(startTaskStub.calledOnce).to.be.true
 
   startTaskStub.restore()
 });

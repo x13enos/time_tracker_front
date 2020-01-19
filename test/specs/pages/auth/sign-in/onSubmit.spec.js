@@ -1,17 +1,5 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuex from 'vuex'
-import VueRouter from "vue-router"
-import Vuetify from 'vuetify'
-import {serial as test} from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import signIn from '@/pages/auth/sign-in'
-
-const localVue = createLocalVue()
-localVue.use(Vuex);
-localVue.use(VueRouter)
-localVue.use(Vuetify)
-
-const store = new Vuex.Store(fakeStoreData);
-const router = new VueRouter()
 
 const successResponse = {
   success: () => { return true },
@@ -20,46 +8,46 @@ const successResponse = {
   }
 }
 
-test('it should call action with filled data', async t => {
+it('should call action with filled data', async () => {
   const $api = {
     signIn: () => { return successResponse }
   }
   const actionSpy = sinon.spy($api, "signIn")
-  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
+  const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
   Object.assign(wrapper.vm, { form: { email: 'example@gmail.com', password: '11111111' } })
 
   await wrapper.vm.onSubmit()
-  t.true(actionSpy.calledOnce)
-  t.deepEqual(actionSpy.args[0], [{ email: 'example@gmail.com', password: '11111111' }])
+  expect(actionSpy.calledOnce).to.be.true
+  expect(actionSpy.args[0]).to.eql([{ email: 'example@gmail.com', password: '11111111' }])
 
   actionSpy.restore()
 });
 
-test('it should update user data in store if status is success', async t => {
+it('should update user data in store if status is success', async () => {
   const $api = { signIn: () => { return successResponse } }
-  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
+  const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
   const mutationStub = sinon.stub(wrapper.vm, 'updatePersonalInfo')
 
   await wrapper.vm.onSubmit()
-  t.true(mutationStub.calledOnce)
-  t.deepEqual(mutationStub.args[0], [{ token: "123" }])
+  expect(mutationStub.calledOnce).to.be.true
+  expect(mutationStub.args[0]).to.eql([{ token: "123" }])
 
   mutationStub.restore()
 });
 
-test('it should redirect user to main page if status is success', async t => {
+it('should redirect user to main page if status is success', async () => {
   const $api = { signIn: () => { return successResponse } }
-  const routerStub = sinon.stub(router, 'replace')
-  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
+  const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
+  const routerStub = sinon.stub(wrapper.vm.$router, 'replace')
 
   await wrapper.vm.onSubmit()
-  t.true(routerStub.calledOnce)
-  t.deepEqual(routerStub.args[0], [{ path: '/tasks' }])
+  expect(routerStub.calledOnce).to.be.true
+  expect(routerStub.args[0]).to.eql([{ path: '/tasks' }])
 
   routerStub.restore()
 });
 
-test('it should write errors from response to variable if status is "fail"', async t => {
+it('should write errors from response to variable if status is "fail"', async () => {
   const failResponse = {
     success: () => { return false },
     errors: "ERROR!!!"
@@ -67,9 +55,9 @@ test('it should write errors from response to variable if status is "fail"', asy
   const $api = {
     signIn: () => { return failResponse }
   }
-  const wrapper = shallowMount(signIn, { localVue, store, router, mocks: { $api } })
+  const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
 
   await wrapper.vm.onSubmit()
 
-  t.is(wrapper.vm.errorMessage, "ERROR!!!")
+  expect(wrapper.vm.errorMessage).to.eq("ERROR!!!")
 });
