@@ -1,39 +1,34 @@
-import { shallowMount, createLocalVue, RouterLinkStub } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import VueRouter from "vue-router"
-import {serial as test} from 'ava'
+import createWrapper from '@/test/support/create_wrapper.js'
+import { RouterLinkStub } from '@vue/test-utils'
 import header from '@/components/layout/header'
-
-const localVue = createLocalVue()
-localVue.use(VueRouter)
-localVue.use(Vuetify)
-
-const router = new VueRouter()
 
 const $api = {
   signOut: () => { return {} }
 }
 
-test('it should call api method for sign out ', async t => {
+it('should call api method for sign out ', async () => {
   const actionSpy = sinon.spy($api, "signOut")
-  const wrapper = shallowMount(header,
-    { localVue, router, mocks: { $api }, stubs: { NuxtLink: RouterLinkStub } }
+  const wrapper = createWrapper(header,
+    { mocks: { $api }, stubs: { NuxtLink: RouterLinkStub } },
+    fakeStoreData()
   )
 
   await wrapper.vm.signOut()
-  t.true(actionSpy.calledOnce)
+  expect(actionSpy.calledOnce).to.be.true
 
   actionSpy.restore()
 });
 
-test('it should redirect to sign in page', async t => {
-  const routerStub = sinon.stub(router, "push")
-  const wrapper = shallowMount(header,
-    { localVue, router, mocks: { $api }, stubs: { NuxtLink: RouterLinkStub } }
+it('should redirect to sign in page', async () => {
+  const wrapper = createWrapper(header,
+    { mocks: { $api }, stubs: { NuxtLink: RouterLinkStub } },
+    fakeStoreData()
   )
+  const routerStub = sinon.stub(wrapper.vm.$router, "push")
+
   await wrapper.vm.signOut()
-  t.true(routerStub.calledOnce)
-  t.deepEqual(routerStub.args[0], ["/auth/sign-in"])
+  expect(routerStub.calledOnce).to.be.true
+  expect(routerStub.args[0]).to.eql(["/auth/sign-in"])
 
   routerStub.restore()
 });

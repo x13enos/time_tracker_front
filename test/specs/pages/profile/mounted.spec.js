@@ -1,22 +1,14 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuex from 'vuex'
-import Vuetify from 'vuetify'
-import test from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import profile from '@/pages/profile'
 
-const localVue = createLocalVue()
-localVue.use(Vuex);
-localVue.use(Vuetify)
-
-const store = new Vuex.Store(fakeStoreData);
-
-test("it should set user data from store to the component's data", t => {
+it("should set user data from store to the component's data", () => {
+  const store = fakeStoreData()
   store.state.user = {
     name: "John",
     email: "john@example.com",
     timezone: "NY"
   }
-  const wrapper = shallowMount(profile, { localVue, store })
+  const wrapper = createWrapper(profile, {}, store)
 
-  t.deepEqual(wrapper.vm.form, Object.assign(store.state.user, { password: "" }))
+  expect(wrapper.vm.form).to.eql(Object.assign(store.state.user, { password: "" }))
 });

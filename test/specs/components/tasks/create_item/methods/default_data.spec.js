@@ -1,24 +1,16 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const propsData = {
   day: DateTime.local(),
   activeDay: false
 }
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should return default data', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
-  t.deepEqual(wrapper.vm.defaultData(), {
+it('should return default data', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+  expect(wrapper.vm.defaultData()).to.eql({
     rowClass: "",
     btnStartFocused: false,
     description: null,

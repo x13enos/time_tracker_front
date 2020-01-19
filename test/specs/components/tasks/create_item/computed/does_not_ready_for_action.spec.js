@@ -1,41 +1,33 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
-import Vuex from 'vuex'
+
 import GlobalMethods from '@/services/global_methods'
 import { DateTime } from 'luxon'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
 const propsData = { activeDay: true, day: DateTime.local() }
-
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: (value) => { return GlobalMethods.isEmpty(value) } }
 
-test('it should return true if project and description are empty and there is not active day ', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should return true if project and description are empty and there is not active day ', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   Object.assign(wrapper.vm, { project: null, description: null })
-  t.true(wrapper.vm.doesNotReadyForAction)
+  expect(wrapper.vm.doesNotReadyForAction).to.be.true
 });
 
-test('it should return true if only project is present', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should return true if only project is present', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   wrapper.vm.project = '1'
   Object.assign(wrapper.vm, { project: "1", description: null })
-  t.true(wrapper.vm.doesNotReadyForAction)
+  expect(wrapper.vm.doesNotReadyForAction).to.be.true
 });
 
-test('it should return true if only description is present', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should return true if only description is present', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   Object.assign(wrapper.vm, { project: null, description: "1" })
-  t.true(wrapper.vm.doesNotReadyForAction)
+  expect(wrapper.vm.doesNotReadyForAction).to.be.true
 });
 
-test('it should return false if description and project are not empty', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should return false if description and project are not empty', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   Object.assign(wrapper.vm, { project: "1", description: "1" })
-  t.false(wrapper.vm.doesNotReadyForAction)
+  expect(wrapper.vm.doesNotReadyForAction).to.be.false
 });

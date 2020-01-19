@@ -1,28 +1,18 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import test from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import bar from '@/components/days/bar'
 import { DateTime } from 'luxon'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
 
 const methods = {
   weekDays: () => { return [] },
   setTheRightTab: () => {}
 }
-
 const date = DateTime.local(2019, 10, 27);
 
-test('it should call method for selecting right tab', t => {
+it('should call method for selecting right tab', () => {
   const tabChooserStub = sinon.stub(methods, "setTheRightTab")
-  const wrapper = shallowMount(bar, { store, localVue, methods })
+  const wrapper = createWrapper(bar, { methods }, fakeStoreData())
 
-  t.true(tabChooserStub.calledOnce)
+  expect(tabChooserStub.calledOnce).to.be.true
 
   tabChooserStub.restore()
 });

@@ -1,25 +1,16 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const propsData = {
   day: DateTime.local(),
   activeDay: false
 }
-
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should set the opposite status for start button', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+it('should set the opposite status for start button', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   wrapper.vm.btnStartFocused = false
   wrapper.vm.toggleBtnStatus()
-  t.true(wrapper.vm.btnStartFocused)
+  expect(wrapper.vm.btnStartFocused).to.be.true
 });

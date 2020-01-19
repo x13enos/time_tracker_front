@@ -1,54 +1,58 @@
-import {serial as test} from 'ava';
 import actions from '@/store/actions';
 import { DateTime } from 'luxon';
 
-const commitObject = {
-  commit: (type, payload) => {},
-  dispatch: (type, payload) => {},
-}
+describe("addTask", () => {
+  const commitObject = {
+    commit: (type, payload) => {},
+    dispatch: (type, payload) => {},
+  }
 
-const day = DateTime.local();
+  const day = DateTime.local();
 
-const success_response = {
-  success: () => { return true },
-  data: 'data'
-}
-const fail_response = {
-  success: () => { return false },
-  errors: "errors"
-}
+  const success_response = {
+    success: () => { return true },
+    data: 'data'
+  }
+  const fail_response = {
+    success: () => { return false },
+    errors: "errors"
+  }
 
-actions.$api = { createTimeRecord: () => {} }
+  before(() => {
+    actions.$api = { createTimeRecord: () => {} }
+  })
 
-test("it should call api for creating new time record", async t => {
-  const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
-  await actions.addTask(commitObject, { params: {}, day })
-  t.true(apiStub.calledOnce)
-  t.deepEqual(apiStub.args[0], [{ assignedDate: day.ts / 1000 }])
-  apiStub.restore()
-})
+  it('should call api for creating new time record', async () => {
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    await actions.addTask(commitObject, { params: {}, day })
+    expect(apiStub.calledOnce).to.be.true
+    expect(apiStub.args[0]).to.eql([{ assignedDate: day.ts / 1000 }])
+    apiStub.restore()
+  })
 
-test("it should commit data if response is success", async t => {
-  const commitStub = sinon.stub(commitObject, 'commit')
-  const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
-  await actions.addTask(commitObject, { params: {}, day })
-  t.deepEqual(commitStub.args[0], [ 'addTask', 'data' ])
-  apiStub.restore()
-  commitStub.restore()
-})
+  it('should commit data if response is success', async () => {
+    const commitStub = sinon.stub(commitObject, 'commit')
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    await actions.addTask(commitObject, { params: {}, day })
+    expect(commitStub.args[0]).to.eql([ 'addTask', 'data' ])
+    apiStub.restore()
+    commitStub.restore()
+  })
 
-test("it should call action stopOtherTasks if response is success", async t => {
-  const dispatchStub = sinon.stub(commitObject, 'dispatch')
-  const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
-  await actions.addTask(commitObject, { params: {}, day })
-  t.deepEqual(dispatchStub.args[0], [ 'stopOtherTasks', 'data' ])
-  apiStub.restore()
-  dispatchStub.restore()
-})
+  it('should call action stopOtherTasks if response is success', async () => {
+    const dispatchStub = sinon.stub(commitObject, 'dispatch')
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    await actions.addTask(commitObject, { params: {}, day })
+    expect(dispatchStub.args[0]).to.eql(['stopOtherTasks', 'data' ])
+    apiStub.restore()
+    dispatchStub.restore()
+  })
 
-test("it should return response", async t => {
-  const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
-  const response = await actions.addTask(commitObject, { params: {}, day })
-  t.deepEqual(response, success_response)
-  apiStub.restore()
+  it('should return response', async () => {
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    const response = await actions.addTask(commitObject, { params: {}, day })
+    expect(response).to.eql(success_response)
+    apiStub.restore()
+  })
+
 })

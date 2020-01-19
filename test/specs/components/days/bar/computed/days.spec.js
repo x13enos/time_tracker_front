@@ -1,15 +1,7 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import test from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import bar from '@/components/days/bar'
 import { DateTime } from 'luxon'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
 const date = DateTime.local(2019, 10, 27);
 
 const methods = {
@@ -17,17 +9,17 @@ const methods = {
   getFormattedDateForWeek: (value) => { return "" }
 }
 
-test('it should call method for selecting days of week', t => {
+it('should call method for selecting days of week', () => {
   const methodStub = sinon.stub(methods, "weekDays").returns([date])
-  const wrapper = shallowMount(bar, { store, localVue, methods })
+  const wrapper = createWrapper(bar, { methods }, fakeStoreData())
 
-  t.true(methodStub.calledOnce)
+  expect(methodStub.calledOnce).be.true
 
   methodStub.restore()
 });
 
-test('it should return days of week', t => {
-  const wrapper = shallowMount(bar, { store, localVue, methods })
+it('should return days of week', () => {
+  const wrapper = createWrapper(bar, { methods }, fakeStoreData())
 
-  t.deepEqual(wrapper.vm.days, [date])
+  expect(wrapper.vm.days).to.eql([date])
 });

@@ -1,12 +1,5 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const taskData = {
   id: 125,
@@ -14,29 +7,27 @@ const taskData = {
   description: "test",
   spentTime: '0.50'
 }
-
 const propsData = { activeDay: false, task: taskData }
-const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should call mutation for clearing interval id', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should call mutation for clearing interval id', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const mutationStub = sinon.stub(wrapper.vm, "clearActiveTaskIntervalId")
   const updateStub = sinon.stub(wrapper.vm, "update")
 
   wrapper.vm.stop()
-  t.true(mutationStub.calledOnce)
+  expect(mutationStub.calledOnce).to.be.true
 
   updateStub.restore()
   mutationStub.restore()
 });
 
 
-test('it should call update method', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should call update method', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const updateStub = sinon.stub(wrapper.vm, "update")
 
   wrapper.vm.stop()
-  t.true(updateStub.calledOnce)
+  expect(updateStub.calledOnce).to.be.true
   updateStub.restore()
 });

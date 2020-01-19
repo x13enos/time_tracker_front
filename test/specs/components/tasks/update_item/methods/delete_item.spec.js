@@ -1,12 +1,5 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const taskData = {
   id: 125,
@@ -16,24 +9,23 @@ const taskData = {
 }
 
 const propsData = { activeDay: false, task: taskData }
-const store = new Vuex.Store(fakeStoreData)
 const $appMethods = { isEmpty: (value) => { return true } }
 
-test('it should change dialog flag', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should change dialog flag', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
 
   wrapper.vm.deleteItem()
-  t.false(wrapper.vm.dialog)
+  expect(wrapper.vm.dialog).to.be.false
 });
 
 
-test('it should call action for deleting time record', t => {
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } } )
+it('should call action for deleting time record', () => {
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const actionStub = sinon.stub(wrapper.vm, 'deleteTask')
   wrapper.vm.deleteItem()
 
-  t.true(actionStub.calledOnce)
-  t.deepEqual(actionStub.args[0], [{ id: 125 }])
+  expect(actionStub.calledOnce).to.be.true
+  expect(actionStub.args[0]).to.eql([{ id: 125 }])
 
   actionStub.restore()
 });

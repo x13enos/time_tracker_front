@@ -1,23 +1,16 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import { serial as test } from 'ava';
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
-
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
 
 const day = DateTime.local();
 
 const propsData = { activeDay: false, day }
-const store = new Vuex.Store(fakeStoreData);
 const $appMethods = { isEmpty: () => {} }
 
-test('it should select project if it is only one in list', t => {
+it('should select project if it is only one in list', () => {
+  const store = fakeStoreData()
   store.state.projects = [{ id: 15, name: "First" }]
-  const wrapper = shallowMount(task, { localVue, store, propsData, mocks: { $appMethods } })
+  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, store)
 
-  t.is(wrapper.vm.project, 15)
+  expect(wrapper.vm.project).to.eq(15)
 });

@@ -1,45 +1,49 @@
-import {serial as test} from 'ava';
+
 import Api from '@/services/api/requests';
 import HandlerMock from '@/test/support/handler_mock'
 
 let apiInstance, mock, router, store
 const date = new Date()
 
-test.beforeEach(() => {
-  store = { commit: () => {} }
-  router = { push: (path) => {} }
-  apiInstance = new Api(router, store)
-  mock = new HandlerMock()
-})
+describe("dailyTimeRecords", () =>  {
 
-test.afterEach(() => {
-  mock.restore()
-})
+  beforeEach(() => {
+    store = { commit: () => {} }
+    router = { push: (path) => {} }
+    apiInstance = new Api(router, store)
+    mock = new HandlerMock()
+  })
 
-test("it should call handler", async t => {
-  mock.stub()
-  await apiInstance.dailyTimeRecords(date)
-  t.truthy(mock.performStub.calledOnce)
-})
+  afterEach(() => {
+    mock.restore()
+  })
 
-test("it should pass data to handler", async t => {
-  mock.stub()
-  await apiInstance.dailyTimeRecords(date)
-  t.deepEqual(mock.performStub.args[0], ['dailyTimeRecords', date])
-})
+  it('should call handler', async () => {
+    mock.stub()
+    await apiInstance.dailyTimeRecords(date)
+    expect(mock.performStub.calledOnce).to.be.true
+  })
 
-test("it should return response", async t => {
-  const responceData = { success: () => true, data: "responseData" }
-  mock.stub(responceData)
-  const response = await apiInstance.dailyTimeRecords(date)
-  t.is(response, responceData)
-})
+  it('should pass data to handler', async () => {
+    mock.stub()
+    await apiInstance.dailyTimeRecords(date)
+    expect(mock.performStub.args[0]).to.eql(['dailyTimeRecords', date])
+  })
 
-test("it should redirect to route is error has info about unathorized attempt", async t => {
-  mock.stub({ success: () => false, errors: "User must be logged in", code: 401})
-  const routerStub = sinon.stub(router, 'push')
-  await apiInstance.dailyTimeRecords(date)
-  t.true(routerStub.calledOnce)
-  t.deepEqual(routerStub.args[0], ["/auth/sign-in"])
-  routerStub.restore()
+  it('should return response', async () => {
+    const responceData = { success: () => true, data: "responseData" }
+    mock.stub(responceData)
+    const response = await apiInstance.dailyTimeRecords(date)
+    expect(response).to.eq(responceData)
+  })
+
+  it('should redirect to route is error has info about unathorized attempt', async () => {
+    mock.stub({ success: () => false, errors: "User must be logged in", code: 401})
+    const routerStub = sinon.stub(router, 'push')
+    await apiInstance.dailyTimeRecords(date)
+    expect(routerStub.calledOnce).to.be.true
+    expect(routerStub.args[0]).to.eql(["/auth/sign-in"])
+    routerStub.restore()
+  })
+
 })

@@ -1,21 +1,13 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import test from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import reports from '@/pages/reports'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
 const mocks = { $api: { allTimeRecords: () => {
   return { success: () => { return false } }
 } } }
 
 
-test("it should call method for fetching tasks if from and to dates were chose", async t => {
-  const wrapper = shallowMount(reports, { localVue, mocks, store })
+it('should call method for fetching tasks if from and to dates were chose', async () => {
+  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
   const methodSpy = sinon.stub(wrapper.vm, 'getTasks')
 
   await wrapper.setData({ filters: {
@@ -23,13 +15,13 @@ test("it should call method for fetching tasks if from and to dates were chose",
     toDate: '2019-10-22'
   }});
 
-  t.true(methodSpy.calledOnce)
+  expect(methodSpy.calledOnce).to.be.true
 
   methodSpy.restore()
 })
 
-test("it should not call method for fetching tasks if fromDate is empty", async t => {
-  const wrapper = shallowMount(reports, { localVue, mocks, store })
+it('should not call method for fetching tasks if fromDate is empty', async () => {
+  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
   const methodSpy = sinon.stub(wrapper.vm, 'getTasks')
 
   await wrapper.setData({ filters: {
@@ -37,21 +29,21 @@ test("it should not call method for fetching tasks if fromDate is empty", async 
     toDate: '2019-10-22'
   }});
 
-  t.false(methodSpy.called)
+  expect(methodSpy.called).to.be.false
 
   methodSpy.restore()
 })
 
-test("it should not call method for fetching tasks if toDate is empty", async t => {
-  const wrapper = shallowMount(reports, { localVue, mocks, store })
+it('should not call method for fetching tasks if toDate is empty', async () => {
+  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
   const methodSpy = sinon.stub(wrapper.vm, 'getTasks')
 
   await wrapper.setData({ filters: {
     fromDate: '2019-10-22',
-    toDate: null 
+    toDate: null
   }});
 
-  t.false(methodSpy.called)
+  expect(methodSpy.called).to.be.false
 
   methodSpy.restore()
 })

@@ -1,23 +1,14 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import test from 'ava'
-import Vuex from 'vuex'
+import createWrapper from '@/test/support/create_wrapper.js'
 import snackbar from '@/components/layout/snackbar'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
-const store = new Vuex.Store(fakeStoreData);
-
-test('it should call mutation for cleaning snack info is show is false', t => {
-  const wrapper = shallowMount(snackbar, { localVue, store })
+it('should call mutation for cleaning snack info is show is false', () => {
+  const wrapper = createWrapper(snackbar, {}, fakeStoreData())
   const mutationSpy = sinon.spy(wrapper.vm, "updateSnack")
   wrapper.vm.show = true
 
   wrapper.vm.show = false
-  t.true(mutationSpy.calledOnce)
-  t.deepEqual(mutationSpy.args[0], [{
+  expect(mutationSpy.calledOnce).to.be.true
+  expect(mutationSpy.args[0]).to.eql([{
     message: "",
     color: ""
   }])
@@ -25,13 +16,13 @@ test('it should call mutation for cleaning snack info is show is false', t => {
   mutationSpy.restore()
 });
 
-test('it should not call mutation for cleaning snack info is show is true', t => {
-  const wrapper = shallowMount(snackbar, { localVue, store })
+it('should not call mutation for cleaning snack info is show is true', () => {
+  const wrapper = createWrapper(snackbar, {}, fakeStoreData())
   wrapper.vm.show = false
   const mutationSpy = sinon.spy(wrapper.vm, "updateSnack")
 
   wrapper.vm.show = true
-  t.false(mutationSpy.called)
+  expect(mutationSpy.called).to.be.false
 
   mutationSpy.restore()
 });

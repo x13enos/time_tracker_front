@@ -1,24 +1,17 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import {serial as test} from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import tasksList from '@/components/tasks/list'
 import { DateTime } from 'luxon';
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
-
 const $api = { allTimeRecords: () => { return { data: [] } } }
-const store = new Vuex.Store(fakeStoreData)
 const propsData = {
   day: DateTime.local(2019, 10, 27),
   currentDate: DateTime.local(2019, 10, 27)
 }
 
-test('it should return total time from received tasks', t => {
+it('should return total time from received tasks', () => {
+  const store = fakeStoreData()
   store.state.tasks = [{ spentTime: 0.5 }, { spentTime: 1.25 }, { spentTime: 0.0 }]
-  const wrapper = shallowMount(tasksList, { localVue, store, mocks: { $api }, propsData });
+  const wrapper = createWrapper(tasksList, { propsData, mocks: { $api } }, store)
 
-  t.is(wrapper.vm.totalTime, 1.75);
+  expect(wrapper.vm.totalTime).to.eq(1.75);
 })

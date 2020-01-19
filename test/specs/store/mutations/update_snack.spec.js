@@ -1,4 +1,3 @@
-import test from 'ava';
 import mutations from '@/store/mutations'
 
 const state = {
@@ -8,7 +7,7 @@ const state = {
   }
 }
 
-test("it should update snack data", t => {
+it('should update snack data', () => {
   mutations.updateSnack(state, { message: "test", color: "white" })
-  t.deepEqual(state.snack, { message: "test", color: "white" })
+  expect(state.snack).to.eql({ message: "test", color: "white" })
 })

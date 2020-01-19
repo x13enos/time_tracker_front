@@ -1,39 +1,33 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils'
-import Vuetify from 'vuetify'
-import Vuex from 'vuex'
-import {serial as test} from 'ava';
+import createWrapper from '@/test/support/create_wrapper.js'
 import tasks from '@/pages/tasks'
 
-const localVue = createLocalVue()
-localVue.use(Vuetify)
-localVue.use(Vuex)
+describe("fetch", () => {
+  it('should call method for fetching projects', async () => {
+    const app = {
+      $api: {
+        allProjects: () => { return { data: ["First"] } },
+        allTimeRecords: () => { return { data: [{
+          id: 1,
+          project: { id: 2 },
+          description: "Test",
+          timeStart: "today",
+          spentTime: 0.5
+        }] } }
+      },
+      store: {
+        commit: (name, data) => {},
+        state: { user: {} }
+      }
+    }
 
-const store = new Vuex.Store(fakeStoreData);
+    const commitStub = sinon.stub(app.store, 'commit')
 
-const app = {
-  $api: {
-    allProjects: () => { return { data: ["First"] } },
-    allTimeRecords: () => { return { data: [{
-      id: 1,
-      project: { id: 2 },
-      description: "Test",
-      timeStart: "today",
-      spentTime: 0.5
-    }] } }
-  },
-  store: {
-    commit: (name, data) => {},
-    state: { user: {} }
-  }
-}
+    const wrapper = createWrapper(tasks, {}, fakeStoreData())
+    await wrapper.vm.$options.fetch({ app })
+    expect(commitStub.calledOnce).to.be.true
+    expect(commitStub.args[0]).to.eql(['updateProjects', ["First"]])
 
-test('it should call method for fetching projects', async t => {
-  const commitStub = sinon.stub(app.store, 'commit')
+    commitStub.restore();
+  })
 
-  const wrapper = await shallowMount(tasks, { store, localVue })
-  await wrapper.vm.$options.fetch({ app })
-  t.true(commitStub.calledOnce)
-  t.deepEqual(commitStub.args[0], ['updateProjects', ["First"]])
-
-  commitStub.restore();
 })

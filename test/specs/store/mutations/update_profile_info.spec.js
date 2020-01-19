@@ -1,4 +1,4 @@
-import test from 'ava';
+
 import mutations from '@/store/mutations'
 
 const state = {
@@ -15,7 +15,7 @@ const userInfo = {
   timezone: 'Athens'
 }
 
-test("it should update personal info", t => {
+it('should update personal info', () => {
   mutations.updatePersonalInfo(state, userInfo)
-  t.deepEqual(state.user, userInfo)
+  expect(state.user).to.eql(userInfo)
 })
