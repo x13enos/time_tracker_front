@@ -2,63 +2,75 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import reports from '@/pages/reports'
 import { DateTime } from 'luxon';
 
-const mocks = { $api: { allTimeRecords: () => {
-  return { success: () => { return false } }
-} } }
-const time = DateTime.local()
+describe("quick_date", () => {
+  const mocks = {
+    $api: {
+      allTimeRecords: () => {
+        return {
+          data: {
+            total_spent_time: 110,
+            time_records: ["time_records"]
+          }
+        }
+      }
+    }
+  }
+  const time = DateTime.local()
 
-it('should call method for setting dates for current week', async () => {
-  const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
-  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
-  const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
-  await wrapper.setData({ quickDate: "this_week" });
+  it('should call method for setting dates for current week', async () => {
+    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
+    const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
-  expect(methodSpy.calledOnce).to.be.true
-  expect(methodSpy.args[0]).to.eql(['week', time])
+    await wrapper.setData({ quickDate: "this_week" });
 
-  methodSpy.restore()
-  stubTime.restore()
-})
+    expect(methodSpy.calledOnce).to.be.true
+    expect(methodSpy.args[0]).to.eql(['week', time])
 
-it('should call method for setting dates for last week', async () => {
-  const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
-  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
-  const methodSpy = sinon.spy(wrapper.vm, 'setDates')
+    methodSpy.restore()
+    stubTime.restore()
+  })
 
-  await wrapper.setData({ quickDate: "last_week" });
+  it('should call method for setting dates for last week', async () => {
+    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
+    const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
-  expect(methodSpy.calledOnce).to.be.true
-  expect(methodSpy.args[0]).to.eql(['week', time.minus({days: 7})])
+    await wrapper.setData({ quickDate: "last_week" });
 
-  methodSpy.restore()
-  stubTime.restore()
-})
+    expect(methodSpy.calledOnce).to.be.true
+    expect(methodSpy.args[0]).to.eql(['week', time.minus({days: 7})])
 
-it('should call method for setting dates for current month', async () => {
-  const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
-  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
-  const methodSpy = sinon.spy(wrapper.vm, 'setDates')
+    methodSpy.restore()
+    stubTime.restore()
+  })
 
-  await wrapper.setData({ quickDate: "this_month" });
+  it('should call method for setting dates for current month', async () => {
+    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
+    const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
-  expect(methodSpy.calledOnce).to.be.true
-  expect(methodSpy.args[0]).to.eql(['month', time])
+    await wrapper.setData({ quickDate: "this_month" });
 
-  methodSpy.restore()
-  stubTime.restore()
-})
+    expect(methodSpy.calledOnce).to.be.true
+    expect(methodSpy.args[0]).to.eql(['month', time])
 
-it('should call method for setting dates for last month', async () => {
-  const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
-  const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
-  const methodSpy = sinon.spy(wrapper.vm, 'setDates')
+    methodSpy.restore()
+    stubTime.restore()
+  })
 
-  await wrapper.setData({ quickDate: "last_month" });
+  it('should call method for setting dates for last month', async () => {
+    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
+    const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
-  expect(methodSpy.calledOnce).to.be.true
-  expect(methodSpy.args[0]).to.eql(['month', time.minus({month: 1})])
+    await wrapper.setData({ quickDate: "last_month" });
 
-  methodSpy.restore()
-  stubTime.restore()
+    expect(methodSpy.calledOnce).to.be.true
+    expect(methodSpy.args[0]).to.eql(['month', time.minus({month: 1})])
+
+    methodSpy.restore()
+    stubTime.restore()
+  })
 })

@@ -113,9 +113,7 @@ export default {
     async save(){
       this.updating = true
       const response = await this.updateUserProfile(this.form)
-      if(response.success()){
-        this.updateSnack({ message: "Profile was updated succesfully.", color: "green" })
-      }
+      this.updateSnack({ message: "Profile was updated succesfully.", color: "green" })
       this.form.password = ""
       this.updating = false
     }

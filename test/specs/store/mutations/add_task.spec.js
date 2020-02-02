@@ -12,13 +12,11 @@ const state = {
 }
 
 const data = {
-  timeRecord: {
-      id: 5,
-      project: { id: 14 },
-      description: "another text",
-      spentTime: 2.5,
-      timeStart: "day"
-  }
+  id: 5,
+  project_id: 14,
+  description: "another text",
+  spent_time: 2.5,
+  time_start: "day"
 }
 
 it('should add new task to the list', () => {

@@ -142,13 +142,12 @@ export default {
         return
       const params = this.formData()
       params.active = state
-      const response = await this.updateTask(params)
 
-      if(response.success()){
+      try{
+        await this.updateTask(params)
         this.updateCounterOfPendingTasks(-1)
         this.rowClass = ""
-      } else {
-        this.updateSnack({ message: response.errors, color: "red" })
+      } catch (error) {
         this.rowClass = "red"
       }
     },

@@ -1,33 +1,43 @@
-
 import Api from '@/services/api/requests';
-import HandlerMock from '@/test/support/handler_mock'
+import axios from 'axios';
 
-let apiInstance, mock, router, store
+let client, apiInstance, mock, router, store
 
 describe("personalInfo", () =>  {
 
   beforeEach(() => {
+    client = axios.create()
+    sinon.stub(axios, "create").returns(client)
     store = { commit: () => {} }
     router = { push: (path) => {} }
     apiInstance = new Api(router, store)
-    mock = new HandlerMock()
   })
 
   afterEach(() => {
-    mock.restore()
+    sinon.restore()
   })
 
-  it('should call handler', async () => {
-    mock.stub()
-    await apiInstance.personalInfo('data')
-    expect(mock.performStub.calledOnce).to.be.true
+  it('should make get request', async () => {
+    mock = sinon.stub(client, "get").resolves({ data: "data" })
+    await apiInstance.personalInfo()
+    expect(mock.calledOnce).to.be.true
   })
 
-  it('should return response', async () => {
-    const responceData = { success: () => true, data: "responseData" }
-    mock.stub(responceData)
-    const response = await apiInstance.personalInfo('data')
-    expect(response).to.eq(responceData)
+  it('should pass data', async () => {
+    mock = sinon.stub(client, "get").resolves({ data: "data" })
+    await apiInstance.personalInfo()
+    expect(mock.args[0]).to.eql(["/auth"])
   })
 
+  it('should return response in case of success', async () => {
+    mock = sinon.stub(client, "get").resolves({ data: "data" })
+    const response = await apiInstance.personalInfo()
+    expect(response).to.eql({ data: "data" })
+  })
+
+  it('should reject error in case of fail', async () => {
+    const error = { response: { data: { error: "error message" }} }
+    sinon.stub(client, "get").rejects(error)
+    return expect(apiInstance.personalInfo()).to.be.rejectedWith(error);
+  })
 })

@@ -54,12 +54,16 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  },
   proxy: {
     '/api': {
-      target: process.env.BASE_URL || 'http://localhost:3000/graphql',
+      target: process.env.BASE_URL || 'http://localhost:3000/',
       pathRewrite: {
-        '^/api' : '/'
+        '^/api' : '/v1'
       }
     }
   },

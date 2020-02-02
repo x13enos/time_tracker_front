@@ -133,11 +133,11 @@ export default {
 
     headers(){
       return [
-        { text: 'Project', value: 'node.project.name' },
-        { text: 'Date', value: 'node.assignedDate' },
-        { text: 'Employee', value: 'node.user.name' },
-        { text: 'Description', value: 'node.description' },
-        { text: `Amount(${this.totalAmount})`, value: 'node.spentTime' }
+        { text: 'Project', value: 'project_name' },
+        { text: 'Date', value: 'assigned_date' },
+        { text: 'Employee', value: 'user_name' },
+        { text: 'Description', value: 'description' },
+        { text: `Amount(${this.totalAmount})`, value: 'spent_time' }
       ]
     }
   },
@@ -171,17 +171,13 @@ export default {
     async getTasks(){
       this.reportLink = null
       const response = await this.$api.allTimeRecords(this.handledFilters())
-      if(response.success()){
-        this.totalAmount = response.data.totalSpentTime
-        this.tasks = response.data.edges
-      }
+      this.totalAmount = response.data.total_spent_time
+      this.tasks = response.data.time_records
     },
 
     async fetchUsers(){
       const response = await this.$api.allUsers()
-      if(response.success()){
-        this.users = response.data
-      }
+      this.users = response.data
     },
 
     handledFilters(){
@@ -195,9 +191,7 @@ export default {
     async getReportLink(){
       this.loadingReport = true
       const response = await this.$api.generateReport(this.handledFilters())
-      if(response.success()){
-        this.reportLink = response.data.link
-      }
+      this.reportLink = response.data.link
       this.loadingReport = false
     },
 

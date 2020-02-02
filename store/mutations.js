@@ -14,11 +14,11 @@ export default {
   },
 
   addTask(state, data){
-    state.tasks.push(collectTaskData(data.timeRecord))
+    state.tasks.push(collectTaskData(data))
   },
 
   updateTask(state, data){
-    const taskData = collectTaskData(data.timeRecord)
+    const taskData = collectTaskData(data)
     const task = state.tasks.find(task => task.id === taskData.id);
     Object.assign(task, taskData)
   },
@@ -66,9 +66,9 @@ export default {
 function collectTaskData(taskData){
   return {
     id: taskData.id,
-    project: taskData.project.id,
+    project: taskData.project_id,
     description: taskData.description,
-    spentTime: taskData.spentTime,
-    timeStart: taskData.timeStart
+    spentTime: taskData.spent_time,
+    timeStart: taskData.time_start
   }
 }

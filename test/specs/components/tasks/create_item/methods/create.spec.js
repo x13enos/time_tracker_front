@@ -46,28 +46,9 @@ it('should decrease number of pending tasks if request was successful', async ()
   mutationStub.restore()
 });
 
-it('should update snack data with passed errors', async () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, "addTask").returns({
-    success: () => { return false },
-    errors: "Big message of errors"
-  })
-  const mutationStub = sinon.stub(wrapper.vm, "updateSnack")
-
-  await wrapper.vm.create()
-  expect(mutationStub.calledOnce).to.be.true
-  expect(mutationStub.args[0]).to.eql([{
-    message: "Big message of errors",
-    color: "red"
-  }])
-
-  actionStub.restore()
-  mutationStub.restore()
-});
-
 it('should update row color class', async () => {
   const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return false } })
+  const actionStub = sinon.stub(wrapper.vm, "addTask").rejects({ errors: "Big message of errors" })
 
   await wrapper.vm.create()
   expect(wrapper.vm.rowClass).to.eq('red')

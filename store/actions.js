@@ -1,16 +1,12 @@
 export default {
   async getUserInfo ({ commit }) {
     const response = await this.$api.personalInfo()
-    if (response.success()) {
-      commit('updatePersonalInfo', response.data)
-    }
+    commit('updatePersonalInfo', response.data)
   },
 
   async updateUserProfile({commit}, data){
     const response = await this.$api.updateUserProfile(data)
-    if (response.success()) {
-      commit('updatePersonalInfo', response.data.user)
-    }
+    commit('updatePersonalInfo', response.data.user)
     return response;
   },
 
@@ -18,41 +14,33 @@ export default {
     commit('clearTasks')
     commit('clearActiveTaskIntervalId')
     const response = await this.$api.dailyTimeRecords(dateInUnixFormat(day))
-    if (response.success()) {
-      commit('updateTasks', response.data)
-    }
+    commit('updateTasks', response.data.time_records)
     return response;
   },
 
   async addTask ({ commit, dispatch }, { params, day }) {
     params.assignedDate = dateInUnixFormat(day)
     const response = await this.$api.createTimeRecord(params)
-    if (response.success()) {
-      dispatch("stopOtherTasks", response.data)
-      commit('addTask', response.data)
-    }
+    dispatch("stopOtherTasks", response.data)
+    commit('addTask', response.data)
     return response;
   },
 
   async updateTask ({ commit, dispatch }, params) {
     const response = await this.$api.updateTimeRecord(params)
-    if (response.success()) {
-      dispatch("stopOtherTasks", response.data)
-      commit('updateTask', response.data)
-    }
+    dispatch("stopOtherTasks", response.data)
+    commit('updateTask', response.data)
     return response;
   },
 
   async deleteTask ({ commit }, data) {
     const response = await this.$api.deleteTimeRecord(data)
-    if (response.success()) {
-      commit('deleteTask', data.id)
-    }
+    commit('deleteTask', data.id)
     return response;
   },
 
   stopOtherTasks ({ commit }, data) {
-    if(!this.$appMethods.isEmpty(data.timeRecord.timeStart)){
+    if(!this.$appMethods.isEmpty(data.time_start)){
       commit("clearActiveTaskIntervalId")
       commit("cleanTasksStartTime")
     }

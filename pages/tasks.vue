@@ -34,7 +34,7 @@ export default {
   },
 
   async fetch({ app }){
-    let projects, tasks;
+    let projects;
 
     const projectsResponse = await app.$api.allProjects()
     if(projectsResponse.data)
