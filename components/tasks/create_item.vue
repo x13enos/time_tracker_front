@@ -105,12 +105,11 @@ export default {
     },
 
     async create(){
-      const response = await this.addTask({params: this.formData(), day: this.day })
-      if(response.success()){
+      try {
+        const response = await this.addTask({params: this.formData(), day: this.day })
         this.updateCounterOfPendingTasks(-1)
         Object.assign(this, this.defaultData())
-      } else {
-        this.updateSnack({ message: response.errors, color: "red" })
+      } catch (error){
         this.rowClass = "red"
       }
     },

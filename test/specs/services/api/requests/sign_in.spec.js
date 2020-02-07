@@ -1,39 +1,55 @@
-
 import Api from '@/services/api/requests';
-import HandlerMock from '@/test/support/handler_mock'
+import axios from 'axios';
 
-let apiInstance, mock, router, store
+let client, apiInstance, mock, router, store
 
 describe("signIn", () =>  {
 
   beforeEach(() => {
+    client = axios.create()
+    sinon.stub(axios, "create").returns(client)
     store = { commit: () => {} }
     router = { push: (path) => {} }
     apiInstance = new Api(router, store)
-    mock = new HandlerMock()
   })
 
   afterEach(() => {
-    mock.restore()
+    sinon.restore()
   })
 
-  it('should call handler', async () => {
-    mock.stub()
+  const userData = {
+    email: "example@gmail.com",
+    password: "1111"
+  }
+
+  it('should make post request', async () => {
+    mock = sinon.stub(client, "post").resolves({ data: "data" })
     await apiInstance.signIn('data')
-    expect(mock.performStub.calledOnce).to.be.true
+    expect(mock.calledOnce).to.be.true
   })
 
-  it('should pass data to handler', async () => {
-    mock.stub()
-    await apiInstance.signIn('data')
-    expect(mock.performStub.args[0]).to.eql(['signInUser', 'data'])
+  it('should pass data', async () => {
+    const mock = sinon.stub(client, "post").resolves({ data: "data" })
+    await apiInstance.signIn(userData)
+    expect(mock.args[0]).to.eql([
+      "/auth",
+      {
+        "email": "example@gmail.com",
+        "password": "1111",
+        "timezoneOffset": (new Date().getTimezoneOffset() / 60 * -1)
+      }
+    ])
   })
 
-  it('should return response', async () => {
-    const responceData = { success: () => true, data: "responseData" }
-    mock.stub(responceData)
+  it('should return response in case of success', async () => {
+    sinon.stub(client, "post").resolves({ data: "data" })
     const response = await apiInstance.signIn('data')
-    expect(response).to.eq(responceData)
+    expect(response).to.eql({ data: "data" })
   })
 
+  it('should reject error in case of fail', async () => {
+    const error = { response: { data: { error: "error message" }} }
+    sinon.stub(client, "post").rejects(error)
+    return expect(apiInstance.signIn('data')).to.be.rejectedWith(error);
+  })
 })

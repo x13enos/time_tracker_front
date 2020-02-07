@@ -7,10 +7,10 @@ const state = {
 
 const data = [{
   id: 1,
-  project: { id: 2 },
+  project_id: 2,
   description: "text",
-  spentTime: 1.5,
-  timeStart: "time"
+  spent_time: 1.5,
+  time_start: "time"
 }]
 
 it('should update list of tasks', () => {

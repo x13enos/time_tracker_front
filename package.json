@@ -10,7 +10,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "test": "mocha-webpack --webpack-config ./test/mocha-webpack.config.js --colors --reporter=dot --require ./test/_setup.js ./test/**/*.spec.js"
+    "test": "mocha-webpack --webpack-config ./test/mocha-webpack.config.js --colors --require ./test/_setup.js ./test/**/*.spec.js"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
@@ -39,6 +39,7 @@
     "require-extension-hooks": "^0.3.3",
     "require-extension-hooks-babel": "^1.0.0",
     "require-extension-hooks-vue": "^3.0.0",
-    "sinon": "^7.3.2"
+    "sinon": "^7.3.2",
+    "chai-as-promised": "^4.0.3"
   }
 }

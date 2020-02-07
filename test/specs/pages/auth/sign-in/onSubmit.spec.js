@@ -48,16 +48,14 @@ it('should redirect user to main page if status is success', async () => {
 });
 
 it('should write errors from response to variable if status is "fail"', async () => {
-  const failResponse = {
-    success: () => { return false },
-    errors: "ERROR!!!"
-  }
   const $api = {
-    signIn: () => { return failResponse }
+    signIn: () => {}
   }
+  sinon.stub($api, "signIn").rejects(Error)
   const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
 
   await wrapper.vm.onSubmit()
 
-  expect(wrapper.vm.errorMessage).to.eq("ERROR!!!")
+  expect(wrapper.vm.errorMessage).to.eq(Error)
+  sinon.restore()
 });

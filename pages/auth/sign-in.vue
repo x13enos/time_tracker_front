@@ -57,12 +57,12 @@ export default {
 
     async onSubmit () {
       this.errorMessage = "";
-      const response = await this.$api.signIn(this.form);
-      if (response.success()) {
+      try {
+        const response = await this.$api.signIn(this.form);
         this.updatePersonalInfo(response.data);
         this.$router.replace({ path: '/tasks' });
-      } else {
-        this.errorMessage = response.errors;
+      } catch ( error ) {
+        this.errorMessage = error;
       }
     }
   }

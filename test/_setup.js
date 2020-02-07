@@ -1,8 +1,11 @@
 const hooks = require('require-extension-hooks');
-
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 require('jsdom-global')();
 require('browser-env');
-global.expect = require('chai').expect
+
+chai.use(chaiAsPromised);
+global.expect = chai.expect
 window.Date = global.Date = Date;
 
 global.fakeStoreData = require("./support/fake_store_data.js");

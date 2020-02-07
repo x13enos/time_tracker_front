@@ -1,49 +1,43 @@
 import Api from '@/services/api/requests';
-import HandlerMock from '@/test/support/handler_mock'
+import axios from 'axios';
 
-let apiInstance, mock, router, store
+let client, apiInstance, mock, router, store
 
 describe("allProjects", () =>  {
 
   beforeEach(() => {
+    client = axios.create()
+    sinon.stub(axios, "create").returns(client)
     store = { commit: () => {} }
     router = { push: (path) => {} }
     apiInstance = new Api(router, store)
-    mock = new HandlerMock()
   })
 
   afterEach(() => {
-    mock.restore()
+    sinon.restore()
   })
 
-  it('should call handler', async () => {
-    mock.stub()
+  it('should make get request', async () => {
+    mock = sinon.stub(client, "get").resolves({ data: "data" })
     await apiInstance.allProjects()
-    expect(mock.performStub.calledOnce).to.be.true
+    expect(mock.calledOnce).to.be.true
   })
 
-  it('should pass data to handler', async () => {
-    mock.stub()
+  it('should pass data', async () => {
+    mock = sinon.stub(client, "get").resolves({ data: "data" })
     await apiInstance.allProjects()
-    expect(mock.performStub.args[0]).to.eql(['allProjects', null])
+    expect(mock.args[0]).to.eql(["/projects"])
   })
 
-  it('should return response', async () => {
-    const responceData = { success: () => true, data: "responseData" }
-    mock.stub(responceData)
+  it('should return response in case of success', async () => {
+    mock = sinon.stub(client, "get").resolves({ data: "data" })
     const response = await apiInstance.allProjects()
-    expect(response).to.eql(responceData)
+    expect(response).to.eql({ data: "data" })
   })
 
-  it('should redirect to route is error has info about unathorized attempt', async () => {
-    mock.stub({ success: () => false, errors: "User must be logged in", code: 401})
-    const routerStub = sinon.stub(router, 'push')
-    await apiInstance.allProjects()
-
-    expect(routerStub.calledOnce).to.be.true
-    expect(routerStub.args[0]).to.eql(["/auth/sign-in"])
-
-    routerStub.restore()
+  it('should reject error in case of fail', async () => {
+    const error = { response: { data: { error: "error message" }} }
+    sinon.stub(client, "get").rejects(error)
+    return expect(apiInstance.allProjects()).to.be.rejectedWith(error);
   })
-
 })

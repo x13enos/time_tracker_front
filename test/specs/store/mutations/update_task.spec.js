@@ -12,16 +12,14 @@ const state = {
 }
 
 const data = {
-  timeRecord: {
-      id: 1,
-      project: { id: 14 },
-      description: "another text",
-      spentTime: 2.5,
-      timeStart: "day"
-  }
+  id: 1,
+  project_id: 14 ,
+  description: "another text",
+  spent_time: 2.5,
+  time_start: "day"
 }
 
-it('should add update task in the list', () => {
+it('should add updated task to the list', () => {
   mutations.updateTask(state, data)
   expect(state.tasks).to.eql([
     {

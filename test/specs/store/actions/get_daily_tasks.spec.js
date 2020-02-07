@@ -4,8 +4,9 @@ describe("getDailyTasks", () => {
   const commitObject = { commit: (type, payload) => {} }
 
   const success_response = {
-    success: () => { return true },
-    data: 'data'
+    data: {
+      time_records: "data"
+    }
   }
 
   const fail_response = {
@@ -53,9 +54,12 @@ describe("getDailyTasks", () => {
 
   it('should not commit data if response is failed', async () => {
     const commitStub = sinon.stub(commitObject, 'commit')
-    const apiStub = sinon.stub(actions.$api, 'dailyTimeRecords').returns(fail_response)
-    await actions.getDailyTasks(commitObject, new Date())
-    expect(commitStub.calledOnce).to.be.false
+    const apiStub = sinon.stub(actions.$api, 'dailyTimeRecords').rejects("error")
+    try{
+      await actions.getDailyTasks(commitObject, new Date())
+    } catch (error) {
+      expect(commitStub.calledOnce).to.be.false
+    }
     apiStub.restore()
     commitStub.restore()
   })
