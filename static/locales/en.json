@@ -1,0 +1,62 @@
+{
+  "are_you_sure": "Are you sure?",
+  "yes": "Yes",
+  "cancel": "Cancel",
+  "navigation": {
+    "tasks": "Tasks",
+    "reports": "Reports"
+  },
+  "profile": {
+    "title": "Profile Settings",
+    "name": "Name",
+    "email": "Email",
+    "timezone": "Timezone",
+    "new_password": "New Password",
+    "locale": "Locale",
+    "save": "Save",
+    "was_updated_succesfully": "Profile was updated succesfully",
+    "name_is_required": "Name is required",
+    "email_is_required": "Email is required",
+    "email_must_be_valid": "E-mail must be valid",
+    "password_should_contain": "Password should contain at least 8 characters"
+  },
+  "login_form": {
+    "title": "Log into Time Tracker",
+    "email": "Email",
+    "password": "Password",
+    "login": "Login",
+    "email_must_be_valid": "E-mail must be valid"
+  },
+  "time_sheet": {
+    "title": "Time Sheet",
+    "previous_week": "Previos Week",
+    "next_week": "Next Week",
+    "project": "Project",
+    "description": "Description",
+    "time": "Time",
+    "total": "Total",
+    "you_can_lose_changes": "Changes that you made may not be saved.",
+    "approve_deleting": "Please approve that you want to remove this task."
+  },
+  "reports": {
+    "title": "Reports",
+    "generate": "Generate Report",
+    "download": "Download",
+    "from_date": "From Date",
+    "to_date": "To Date",
+    "quick_date": "Quick Date",
+    "no_records": "NO RECORDS",
+    "this_week": "This Week",
+    "last_week": "Last Week",
+    "this_month": "This Month",
+    "last_month": "Last Month",
+    "project": "Project",
+    "date": "Date",
+    "employee": "Employee",
+    "description": "Description",
+    "amount": "Amount"
+  },
+  "validations": {
+    "should_has_format": "should has format"
+  }
+}

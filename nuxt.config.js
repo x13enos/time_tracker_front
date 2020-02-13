@@ -48,12 +48,14 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/proxy'
+    '@nuxtjs/proxy',
+    'nuxt-i18n'
   ],
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
+  i18n: require("./i18n.config.js"),
   axios: {
     headers: {
       'Content-Type': 'application/json'

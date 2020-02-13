@@ -34,7 +34,7 @@ describe("save", () => {
 
     await wrapper.vm.save()
     expect(snackSpy.calledOnce).to.be.true
-    expect(snackSpy.args[0]).to.eql([{ message: "Profile was updated succesfully.", color: "green" }])
+    expect(snackSpy.args[0]).to.eql([{ message: "profile.was_updated_succesfully", color: "green" }])
 
     updateStub.restore()
     snackSpy.restore()

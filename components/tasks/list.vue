@@ -4,14 +4,16 @@
       <thead>
         <tr>
           <th class="text-left">
-            Project
+            {{ $t("time_sheet.project") }}
           </th>
           <th class="text-left">
-            Description
+            {{ $t("time_sheet.description") }}
           </th>
           <th class="text-left">
-            Time
-            <span class="float-right">Total: {{ totalTime }}</span>
+            {{ $t("time_sheet.time") }}
+            <span class="float-right">
+              {{ $t("time_sheet.total") }}: {{ totalTime }}
+            </span>
           </th>
         </tr>
       </thead>

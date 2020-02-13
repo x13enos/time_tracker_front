@@ -8,14 +8,14 @@
         item-value="id"
         item-key="id"
         single-line
-        label="Project"
+        :label="$t('time_sheet.project')"
         @focus="selectPendingClass"
       ></v-select>
     </td>
     <td width="40%">
       <v-text-field
         v-model="description"
-        placeholder="description"
+        :placeholder="$t('time_sheet.description')"
         autocomplete="off"
         @input="selectPendingClass"
       />
@@ -74,7 +74,8 @@ export default {
       btnStartFocused: false,
       valid: true,
       spentTimeRules: [
-        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) || 'should has format "0.00"',
+        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) ||
+          `${this.$t('validations.should_has_format')} "0.00"`,
       ],
     }
   },

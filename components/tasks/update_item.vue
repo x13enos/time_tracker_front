@@ -8,7 +8,7 @@
         item-value="id"
         item-key="id"
         single-line
-        label="Project"
+        :label="$t('time_sheet.project')"
         :hide-selected="true"
         :disabled="active"
         @focus="selectPendingClass"
@@ -18,7 +18,7 @@
     <td width="40%">
       <v-text-field
         v-model="description"
-        placeholder="description"
+        :placeholder="$t('time_sheet.description')"
         autocomplete="off"
         @input="selectPendingClass"
         :disabled="active"
@@ -47,17 +47,17 @@
       </v-row>
       <v-dialog v-model="dialog" max-width="290">
         <v-card>
-          <v-card-title class="headline">Are you sure?</v-card-title>
+          <v-card-title class="headline">{{ $t("are_you_sure") }}</v-card-title>
           <v-card-text>
-            Please approve that you want to remove this task.
+            {{ $t("time_sheet.approve_deleting") }}
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="blue darken-1" text @click="deleteItem">
-              Yes
+              {{ $t("yes") }}
             </v-btn>
             <v-btn color="blue darken-1" text @click="dialog = false">
-              Cancel
+              {{ $t("cancel") }}
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -96,7 +96,8 @@ export default {
       valid: true,
       dialog: false,
       spentTimeRules: [
-        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) || 'should has format "0.00"',
+        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) ||
+          `${this.$t('validations.should_has_format')} "0.00"`,
       ]
     }
   },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>
-      Reports
+      {{ $t('reports.title') }}
       <v-btn
         v-if='tasks.length && !reportLink'
         class="ma-2"
@@ -10,7 +10,7 @@
         color="info"
         @click="getReportLink"
       >
-        Generate Report
+        {{ $t('reports.generate') }}
         <template v-slot:loader>
           <span class="custom-loader">
             <v-icon light>mdi-cached</v-icon>
@@ -24,14 +24,14 @@
         color="success"
         :href="reportLink"
       >
-        Download
+      {{ $t('reports.download') }}
       </v-btn>
     </h1>
 
     <v-row>
       <v-col cols="3">
         <date-select
-          label="From Date"
+          :label="$t('reports.from_date')"
           :max="filters.toDate"
           v-model="filters.fromDate"
 
@@ -40,7 +40,7 @@
 
       <v-col cols="3">
         <date-select
-          label="To Date"
+        :label="$t('reports.to_date')"
           :min="filters.fromDate"
           v-model="filters.toDate"
         />
@@ -51,7 +51,7 @@
           v-model="quickDate"
           :items="quickDates"
           single-line
-          label="Quick Date"
+          :label="$t('reports.quick_date')"
         ></v-select>
       </v-col>
 
@@ -63,7 +63,7 @@
           item-value="id"
           item-key="id"
           single-line
-          label="User"
+          :label="$t('reports.employee')"
         ></v-select>
       </v-col>
     </v-row>
@@ -82,7 +82,7 @@
       item-key="name"
     >
     </v-data-table>
-    <h3 v-else>NO RECORDS</h3>
+    <h3 v-else>{{ $t('reports.no_records') }}</h3>
 
   </div>
 </template>
@@ -108,10 +108,10 @@ export default {
       users: [],
       totalAmount: 0.0,
       quickDates: [
-        { value: "this_week", text: "This Week" },
-        { value: "last_week", text: "Last Week" },
-        { value: "this_month", text: "This Month" },
-        { value: "last_month", text: "Last Month" }
+        { value: "this_week", text: this.$t("reports.this_week") },
+        { value: "last_week", text: this.$t("reports.last_week") },
+        { value: "this_month", text: this.$t("reports.this_month") },
+        { value: "last_month", text: this.$t("reports.last_month") }
       ],
       filters: {
         fromDate: null,
@@ -133,11 +133,11 @@ export default {
 
     headers(){
       return [
-        { text: 'Project', value: 'project_name' },
-        { text: 'Date', value: 'assigned_date' },
-        { text: 'Employee', value: 'user_name' },
-        { text: 'Description', value: 'description' },
-        { text: `Amount(${this.totalAmount})`, value: 'spent_time' }
+        { text: this.$t("reports.project"), value: 'project_name' },
+        { text: this.$t("reports.date"), value: 'assigned_date' },
+        { text: this.$t("reports.employee"), value: 'user_name' },
+        { text: this.$t("reports.description"), value: 'description' },
+        { text: `${this.$t("reports.amount")}(${this.totalAmount})`, value: 'spent_time' }
       ]
     }
   },

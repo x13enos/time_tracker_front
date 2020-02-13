@@ -1,4 +1,3 @@
-
 import actions from '@/store/actions';
 
 const storeObject = {
