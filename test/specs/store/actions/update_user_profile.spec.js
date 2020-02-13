@@ -6,9 +6,7 @@ const commitObject = {
 
 const success_response = {
   success: () => { return true },
-  data: {
-    user: "data"
-  }
+  data: "data"
 }
 const fail_response = {
   success: () => { return false },

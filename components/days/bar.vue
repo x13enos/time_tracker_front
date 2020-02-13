@@ -3,20 +3,24 @@
     <v-divider />
 
     <v-row align="center" justify="start">
-      <v-col cols="2">
+      <v-col cols="3">
         <v-btn @click="checkOnPendingTasks(() => { changeDay(-7) })" class="previous-week" :min-width="0" outlined color="blue lighten-3">
           <v-icon>mdi-chevron-left</v-icon>
-          <span class="d-none d-sm-flex">Previous week</span>
+          <span class="d-none d-sm-flex">
+            {{ $t("time_sheet.previous_week") }}
+          </span>
         </v-btn>
       </v-col>
 
-      <v-col cols="8" class="text-center">
+      <v-col cols="6" class="text-center">
         <span v-if="days.length" class="title">{{ currentWeek }}</span>
       </v-col>
 
-      <v-col cols="2" class="text-right">
+      <v-col cols="3" class="text-right">
         <v-btn @click="checkOnPendingTasks(() => { changeDay(7) })" class="next-week" :min-width="0"  outlined color="blue lighten-3">
-          <span class="d-none d-sm-flex">Next week</span>
+          <span class="d-none d-sm-flex">
+            {{ $t("time_sheet.next_week") }}
+          </span>
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </v-col>
@@ -102,11 +106,11 @@
       },
 
       getFormattedDateForTab(date) {
-        return date.toLocaleString({ month: 'short', day: 'numeric' })
+        return this.$d(date, 'short')
       },
 
       getFormattedDateForWeek(date) {
-        return date.toLocaleString({ month: 'long', day: 'numeric' })
+        return this.$d(date, 'long')
       },
 
       setTheRightTab() {

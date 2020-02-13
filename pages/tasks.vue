@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>
-      Time Sheet
+      {{ $t("time_sheet.title") }}
     </h1>
 
     <daysBar />
@@ -29,7 +29,7 @@ export default {
   mounted() {
     window.addEventListener('beforeunload', (event) => {
       if(this.somePendingTasks())
-        event.returnValue = "Changes that you made may not be saved.";
+        event.returnValue = $t("you_can_lose_changes");
     });
   },
 

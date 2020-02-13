@@ -4,9 +4,9 @@ export default {
     commit('updatePersonalInfo', response.data)
   },
 
-  async updateUserProfile({commit}, data){
+  async updateUserProfile({ commit }, data){
     const response = await this.$api.updateUserProfile(data)
-    commit('updatePersonalInfo', response.data.user)
+    commit('updatePersonalInfo', response.data)
     return response;
   },
 

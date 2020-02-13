@@ -12,13 +12,13 @@
 
       <nuxt-link to="/tasks">
         <v-btn text>
-          Tasks
+          {{ $t("navigation.tasks") }}
         </v-btn>
       </nuxt-link>
 
       <nuxt-link to="/reports">
         <v-btn text>
-          Reports
+          {{ $t("navigation.reports") }}
         </v-btn>
       </nuxt-link>
 

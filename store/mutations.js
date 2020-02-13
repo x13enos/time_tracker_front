@@ -1,6 +1,7 @@
 export default {
   updatePersonalInfo (state, userData) {
     Object.assign(state.user, userData)
+    this.$i18n.locale = state.user.locale
   },
 
   updateProjects(state, projects) {

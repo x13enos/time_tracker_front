@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>
-      Profile settings
+      {{ $t("profile.title") }}
     </h1>
 
     <v-row>
@@ -11,14 +11,14 @@
         v-model="valid">
           <v-text-field
             v-model="form.name"
-            label="Name"
+            :label="$t('profile.name')"
             :rules="nameRules"
             :disabled="updating"
           />
 
           <v-text-field
             v-model="form.email"
-            label="Email"
+            :label="$t('profile.email')"
             :rules="emailRules"
             :disabled="updating"
             required
@@ -26,15 +26,23 @@
 
           <v-select
             v-model="form.timezone"
-            label="Timezone"
+            :label="$t('profile.timezone')"
             :items="timezoneList"
+            :disabled="updating"
+            required
+          />
+
+          <v-select
+            v-model="form.locale"
+            :label="$t('profile.locale')"
+            :items="localeList()"
             :disabled="updating"
             required
           />
 
           <v-text-field
             v-model="form.password"
-            label="New Password"
+            :label="$t('profile.new_password')"
             :disabled="updating"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
@@ -50,7 +58,8 @@
           color="info"
           @click="save"
         >
-          Save
+          {{ $t('profile.save') }}
+
           <template v-slot:loader>
             <span class="custom-loader">
               <v-icon light>mdi-cached</v-icon>
@@ -74,18 +83,19 @@ export default {
       showPassword: false,
       valid: true,
       nameRules: [
-        v => !!v || 'Name is required',
+        v => !!v || this.$t('profile.name_is_required'),
       ],
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        v => !!v || this.$t('profile.email_is_required'),
+        v => /.+@.+\..+/.test(v) || this.$t('profile.email_must_be_valid'),
       ],
       passwordRules: [
-        v => (!v || (!!v && (v || "").length >= 8)) || 'Password should contain at least 8 characters',
+        v => (!v || (!!v && (v || "").length >= 8)) || this.$t("profile.password_should_contain"),
       ],
       form: {
         name: "",
         email: "",
+        locale: "",
         timezone: "",
         password: ""
       }
@@ -93,6 +103,7 @@ export default {
   },
 
   mounted(){
+    window.g = this;
     Object.assign(this.form, this.user)
   },
 
@@ -110,10 +121,17 @@ export default {
     ...mapMutations(["updateSnack"]),
     ...mapActions(["updateUserProfile"]),
 
+    localeList(){
+      return [
+        { text: "English", value: "en" },
+        { text: "Русский", value: "ru" }
+      ]
+    },
+
     async save(){
       this.updating = true
       const response = await this.updateUserProfile(this.form)
-      this.updateSnack({ message: "Profile was updated succesfully.", color: "green" })
+      this.updateSnack({ message: this.$t("profile.was_updated_succesfully"), color: "green" })
       this.form.password = ""
       this.updating = false
     }

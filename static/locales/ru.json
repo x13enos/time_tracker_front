@@ -1,0 +1,62 @@
+{
+  "are_you_sure": "Вы уверены?",
+  "yes": "Да",
+  "cancel": "Отмена",
+  "navigation": {
+    "tasks": "Задачи",
+    "reports": "Отчеты"
+  },
+  "profile": {
+    "title": "Настройки Профиля",
+    "name": "Имя",
+    "email": "Email",
+    "timezone": "Часовой пояс",
+    "locale": "Язык",
+    "new_password": "Новый Пароль",
+    "save": "Сохранить",
+    "was_updated_succesfully": "Профиль был успешно обновлен",
+    "name_is_required": "Поле 'Имя' обязательно",
+    "email_is_required": "Поле 'Email' обязательно",
+    "email_must_be_valid": "E-mail должен иметь правильный формат",
+    "password_should_contain": "Пароль должен содержать не менее 8 символов"
+  },
+  "login_form": {
+    "title": "Вход на Time Tracker",
+    "email": "Email",
+    "password": "Пароль",
+    "login": "Войти",
+    "email_must_be_valid": "E-mail должен иметь правильный формат"
+  },
+  "time_sheet": {
+    "title": "Учет рабочего времени",
+    "previous_week": "Предыдущая неделя",
+    "next_week": "Следующая неделя",
+    "project": "Проект",
+    "description": "Описание",
+    "time": "Время",
+    "total": "Всего",
+    "you_can_lose_changes": "Вы можете потерять все изменения на этой странице.",
+    "approve_deleting": "Подтвердите, что вы действительно хотите удалить эту задачу."
+  },
+  "reports": {
+    "title": "Отчеты",
+    "generate": "Сгенерировать отчет",
+    "download": "Скачать",
+    "from_date": "С",
+    "to_date": "По",
+    "quick_date": "Период",
+    "no_records": "НЕТ ЗАПИСЕЙ",
+    "this_week": "Текущая Неделя",
+    "last_week": "Предыдущая Неделя",
+    "this_month": "Текущий Месяц",
+    "last_month": "Предыдущий Месяц",
+    "project": "Проект",
+    "date": "Дата",
+    "employee": "Работник",
+    "description": "Описание",
+    "amount": "Всего"
+  },
+  "validations": {
+    "should_has_format": "должно иметь формат"
+  }
+}

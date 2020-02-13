@@ -7,11 +7,11 @@ it('should return the right headers with total amount', async () => {
   wrapper.vm.totalAmount = 110.25
 
   expect(wrapper.vm.headers).to.eql([
-    { text: 'Project', value: 'project_name' },
-    { text: 'Date', value: 'assigned_date' },
-    { text: 'Employee', value: 'user_name' },
-    { text: 'Description', value: 'description' },
-    { text: `Amount(110.25)`, value: 'spent_time' }
+    { text: 'reports.project', value: 'project_name' },
+    { text: 'reports.date', value: 'assigned_date' },
+    { text: 'reports.employee', value: 'user_name' },
+    { text: 'reports.description', value: 'description' },
+    { text: `reports.amount(110.25)`, value: 'spent_time' }
   ])
 
 })
