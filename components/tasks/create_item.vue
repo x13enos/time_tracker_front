@@ -17,10 +17,12 @@
       ></v-select>
     </td>
     <td width="40%">
-      <v-text-field
+      <v-textarea
         v-model="description"
         :placeholder="$t('time_sheet.description')"
         autocomplete="off"
+        rows="1"
+        :auto-grow="true"
         @input="selectPendingClass"
       />
     </td>
