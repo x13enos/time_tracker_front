@@ -1,7 +1,11 @@
 <template>
   <tr :class="rowClass">
     <td width="40%">
+      <span v-if="projects.length == 1">
+        {{ projects[0].name }}
+      </span>
       <v-select
+        v-else
         v-model="project"
         :items="projects"
         item-text="name"
