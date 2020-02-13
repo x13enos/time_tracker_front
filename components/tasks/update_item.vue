@@ -20,12 +20,14 @@
       ></v-select>
     </td>
     <td width="40%">
-      <v-text-field
+      <v-textarea
         v-model="description"
         :placeholder="$t('time_sheet.description')"
         autocomplete="off"
         @input="selectPendingClass"
         :disabled="active"
+        rows="1"
+        :auto-grow="true"
         @blur="update()"
       />
     </td>
