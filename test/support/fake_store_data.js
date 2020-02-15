@@ -1,4 +1,4 @@
-const store_data = function (){
+const storeData = function () {
   return {
     state: {
       projects: [],
@@ -9,9 +9,10 @@ const store_data = function (){
         timezone: null
       },
       snack: {
-        message: "",
-        color: ""
-      }
+        message: '',
+        color: ''
+      },
+      tasks: []
     },
     actions: {
       signIn: () => {},
@@ -35,4 +36,4 @@ const store_data = function (){
   }
 }
 
-module.exports = store_data;
+module.exports = storeData

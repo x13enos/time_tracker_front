@@ -1,11 +1,11 @@
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
-import VueI18n from "vue-i18n";
+import VueI18n from 'vue-i18n'
 import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.mocks.$t = key => key
 // we use randString in case when we want to avoid warnings about using non-primitive keys for lists
-VueTestUtils.config.mocks.$d = key => { key || randString() }
+VueTestUtils.config.mocks.$d = (key) => { key || randString() }
 
 const { shallowMount, createLocalVue } = VueTestUtils
 
@@ -25,9 +25,8 @@ const createWrapper = (component, options = {}, storeState = {}) => {
   })
 }
 
-
 const randString = () => {
-  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+  return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
 }
 
-export default createWrapper;
+export default createWrapper

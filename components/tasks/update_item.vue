@@ -1,56 +1,73 @@
 <template>
-  <tr :class="rowClass">
-    <td width="40%">
-      <span v-if="projects.length == 1">
-        {{ projects[0].name }}
-      </span>
-      <v-select
-        v-else
-        v-model="project"
-        :items="projects"
-        item-text="name"
-        item-value="id"
-        item-key="id"
-        single-line
-        :label="$t('time_sheet.project')"
-        :hide-selected="true"
-        :disabled="active"
-        @focus="selectPendingClass"
-        @change="update()"
-      ></v-select>
-    </td>
-    <td width="40%">
-      <v-textarea
-        v-model="description"
-        :placeholder="$t('time_sheet.description')"
-        autocomplete="off"
-        @input="selectPendingClass"
-        :disabled="active"
-        rows="1"
-        :auto-grow="true"
-        @blur="update()"
-      />
-    </td>
-    <td width="20%">
-      <v-row>
-        <v-col>
-          <v-form v-model="valid">
-            <v-text-field
-              v-model="spentTime"
-              placeholder="0.0"
-              :disabled="active"
-              @input="selectPendingClass"
-              :rules="spentTimeRules"
-              @blur="update()"
-            />
-          </v-form>
-        </v-col>
-        <v-col class="d-flex text-right">
-          <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
-          <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
-          <v-icon @click="dialog = true" :text="true" :large="true" :disabled="active">mdi-delete</v-icon>
-        </v-col>
-      </v-row>
+  <fragment>
+    <v-row justify="center" align="center">
+      <v-col cols="2">
+        <span v-if="projects.length == 1">
+          {{ projects[0].name }}
+        </span>
+        <v-select
+          v-else
+          v-model="project"
+          :items="projects"
+          item-text="name"
+          item-value="id"
+          item-key="id"
+          single-line
+          :label="$t('time_sheet.project')"
+          :hide-selected="true"
+          :disabled="active"
+          @focus="selectPendingClass"
+          @change="update()"
+        ></v-select>
+      </v-col>
+      <v-col cols="8">
+        <v-textarea
+          v-model="description"
+          :placeholder="$t('time_sheet.description')"
+          autocomplete="off"
+          @input="selectPendingClass"
+          :disabled="active"
+          rows="1"
+          :auto-grow="true"
+          @blur="update()"
+        />
+      </v-col>
+      <v-col cols="1">
+        <v-form v-model="valid">
+          <v-text-field
+            v-model="spentTime"
+            placeholder="0.0"
+            :disabled="active"
+            @input="selectPendingClass"
+            :rules="spentTimeRules"
+            @blur="update()"
+          />
+        </v-form>
+      </v-col>
+      <v-col cols="1">
+        <v-row>
+          <v-col cols="6">
+            <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
+            <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
+          </v-col>
+          <v-col cols="6">
+            <v-menu offset-y>
+              <template v-slot:activator="{ on }">
+                <v-icon v-on="on" :large="true" :text="true" :disabled="active">mdi-dots-vertical</v-icon>
+              </template>
+              <v-list>
+                <v-list-item @click="dialog = true">
+                  <v-icon>mdi-delete</v-icon>
+                  {{ $t("time_sheet.remove") }}
+                </v-list-item>
+              </v-list>
+            </v-menu>
+
+            <!-- <v-icon @click="dialog = true" :text="true" :large="true" :disabled="active">mdi-delete</v-icon> -->
+          </v-col>
+        </v-row>
+      </v-col>
+
       <v-dialog v-model="dialog" max-width="290">
         <v-card>
           <v-card-title class="headline">{{ $t("are_you_sure") }}</v-card-title>
@@ -68,16 +85,20 @@
           </v-card-actions>
         </v-card>
       </v-dialog>
-    </td>
-  </tr>
-
-
+    </v-row>
+    <v-divider />
+  </fragment>
 </template>
 
 <script>
+import Fragment from 'vue-fragment'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
+  components: {
+    'fragment': Fragment
+  },
+
   props: {
     task: {
       type: Object,
