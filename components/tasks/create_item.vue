@@ -1,6 +1,6 @@
 <template>
-  <tr :class="rowClass">
-    <td width="40%">
+  <v-row justify="center" align="center">
+    <v-col cols="2">
       <span v-if="projects.length == 1">
         {{ projects[0].name }}
       </span>
@@ -15,8 +15,8 @@
         :label="$t('time_sheet.project')"
         @focus="selectPendingClass"
       ></v-select>
-    </td>
-    <td width="40%">
+    </v-col>
+    <v-col cols="8">
       <v-textarea
         v-model="description"
         :placeholder="$t('time_sheet.description')"
@@ -25,34 +25,30 @@
         :auto-grow="true"
         @input="selectPendingClass"
       />
-    </td>
-    <td width="20%">
-      <v-row>
-        <v-col>
-          <v-form v-model="valid">
-            <v-text-field
-              v-model="spentTime"
-              placeholder="0.0"
-              :disabled="doesNotReadyForAction"
-              :rules="spentTimeRules"
-              @blur="onlyCreate"
-            />
-          </v-form>
-        </v-col>
-        <v-col class="d-flex text-right">
-          <v-icon
-          @click="create"
-          :text="true"
-          :large="true"
-          @mouseover="toggleBtnStatus"
-          @mouseout="toggleBtnStatus"
-          :disabled="doesNotReadyForAction || !this.activeDay || !valid">
-            mdi-play-circle
-          </v-icon>
-        </v-col>
-      </v-row>
-    </td>
-  </tr>
+    </v-col>
+    <v-col cols="1">
+      <v-form v-model="valid">
+        <v-text-field
+          v-model="spentTime"
+          placeholder="0.0"
+          :disabled="doesNotReadyForAction"
+          :rules="spentTimeRules"
+          @blur="onlyCreate"
+        />
+      </v-form>
+    </v-col>
+    <v-col cols="1">
+      <v-icon
+      @click="create"
+      :text="true"
+      :large="true"
+      @mouseover="toggleBtnStatus"
+      @mouseout="toggleBtnStatus"
+      :disabled="doesNotReadyForAction || !this.activeDay || !valid">
+        mdi-play-circle
+      </v-icon>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

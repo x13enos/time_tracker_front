@@ -1,39 +1,35 @@
 <template>
-  <v-simple-table>
-    <template v-slot:default>
-      <thead>
-        <tr>
-          <th class="text-left">
-            {{ $t("time_sheet.project") }}
-          </th>
-          <th class="text-left">
-            {{ $t("time_sheet.description") }}
-          </th>
-          <th class="text-left">
-            {{ $t("time_sheet.time") }}
-            <span class="float-right">
-              {{ $t("time_sheet.total") }}: {{ totalTime }}
-            </span>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <task
-          v-for="(task, index) in tasks" :key="task.id"
-          :task="task"
-          :activeDay="activeDay"
-          @keepIntervalId="keepIntervalId($event, intervalId)"
-          @clearIntervalId="clearIntervalId"
-        />
-        <new-task :activeDay="activeDay" :day="day" />
-      </tbody>
-    </template>
-  </v-simple-table>
+  <fragment>
+    <v-row class="caption font-weight-black">
+      <v-col cols="2">
+        {{ $t("time_sheet.project") }}
+      </v-col>
+      <v-col cols="8">
+        {{ $t("time_sheet.description") }}
+      </v-col>
+      <v-col cols="1">
+        {{ $t("time_sheet.time") }}
+      </v-col>
+      <v-col cols="1" class="text-right">
+        {{ $t("time_sheet.total") }}: {{ totalTime }}
+      </v-col>
+    </v-row>
+    <v-divider />
+    <task
+      v-for="(task, index) in tasks" :key="task.id"
+      :task="task"
+      :activeDay="activeDay"
+      @keepIntervalId="keepIntervalId($event, intervalId)"
+      @clearIntervalId="clearIntervalId"
+    />
+    <new-task :activeDay="activeDay" :day="day" />
+  </fragment>
 </template>
 
 <script>
-import createItem from '~/components/tasks/create_item.vue'
-import updateItem from '~/components/tasks/update_item.vue'
+import { Fragment } from 'vue-fragment'
+import CreateItem from '~/components/tasks/create_item.vue'
+import UpdateItem from '~/components/tasks/update_item.vue'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -50,8 +46,9 @@ export default {
   },
 
   components: {
-    "new-task": createItem,
-    "task": updateItem
+    "fragment": Fragment,
+    "new-task": CreateItem,
+    "task": UpdateItem
   },
 
   data: function() {

@@ -35,6 +35,7 @@
     "description": "Description",
     "time": "Time",
     "total": "Total",
+    "remove": "Remove",
     "you_can_lose_changes": "Changes that you made may not be saved.",
     "approve_deleting": "Please approve that you want to remove this task."
   },
