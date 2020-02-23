@@ -83,8 +83,7 @@ export default {
   },
 
   mounted: function(){
-    if(this.projects.length == 1)
-      this.project = this.projects[0].id
+    this.selectOneProject()
   },
 
   computed: {
@@ -112,6 +111,7 @@ export default {
         const response = await this.addTask({params: this.formData(), day: this.day })
         this.updateCounterOfPendingTasks(-1)
         Object.assign(this, this.defaultData())
+        this.selectOneProject()
       } catch (error){
         this.rowClass = "red"
       }
@@ -135,6 +135,11 @@ export default {
 
     toggleBtnStatus(){
         this.btnStartFocused = !this.btnStartFocused
+    },
+
+    selectOneProject(){
+      if(this.projects.length == 1)
+        this.project = this.projects[0].id
     },
 
     defaultData(){

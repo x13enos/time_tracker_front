@@ -18,7 +18,8 @@ const storeData = function () {
       signIn: () => {},
       addTask: () => {},
       updateTask: () => {},
-      deleteTask: () => {}
+      deleteTask: () => {},
+      getWeeklyTasks: () => {}
     },
     mutations: {
       updateUserData: () => {},

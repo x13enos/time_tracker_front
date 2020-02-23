@@ -10,10 +10,10 @@ export default {
     return response;
   },
 
-  async getDailyTasks ({ commit }, day) {
-    commit('clearTasks')
+  async getWeeklyTasks ({ commit }, day) {
+    commit('reinitTasksObject', day)
     commit('clearActiveTaskIntervalId')
-    const response = await this.$api.dailyTimeRecords(dateInUnixFormat(day))
+    const response = await this.$api.weeklyTimeRecords(dateInUnixFormat(day))
     commit('updateTasks', response.data.time_records)
     return response;
   },
@@ -22,7 +22,7 @@ export default {
     params.assignedDate = dateInUnixFormat(day)
     const response = await this.$api.createTimeRecord(params)
     dispatch("stopOtherTasks", response.data)
-    commit('addTask', response.data)
+    commit('updateTask', response.data)
     return response;
   },
 
@@ -35,7 +35,7 @@ export default {
 
   async deleteTask ({ commit }, data) {
     const response = await this.$api.deleteTimeRecord(data)
-    commit('deleteTask', data.id)
+    commit('deleteTask', data)
     return response;
   },
 

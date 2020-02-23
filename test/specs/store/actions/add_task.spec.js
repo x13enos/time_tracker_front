@@ -34,7 +34,7 @@ describe("addTask", () => {
     const commitStub = sinon.stub(commitObject, 'commit')
     const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
     await actions.addTask(commitObject, { params: {}, day })
-    expect(commitStub.args[0]).to.eql([ 'addTask', 'data' ])
+    expect(commitStub.args[0]).to.eql([ 'updateTask', 'data' ])
     apiStub.restore()
     commitStub.restore()
   })

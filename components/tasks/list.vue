@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <v-row class="caption font-weight-black">
       <v-col cols="2">
         {{ $t("time_sheet.project") }}
@@ -16,18 +16,17 @@
     </v-row>
     <v-divider />
     <task
-      v-for="(task, index) in tasks" :key="task.id"
-      :task="task"
+      v-for="(taskInfo, taskId, index) in dailyTasks" :key="taskId"
+      :task="taskInfo"
       :activeDay="activeDay"
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
     />
     <new-task :activeDay="activeDay" :day="day" />
-  </fragment>
+  </div>
 </template>
 
 <script>
-import { Fragment } from 'vue-fragment'
 import CreateItem from '~/components/tasks/create_item.vue'
 import UpdateItem from '~/components/tasks/update_item.vue'
 import { mapActions, mapState } from 'vuex'
@@ -46,7 +45,6 @@ export default {
   },
 
   components: {
-    "fragment": Fragment,
     "new-task": CreateItem,
     "task": UpdateItem
   },
@@ -60,12 +58,16 @@ export default {
   computed: {
     ...mapState(["tasks"]),
 
+    dailyTasks(){
+      return this.tasks[this.day.startOf('day').ts / 1000] || []
+    },
+
     activeDay(){
       return this.currentDate.startOf('day').ts === this.day.startOf('day').ts
     },
 
     totalTime(){
-      return this.tasks.map((task) => {
+      return Object.values(this.dailyTasks).map((task) => {
         return task.spentTime
       }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     }
