@@ -28,7 +28,7 @@ describe("deleteTask", () => {
     const commitStub = sinon.stub(commitObject, 'commit')
     const apiStub = sinon.stub(actions.$api, 'deleteTimeRecord').returns(success_response)
     await actions.deleteTask(commitObject, { id: 1 })
-    expect(commitStub.args[0]).to.eql(['deleteTask', 1])
+    expect(commitStub.args[0]).to.eql(['deleteTask', { id: 1 }])
     apiStub.restore()
     commitStub.restore()
   })

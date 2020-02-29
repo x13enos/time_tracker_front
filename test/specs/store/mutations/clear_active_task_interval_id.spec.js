@@ -1,4 +1,3 @@
-
 import mutations from '@/store/mutations'
 
 it('should clean interval id of active task', () => {

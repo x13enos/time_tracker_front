@@ -5,7 +5,8 @@ const taskData = {
   id: 125,
   project: 1,
   description: "test",
-  spentTime: '0.50'
+  spentTime: '0.50',
+  assignedDate: "1572123600"
 }
 const propsData = { activeDay: false, task: taskData }
 const $appMethods = { isEmpty: (value) => { return true } }
@@ -46,7 +47,11 @@ it('should pass updated time to parent each 36 seconds', () => {
   clock.tick(37000);
 
   expect(mutationStub.calledOnce).to.be.true
-  expect(mutationStub.args[0]).to.eql([{ spentTime: 0.51, id: 125 }])
+  expect(mutationStub.args[0]).to.eql([{
+    assignedDate: "1572123600",
+    spentTime: 0.51,
+    id: 125
+  }])
 
   clock.restore();
   mutationStub.restore();

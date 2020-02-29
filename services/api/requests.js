@@ -41,7 +41,7 @@ function Api(router, store) {
     return client.delete(`/time_records/${data.id}`)
   }
 
-  this.dailyTimeRecords = (assigned_date) => {
+  this.weeklyTimeRecords = (assigned_date) => {
     return client.get("/time_records", { params: { assigned_date } })
   }
 

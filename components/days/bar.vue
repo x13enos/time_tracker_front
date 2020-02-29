@@ -28,7 +28,7 @@
 
     <v-divider />
 
-    <v-tabs v-model="tab" background-color="transparent" @change="getDailyTasks(selectedDate)" grow>
+    <v-tabs v-model="tab" background-color="transparent" grow>
       <v-tab
         v-for="day in days"
         :key="getFormattedDateForTab(day)"
@@ -67,7 +67,8 @@
       }
     },
 
-    mounted: function(){
+    mounted: async function(){
+      await this.getWeeklyTasks(this.selectedDate);
       this.setTheRightTab()
     },
 
@@ -93,7 +94,7 @@
 
     methods: {
       ...mapActions([
-        "getDailyTasks",
+        "getWeeklyTasks",
         "checkOnPendingTasks"
       ]),
       ...mapState(["user"]),
@@ -120,6 +121,7 @@
       async changeDay(number){
         this.tab = null
         this.selectedDate = this.selectedDate.plus({ days: number })
+        await this.getWeeklyTasks(this.selectedDate);
       },
 
       currentDateInTimeZone(){

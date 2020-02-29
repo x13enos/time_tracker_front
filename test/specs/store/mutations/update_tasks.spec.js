@@ -1,8 +1,10 @@
 import mutations from '@/store/mutations'
 
-describe("mutation: updateTasks", () => {
+describe('mutation: updateTasks', () => {
   const state = {
-    tasks: []
+    tasks: {
+      '1572123600': {}
+    }
   }
 
   const data = [{
@@ -10,17 +12,19 @@ describe("mutation: updateTasks", () => {
     project_id: 2,
     description: 'text',
     spent_time: 1.5,
-    time_start: 'time'
+    time_start: 'time',
+    assigned_date: '1572123600'
   }]
 
   it('should update list of tasks', () => {
     mutations.updateTasks(state, data)
-    expect(state.tasks).to.eql([{
+    expect(state.tasks['1572123600']['1']).to.eql({
       id: 1,
       project: 2,
       description: 'text',
       spentTime: 1.5,
-      timeStart: 'time'
-    }])
+      timeStart: 'time',
+      assignedDate: '1572123600'
+    })
   })
 })

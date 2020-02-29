@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
   updatePersonalInfo (state, userData) {
     Object.assign(state.user, userData)
@@ -9,29 +11,23 @@ export default {
   },
 
   updateTasks(state, data) {
-    state.tasks = data.map((taskData) => {
-      return collectTaskData(taskData)
+    data.forEach((timeRecord) => {
+      Vue.set(state.tasks[timeRecord.assigned_date], timeRecord.id, collectTaskData(timeRecord));
     })
   },
 
-  addTask(state, data){
-    state.tasks.push(collectTaskData(data))
-  },
-
   updateTask(state, data){
-    const taskData = collectTaskData(data)
-    const task = state.tasks.find(task => task.id === taskData.id);
-    Object.assign(task, taskData)
+    Vue.set(state.tasks[data.assigned_date], data.id, collectTaskData(data));
   },
 
-  deleteTask(state, id){
-    const index = state.tasks.findIndex(task => task.id === id);
-    state.tasks.splice(index, 1)
+  deleteTask(state, { assignedDate, id }){
+    Vue.delete(state.tasks[assignedDate], id)
   },
 
-  updateTaskSpentTime(state, {spentTime, id}){
-    const task = state.tasks.find(task => task.id === id);
-    Object.assign(task, { spentTime })
+  updateTaskSpentTime(state, { assignedDate, spentTime, id }){
+    const task = Object.assign({}, state.tasks[assignedDate][id])
+    task.spentTime = spentTime
+    Vue.set(state.tasks[assignedDate], id, task);
   },
 
   keepActiveTaskIntervalId(state, intervalId){
@@ -44,11 +40,25 @@ export default {
   },
 
   cleanTasksStartTime(state){
-    state.tasks.forEach((task) => { task.timeStart = null })
+    const stateTasks = Object.assign({}, state.tasks)
+
+    Object.values(stateTasks).forEach((dailyTasks) => {
+      Object.values(dailyTasks).forEach((task) => { task.timeStart = null })
+    })
+
+    Vue.set(state, 'tasks', stateTasks);
   },
 
-  clearTasks(state){
-    state.tasks = []
+  reinitTasksObject(state, day){
+    const beginningOfWeek = day.startOf("week");
+    const stateTasks = {};
+
+    ([...Array(7).keys()]).forEach((i) => {
+      let epoch = beginningOfWeek.plus({ "days": i }).ts / 1000
+      stateTasks[epoch] = {}
+    })
+
+    Vue.set(state, 'tasks', stateTasks);
   },
 
   updateSnack(state, data){
@@ -70,6 +80,7 @@ function collectTaskData(taskData){
     project: taskData.project_id,
     description: taskData.description,
     spentTime: taskData.spent_time,
-    timeStart: taskData.time_start
+    timeStart: taskData.time_start,
+    assignedDate: taskData.assigned_date
   }
 }

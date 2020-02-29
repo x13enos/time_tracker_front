@@ -1,5 +1,5 @@
 <template>
-  <fragment>
+  <div>
     <v-row justify="center" align="center">
       <v-col cols="2">
         <span v-if="projects.length == 1">
@@ -63,7 +63,6 @@
               </v-list>
             </v-menu>
 
-            <!-- <v-icon @click="dialog = true" :text="true" :large="true" :disabled="active">mdi-delete</v-icon> -->
           </v-col>
         </v-row>
       </v-col>
@@ -87,17 +86,13 @@
       </v-dialog>
     </v-row>
     <v-divider />
-  </fragment>
+  </div>
 </template>
 
 <script>
-import Fragment from 'vue-fragment'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
-  components: {
-    'fragment': Fragment
-  },
 
   props: {
     task: {
@@ -192,7 +187,10 @@ export default {
     start(){
       const intervalId = setInterval(() => {
         this.spentTime = (parseFloat(this.spentTime) + parseFloat("0.01")).toFixed(2)
-        this.updateTaskSpentTime({ spentTime: parseFloat(this.spentTime), id: this.id })
+        this.updateTaskSpentTime({
+          assignedDate: this.task.assignedDate,
+          spentTime: parseFloat(this.spentTime),
+          id: this.id })
       }, 36000);
       this.keepActiveTaskIntervalId(intervalId)
     },
@@ -211,7 +209,10 @@ export default {
 
     deleteItem(){
       this.dialog = false
-      this.deleteTask({ id: this.id })
+      this.deleteTask({
+        assignedDate: this.task.assignedDate,
+        id: this.id
+      })
     }
   }
 }
