@@ -1,4 +1,3 @@
-
 import getters from '@/store/getters'
 
 it("should return true if user didn't sign in", () => {

@@ -1,4 +1,3 @@
-
 import getters from '@/store/getters'
 
 it('should return true if number of pending tasks is more than 0', () => {

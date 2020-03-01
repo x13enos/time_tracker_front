@@ -11,7 +11,7 @@
         {{ $t("time_sheet.time") }}
       </v-col>
       <v-col cols="1" class="text-right">
-        {{ $t("time_sheet.total") }}: {{ totalTime }}
+        {{ $t("time_sheet.total") }}: {{ totalTimeOfDailyTasks(day) }}
       </v-col>
     </v-row>
     <v-divider />
@@ -29,7 +29,7 @@
 <script>
 import CreateItem from '~/components/tasks/create_item.vue'
 import UpdateItem from '~/components/tasks/update_item.vue'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   props: {
@@ -57,6 +57,7 @@ export default {
 
   computed: {
     ...mapState(["tasks"]),
+    ...mapGetters(["totalTimeOfDailyTasks"]),
 
     dailyTasks(){
       return this.tasks[this.day.startOf('day').ts / 1000] || []
@@ -64,12 +65,6 @@ export default {
 
     activeDay(){
       return this.currentDate.startOf('day').ts === this.day.startOf('day').ts
-    },
-
-    totalTime(){
-      return Object.values(this.dailyTasks).map((task) => {
-        return task.spentTime
-      }).reduce((accumulator, currentValue) => accumulator + currentValue, 0);
     }
   },
 

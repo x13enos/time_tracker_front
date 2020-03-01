@@ -32,7 +32,8 @@ const storeData = function () {
       clearActiveTaskIntervalId: () => {}
     },
     getters: {
-      isAdmin: () => {}
+      isAdmin: () => {},
+      totalTimeOfDailyTasks: () => { return () => {} }
     }
   }
 }

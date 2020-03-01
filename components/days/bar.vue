@@ -30,10 +30,12 @@
 
     <v-tabs v-model="tab" background-color="transparent" grow>
       <v-tab
+        class="d-flex justify-space-between"
         v-for="day in days"
         :key="getFormattedDateForTab(day)"
         @click="selectedDate = day">
-        {{ getFormattedDateForTab(day) }}
+        <div>{{ getFormattedDateForTab(day) }}</div>
+        <div>{{ totalTimeOfDailyTasks(day) }}</div>
       </v-tab>
     </v-tabs>
 
@@ -52,7 +54,7 @@
 
 <script>
   import tasksList from '@/components/tasks/list'
-  import { mapActions, mapState } from 'vuex'
+  import { mapActions, mapState, mapGetters } from 'vuex'
   import { DateTime } from 'luxon'
 
   export default {
@@ -83,6 +85,8 @@
     },
 
     computed: {
+      ...mapGetters(["totalTimeOfDailyTasks"]),
+
       days(){
         return this.weekDays(this.selectedDate)
       },
@@ -138,5 +142,10 @@
 
   .next-week{
     padding: 0 8px 0 16px;
+  }
+
+  .v-tab {
+    justify-content: left;
+    border: 1px solid #90CAF9
   }
 </style>
