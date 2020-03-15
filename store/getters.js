@@ -4,7 +4,7 @@ export default {
   },
 
   somePendingTasks (state) {
-    return state.counterOfPendingTasks > 0
+    return state.pendingTasks.length > 0
   },
 
   isAdmin (state) {

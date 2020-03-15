@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" align="center">
+  <v-row justify="center" align="center" :class="rowClass">
     <v-col cols="2">
       <span v-if="projects.length == 1">
         {{ projects[0].name }}
@@ -94,12 +94,21 @@ export default {
 
     projects(){
       return this.$store.state.projects;
+    },
+
+    internalId(){
+      return `f${(~~(Math.random()*1e8)).toString(16)}`;
     }
   },
 
   methods: {
     ...mapActions(["addTask"]),
-    ...mapMutations(["updateSnack", "updateCounterOfPendingTasks"]),
+    ...mapMutations([
+      "updateSnack",
+      "updateCounterOfPendingTasks",
+      "addPendingTaskId",
+      "deletePendingTaskId"
+    ]),
 
     onlyCreate(){
       if(!this.btnStartFocused && this.valid)
@@ -109,7 +118,7 @@ export default {
     async create(){
       try {
         const response = await this.addTask({params: this.formData(), day: this.day })
-        this.updateCounterOfPendingTasks(-1)
+        this.removePendingState();
         Object.assign(this, this.defaultData())
         this.selectOneProject()
       } catch (error){
@@ -118,9 +127,10 @@ export default {
     },
 
     selectPendingClass(){
-      if(this.$appMethods.isEmpty(this.rowClass)){
-        this.updateCounterOfPendingTasks(1)
-        this.rowClass = "yellow lighten-3"
+      if(this.containsEmptyData()){
+        this.removePendingState();
+      } else {
+        this.addPendingState();
       }
     },
 
@@ -137,6 +147,11 @@ export default {
         this.btnStartFocused = !this.btnStartFocused
     },
 
+    containsEmptyData(){
+      return (this.projects.length === 1 || this.$appMethods.isEmpty(this.project)) &&
+        this.$appMethods.isEmpty(this.description)
+    },
+
     selectOneProject(){
       if(this.projects.length == 1)
         this.project = this.projects[0].id
@@ -149,6 +164,18 @@ export default {
         description: null,
         spentTime: null,
         btnStartFocused: false
+      }
+    },
+
+    removePendingState(){
+      this.deletePendingTaskId(this.internalId)
+      this.rowClass = ""
+    },
+
+    addPendingState(){
+      if(this.$appMethods.isEmpty(this.rowClass)){
+        this.addPendingTaskId(this.internalId)
+        this.rowClass = "yellow lighten-3"
       }
     }
   }

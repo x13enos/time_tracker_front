@@ -29,7 +29,7 @@ export default {
   mounted() {
     window.addEventListener('beforeunload', (event) => {
       if(this.somePendingTasks())
-        event.returnValue = $t("you_can_lose_changes");
+        event.returnValue = this.$t("you_can_lose_changes");
     });
   },
 

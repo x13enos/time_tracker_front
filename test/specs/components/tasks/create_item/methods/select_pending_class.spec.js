@@ -2,37 +2,33 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
 
-const propsData = {
-  day: DateTime.local(),
-  activeDay: false
-}
-const $appMethods = { isEmpty: () => {} }
-
-it('should set the right pending row class if that was empty', () => {
+describe('selectPendingClass', () => {
+  const propsData = {
+    day: DateTime.local(),
+    activeDay: false
+  }
   const $appMethods = { isEmpty: () => true }
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
 
-  wrapper.vm.selectPendingClass()
-  expect(wrapper.vm.rowClass).to.eq("yellow lighten-3")
-});
+  it('should call method for removing pending state in case of deleting info', () => {
+    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    sinon.stub(wrapper.vm, "containsEmptyData").returns(true)
+    const methodStub = sinon.stub(wrapper.vm, "removePendingState")
 
-it('should call mutation for increasing number of pending tasks', () => {
-  const $appMethods = { isEmpty: () => true }
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const mutationStub = sinon.stub(wrapper.vm, "updateCounterOfPendingTasks")
+    wrapper.vm.selectPendingClass()
 
-  wrapper.vm.selectPendingClass()
-  expect(mutationStub.calledOnce).to.be.true
-  expect(mutationStub.args[0]).to.eql([1])
+    expect(methodStub.calledOnce).to.be.true
+    sinon.restore()
+  });
 
-  mutationStub.restore()
-});
+  it('should call method for adding pending state', () => {
+    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    sinon.stub(wrapper.vm, "containsEmptyData").returns(false)
+    const methodStub = sinon.stub(wrapper.vm, "addPendingState")
 
-it('should not set the right pending row class if this exists', () => {
-  const $appMethods = { isEmpty: () => false }
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  wrapper.vm.rowClass = "red"
+    wrapper.vm.selectPendingClass()
 
-  wrapper.vm.selectPendingClass()
-  expect(wrapper.vm.rowClass).to.eq("red")
+    expect(methodStub.calledOnce).to.be.true
+    sinon.restore()
+  });
+
 });

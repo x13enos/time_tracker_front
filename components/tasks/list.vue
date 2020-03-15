@@ -22,7 +22,10 @@
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
     />
-    <new-task :activeDay="activeDay" :day="day" />
+    <new-task
+      :activeDay="activeDay"
+      :day="day"
+    />
   </div>
 </template>
 

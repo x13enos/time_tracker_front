@@ -71,6 +71,18 @@ export default {
 
   cleanCounterOfPendingTasks(state){
     state.counterOfPendingTasks = 0
+  },
+
+  addPendingTaskId(state, id){
+    const tasks = state.pendingTasks
+    if(!tasks.includes(id))
+      tasks.push(id)
+  },
+
+  deletePendingTaskId(state, id){
+    const tasks = state.pendingTasks
+    if(tasks.includes(id))
+      tasks.splice( tasks.indexOf(id), 1 );
   }
 }
 

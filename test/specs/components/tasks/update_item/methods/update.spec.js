@@ -31,23 +31,13 @@ it('should call action updateTask and form data should have active status as tru
   paramsStub.restore()
 });
 
-it('should remove pending row class if request was successful', async () => {
+it('should remove pending state if request was successful', async () => {
   const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
   const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
-
-  await wrapper.vm.update(true)
-  expect(wrapper.vm.rowClass).to.eq("")
-  actionStub.restore()
-});
-
-it('should decrease number of pending tasks if request was successful', async () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
-  const mutationStub = sinon.stub(wrapper.vm, "updateCounterOfPendingTasks")
+  const mutationStub = sinon.stub(wrapper.vm, "removePendingState")
 
   await wrapper.vm.update(true)
   expect(mutationStub.calledOnce).to.be.true
-  expect(mutationStub.args[0]).to.eql([-1])
 
   actionStub.restore()
   mutationStub.restore()
