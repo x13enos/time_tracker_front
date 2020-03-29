@@ -4,6 +4,7 @@ export default function state(){
     projects: [],
     tasks: [],
     counterOfPendingTasks: 0,
+    pendingTasks: [],
     snack: {
       message: "",
       color: ""

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row justify="center" align="center">
+    <v-row justify="center" align="center" :class="rowClass">
       <v-col cols="2">
         <span v-if="projects.length == 1">
           {{ projects[0].name }}
@@ -137,6 +137,10 @@ export default {
 
     active(){
       return !this.$appMethods.isEmpty(this.task.timeStart)
+    },
+
+    internalId(){
+      return `f${(~~(Math.random()*1e8)).toString(16)}`;
     }
   },
 
@@ -157,19 +161,21 @@ export default {
       "keepActiveTaskIntervalId",
       "clearActiveTaskIntervalId",
       "updateSnack",
-      "updateCounterOfPendingTasks"
+      "updateCounterOfPendingTasks",
+      "deletePendingTaskId",
+      "addPendingTaskId"
     ]),
 
     async update(state=false){
       if(!this.valid)
         return
+        
       const params = this.formData()
       params.active = state
 
       try{
         await this.updateTask(params)
-        this.updateCounterOfPendingTasks(-1)
-        this.rowClass = ""
+        this.removePendingState();
       } catch (error) {
         this.rowClass = "red"
       }
@@ -201,8 +207,27 @@ export default {
     },
 
     selectPendingClass(){
+      if(this.taskHasTheSameAttributes()){
+        this.removePendingState();
+      } else {
+        this.addPendingState();
+      }
+    },
+
+    taskHasTheSameAttributes(){
+      return ["project", "description", "spentTime"].every((attr) => {
+        return this.task[attr] === this[attr]
+      })
+    },
+
+    removePendingState(){
+      this.deletePendingTaskId(this.internalId)
+      this.rowClass = ""
+    },
+
+    addPendingState(){
       if(this.$appMethods.isEmpty(this.rowClass)){
-        this.updateCounterOfPendingTasks(1)
+        this.addPendingTaskId(this.internalId)
         this.rowClass = "yellow lighten-3"
       }
     },

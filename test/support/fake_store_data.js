@@ -29,7 +29,9 @@ const storeData = function () {
       updateSnack: () => {},
       updateCounterOfPendingTasks: () => {},
       updatePersonalInfo: () => {},
-      clearActiveTaskIntervalId: () => {}
+      clearActiveTaskIntervalId: () => {},
+      addPendingTaskId: () => {},
+      deletePendingTaskId: () => {}
     },
     getters: {
       isAdmin: () => {},

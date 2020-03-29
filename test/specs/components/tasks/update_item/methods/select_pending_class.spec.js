@@ -3,31 +3,28 @@ import task from '@/components/tasks/update_item'
 
 const propsData = { activeDay: false, task: {} }
 
-it('should set the right pending row class if that was empty', () => {
-  const $appMethods = { isEmpty: () => { return true } }
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+describe('selectPendingClass', () => {
 
-  wrapper.vm.selectPendingClass()
-  expect(wrapper.vm.rowClass).to.eq("yellow lighten-3")
-});
+  it('should call method "removePendingState" if task has the same attributes', () => {
+    const $appMethods = { isEmpty: () => { return true } }
+    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    sinon.stub(wrapper.vm, "taskHasTheSameAttributes").returns(true)
+    const methodStub = sinon.stub(wrapper.vm, "removePendingState")
 
-it('should call mutation for increasing number of pending tasks', () => {
-  const $appMethods = { isEmpty: () => { return true } }
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const mutationStub = sinon.stub(wrapper.vm, "updateCounterOfPendingTasks")
+    wrapper.vm.selectPendingClass()
+    expect(methodStub.calledOnce).to.be.true
+    sinon.restore()
+  });
 
-  wrapper.vm.selectPendingClass()
-  expect(mutationStub.calledOnce).to.be.true
-  expect(mutationStub.args[0]).to.eql([1])
+  it('should call method "addPendingState" if task does not have the same attributes', () => {
+    const $appMethods = { isEmpty: () => { return true } }
+    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    sinon.stub(wrapper.vm, "taskHasTheSameAttributes").returns(false)
+    const methodStub = sinon.stub(wrapper.vm, "addPendingState")
 
-  mutationStub.restore()
-});
+    wrapper.vm.selectPendingClass()
+    expect(methodStub.calledOnce).to.be.true
+    sinon.restore()
+  });
 
-it('should not set the right pending row class if this exists', () => {
-  const $appMethods = { isEmpty: () => { return false } }
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  wrapper.vm.rowClass = "red"
-
-  wrapper.vm.selectPendingClass()
-  expect(wrapper.vm.rowClass).to.eq("red")
 });
