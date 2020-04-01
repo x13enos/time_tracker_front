@@ -2,9 +2,12 @@
   "are_you_sure": "Are you sure?",
   "yes": "Yes",
   "cancel": "Cancel",
+  "close": "Close",
+  "create": "Create",
   "navigation": {
     "tasks": "Tasks",
-    "reports": "Reports"
+    "reports": "Reports",
+    "projects": "Projects"
   },
   "profile": {
     "title": "Profile Settings",
@@ -56,6 +59,15 @@
     "employee": "Employee",
     "description": "Description",
     "amount": "Amount"
+  },
+  "projects": {
+    "title": "Projects",
+    "add": "Add",
+    "no_projects": "No Projects",
+    "name": "Name",
+    "users": "Users",
+    "new_project": "New Project",
+    "name_is_required": "Name is required"
   },
   "validations": {
     "should_has_format": "should has format"

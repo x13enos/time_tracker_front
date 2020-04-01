@@ -74,6 +74,12 @@ function Api(router, store) {
     } })
   }
 
+  this.createProject = (data) => {
+    return client.post("/projects", {
+      name: data.name
+    })
+  }
+
   // private logic
 
   const client = axios.create({

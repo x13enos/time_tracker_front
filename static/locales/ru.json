@@ -2,9 +2,12 @@
   "are_you_sure": "Вы уверены?",
   "yes": "Да",
   "cancel": "Отмена",
+  "close": "Закрыть",
+  "create": "Создать",
   "navigation": {
     "tasks": "Задачи",
-    "reports": "Отчеты"
+    "reports": "Отчеты",
+    "projects": "Проекты"
   },
   "profile": {
     "title": "Настройки Профиля",
@@ -56,6 +59,15 @@
     "employee": "Работник",
     "description": "Описание",
     "amount": "Всего"
+  },
+  "projects": {
+    "title": "Проекты",
+    "add": "Добавить",
+    "no_projects": "Вы еще не добавили ни одного проекта.",
+    "name": "Название",
+    "users": "Пользователи",
+    "new_project": "Новый Проект",
+    "name_is_required": "Поле 'Название' обязательно"
   },
   "validations": {
     "should_has_format": "должно иметь формат"
