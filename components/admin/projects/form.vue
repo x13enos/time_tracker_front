@@ -31,8 +31,12 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="blue darken-1" text @click="dialog = false">{{ $t("close") }}</v-btn>
-        <v-btn color="blue darken-1" text @click="create" :disabled="!valid">
-          {{ $t("create") }}
+        <v-btn
+          color="blue darken-1"
+          text
+          @click="save"
+          :disabled="!valid">
+          {{ $t(`${ newProject ? "create" : "update" }`)}}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -41,21 +45,36 @@
 
 <script>
   export default {
+    props: {
+      project: {
+        type: Object,
+        retuired: false,
+        default: () => { return {} }
+      }
+    },
+
     data() {
       return {
         valid: false,
         dialog: false,
         form: {
-          name: ""
+          name: this.project.name || ""
         }
       }
     },
 
+    computed: {
+      newProject(){
+        return this.$appMethods.isEmpty(this.project)
+      }
+    },
+
     methods: {
-      create(){
+      save(){
         this.dialog = false
         this.$emit("processData", this.form)
-        this.form = { name: "" }
+        if(this.newProject)
+          this.form = { name: "" }
       }
     }
   }

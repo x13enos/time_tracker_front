@@ -10,7 +10,7 @@ describe('createProject', () => {
   const mocks = {
     $api: { createProject: () => {} }
   }
-  const successResponse = { data: [{ name: 'test-project', id: 11 }] }
+  const successResponse = { data: { name: 'test-project', id: 11 } }
   const projectData = { name: "test-project" }
 
   it("should call api method for creating project", () => {

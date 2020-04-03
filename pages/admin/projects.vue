@@ -27,7 +27,17 @@
           <tr v-for="project in projects" :key="project.id">
             <td>{{ project.name }}</td>
             <td></td>
-            <td></td>
+            <td align="right">
+              <project-form :project="project" @processData="updateProject(project.id, $event)">
+                <v-btn
+                  color="primary"
+                  fab
+                  x-small
+                  dark>
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+              </project-form>
+            </td>
           </tr>
         </tbody>
       </v-simple-table>
@@ -76,6 +86,14 @@ export default {
       const response = await this.$api.createProject(data)
       if(response.data)
         this.projects.push(response.data)
+    },
+
+    async updateProject(id, data){
+      const response = await this.$api.updateProject(id, data)
+      if(response.data){
+        const projectIndex = this.projects.findIndex(p => p.id === id )
+        this.$set(this.projects, projectIndex, response.data)
+      }
     }
 
   }

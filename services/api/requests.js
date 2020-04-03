@@ -75,9 +75,11 @@ function Api(router, store) {
   }
 
   this.createProject = (data) => {
-    return client.post("/projects", {
-      name: data.name
-    })
+    return client.post("/projects", data)
+  }
+
+  this.updateProject = (id, data) => {
+    return client.put(`/projects/${id}`, data)
   }
 
   // private logic
