@@ -80,6 +80,10 @@ function Api(router, store) {
 
   this.updateProject = (id, data) => {
     return client.put(`/projects/${id}`, data)
+  },
+
+  this.deleteProject = (id) => {
+    return client.delete(`/projects/${id}`)
   }
 
   // private logic

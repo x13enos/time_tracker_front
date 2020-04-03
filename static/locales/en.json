@@ -68,7 +68,8 @@
     "name": "Name",
     "users": "Users",
     "new_project": "New Project",
-    "name_is_required": "Name is required"
+    "name_is_required": "Name is required",
+    "approve_deleting": "Please approve that you want to remove this project."
   },
   "validations": {
     "should_has_format": "should has format"
