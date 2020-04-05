@@ -84,6 +84,14 @@ function Api(router, store) {
 
   this.deleteProject = (id) => {
     return client.delete(`/projects/${id}`)
+  },
+
+  this.assignUserToProject = (projectId, userId) => {
+    return client.put(`/projects/${projectId}/assign_user`, { user_id: userId })
+  },
+
+  this.removeUserFromProject = (projectId, userId) => {
+    return client.put(`/projects/${projectId}/remove_user`, { user_id: userId })
   }
 
   // private logic

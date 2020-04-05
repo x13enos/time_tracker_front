@@ -69,7 +69,9 @@
     "users": "Users",
     "new_project": "New Project",
     "name_is_required": "Name is required",
-    "approve_deleting": "Please approve that you want to remove this project."
+    "approve_deleting": "Please approve that you want to remove this project.",
+    "manage_users": "Manage",
+    "users_management": "Users Management"
   },
   "validations": {
     "should_has_format": "should has format"

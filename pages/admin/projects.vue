@@ -26,7 +26,12 @@
         <tbody>
           <tr v-for="project in projects" :key="project.id">
             <td>{{ project.name }}</td>
-            <td></td>
+            <td>
+              <users-block
+                :project="project"
+                :allUsers="users"
+                @updateListOfUsers="updateListOfUserIds(...arguments, project)" />
+            </td>
             <td align="right">
               <project-form :project="project" @processData="updateProject(project.id, $event)">
                 <v-btn
@@ -74,11 +79,13 @@
 
 <script>
 import ProjectForm from "@/components/admin/projects/form"
+import UsersBlock from "@/components/admin/projects/users_block"
 
 export default {
 
   components: {
-    "project-form": ProjectForm
+    "project-form": ProjectForm,
+    "users-block": UsersBlock
   },
 
   data() {
@@ -134,6 +141,14 @@ export default {
       if(response.data){
         const projectIndex = this.projects.findIndex(p => p.id === this.deletingProjectId)
         this.$delete(this.projects, projectIndex)
+      }
+    },
+
+    updateListOfUserIds(action, user_id, project){
+      if(action === "assign"){
+        project.user_ids.push(user_id)
+      } else {
+        project.user_ids = project.user_ids.filter(id => id !== user_id)
       }
     }
   }

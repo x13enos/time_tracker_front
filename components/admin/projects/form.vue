@@ -48,7 +48,7 @@
     props: {
       project: {
         type: Object,
-        retuired: false,
+        required: false,
         default: () => { return {} }
       }
     },
