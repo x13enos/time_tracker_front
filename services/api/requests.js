@@ -74,6 +74,26 @@ function Api(router, store) {
     } })
   }
 
+  this.createProject = (data) => {
+    return client.post("/projects", data)
+  }
+
+  this.updateProject = (id, data) => {
+    return client.put(`/projects/${id}`, data)
+  },
+
+  this.deleteProject = (id) => {
+    return client.delete(`/projects/${id}`)
+  },
+
+  this.assignUserToProject = (projectId, userId) => {
+    return client.put(`/projects/${projectId}/assign_user`, { user_id: userId })
+  },
+
+  this.removeUserFromProject = (projectId, userId) => {
+    return client.put(`/projects/${projectId}/remove_user`, { user_id: userId })
+  }
+
   // private logic
 
   const client = axios.create({

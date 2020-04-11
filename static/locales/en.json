@@ -2,9 +2,13 @@
   "are_you_sure": "Are you sure?",
   "yes": "Yes",
   "cancel": "Cancel",
+  "close": "Close",
+  "create": "Create",
+  "update": "Update",
   "navigation": {
     "tasks": "Tasks",
-    "reports": "Reports"
+    "reports": "Reports",
+    "projects": "Projects"
   },
   "profile": {
     "title": "Profile Settings",
@@ -56,6 +60,18 @@
     "employee": "Employee",
     "description": "Description",
     "amount": "Amount"
+  },
+  "projects": {
+    "title": "Projects",
+    "add": "Add",
+    "no_projects": "No Projects",
+    "name": "Name",
+    "users": "Users",
+    "new_project": "New Project",
+    "name_is_required": "Name is required",
+    "approve_deleting": "Please approve that you want to remove this project.",
+    "manage_users": "Manage",
+    "users_management": "Users Management"
   },
   "validations": {
     "should_has_format": "should has format"

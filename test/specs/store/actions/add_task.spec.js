@@ -9,7 +9,7 @@ describe("addTask", () => {
 
   const day = DateTime.local();
 
-  const success_response = {
+  const successResponse = {
     success: () => { return true },
     data: 'data'
   }
@@ -23,7 +23,7 @@ describe("addTask", () => {
   })
 
   it('should call api for creating new time record', async () => {
-    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)
     await actions.addTask(commitObject, { params: {}, day })
     expect(apiStub.calledOnce).to.be.true
     expect(apiStub.args[0]).to.eql([{ assignedDate: day.ts / 1000 }])
@@ -32,7 +32,7 @@ describe("addTask", () => {
 
   it('should commit data if response is success', async () => {
     const commitStub = sinon.stub(commitObject, 'commit')
-    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)
     await actions.addTask(commitObject, { params: {}, day })
     expect(commitStub.args[0]).to.eql([ 'updateTask', 'data' ])
     apiStub.restore()
@@ -41,7 +41,7 @@ describe("addTask", () => {
 
   it('should call action stopOtherTasks if response is success', async () => {
     const dispatchStub = sinon.stub(commitObject, 'dispatch')
-    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)
     await actions.addTask(commitObject, { params: {}, day })
     expect(dispatchStub.args[0]).to.eql(['stopOtherTasks', 'data' ])
     apiStub.restore()
@@ -49,9 +49,9 @@ describe("addTask", () => {
   })
 
   it('should return response', async () => {
-    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(success_response)
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)
     const response = await actions.addTask(commitObject, { params: {}, day })
-    expect(response).to.eql(success_response)
+    expect(response).to.eql(successResponse)
     apiStub.restore()
   })
 

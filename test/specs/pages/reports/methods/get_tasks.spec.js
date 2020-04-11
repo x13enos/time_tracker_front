@@ -3,7 +3,7 @@ import reports from '@/pages/reports'
 
 describe("getTasks", () => {
   const mocks = { $api: { allTimeRecords: () => {} } }
-  const success_response = {
+  const successResponse = {
     data: {
       total_spent_time: 110,
       time_records: ["time_records"]
@@ -11,7 +11,7 @@ describe("getTasks", () => {
   }
 
   it('should drop report link', async () => {
-    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
+    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
     wrapper.vm.reportLink = "/report.pdf"
@@ -24,7 +24,7 @@ describe("getTasks", () => {
   })
 
   it('should call method for fetching time records', async () => {
-    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
+    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
 
@@ -38,7 +38,7 @@ describe("getTasks", () => {
   })
 
   it('should set totalAmount if response was successful', async () => {
-    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
+    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     await wrapper.vm.getTasks()
@@ -48,7 +48,7 @@ describe("getTasks", () => {
   })
 
   it('should set tasks from recieved data', async () => {
-    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(success_response)
+    const apiStub = sinon.stub(mocks.$api, "allTimeRecords").returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     await wrapper.vm.getTasks()

@@ -22,6 +22,12 @@
         </v-btn>
       </nuxt-link>
 
+      <nuxt-link to="/admin/projects">
+        <v-btn text>
+          {{ $t("navigation.projects") }}
+        </v-btn>
+      </nuxt-link>
+
       <nuxt-link to="/profile">
         <v-btn icon>
           <v-icon>mdi-account-circle</v-icon>

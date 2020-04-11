@@ -4,7 +4,7 @@ const commitObject = {
   commit: (type, payload) => {}
 }
 
-const success_response = {
+const successResponse = {
   success: () => { return true },
   data: "data"
 }
@@ -24,7 +24,7 @@ before(() => {
 })
 
 it('should call api for updating personal info', async () => {
-  const apiStub = sinon.stub(actions.$api, 'updateUserProfile').returns(success_response)
+  const apiStub = sinon.stub(actions.$api, 'updateUserProfile').returns(successResponse)
   await actions.updateUserProfile(commitObject, userData)
   expect(apiStub.calledOnce).to.be.true
   expect(apiStub.args[0]).to.eql([userData])
@@ -33,7 +33,7 @@ it('should call api for updating personal info', async () => {
 
 it('should commit data if response was success', async () => {
   const commitStub = sinon.stub(commitObject, 'commit')
-  const apiStub = sinon.stub(actions.$api, 'updateUserProfile').returns(success_response)
+  const apiStub = sinon.stub(actions.$api, 'updateUserProfile').returns(successResponse)
   await actions.updateUserProfile(commitObject, userData)
   expect(commitStub.args[0]).to.eql([ 'updatePersonalInfo', 'data' ])
   apiStub.restore()
@@ -42,9 +42,9 @@ it('should commit data if response was success', async () => {
 
 it('should return response', async () => {
   const commitStub = sinon.stub(commitObject, 'commit')
-  const apiStub = sinon.stub(actions.$api, 'updateUserProfile').returns(success_response)
+  const apiStub = sinon.stub(actions.$api, 'updateUserProfile').returns(successResponse)
   const response = await actions.updateUserProfile(commitObject, userData)
-  expect(response).to.eql(success_response)
+  expect(response).to.eql(successResponse)
   apiStub.restore()
   commitStub.restore()
 })

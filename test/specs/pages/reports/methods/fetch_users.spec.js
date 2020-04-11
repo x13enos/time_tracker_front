@@ -4,7 +4,7 @@ import reports from '@/pages/reports'
 describe("fetchUsers", () => {
   const mocks = { $api: { allUsers: () => {} } }
 
-  const success_response = {
+  const successResponse = {
     success: () => { return true },
     data: [{ name: 'John', id: 11 }]
   }
@@ -18,12 +18,12 @@ describe("fetchUsers", () => {
     } catch(error) {
       expect(apiStub.calledOnce).to.be.true
     }
-    
+
     sinon.restore()
   })
 
   it('should keep users from recieved data if request was successful', async () => {
-    const apiStub = sinon.stub(mocks.$api, "allUsers").returns(success_response)
+    const apiStub = sinon.stub(mocks.$api, "allUsers").returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     await wrapper.vm.fetchUsers()
