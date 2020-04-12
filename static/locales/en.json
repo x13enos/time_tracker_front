@@ -5,10 +5,12 @@
   "close": "Close",
   "create": "Create",
   "update": "Update",
+  "add": "Add",
   "navigation": {
     "tasks": "Tasks",
     "reports": "Reports",
-    "projects": "Projects"
+    "projects": "Projects",
+    "users": "Users"
   },
   "profile": {
     "title": "Profile Settings",
@@ -63,17 +65,28 @@
   },
   "projects": {
     "title": "Projects",
-    "add": "Add",
     "no_projects": "No Projects",
     "name": "Name",
     "users": "Users",
     "new_project": "New Project",
     "name_is_required": "Name is required",
-    "approve_deleting": "Please approve that you want to remove this project.",
+    "approve_deleting": "Please approve that you really want to remove this project.",
     "manage_users": "Manage",
     "users_management": "Users Management"
   },
+  "users": {
+    "title": "Users",
+    "new_user": "New User",
+    "name": "Name",
+    "email": "Email",
+    "required": "This field is required.",
+    "approve_deleting": "Please approve that you really want to remove this user.",
+    "invitation_email_would_be_sent": "Email with the invitation link would be send to user after creating.",
+    "invitation_email_was_sent": "Invitation email was been sent to user"
+  },
   "validations": {
-    "should_has_format": "should has format"
+    "required": "This field is required.",
+    "should_has_format": "should has format",
+    "email_must_be_valid": "E-mail must be valid"
   }
 }

@@ -22,9 +22,15 @@
         </v-btn>
       </nuxt-link>
 
-      <nuxt-link to="/admin/projects">
+      <nuxt-link v-if="isAdmin" to="/admin/projects">
         <v-btn text>
           {{ $t("navigation.projects") }}
+        </v-btn>
+      </nuxt-link>
+
+      <nuxt-link v-if="isAdmin" to="/admin/users">
+        <v-btn text>
+          {{ $t("navigation.users") }}
         </v-btn>
       </nuxt-link>
 
@@ -44,7 +50,13 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+
 export default {
+  computed: {
+    ...mapGetters(["isAdmin"])
+  },
+
   methods: {
     async signOut(){
       await this.$api.signOut()
