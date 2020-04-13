@@ -7,12 +7,10 @@
           class="ma-2"
           color="success"
         >
-        {{ $t('projects.add') }}
+        {{ $t('add') }}
         </v-btn>
       </project-form>
     </h1>
-
-    <v-divider />
 
     <div v-if="projects.length">
       <v-simple-table>
