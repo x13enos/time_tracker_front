@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="caption font-weight-black">
+    <v-row class="caption font-weight-black d-none d-sm-flex">
       <v-col cols="2">
         {{ $t("time_sheet.project") }}
       </v-col>

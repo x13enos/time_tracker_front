@@ -5,7 +5,7 @@
     </h1>
 
     <v-row>
-      <v-col cols="3">
+      <v-col class="col-sm-3 col-12">
         <v-form
         ref="form"
         v-model="valid">

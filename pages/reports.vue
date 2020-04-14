@@ -29,7 +29,7 @@
     </h1>
 
     <v-row>
-      <v-col cols="3">
+      <v-col class="col-sm-3 col-6">
         <date-select
           :label="$t('reports.from_date')"
           :max="filters.toDate"
@@ -38,7 +38,7 @@
         />
       </v-col>
 
-      <v-col cols="3">
+      <v-col class="col-sm-3 col-6">
         <date-select
         :label="$t('reports.to_date')"
           :min="filters.fromDate"
@@ -46,7 +46,7 @@
         />
       </v-col>
 
-      <v-col cols="3">
+      <v-col class="col-sm-3 col-6">
         <v-select
           v-model="quickDate"
           :items="quickDates"
@@ -55,7 +55,7 @@
         ></v-select>
       </v-col>
 
-      <v-col v-if='users.length' cols="3">
+      <v-col v-if='users.length' class="col-sm-3 col-6">
         <v-select
           v-model="filters.userId"
           :items="users"

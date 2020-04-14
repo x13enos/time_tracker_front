@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row justify="center" align="center" :class="rowClass">
-      <v-col cols="2">
+      <v-col class="col-sm-2 col-12">
         <span v-if="projects.length == 1">
           {{ projects[0].name }}
         </span>
@@ -20,7 +20,7 @@
           @change="update()"
         ></v-select>
       </v-col>
-      <v-col cols="8">
+      <v-col class="col-sm-8 col-12">
         <v-textarea
           v-model="description"
           :placeholder="$t('time_sheet.description')"
@@ -32,7 +32,7 @@
           @blur="update()"
         />
       </v-col>
-      <v-col cols="1">
+      <v-col class="col-sm-1 col-6">
         <v-form v-model="valid">
           <v-text-field
             v-model="spentTime"
@@ -44,7 +44,7 @@
           />
         </v-form>
       </v-col>
-      <v-col cols="1">
+      <v-col class="col-sm-1 col-6">
         <v-row>
           <v-col cols="6">
             <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
@@ -169,7 +169,7 @@ export default {
     async update(state=false){
       if(!this.valid)
         return
-        
+
       const params = this.formData()
       params.active = state
 
