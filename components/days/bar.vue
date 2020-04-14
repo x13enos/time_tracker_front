@@ -31,6 +31,7 @@
     <v-tabs v-model="tab" background-color="transparent" grow>
       <v-tab
         class="d-flex justify-space-between"
+        :class="{ 'amber lighten-3': isCurrentDay(day) }"
         v-for="day in days"
         :key="getFormattedDateForTab(day)"
         @click="selectedDate = day">
@@ -108,6 +109,10 @@
         return [...Array(7).keys()].map((day) => {
           return date.plus({ days: day })
         })
+      },
+
+      isCurrentDay(day){
+        return this.getFormattedDateForTab(day) === this.getFormattedDateForTab(this.currentDate)
       },
 
       getFormattedDateForTab(date) {
