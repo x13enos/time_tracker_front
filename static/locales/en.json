@@ -10,7 +10,9 @@
     "tasks": "Tasks",
     "reports": "Reports",
     "projects": "Projects",
-    "users": "Users"
+    "users": "Users",
+    "profile": "Profile",
+    "sign_out": "Sign Out"
   },
   "profile": {
     "title": "Profile Settings",

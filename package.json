@@ -16,7 +16,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/pwa": "^3.0.0-0",
-    "@nuxtjs/vuetify": "^1.10.3",
+    "@nuxtjs/vuetify": "^1.11.0",
     "acorn": "^7.1.1",
     "cross-env": "^5.2.0",
     "kind-of": "^6.0.3",
