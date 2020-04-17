@@ -102,6 +102,14 @@ function Api(router, store) {
     return client.delete(`/users/${userId}`)
   }
 
+  this.forgotPassword = (email) => {
+    return client.get("/forgot_password", { params: { email } })
+  }
+
+  this.changePassword = (data) => {
+    return client.post(`/reset_password`, data)
+  }
+
   // private logic
 
   const client = axios.create({
@@ -126,7 +134,10 @@ function Api(router, store) {
   }
 
   const showError = (response) => {
-    store.commit("updateSnack", { message: response.data.error, color: "red" });
+    const itIsNotAuthPage = document.location.pathname.match("/auth/") === null;
+    if(itIsNotAuthPage){
+      store.commit("updateSnack", { message: response.data.error, color: "red" });
+    }
   }
 }
 

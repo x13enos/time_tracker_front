@@ -9,5 +9,14 @@
         </v-row>
       </v-container>
     </v-content>
+    <Snackbar />
   </v-app>
 </template>
+
+<script>
+  import Snackbar from '~/components/layout/snackbar.vue'
+
+  export default {
+    components: { Snackbar }
+  }
+</script>

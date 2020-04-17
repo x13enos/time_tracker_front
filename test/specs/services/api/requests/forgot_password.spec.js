@@ -4,7 +4,7 @@ import axios from 'axios';
 let client, apiInstance, mock, router, store
 const date = new Date()
 
-describe("generateReport", () =>  {
+describe("forgotPassword", () =>  {
 
   beforeEach(() => {
     client = axios.create()
@@ -20,38 +20,30 @@ describe("generateReport", () =>  {
 
   it('should make get request', async () => {
     mock = sinon.stub(client, "get").resolves({ data: "data" })
-    await apiInstance.generateReport(date)
+    await apiInstance.forgotPassword(date)
     expect(mock.calledOnce).to.be.true
   })
 
   it('should pass data', async () => {
-    const params = {
-      fromDate: "fromDate",
-      toDate: "toDate",
-      userId: 125
-    }
     mock = sinon.stub(client, "get").resolves({ data: "data" })
-    await apiInstance.generateReport(params)
-    expect(mock.args[0]).to.eql(["/reports", {
+    await apiInstance.forgotPassword("test@gmail.com")
+    expect(mock.args[0]).to.eql(["/forgot_password", {
       params: {
-        from_date: "fromDate",
-        to_date: "toDate",
-        user_id: 125,
-        pdf: true
+        email: "test@gmail.com"
       }
     }])
   })
 
   it('should return response in case of success', async () => {
     mock = sinon.stub(client, "get").resolves({ data: "data" })
-    const response = await apiInstance.generateReport(date)
+    const response = await apiInstance.forgotPassword(date)
     expect(response).to.eql({ data: "data" })
   })
 
   it('should reject error in case of fail', async () => {
     const error = { response: { data: { error: "error message" }} }
     sinon.stub(client, "get").rejects(error)
-    return expect(apiInstance.generateReport(date)).to.be.rejectedWith(error);
+    return expect(apiInstance.forgotPassword(date)).to.be.rejectedWith(error);
   })
-  
+
 })
