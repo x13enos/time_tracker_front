@@ -12,7 +12,8 @@
     "projects": "Projects",
     "users": "Users",
     "profile": "Profile",
-    "sign_out": "Sign Out"
+    "sign_out": "Sign Out",
+    "login": "Login"
   },
   "profile": {
     "title": "Profile Settings",
@@ -33,7 +34,20 @@
     "email": "Email",
     "password": "Password",
     "login": "Login",
-    "email_must_be_valid": "E-mail must be valid"
+    "email_must_be_valid": "E-mail must be valid",
+    "forgot_password": "Forgot password?"
+  },
+  "password_recovery": {
+    "title": "Recovery Password",
+    "email": "Email",
+    "reset_password": "Reset Password",
+    "we_sent_email": "We sent an email with instructions to reset your password"
+  },
+  "password-reset": {
+    "title": "Change Password",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "create_new_password": "Create new password"
   },
   "time_sheet": {
     "title": "Time Sheet",
@@ -89,6 +103,8 @@
   "validations": {
     "required": "This field is required.",
     "should_has_format": "should has format",
-    "email_must_be_valid": "E-mail must be valid"
+    "email_must_be_valid": "E-mail must be valid",
+    "should_be_same_as_password": "It should be the same as password",
+    "length_between": "Number of symbols should be between {min} and {max}"
   }
 }

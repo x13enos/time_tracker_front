@@ -1,4 +1,5 @@
 import createWrapper from '@/test/support/create_wrapper.js'
+import { RouterLinkStub } from '@vue/test-utils'
 import signIn from '@/pages/auth/sign-in'
 
 describe("onSubmit", () => {
@@ -9,10 +10,12 @@ describe("onSubmit", () => {
     }
   }
 
+  const stubs =  { NuxtLink: RouterLinkStub }
+
   it('should call action with filled data', async () => {
     const $api = { signIn: () => { return successResponse } }
     const actionSpy = sinon.spy($api, "signIn")
-    const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
+    const wrapper = createWrapper(signIn, { mocks: { $api }, stubs }, fakeStoreData())
     sinon.stub(wrapper.vm.$router, 'replace')
     Object.assign(wrapper.vm, { form: { email: 'example@gmail.com', password: '11111111' } })
 
@@ -25,7 +28,7 @@ describe("onSubmit", () => {
 
   it('should update user data in store if status is success', async () => {
     const $api = { signIn: () => { return successResponse } }
-    const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
+    const wrapper = createWrapper(signIn, { mocks: { $api }, stubs }, fakeStoreData())
     const mutationStub = sinon.stub(wrapper.vm, 'updatePersonalInfo')
 
     await wrapper.vm.onSubmit()
@@ -37,7 +40,7 @@ describe("onSubmit", () => {
 
   it('should redirect user to main page if status is success', async () => {
     const $api = { signIn: () => { return successResponse } }
-    const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
+    const wrapper = createWrapper(signIn, { mocks: { $api }, stubs }, fakeStoreData())
     const routerStub = sinon.stub(wrapper.vm.$router, 'replace')
 
     await wrapper.vm.onSubmit()
@@ -50,7 +53,7 @@ describe("onSubmit", () => {
   it('should write errors from response to variable if status is "fail"', async () => {
     const $api = { signIn: () => {} }
     sinon.stub($api, "signIn").rejects(Error)
-    const wrapper = createWrapper(signIn, { mocks: { $api } }, fakeStoreData())
+    const wrapper = createWrapper(signIn, { mocks: { $api }, stubs }, fakeStoreData())
 
     await wrapper.vm.onSubmit()
 

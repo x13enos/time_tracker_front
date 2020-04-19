@@ -11,22 +11,35 @@ const { shallowMount, createLocalVue } = VueTestUtils
 
 const createWrapper = (component, options = {}, storeState = {}) => {
   const localVue = createLocalVue()
-  localVue.use(VueRouter)
   localVue.use(Vuex)
   localVue.use(VueI18n)
   const store = new Vuex.Store(storeState)
-  const router = new VueRouter()
 
-  return shallowMount(component, {
+  const wrapperOptions = {
     store,
-    router,
     localVue,
     ...options
-  })
+  }
+
+  if(routerShouldBeAdd(options)){
+    localVue.use(VueRouter);
+     wrapperOptions.router = new VueRouter();
+  }
+
+  return shallowMount(component, wrapperOptions);
 }
 
 const randString = () => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+}
+
+const routerShouldBeAdd = (options) => {
+
+  return (
+    !options.mocks || (!!options.mocks && Object.keys(options.mocks).every((key) => {
+      return !["$router", "$route"].includes(key);
+    }))
+  )
 }
 
 export default createWrapper

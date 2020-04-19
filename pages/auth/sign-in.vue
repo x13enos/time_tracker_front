@@ -26,10 +26,14 @@
         {{ errorMessage }}
       </span>
     </v-card-text>
-    <v-card-actions>
+    <v-card-actions class="d-flex pa-2 justify-space-between">
       <v-btn color="primary" @click="onSubmit()" :disabled="!valid || !form.password">
         {{ $t('login_form.login') }}
       </v-btn>
+
+      <nuxt-link class="forgot-link" to="/auth/password-recovery">
+          {{ $t("login_form.forgot_password") }}
+      </nuxt-link>
     </v-card-actions>
   </v-card>
 </template>
@@ -70,3 +74,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .forgot-link {
+    text-decoration: none;
+  }
+</style>
