@@ -77,7 +77,8 @@
     "date": "Date",
     "employee": "Employee",
     "description": "Description",
-    "amount": "Amount"
+    "amount": "Amount",
+    "more_tasks": "+ {num} more task | + {num} more tasks"
   },
   "projects": {
     "title": "Projects",
@@ -88,7 +89,8 @@
     "name_is_required": "Name is required",
     "approve_deleting": "Please approve that you really want to remove this project.",
     "manage_users": "Manage",
-    "users_management": "Users Management"
+    "users_management": "Users Management",
+    "regexp_of_grouping": "Regular expression of grouping tasks"
   },
   "users": {
     "title": "Users",

@@ -73,14 +73,60 @@
     <v-data-table
       v-if="tasks.length > 0"
       :headers="headers"
-      :items="tasks"
+      :items="indexedItems"
       :disable-sort="true"
       :footer-props="{
         'items-per-page-options': [25, 50]
       }"
       :items-per-page="50"
-      item-key="name"
+      :single-expand="false"
+      :expanded.sync="expanded"
+      item-key="id"
     >
+      <template v-slot:item="{ item, expand, isExpanded }">
+        <template v-if="item.tasks.length === 1">
+          <tr>
+            <td>{{ item.tasks[0].project_name }}</td>
+            <td nowrap>{{ item.tasks[0].assigned_date }}</td>
+            <td>{{ item.tasks[0].user_name }}</td>
+            <td>{{ item.tasks[0].description }}</td>
+            <td>{{ item.tasks[0].spent_time }}</td>
+            <td></td>
+          </tr>
+        </template>
+        <template v-else>
+          <tr>
+            <td>{{ selectValueForMultipleRecords(item.tasks, 'project_name') }}</td>
+            <td></td>
+            <td>{{ selectValueForMultipleRecords(item.tasks, 'user_name') }}</td>
+            <td><span class="multiple-records-font">{{ descriptionForMultipleRecords(item.tasks) }}</span></td>
+            <td>
+              <span class="multiple-records-font">
+                {{ totalTime(item.tasks) }}
+              </span>
+            </td>
+            <td >
+              <v-icon
+                @click="expand(!isExpanded)">
+                  mdi-chevron-{{ isExpanded ? "up" : "down" }}
+              </v-icon>
+            </td>
+          </tr>
+        </template>
+      </template>
+      <template v-slot:expanded-item="{ item }">
+        <tr class="blue lighten-5"
+          v-for="task in item.tasks"
+          :key="task.id"
+          v-if="item.tasks.length > 1">
+          <td>{{ task.project_name }}</td>
+          <td nowrap>{{ task.assigned_date }}</td>
+          <td>{{ task.user_name }}</td>
+          <td class="expanded-item-description">{{ task.description }}</td>
+          <td>{{ task.spent_time }}</td>
+          <td></td>
+        </tr>
+      </template>
     </v-data-table>
     <h3 v-else>{{ $t('reports.no_records') }}</h3>
 
@@ -107,6 +153,7 @@ export default {
       tasks: [],
       users: [],
       totalAmount: 0.0,
+      expanded: [],
       quickDates: [
         { value: "this_week", text: this.$t("reports.this_week") },
         { value: "last_week", text: this.$t("reports.last_week") },
@@ -131,13 +178,21 @@ export default {
     ...mapGetters(['isAdmin']),
     ...mapState(['user']),
 
+    indexedItems () {
+      return this.tasks.map((tasks, index) => ({
+        id: index,
+        tasks
+      }))
+    },
+
     headers(){
       return [
         { text: this.$t("reports.project"), value: 'project_name' },
         { text: this.$t("reports.date"), value: 'assigned_date' },
         { text: this.$t("reports.employee"), value: 'user_name' },
         { text: this.$t("reports.description"), value: 'description' },
-        { text: `${this.$t("reports.amount")}(${this.totalAmount})`, value: 'spent_time' }
+        { text: `${this.$t("reports.amount")}(${this.totalAmount})`, value: 'spent_time' },
+        { text: '', value: 'expand', align: 'end' }
       ]
     }
   },
@@ -158,11 +213,11 @@ export default {
         case 'this_week':
           this.setDates('week', currentTime); break;
         case 'last_week':
-          this.setDates('week', currentTime.minus({days: 7})); break;
+          this.setDates('week', currentTime.minus({ days: 7 })); break;
         case 'this_month':
           this.setDates('month', currentTime); break;
         case 'last_month':
-          this.setDates('month', currentTime.minus({month: 1})); break;
+          this.setDates('month', currentTime.minus({ month: 1 })); break;
       }
     }
   },
@@ -198,15 +253,47 @@ export default {
     setDates(interval, time){
       this.filters.fromDate = time.startOf(interval).toFormat('yyyy-LL-dd')
       this.filters.toDate = time.endOf(interval).toFormat('yyyy-LL-dd')
+    },
+
+    totalTime(tasks){
+      const time = tasks.reduce((accumulator, task) => {
+        return accumulator + task.spent_time
+      }, 0)
+      return parseFloat(time).toFixed(2)
+    },
+
+    selectValueForMultipleRecords(tasks, value){
+      const values = tasks.map((task) => {
+        return task[value]
+      })
+      const uniqueValues = [...new Set(values)]
+      if(uniqueValues.length > 1){
+        return uniqueValues.length
+      } else {
+        return uniqueValues[0]
+      }
+    },
+
+    descriptionForMultipleRecords(tasks){
+      const number = tasks.length - 1
+      return `${tasks[0].description.substring(0, 20)}... ${this.$tc("reports.more_tasks", number, { num: number })}`
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
   .custom-loader {
     animation: loader 1s infinite;
     display: flex;
+  }
+
+  .multiple-records-font{
+    font-weight: 600;
+  }
+
+  .expanded-item-description{
+    padding-left: 35px;
   }
 
   @-moz-keyframes loader {

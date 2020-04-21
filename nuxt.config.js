@@ -32,7 +32,8 @@ export default {
    */
   plugins: [
     "@/plugins/api.js",
-    "@/plugins/app_methods.js"
+    "@/plugins/app_methods.js",
+    { src: '~plugins/i18n-config.js' }
   ],
   /*
    ** Nuxt.js dev-modules

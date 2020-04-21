@@ -4,6 +4,7 @@ import VueI18n from 'vue-i18n'
 import VueTestUtils from '@vue/test-utils'
 
 VueTestUtils.config.mocks.$t = key => key
+VueTestUtils.config.mocks.$tc = key => key
 // we use randString in case when we want to avoid warnings about using non-primitive keys for lists
 VueTestUtils.config.mocks.$d = (key) => { key || randString() }
 
