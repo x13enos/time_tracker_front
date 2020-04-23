@@ -19,9 +19,15 @@
               <v-col cols="12">
                 <v-text-field
                 :label="$t('projects.name')"
-                v-model="form.name"
-                :rules="[() => !!form.name || $t('projects.name_is_required')]"
+                v-model.trim="$v.form.name.$model"
+                :error-messages="nameErrors"
                 required />
+              </v-col>
+
+              <v-col cols="12">
+                <v-text-field
+                :label="$t('projects.regexp_of_grouping')"
+                v-model="form.regexp_of_grouping"/>
               </v-col>
             </v-row>
           </v-form>
@@ -35,7 +41,7 @@
           color="blue darken-1"
           text
           @click="save"
-          :disabled="!valid">
+          :disabled="!valid || !form.name">
           {{ $t(`${ newProject ? "create" : "update" }`)}}
         </v-btn>
       </v-card-actions>
@@ -44,7 +50,12 @@
 </template>
 
 <script>
+  import { validationMixin } from 'vuelidate'
+  import { required } from 'vuelidate/lib/validators'
+
   export default {
+    mixins: [validationMixin],
+
     props: {
       project: {
         type: Object,
@@ -58,14 +69,29 @@
         valid: false,
         dialog: false,
         form: {
-          name: this.project.name || ""
+          name: this.project.name || "",
+          regexp_of_grouping: this.project.regexp_of_grouping || ""
         }
+      }
+    },
+
+    validations: {
+      form: {
+        name: { required }
       }
     },
 
     computed: {
       newProject(){
         return this.$appMethods.isEmpty(this.project)
+      },
+
+      nameErrors(){
+        const attribute = this.$v.form.name
+        const errors = []
+        if (!attribute.$dirty) return errors
+        !attribute.required && errors.push(this.$t('validations.required'))
+        return errors
       }
     },
 
@@ -74,7 +100,10 @@
         this.dialog = false
         this.$emit("processData", this.form)
         if(this.newProject)
-          this.form = { name: "" }
+          this.form = {
+            name: "",
+            regexp_of_grouping: ""
+          }
       }
     }
   }
