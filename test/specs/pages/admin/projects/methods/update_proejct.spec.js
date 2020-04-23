@@ -24,6 +24,18 @@ describe('updateProject', () => {
     sinon.restore()
   });
 
+  it("should show snack message", async () => {
+    const methodStub = sinon.stub(mocks.$api, 'updateProject').returns(successResponse)
+    const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
+    wrapper.vm.projects = [{ id: 1, name: 'test-project' }]
+    const snackStub = sinon.stub(wrapper.vm, "updateSnack")
+
+    await wrapper.vm.updateProject(1, projectData)
+    expect(snackStub.calledOnceWith({ message: 'projects.was_updated', color: "green" })).to.be.true
+
+    sinon.restore()
+  });
+
   it("should replace project data in the list of projects", async () => {
     const methodStub = sinon.stub(mocks.$api, 'updateProject').returns(successResponse)
     const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())

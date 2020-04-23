@@ -23,6 +23,17 @@ describe('createProject', () => {
     sinon.restore()
   });
 
+  it("should show snack message", async () => {
+    const methodStub = sinon.stub(mocks.$api, 'createProject').returns(successResponse)
+    const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
+    const snackStub = sinon.stub(wrapper.vm, "updateSnack")
+
+    await wrapper.vm.createProject(projectData)
+    expect(snackStub.calledOnceWith({ message: 'projects.was_created', color: "green" })).to.be.true
+
+    sinon.restore()
+  });
+
   it("should add project data to the list of projects", async () => {
     const methodStub = sinon.stub(mocks.$api, 'createProject').returns(successResponse)
     const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
