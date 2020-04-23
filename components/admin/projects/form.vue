@@ -32,6 +32,10 @@
             </v-row>
           </v-form>
 
+          <span class='red--text' v-if="errorMessage">
+            {{ errorMessage }}
+          </span>
+
         </v-container>
       </v-card-text>
       <v-card-actions>
@@ -40,7 +44,7 @@
         <v-btn
           color="blue darken-1"
           text
-          @click="save"
+          @click="newProject ? create() : update()"
           :disabled="!valid || !form.name">
           {{ $t(`${ newProject ? "create" : "update" }`)}}
         </v-btn>
@@ -52,6 +56,7 @@
 <script>
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
+  import { mapMutations } from 'vuex'
 
   export default {
     mixins: [validationMixin],
@@ -68,6 +73,7 @@
       return {
         valid: false,
         dialog: false,
+        errorMessage: "",
         form: {
           name: this.project.name || "",
           regexp_of_grouping: this.project.regexp_of_grouping || ""
@@ -96,14 +102,31 @@
     },
 
     methods: {
-      save(){
-        this.dialog = false
-        this.$emit("processData", this.form)
-        if(this.newProject)
-          this.form = {
-            name: "",
-            regexp_of_grouping: ""
-          }
+      ...mapMutations(["updateSnack"]),
+
+      async create(){
+        try {
+          this.errorMessage = ""
+          const response = await this.$api.createProject(this.form)
+          this.dialog = false
+          this.updateSnack({ message: this.$t("projects.was_created"), color: "green" })
+          this.form = { name: "", regexp_of_grouping: "" }
+          this.$emit("processData", response.data)
+        } catch(error) {
+          this.errorMessage = error
+        }
+      },
+
+      async update(){
+        try {
+          this.errorMessage = ""
+          const response = await this.$api.updateProject(this.project.id, this.form)
+          this.dialog = false
+          this.updateSnack({ message: this.$t("projects.was_updated"), color: "green" })
+          this.$emit("processData", response.data)
+        } catch(error) {
+          this.errorMessage = error
+        }
       }
     }
   }

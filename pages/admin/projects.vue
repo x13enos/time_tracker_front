@@ -2,7 +2,7 @@
   <div>
     <h1>
       {{ $t('projects.title') }}
-      <project-form @processData="createProject">
+      <project-form @processData="addNewProject">
         <v-btn
           class="ma-2"
           color="success"
@@ -31,7 +31,7 @@
                 @updateListOfUsers="updateListOfUserIds(...arguments, project)" />
             </td>
             <td align="right">
-              <project-form :project="project" @processData="updateProject(project.id, $event)">
+              <project-form :project="project" @processData="updateProjectData(project.id, $event)">
                 <v-btn
                   color="primary"
                   fab
@@ -110,26 +110,19 @@ export default {
         this.projects = response.data
     },
 
-    async  fetchUsers(){
+    async fetchUsers(){
       const response = await this.$api.allUsers()
       if(response.data)
         this.users = response.data
     },
 
-    async createProject(data){
-      const response = await this.$api.createProject(data)
-      if(response.data)
-        this.updateSnack({ message: this.$t("projects.was_created"), color: "green" })
-        this.projects.push(response.data)
+    addNewProject(data){
+      this.projects.push(data)
     },
 
-    async updateProject(id, data){
-      const response = await this.$api.updateProject(id, data)
-      if(response.data){
-        this.updateSnack({ message: this.$t("projects.was_updated"), color: "green" })
-        const projectIndex = this.projects.findIndex(p => p.id === id )
-        this.$set(this.projects, projectIndex, response.data)
-      }
+    updateProjectData(id, data){
+      const projectIndex = this.projects.findIndex(p => p.id === id )
+      this.$set(this.projects, projectIndex, data)
     },
 
     markProjectAsPendingDelete(id){
