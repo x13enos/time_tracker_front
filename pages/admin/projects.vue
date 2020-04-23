@@ -78,6 +78,7 @@
 <script>
 import ProjectForm from "@/components/admin/projects/form"
 import UsersBlock from "@/components/admin/projects/users_block"
+import { mapMutations } from 'vuex'
 
 export default {
 
@@ -101,6 +102,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["updateSnack"]),
 
     async fetchProjects(){
       const response = await this.$api.allProjects()
@@ -117,12 +119,14 @@ export default {
     async createProject(data){
       const response = await this.$api.createProject(data)
       if(response.data)
+        this.updateSnack({ message: this.$t("projects.was_created"), color: "green" })
         this.projects.push(response.data)
     },
 
     async updateProject(id, data){
       const response = await this.$api.updateProject(id, data)
       if(response.data){
+        this.updateSnack({ message: this.$t("projects.was_updated"), color: "green" })
         const projectIndex = this.projects.findIndex(p => p.id === id )
         this.$set(this.projects, projectIndex, response.data)
       }
@@ -137,6 +141,7 @@ export default {
       this.deleteDialog = false
       const response = await this.$api.deleteProject(this.deletingProjectId)
       if(response.data){
+        this.updateSnack({ message: this.$t("projects.was_deleted"), color: "green" })
         const projectIndex = this.projects.findIndex(p => p.id === this.deletingProjectId)
         this.$delete(this.projects, projectIndex)
       }

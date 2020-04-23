@@ -90,7 +90,10 @@
     "approve_deleting": "Please approve that you really want to remove this project.",
     "manage_users": "Manage",
     "users_management": "Users Management",
-    "regexp_of_grouping": "Regular expression of grouping tasks"
+    "regexp_of_grouping": "Regular expression of grouping tasks",
+    "was_created": "Project was successfully created!",
+    "was_updated": "Project was successfully updated!",
+    "was_deleted": "Project was successfully deleted!"
   },
   "users": {
     "title": "Users",

@@ -49,4 +49,17 @@ describe('deleteProject', () => {
     sinon.restore()
   });
 
+  it("should show snack message", async () => {
+    const methodStub = sinon.stub(mocks.$api, 'deleteProject').returns(successResponse)
+    const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
+    wrapper.vm.projects = [{ id: 1, name: 'test-project' }]
+    wrapper.vm.deletingProjectId = 1
+    const snackStub = sinon.stub(wrapper.vm, "updateSnack")
+
+    await wrapper.vm.deleteProject()
+    expect(snackStub.calledOnceWith({ message: 'projects.was_deleted', color: "green" })).to.be.true
+
+    sinon.restore()
+  });
+
 });
