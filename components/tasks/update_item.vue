@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row justify="center" align="center" :class="rowClass">
+    <v-row justify="center" align="center" :class="stateClass">
       <v-col class="col-sm-2 col-12">
         <span v-if="projects.length == 1">
           {{ projects[0].name }}
@@ -141,6 +141,10 @@ export default {
 
     internalId(){
       return `f${(~~(Math.random()*1e8)).toString(16)}`;
+    },
+
+    stateClass() {
+      return this.active ? "amber lighten-3" : this.rowClass
     }
   },
 
@@ -175,7 +179,7 @@ export default {
 
       try{
         await this.updateTask(params)
-        this.removePendingState();
+        this.removePendingState()
       } catch (error) {
         this.rowClass = "red"
       }

@@ -4,7 +4,7 @@
 
     <v-row align="center" justify="start">
       <v-col cols="3">
-        <v-btn @click="checkOnPendingTasks(() => { changeDay(-7) })" class="previous-week" :min-width="0" outlined color="blue lighten-3">
+        <v-btn @click="checkOnPendingTasks(() => { changeDay(-7) })" class="previous-week" :min-width="0" outlined color="blue lighten-1">
           <v-icon>mdi-chevron-left</v-icon>
           <span class="d-none d-sm-flex">
             {{ $t("time_sheet.previous_week") }}
@@ -17,7 +17,7 @@
       </v-col>
 
       <v-col cols="3" class="text-right">
-        <v-btn @click="checkOnPendingTasks(() => { changeDay(7) })" class="next-week" :min-width="0"  outlined color="blue lighten-3">
+        <v-btn @click="checkOnPendingTasks(() => { changeDay(7) })" class="next-week" :min-width="0"  outlined color="blue lighten-1">
           <span class="d-none d-sm-flex">
             {{ $t("time_sheet.next_week") }}
           </span>
