@@ -1,12 +1,11 @@
 import axios from 'axios';
 
-function Api(router, store) {
+function Api({ router, store }, appMethods) {
 
   this.signIn = (data) => {
     return client.post("/auth", {
       email: data.email,
-      password: data.password,
-      timezoneOffset: -(new Date().getTimezoneOffset() / 60)
+      password: data.password
     })
   }
 
@@ -41,7 +40,12 @@ function Api(router, store) {
     return client.delete(`/time_records/${data.id}`)
   }
 
-  this.weeklyTimeRecords = (assigned_date) => {
+  this.weeklyTimeRecords = (date) => {
+    const assigned_date = date.toLocaleString({
+      month: 'numeric',
+      day: 'numeric',
+      year: "numeric"
+    })
     return client.get("/time_records", { params: { assigned_date } })
   }
 

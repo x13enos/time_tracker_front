@@ -63,7 +63,7 @@ export default {
     ...mapGetters(["totalTimeOfDailyTasks"]),
 
     dailyTasks(){
-      return this.tasks[this.day.startOf('day').ts / 1000] || []
+      return this.tasks[this.$appMethods.systemFormatDate(this.day)] || []
     },
 
     activeDay(){

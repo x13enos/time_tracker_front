@@ -13,13 +13,13 @@ export default {
   async getWeeklyTasks ({ commit }, day) {
     commit('reinitTasksObject', day)
     commit('clearActiveTaskIntervalId')
-    const response = await this.$api.weeklyTimeRecords(dateInUnixFormat(day))
+    const response = await this.$api.weeklyTimeRecords(day)
     commit('updateTasks', response.data.time_records)
     return response;
   },
 
   async addTask ({ commit, dispatch }, { params, day }) {
-    params.assignedDate = dateInUnixFormat(day)
+    params.assignedDate = this.$appMethods.systemFormatDate(day)
     const response = await this.$api.createTimeRecord(params)
     dispatch("stopOtherTasks", response.data)
     commit('updateTask', response.data)
@@ -56,8 +56,4 @@ export default {
       callback()
     }
   }
-}
-
-function dateInUnixFormat(day){
-  return day.ts / 1000
 }

@@ -1,5 +1,6 @@
 import { DateTime } from 'luxon'
-import mutations from '@/store/mutations'
+import storeMutations from '@/store/mutations'
+import $appMethods from "@/services/global_methods";
 
 describe('mutation: reinitTasksObject', () => {
   const state = {
@@ -17,13 +18,13 @@ describe('mutation: reinitTasksObject', () => {
   }
 
   const day = DateTime.local(2019, 10, 27)
-
   const timestamp = (i) => {
-    return day.startOf("week").plus({ "days": i }).ts / 1000
+    return $appMethods.systemFormatDate(day.startOf("week").plus({ "days": i }))
   }
 
-
   it('should rebuild object for list of tasks base on passed date', () => {
+    const mutations = Object.assign({}, storeMutations)
+    mutations.$appMethods = $appMethods
     mutations.reinitTasksObject(state, day)
     expect(state.tasks).to.eql({
       [timestamp(0)]: {},

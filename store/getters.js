@@ -13,7 +13,7 @@ export default {
 
   totalTimeOfDailyTasks (state) {
     return (day) => {
-      const tasks = state.tasks[day.startOf('day').ts / 1000]
+      const tasks = state.tasks[this.$appMethods.systemFormatDate(day)]
       if(tasks && Object.values(tasks).length){
         const time = Object.values(tasks).reduce((accumulator, task) => accumulator + task.spentTime, 0)
         return parseFloat(time).toFixed(2);

@@ -3,10 +3,9 @@ import task from '@/components/tasks/update_item'
 
 describe('removePendingState', () => {
   const propsData = { activeDay: false, task: {} }
-  const $appMethods = { isEmpty: () => { return true } }
 
   it('should call mutation "deletePendingTaskId"', () => {
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const mutationStub = sinon.stub(wrapper.vm, "deletePendingTaskId")
 
     wrapper.vm.removePendingState()
@@ -15,7 +14,7 @@ describe('removePendingState', () => {
   });
 
   it('should clean up row class', () => {
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     wrapper.vm.rowClass = "red"
 
     wrapper.vm.removePendingState()

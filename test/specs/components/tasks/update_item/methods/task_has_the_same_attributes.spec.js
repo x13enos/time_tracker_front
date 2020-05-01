@@ -9,10 +9,9 @@ describe('taskHasTheSameAttributes', () => {
     spentTime: '0.50'
   }
   const propsData = { activeDay: false, task: taskData }
-  const $appMethods = { isEmpty: () => {} }
 
   it('should return true if all filled data is the same as in task', function(){
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
 
     wrapper.vm.project = 1
     wrapper.vm.description = "test"
@@ -22,7 +21,7 @@ describe('taskHasTheSameAttributes', () => {
   });
 
   it('should return false if project is another than in the task', function(){
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
 
     wrapper.vm.project = 2
     wrapper.vm.description = "test"
@@ -32,7 +31,7 @@ describe('taskHasTheSameAttributes', () => {
   });
 
   it('should return false if description is another than in the task', function(){
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
 
     wrapper.vm.project = 1
     wrapper.vm.description = "test-1"
@@ -42,7 +41,7 @@ describe('taskHasTheSameAttributes', () => {
   });
 
   it('should return false if spentTime is another than in the task', function(){
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
 
     wrapper.vm.project = 1
     wrapper.vm.description = "test"

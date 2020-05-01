@@ -63,8 +63,8 @@
 
     data: function() {
       return {
-        selectedDate: this.currentDateInTimeZone(),
-        currentDate: this.currentDateInTimeZone(),
+        selectedDate: DateTime.local(),
+        currentDate: DateTime.local(),
         tab: null,
         intervalId: null
       }
@@ -77,7 +77,7 @@
 
     created: function () {
       this.intervalId = setInterval(() => {
-        this.currentDate = this.currentDateInTimeZone()
+        this.currentDate = DateTime.local()
       }, 5000)
     },
 
@@ -131,11 +131,8 @@
         this.tab = null
         this.selectedDate = this.selectedDate.plus({ days: number })
         await this.getWeeklyTasks(this.selectedDate);
-      },
-
-      currentDateInTimeZone(){
-        return DateTime.fromObject({ zone: this.user().timezone })
       }
+      
     }
   }
 </script>

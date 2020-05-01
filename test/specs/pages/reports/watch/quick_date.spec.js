@@ -2,7 +2,7 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import reports from '@/pages/reports'
 import { DateTime } from 'luxon';
 
-describe("quick_date", () => {
+describe("quickDate", () => {
   const mocks = {
     $api: {
       allTimeRecords: () => {
@@ -19,7 +19,7 @@ describe("quick_date", () => {
 
 
   it('should call method for setting dates for current week', async () => {
-    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const stubTime = sinon.stub(DateTime, 'local').returns(time)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
@@ -33,7 +33,7 @@ describe("quick_date", () => {
   })
 
   it('should call method for setting dates for last week', async () => {
-    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const stubTime = sinon.stub(DateTime, 'local').returns(time)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
@@ -47,7 +47,7 @@ describe("quick_date", () => {
   })
 
   it('should call method for setting dates for current month', async () => {
-    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const stubTime = sinon.stub(DateTime, 'local').returns(time)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 
@@ -61,7 +61,7 @@ describe("quick_date", () => {
   })
 
   it('should call method for setting dates for last month', async () => {
-    const stubTime = sinon.stub(DateTime, 'fromObject').returns(time)
+    const stubTime = sinon.stub(DateTime, 'local').returns(time)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const methodSpy = sinon.spy(wrapper.vm, 'setDates')
 

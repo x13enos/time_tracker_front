@@ -54,8 +54,8 @@ export default {
     const stateTasks = {};
 
     ([...Array(7).keys()]).forEach((i) => {
-      let epoch = beginningOfWeek.plus({ "days": i }).ts / 1000
-      stateTasks[epoch] = {}
+      let dayString = this.$appMethods.systemFormatDate(beginningOfWeek.plus({ "days": i }))
+      stateTasks[dayString] = {}
     })
 
     Vue.set(state, 'tasks', stateTasks);

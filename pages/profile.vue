@@ -25,14 +25,6 @@
           />
 
           <v-select
-            v-model="form.timezone"
-            :label="$t('profile.timezone')"
-            :items="timezoneList"
-            :disabled="updating"
-            required
-          />
-
-          <v-select
             v-model="form.locale"
             :label="$t('profile.locale')"
             :items="localeList()"
@@ -72,7 +64,6 @@
 </template>
 
 <script>
-import Constants from "@/services/constants";
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -96,25 +87,17 @@ export default {
         name: "",
         email: "",
         locale: "",
-        timezone: "",
         password: ""
       }
     }
   },
 
   mounted(){
-    window.g = this;
     Object.assign(this.form, this.user)
   },
 
   computed: {
-    ...mapState(["user"]),
-
-    timezoneList(){
-      return Object.keys(Constants.TIMEZONES).map((key) => {
-        return { text: Constants.TIMEZONES[key], value: key }
-      });
-    }
+    ...mapState(["user"])
   },
 
   methods: {

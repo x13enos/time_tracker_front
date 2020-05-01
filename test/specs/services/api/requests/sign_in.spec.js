@@ -35,8 +35,7 @@ describe("signIn", () =>  {
       "/auth",
       {
         "email": "example@gmail.com",
-        "password": "1111",
-        "timezoneOffset": (new Date().getTimezoneOffset() / 60 * -1)
+        "password": "1111"
       }
     ])
   })

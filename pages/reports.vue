@@ -208,7 +208,7 @@ export default {
     },
 
     quickDate: function(){
-      const currentTime = DateTime.fromObject({ zone: this.user.timezone });
+      const currentTime = DateTime.local();
       switch(this.quickDate){
         case 'this_week':
           this.setDates('week', currentTime); break;
@@ -237,8 +237,8 @@ export default {
 
     handledFilters(){
       return {
-        fromDate: (new Date(this.filters.fromDate)).getTime() / 1000,
-        toDate: (new Date(this.filters.toDate)).getTime() / 1000,
+        fromDate: this.filters.fromDate,
+        toDate: this.filters.toDate,
         userId: this.filters.userId || this.user.id
       }
     },

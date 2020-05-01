@@ -9,10 +9,9 @@ const taskData = {
   assignedDate: "1572123600"
 }
 const propsData = { activeDay: false, task: taskData }
-const $appMethods = { isEmpty: (value) => { return true } }
 
 it('should call mutation keepActiveTaskIntervalId', () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+  const wrapper = createWrapper(task, { propsData }, fakeStoreData())
   const mutationStub = sinon.stub(wrapper.vm, "keepActiveTaskIntervalId")
   const timer = sinon.useFakeTimers()
   const intervalStub = sinon.stub(timer, 'setInterval').returns(101)
@@ -27,7 +26,7 @@ it('should call mutation keepActiveTaskIntervalId', () => {
 });
 
 it('should change spent time on 0.01 each 36 seconds', () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+  const wrapper = createWrapper(task, { propsData }, fakeStoreData())
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()
@@ -39,7 +38,7 @@ it('should change spent time on 0.01 each 36 seconds', () => {
 });
 
 it('should pass updated time to parent each 36 seconds', () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+  const wrapper = createWrapper(task, { propsData }, fakeStoreData())
   const mutationStub = sinon.stub(wrapper.vm, "updateTaskSpentTime")
   const clock = sinon.useFakeTimers();
 
@@ -58,7 +57,7 @@ it('should pass updated time to parent each 36 seconds', () => {
 });
 
 it('should not change spent time on 0.01 each 35 seconds', () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+  const wrapper = createWrapper(task, { propsData }, fakeStoreData())
   const clock = sinon.useFakeTimers();
 
   wrapper.vm.start()

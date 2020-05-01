@@ -5,8 +5,7 @@ describe('addPendingState', () => {
   const propsData = { activeDay: false, task: {} }
 
   it('should call mutation "addPendingTaskId" if row class is  empty', () => {
-    const $appMethods = { isEmpty: () => { return true } }
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const mutationStub = sinon.stub(wrapper.vm, "addPendingTaskId")
 
     wrapper.vm.addPendingState()
@@ -15,8 +14,7 @@ describe('addPendingState', () => {
   });
 
   it('should change row class if it is empty', () => {
-    const $appMethods = { isEmpty: () => { return true } }
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     wrapper.vm.rowClass = ""
 
     wrapper.vm.addPendingState()
