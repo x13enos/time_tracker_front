@@ -132,7 +132,7 @@
         this.selectedDate = this.selectedDate.plus({ days: number })
         await this.getWeeklyTasks(this.selectedDate);
       }
-      
+
     }
   }
 </script>

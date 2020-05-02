@@ -4,7 +4,6 @@ import { DateTime } from 'luxon';
 
 describe('totalTimeOfDailyTasks', () => {
   const getters = Object.assign({}, storeGetters)
-  getters.$appMethods = $appMethods
 
   it('should return total time for tasks which were filtered by passed day', () => {
     const state = { tasks: {
