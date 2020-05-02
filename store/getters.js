@@ -1,3 +1,5 @@
+import $appMethods from "@/services/global_methods";
+
 export default {
   userAuthorized (state) {
     return state.user.name != null
@@ -12,8 +14,8 @@ export default {
   },
 
   totalTimeOfDailyTasks (state) {
-    return (day) => {
-      const tasks = state.tasks[this.$appMethods.systemFormatDate(day)]
+    return function (day) {
+      const tasks = state.tasks[$appMethods.systemFormatDate(day)]
       if(tasks && Object.values(tasks).length){
         const time = Object.values(tasks).reduce((accumulator, task) => accumulator + task.spentTime, 0)
         return parseFloat(time).toFixed(2);
