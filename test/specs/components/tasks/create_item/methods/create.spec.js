@@ -5,52 +5,55 @@ import { DateTime } from 'luxon'
 const day = DateTime.local();
 
 const propsData = { activeDay: false, day }
-const $appMethods = { isEmpty: () => {} }
 
-it('should call action addTack', () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
-  const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
+describe('create', () => {
 
-  wrapper.vm.create()
-  expect(actionStub.calledOnce).to.be.true
-  expect(actionStub.args[0]).to.eql([
-    { params: { description: "text" }, day }
-  ])
+  it('should call action addTack', () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
+    const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
 
-  actionStub.restore()
-  paramsStub.restore()
-});
+    wrapper.vm.create()
+    expect(actionStub.calledOnce).to.be.true
+    expect(actionStub.args[0]).to.eql([
+      { params: { description: "text" }, day }
+    ])
 
-it('should clean form data if request was successful', async () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
-  wrapper.vm.description = "new text"
+    actionStub.restore()
+    paramsStub.restore()
+  });
 
-  await wrapper.vm.create()
-  expect(wrapper.vm.description).to.eq(null)
+  it('should clean form data if request was successful', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
+    wrapper.vm.description = "new text"
 
-  actionStub.restore()
-});
+    await wrapper.vm.create()
+    expect(wrapper.vm.description).to.eq(null)
 
-it('should decrease number of pending tasks if request was successful', async () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
-  const mutationStub = sinon.stub(wrapper.vm, "removePendingState")
+    actionStub.restore()
+  });
 
-  await wrapper.vm.create()
-  expect(mutationStub.calledOnce).to.be.true
+  it('should decrease number of pending tasks if request was successful', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
+    const mutationStub = sinon.stub(wrapper.vm, "removePendingState")
 
-  actionStub.restore()
-  mutationStub.restore()
-});
+    await wrapper.vm.create()
+    expect(mutationStub.calledOnce).to.be.true
 
-it('should update row color class', async () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, "addTask").rejects({ errors: "Big message of errors" })
+    actionStub.restore()
+    mutationStub.restore()
+  });
 
-  await wrapper.vm.create()
-  expect(wrapper.vm.rowClass).to.eq('red')
+  it('should update row color class', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, "addTask").rejects({ errors: "Big message of errors" })
 
-  actionStub.restore()
+    await wrapper.vm.create()
+    expect(wrapper.vm.rowClass).to.eq('red')
+
+    actionStub.restore()
+  });
+
 });

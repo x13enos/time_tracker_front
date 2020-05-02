@@ -4,10 +4,9 @@ import { DateTime } from 'luxon'
 
 describe('removePendingState', () => {
   const propsData = { activeDay: true, day: DateTime.local() }
-  const $appMethods = { isEmpty: () => false }
 
   it('call mutation for deleting pending taks id', () => {
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const mutationStub = sinon.stub(wrapper.vm, "deletePendingTaskId")
 
     wrapper.vm.removePendingState()
@@ -16,7 +15,7 @@ describe('removePendingState', () => {
   });
 
   it('clear up the row class', () => {
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const mutationStub = sinon.stub(wrapper.vm, "deletePendingTaskId")
     wrapper.vm.rowClass = "error"
 

@@ -12,10 +12,9 @@ describe('deleteItem', () => {
   }
 
   const propsData = { activeDay: false, task: taskData }
-  const $appMethods = { isEmpty: (value) => { return true } }
 
   it('should change dialog flag', () => {
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
 
     wrapper.vm.deleteItem()
     expect(wrapper.vm.dialog).to.be.false
@@ -23,7 +22,7 @@ describe('deleteItem', () => {
 
 
   it('should call action for deleting time record', () => {
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const actionStub = sinon.stub(wrapper.vm, 'deleteTask')
     wrapper.vm.deleteItem()
 

@@ -24,11 +24,7 @@ describe("handledFilters", () => {
       userId: 112
     }
 
-    expect(wrapper.vm.handledFilters()).to.eql({
-      fromDate: 1571616000,
-      toDate: 1571702400,
-      userId: 112
-    })
+    expect(wrapper.vm.handledFilters()).to.eql(wrapper.vm.filters)
 
   })
 })

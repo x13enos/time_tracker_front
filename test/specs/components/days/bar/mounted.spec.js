@@ -5,18 +5,17 @@ import { DateTime } from 'luxon'
 const methods = {
   weekDays: () => { return [] },
   getWeeklyTasks: () => { return [] },
-  setTheRightTab: () => {},
-  currentDateInTimeZone: () => { return "date" }
+  setTheRightTab: () => {}
 }
 const date = DateTime.local(2019, 10, 27);
 
 describe("mounted", () => {
   it('should call action for fetching weekly time records', () => {
+    sinon.stub(DateTime, "local").returns(date)
     const actionStub = sinon.stub(methods, "getWeeklyTasks")
     const wrapper = createWrapper(bar, { methods }, fakeStoreData())
 
-    expect(actionStub.calledOnce).to.be.true
-    expect(actionStub.args[0]).to.eql(["date"])
+    expect(actionStub.calledOnceWith(date)).to.be.true
 
     sinon.restore();
   });

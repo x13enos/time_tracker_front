@@ -19,7 +19,6 @@
     "title": "Profile Settings",
     "name": "Name",
     "email": "Email",
-    "timezone": "Timezone",
     "new_password": "New Password",
     "locale": "Locale",
     "save": "Save",

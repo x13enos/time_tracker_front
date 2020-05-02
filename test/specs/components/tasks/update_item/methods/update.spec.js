@@ -1,54 +1,57 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
 
-const propsData = { task: {}, activeDay: false }
-const $appMethods = { isEmpty: () => {} }
+describe('update', () => {
 
-it('should not call action updateTask if validation was failed', () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
-  wrapper.vm.valid = false
+  const propsData = { task: {}, activeDay: false }
 
-  wrapper.vm.update(true)
-  expect(actionStub.called).to.be.false
+  it('should not call action updateTask if validation was failed', () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    wrapper.vm.valid = false
 
-  actionStub.restore()
-});
+    wrapper.vm.update(true)
+    expect(actionStub.called).to.be.false
 
-it('should call action updateTask and form data should have active status as true', () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
-  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    actionStub.restore()
+  });
 
-  wrapper.vm.update(true)
-  expect(actionStub.calledOnce).to.be.true
-  expect(actionStub.args[0]).to.eql([{
-    description: "text",
-    active: true
-  }])
+  it('should call action updateTask and form data should have active status as true', () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
+    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
 
-  actionStub.restore()
-  paramsStub.restore()
-});
+    wrapper.vm.update(true)
+    expect(actionStub.calledOnce).to.be.true
+    expect(actionStub.args[0]).to.eql([{
+      description: "text",
+      active: true
+    }])
 
-it('should remove pending state if request was successful', async () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
-  const mutationStub = sinon.stub(wrapper.vm, "removePendingState")
+    actionStub.restore()
+    paramsStub.restore()
+  });
 
-  await wrapper.vm.update(true)
-  expect(mutationStub.calledOnce).to.be.true
+  it('should remove pending state if request was successful', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    const mutationStub = sinon.stub(wrapper.vm, "removePendingState")
 
-  actionStub.restore()
-  mutationStub.restore()
-});
+    await wrapper.vm.update(true)
+    expect(mutationStub.calledOnce).to.be.true
 
-it('should change pending row class to red if request was failed', async () => {
-  const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
-  const actionStub = sinon.stub(wrapper.vm, 'updateTask').rejects({ errors: "Big message of errors" })
+    actionStub.restore()
+    mutationStub.restore()
+  });
 
-  await wrapper.vm.update(true)
-  expect(wrapper.vm.rowClass).to.eq("red")
+  it('should change pending row class to red if request was failed', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, 'updateTask').rejects({ errors: "Big message of errors" })
 
-  actionStub.restore()
+    await wrapper.vm.update(true)
+    expect(wrapper.vm.rowClass).to.eq("red")
+
+    actionStub.restore()
+  });
+
 });

@@ -10,6 +10,14 @@ class GlobalMethods {
     return value;
   }
 
+  static systemFormatDate(date){
+    return date.toLocaleString({
+      month: 'numeric',
+      day: 'numeric',
+      year: "numeric"
+    })
+  }
+
 }
 
 export default GlobalMethods;

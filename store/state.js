@@ -13,7 +13,6 @@ export default function state(){
       id: "",
       name: null,
       email: null,
-      timezone: null,
       role: ""
     }
   }

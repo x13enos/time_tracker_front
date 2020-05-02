@@ -1,20 +1,17 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import form from '@/components/admin/projects/form'
-import GlobalMethods from '@/services/global_methods'
 
 describe('update', () => {
-  const $appMethods = { isEmpty: (value) => { return GlobalMethods.isEmpty(value) } }
   const $api = {
     updateProject: () => {}
   }
 
-  const mocks = { $appMethods, $api }
+  const mocks = { $api }
   const successResponse = { data: { name: 'new-test-project', id: 1 } }
 
 
   context('successful updating', () => {
     let apiStub;
-
 
     beforeEach(() => {
       apiStub = sinon.stub(mocks.$api, 'updateProject').returns(successResponse)

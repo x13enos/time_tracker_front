@@ -1,14 +1,12 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import form from '@/components/admin/projects/form'
-import GlobalMethods from '@/services/global_methods'
 
 describe('create', () => {
-  const $appMethods = { isEmpty: (value) => { return GlobalMethods.isEmpty(value) } }
   const $api = {
     createProject: () => {}
   }
 
-  const mocks = { $appMethods, $api }
+  const mocks = { $api }
   const successResponse = { data: { name: 'new-test-project', id: 1 } }
 
 

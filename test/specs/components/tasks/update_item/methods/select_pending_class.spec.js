@@ -6,8 +6,7 @@ const propsData = { activeDay: false, task: {} }
 describe('selectPendingClass', () => {
 
   it('should call method "removePendingState" if task has the same attributes', () => {
-    const $appMethods = { isEmpty: () => { return true } }
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     sinon.stub(wrapper.vm, "taskHasTheSameAttributes").returns(true)
     const methodStub = sinon.stub(wrapper.vm, "removePendingState")
 
@@ -17,8 +16,7 @@ describe('selectPendingClass', () => {
   });
 
   it('should call method "addPendingState" if task does not have the same attributes', () => {
-    const $appMethods = { isEmpty: () => { return true } }
-    const wrapper = createWrapper(task, { propsData, mocks: { $appMethods } }, fakeStoreData())
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     sinon.stub(wrapper.vm, "taskHasTheSameAttributes").returns(false)
     const methodStub = sinon.stub(wrapper.vm, "addPendingState")
 
