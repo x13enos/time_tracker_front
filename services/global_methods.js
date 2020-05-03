@@ -11,11 +11,7 @@ class GlobalMethods {
   }
 
   static systemFormatDate(date){
-    return date.toLocaleString({
-      month: 'numeric',
-      day: 'numeric',
-      year: "numeric"
-    })
+    return date.toLocaleString({ locale: 'en-gb' });
   }
 
 }
