@@ -41,11 +41,7 @@ function Api({ router, store }, appMethods) {
   }
 
   this.weeklyTimeRecords = (date) => {
-    const assigned_date = date.toLocaleString({
-      month: 'numeric',
-      day: 'numeric',
-      year: "numeric"
-    })
+    const assigned_date = date.toLocaleString({ locale: 'en-gb' });
     return client.get("/time_records", { params: { assigned_date } })
   }
 
