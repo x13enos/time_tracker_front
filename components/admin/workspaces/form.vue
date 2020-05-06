@@ -7,7 +7,7 @@
     </template>
     <v-card>
       <v-card-title>
-        <span class="headline">{{ $t("users.new_user") }}</span>
+        <span class="headline">{{ newWorkspace ? $t("workspaces.new_workspace") : $t("workspaces.change_details") }}</span>
       </v-card-title>
       <v-card-text>
         <v-container>
@@ -18,19 +18,9 @@
             <v-row>
               <v-col cols="12">
                 <v-text-field
-                :label="$t('users.name')"
+                :label="$t('workspaces.name')"
                 v-model.trim="$v.form.name.$model"
                 :error-messages="nameErrors"
-                required />
-              </v-col>
-            </v-row>
-
-            <v-row>
-              <v-col cols="12">
-                <v-text-field
-                :label="$t('users.email')"
-                v-model.trim="$v.form.email.$model"
-                :error-messages="emailErrors"
                 required />
               </v-col>
             </v-row>
@@ -48,9 +38,9 @@
         <v-btn
           color="blue darken-1"
           text
-          @click="save"
-          :disabled="!this.form.name || !this.form.email || !valid">
-          {{ $t("add") }}
+          @click="newWorkspace ? create() : update()"
+          :disabled="!valid || !form.name">
+          {{ $t(`${ newWorkspace ? "create" : "update" }`)}}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -58,63 +48,76 @@
 </template>
 
 <script>
-  import { mapMutations } from 'vuex'
   import { validationMixin } from 'vuelidate'
-  import { required, email } from 'vuelidate/lib/validators'
+  import { required } from 'vuelidate/lib/validators'
+  import { mapMutations } from 'vuex'
 
   export default {
+    mixins: [validationMixin],
+
+    props: {
+      workspace: {
+        type: Object,
+        required: false,
+        default: () => { return {} }
+      }
+    },
+
     data() {
       return {
         valid: false,
         dialog: false,
         errorMessage: "",
         form: {
-          name: "",
-          email: ""
+          name: this.workspace.name || "",
         }
       }
     },
 
-    mixins: [validationMixin],
-
     validations: {
       form: {
-        name: { required },
-        email: { required, email },
+        name: { required }
       }
     },
 
-
     computed: {
-      nameErrors () {
+      newWorkspace(){
+        return this.$appMethods.isEmpty(this.workspace)
+      },
+
+      nameErrors(){
         const attribute = this.$v.form.name
         const errors = []
         if (!attribute.$dirty) return errors
         !attribute.required && errors.push(this.$t('validations.required'))
         return errors
-      },
-      emailErrors () {
-        const attribute = this.$v.form.email
-        const errors = []
-        if (!attribute.$dirty) return errors
-        !attribute.email && errors.push(this.$t('validations.email_must_be_valid'))
-        !attribute.required && errors.push(this.$t('validations.required'))
-        return errors
-      },
+      }
     },
 
     methods: {
       ...mapMutations(["updateSnack"]),
 
-      async save(){
+      async create(){
         try {
           this.errorMessage = ""
-          const response = await this.$api.createUser(this.form)
-          this.$emit("processData", response.data)
-          this.updateSnack({ message: this.$t("users.invitation_email_was_sent"), color: "green" })
+          const response = await this.$api.createWorkspace(this.form)
           this.dialog = false
-          this.form = { name: "", email: "" }
-        } catch (error) {
+          this.updateSnack({ message: this.$t("workspaces.was_created"), color: "green" })
+          this.form = { name: "" }
+          this.$emit("processData", response.data)
+        } catch(error) {
+          this.errorMessage = error
+        }
+      },
+
+      async update(){
+        try {
+          this.errorMessage = ""
+          const response = await this.$api.updateWorkspace(this.workspace.id, this.form)
+          this.dialog = false
+          this.updateSnack({ message: this.$t("workspaces.was_updated"), color: "green" })
+          this.$emit("processData", response.data)
+        } catch(error) {
           this.errorMessage = error
         }
       }

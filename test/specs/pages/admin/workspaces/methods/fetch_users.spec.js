@@ -1,10 +1,11 @@
 import createWrapper from '@/test/support/create_wrapper.js'
-import Users from '@/pages/admin/users'
+import Workspaces from '@/pages/admin/workspaces'
 
 describe('fetchUsers', () => {
   const mocks = {
     $api: {
       allUsers: () => {},
+      allWorkspaces: () => { return { data: "" } }
     }
   }
 
@@ -14,7 +15,7 @@ describe('fetchUsers', () => {
 
   it("should call api method for fetching users", async () => {
     const methodStub = sinon.stub(mocks.$api, 'allUsers').returns(successResponse)
-    const wrapper = createWrapper(Users, { mocks }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks }, fakeStoreData())
 
     await wrapper.vm.fetchUsers()
     expect(methodStub.called).to.be.true
@@ -24,7 +25,7 @@ describe('fetchUsers', () => {
 
   it('should keep users from recieved data if request was successful', async () => {
     const apiStub = sinon.stub(mocks.$api, "allUsers").returns(successResponse)
-    const wrapper = createWrapper(Users, { mocks }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks }, fakeStoreData())
 
     await wrapper.vm.fetchUsers()
     expect(wrapper.vm.users).to.eql([{ name: 'John', id: 11 }])
