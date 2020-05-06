@@ -7,7 +7,7 @@
     </template>
     <v-card>
       <v-card-title>
-        <span class="headline">{{ $t("projects.new_project") }}</span>
+        <span class="headline">{{ newProject ? $t("projects.new_project") : $t("projects.change_details") }}</span>
       </v-card-title>
       <v-card-text>
         <v-container>

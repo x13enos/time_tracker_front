@@ -31,9 +31,9 @@
           </v-btn>
         </nuxt-link>
 
-        <nuxt-link v-if="isAdmin" to="/admin/users">
+        <nuxt-link v-if="isAdmin" to="/admin/workspaces">
           <v-btn text>
-            {{ $t("navigation.users") }}
+            {{ $t("navigation.workspaces") }}
           </v-btn>
         </nuxt-link>
 

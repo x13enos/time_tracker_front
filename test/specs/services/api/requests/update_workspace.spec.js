@@ -2,9 +2,8 @@ import Api from '@/services/api/requests';
 import axios from 'axios';
 
 let client, apiInstance, mock, router, store
-const assignedDate = new Date()
 
-describe("createUser", () =>  {
+describe("updateWorkspace", () =>  {
 
   beforeEach(() => {
     client = axios.create()
@@ -18,30 +17,30 @@ describe("createUser", () =>  {
     sinon.restore()
   })
 
-  it('should make post request', async () => {
-    mock = sinon.stub(client, "post").resolves({ data: "data" })
-    await apiInstance.createUser({})
+  it('should make put request', async () => {
+    mock = sinon.stub(client, "put").resolves({ data: "data" })
+    await apiInstance.updateWorkspace(1, {})
     expect(mock.calledOnce).to.be.true
   })
 
   it('should pass data', async () => {
     const data = {
-      name: "test-poject"
+      name: "John Doe"
     }
-    mock = sinon.stub(client, "post").resolves({ data: "data" })
-    await apiInstance.createUser(data)
-    expect(mock.args[0]).to.eql(["/users", data])
+    mock = sinon.stub(client, "put").resolves({ data: "data" })
+    await apiInstance.updateWorkspace(1, data)
+    expect(mock.args[0]).to.eql(["/workspaces/1", data])
   })
 
   it('should return response in case of success', async () => {
-    mock = sinon.stub(client, "post").resolves({ data: "data" })
-    const response = await apiInstance.createUser({})
+    mock = sinon.stub(client, "put").resolves({ data: "data" })
+    const response = await apiInstance.updateWorkspace(1, {})
     expect(response).to.eql({ data: "data" })
   })
 
   it('should reject error in case of fail', async () => {
     const error = { response: { data: { error: "error message" }} }
-    sinon.stub(client, "post").rejects(error)
-    return expect(apiInstance.createUser({})).to.be.rejectedWith(error);
+    sinon.stub(client, "put").rejects(error)
+    return expect(apiInstance.updateWorkspace(1, {})).to.be.rejectedWith(error);
   })
 })

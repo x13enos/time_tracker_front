@@ -80,26 +80,18 @@ function Api({ router, store }, appMethods) {
 
   this.updateProject = (id, data) => {
     return client.put(`/projects/${id}`, data)
-  },
+  }
 
   this.deleteProject = (id) => {
     return client.delete(`/projects/${id}`)
-  },
+  }
 
   this.assignUserToProject = (projectId, userId) => {
     return client.put(`/projects/${projectId}/assign_user`, { user_id: userId })
-  },
+  }
 
   this.removeUserFromProject = (projectId, userId) => {
     return client.put(`/projects/${projectId}/remove_user`, { user_id: userId })
-  },
-
-  this.createUser = (data) => {
-    return client.post(`/users`, data)
-  }
-
-  this.deleteUser = (userId) => {
-    return client.delete(`/users/${userId}`)
   }
 
   this.forgotPassword = (email) => {
@@ -108,6 +100,30 @@ function Api({ router, store }, appMethods) {
 
   this.changePassword = (data) => {
     return client.post(`/reset_password`, data)
+  }
+
+  this.allWorkspaces = () => {
+    return client.get("/workspaces")
+  }
+
+  this.createWorkspace = (data) => {
+    return client.post("/workspaces", data)
+  }
+
+  this.updateWorkspace = (id, data) => {
+    return client.put(`/workspaces/${id}`, data)
+  }
+
+  this.deleteWorkspace = (id) => {
+    return client.delete(`/workspaces/${id}`)
+  }
+
+  this.removeUserFromWorkspace = (workspaceId, userId) => {
+    return client.delete(`/workspaces/${workspaceId}/workspace_users/${userId}`)
+  }
+
+  this.inviteUser = (workspaceId, email) => {
+    return client.post(`/workspaces/${workspaceId}/workspace_users/`, { email } )
   }
 
   // private logic

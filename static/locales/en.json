@@ -11,6 +11,7 @@
     "reports": "Reports",
     "projects": "Projects",
     "users": "Users",
+    "workspaces": "Workspaces",
     "profile": "Profile",
     "sign_out": "Sign Out",
     "login": "Login"
@@ -81,34 +82,40 @@
   },
   "projects": {
     "title": "Projects",
-    "no_projects": "No Projects",
+    "no_projects": "No projects",
     "name": "Name",
     "users": "Users",
-    "new_project": "New Project",
+    "new_project": "New project",
     "name_is_required": "Name is required",
     "approve_deleting": "Please approve that you really want to remove this project.",
     "manage_users": "Manage",
-    "users_management": "Users Management",
+    "users_management": "Users management",
     "regexp_of_grouping": "Regular expression of grouping tasks",
     "was_created": "Project was successfully created!",
     "was_updated": "Project was successfully updated!",
-    "was_deleted": "Project was successfully deleted!"
+    "was_deleted": "Project was successfully deleted!",
+    "change_details": "Change details"
   },
-  "users": {
-    "title": "Users",
-    "new_user": "New User",
+  "workspaces": {
+    "title": "Workspaces",
+    "new_workspace": "New workspace",
+    "no_workspaces": "No workspaces",
     "name": "Name",
-    "email": "Email",
-    "required": "This field is required.",
-    "approve_deleting": "Please approve that you really want to remove this user.",
-    "invitation_email_would_be_sent": "Email with the invitation link would be send to user after creating.",
-    "invitation_email_was_sent": "Invitation email was been sent to user"
+    "users": "Users",
+    "manage_users": "Manage",
+    "users_management": "Users management",
+    "approve_deleting": "Please approve that you really want to remove this workspace.",
+    "was_created": "Workspace was successfully created!",
+    "was_updated": "Workspace was successfully updated!",
+    "was_deleted": "Workspace was successfully deleted!",
+    "change_details": "Change details"
   },
   "validations": {
     "required": "This field is required.",
     "should_has_format": "should has format",
     "email_must_be_valid": "E-mail must be valid",
     "should_be_same_as_password": "It should be the same as password",
-    "length_between": "Number of symbols should be between {min} and {max}"
+    "length_between": "Number of symbols should be between {min} and {max}",
+    "already_invited": "User with this email was already invited"
   }
 }

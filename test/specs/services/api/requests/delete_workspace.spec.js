@@ -4,7 +4,7 @@ import axios from 'axios';
 let client, apiInstance, mock, router, store
 const assignedDate = new Date()
 
-describe("deleteUser", () =>  {
+describe("deleteWorkspace", () =>  {
 
   beforeEach(() => {
     client = axios.create()
@@ -18,9 +18,9 @@ describe("deleteUser", () =>  {
     sinon.restore()
   })
 
-  it('should make post request', async () => {
+  it('should make delete request', async () => {
     mock = sinon.stub(client, "delete").resolves({ data: "data" })
-    await apiInstance.deleteUser(1)
+    await apiInstance.deleteWorkspace(1)
     expect(mock.calledOnce).to.be.true
   })
 
@@ -29,19 +29,19 @@ describe("deleteUser", () =>  {
       name: "test-poject"
     }
     mock = sinon.stub(client, "delete").resolves({ data: "data" })
-    await apiInstance.deleteUser(1)
-    expect(mock.args[0]).to.eql(["/users/1"])
+    await apiInstance.deleteWorkspace(1)
+    expect(mock.args[0]).to.eql(["/workspaces/1"])
   })
 
   it('should return response in case of success', async () => {
     mock = sinon.stub(client, "delete").resolves({ data: "data" })
-    const response = await apiInstance.deleteUser({})
+    const response = await apiInstance.deleteWorkspace(1)
     expect(response).to.eql({ data: "data" })
   })
 
   it('should reject error in case of fail', async () => {
     const error = { response: { data: { error: "error message" }} }
     sinon.stub(client, "delete").rejects(error)
-    return expect(apiInstance.deleteUser({})).to.be.rejectedWith(error);
+    return expect(apiInstance.deleteWorkspace(1)).to.be.rejectedWith(error);
   })
 })

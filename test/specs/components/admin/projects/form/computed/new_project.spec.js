@@ -1,7 +1,7 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import form from '@/components/admin/projects/form'
 
-describe('new_project', () => {
+describe('newProject', () => {
 
   it('should return true if project was not passed in props', () => {
     const propsData = {}
@@ -16,5 +16,5 @@ describe('new_project', () => {
 
     expect(wrapper.vm.newProject).to.be.false
   });
-  
+
 });
