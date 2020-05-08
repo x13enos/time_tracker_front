@@ -32,6 +32,14 @@
             required
           />
 
+          <v-select
+            v-model="form.activeWorkspaceId"
+            :label="$t('profile.active_workspace')"
+            :items="workspaceList"
+            :disabled="updating"
+            required
+          />
+
           <v-text-field
             v-model="form.password"
             :label="$t('profile.new_password')"
@@ -73,6 +81,7 @@ export default {
       updating: false,
       showPassword: false,
       valid: true,
+      workspaceList: [],
       nameRules: [
         v => !!v || this.$t('profile.name_is_required'),
       ],
@@ -87,17 +96,19 @@ export default {
         name: "",
         email: "",
         locale: "",
-        password: ""
+        password: "",
+        activeWorkspaceId: ""
       }
     }
   },
 
   mounted(){
     Object.assign(this.form, this.user)
+    this.fetchWorkspaces()
   },
 
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user"]),
   },
 
   methods: {
@@ -111,13 +122,33 @@ export default {
       ]
     },
 
+    async fetchWorkspaces(){
+      const response = await this.$api.allWorkspaces()
+      if(response.data){
+        this.workspaceList = response.data.map((w) => {
+          return { text: w.name, value: w.id }
+        })
+      }
+    },
+
     async save(){
       this.updating = true
-      const response = await this.updateUserProfile(this.form)
+      const response = await this.updateUserProfile(handleFormParams(this.form))
       this.updateSnack({ message: this.$t("profile.was_updated_succesfully"), color: "green" })
       this.form.password = ""
       this.updating = false
     }
+  }
+}
+
+function handleFormParams(formData) {
+  const { name, email, locale, password } = formData
+  return {
+    name,
+    email,
+    locale,
+    password,
+    active_workspace_id: formData.activeWorkspaceId
   }
 }
 </script>

@@ -2,8 +2,11 @@ import Vue from 'vue'
 
 export default {
   updatePersonalInfo (state, userData) {
-    Object.assign(state.user, userData)
-    this.$i18n.locale = state.user.locale
+    const { id, name, email, locale, role } = userData
+    const activeWorkspaceId = userData.active_workspace_id
+
+    Object.assign(state.user, { id, name, email, locale, role, activeWorkspaceId })
+    this.$i18n.locale = locale
   },
 
   updateProjects(state, projects) {
