@@ -112,10 +112,10 @@
   },
   "validations": {
     "required": "This field is required.",
-    "should_has_format": "should has format",
-    "email_must_be_valid": "E-mail must be valid",
-    "should_be_same_as_password": "It should be the same as password",
-    "length_between": "Number of symbols should be between {min} and {max}",
-    "already_invited": "User with this email was already invited"
+    "spent_time_format": "should have format \"0.00\"",
+    "email": "E-mail must be valid",
+    "same_as_password": "It should be the same as password",
+    "password_length": "Number of symbols should be between 8 and 32",
+    "workspace_already_contains_user": "User with this email was already invited"
   }
 }

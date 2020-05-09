@@ -20,7 +20,7 @@
                 <v-text-field
                 :label="$t('workspaces.name')"
                 v-model.trim="$v.form.name.$model"
-                :error-messages="nameErrors"
+                :error-messages="$validationErrorMessage($v.form.name, ['required'])"
                 required />
               </v-col>
             </v-row>
@@ -48,12 +48,13 @@
 </template>
 
 <script>
+  import validationErrorMixin from '@/mixins/validation_errors'
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
   import { mapMutations } from 'vuex'
 
   export default {
-    mixins: [validationMixin],
+    mixins: [validationMixin, validationErrorMixin],
 
     props: {
       workspace: {
@@ -83,14 +84,6 @@
     computed: {
       newWorkspace(){
         return this.$appMethods.isEmpty(this.workspace)
-      },
-
-      nameErrors(){
-        const attribute = this.$v.form.name
-        const errors = []
-        if (!attribute.$dirty) return errors
-        !attribute.required && errors.push(this.$t('validations.required'))
-        return errors
       }
     },
 

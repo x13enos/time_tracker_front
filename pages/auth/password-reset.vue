@@ -22,15 +22,14 @@
           v-model.trim="$v.form.password.$model"
           :label="$t('password-reset.password')"
           type="password"
-          :error-messages="passwordErrors"
+          :error-messages="$validationErrorMessage($v.form.password, ['required', 'passwordLength'])"
         />
         <v-text-field
           id="password"
           v-model.trim="$v.form.confirmPassword.$model"
           :label="$t('password-reset.confirm_password')"
-          name="password"
           type="password"
-          :error-messages="confirmPasswordErrors"
+          :error-messages="$validationErrorMessage($v.form.confirmPassword, ['required', 'sameAsPassword'])"
         />
       </v-form>
       <span class='red--text' v-if="errorMessage">
@@ -50,24 +49,26 @@
 </template>
 
 <script>
+import validationErrorMixin from '@/mixins/validation_errors'
 import { validationMixin } from 'vuelidate'
-import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
+import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   layout: 'auth',
 
-  mixins: [validationMixin],
+  mixins: [validationMixin, validationErrorMixin],
 
-  validations: {
-    form: {
-      password: {
-        required,
-        minLength: minLength(8),
-        maxLength: maxLength(32)
-      },
-      confirmPassword: {
-        required,
-        sameAsPassword: sameAs('password')
+  validations() {
+    return {
+      form: {
+        password: {
+          required,
+          passwordLength
+        },
+        confirmPassword: {
+          required,
+          sameAsPassword: sameAs('password')
+        }
       }
     }
   },
@@ -84,32 +85,11 @@ export default {
     }
   },
 
-  computed: {
-    passwordErrors () {
-      const attribute = this.$v.form.password
-      const errors = []
-      if (!attribute.$dirty) return errors
-      if(!attribute.minLength || !attribute.maxLength){
-        errors.push(this.$t('validations.length_between', { min: '8', max: '32' }))
-      }
-      !attribute.required && errors.push(this.$t('validations.required'))
-      return errors
-    },
-    confirmPasswordErrors () {
-      const attribute = this.$v.form.confirmPassword
-      const errors = []
-      if (!attribute.$dirty) return errors
-      !attribute.sameAsPassword && errors.push(this.$t('validations.should_be_same_as_password'))
-      !attribute.required && errors.push(this.$t('validations.required'))
-      return errors
-    },
-  },
-
   methods: {
     async submit () {
       this.errorMessage = ""
       try {
-        await this.$api.changePassword({
+        const response = await this.$api.changePassword({
           token: this.$route.query.token,
           password: this.form.password,
           confirm_password: this.form.confirmPassword
@@ -121,4 +101,8 @@ export default {
     }
   }
 }
+
+const passwordLength = (value) => {
+  return !helpers.req(value) || (value.length >=8 && value.length <= 32);
+};
 </script>
