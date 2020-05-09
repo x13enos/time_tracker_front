@@ -22,7 +22,9 @@ describe('onlyCreate', () => {
   it('should call create method if start button was not focused', async () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const methodStub = sinon.stub(wrapper.vm, "create")
+    wrapper.vm.valid = true
     wrapper.vm.btnStartFocused = false
+
     await wrapper.vm.onlyCreate()
     expect(methodStub.calledOnce).to.be.true
 

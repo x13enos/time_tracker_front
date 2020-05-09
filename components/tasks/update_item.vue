@@ -17,7 +17,7 @@
           :hide-selected="true"
           :disabled="active"
           @focus="selectPendingClass"
-          @change="update()"
+          @change="onlyUpdate()"
         ></v-select>
       </v-col>
       <v-col class="col-sm-8 col-12">
@@ -29,18 +29,18 @@
           :disabled="active"
           rows="1"
           :auto-grow="true"
-          @blur="update()"
+          @blur="onlyUpdate()"
         />
       </v-col>
       <v-col class="col-sm-1 col-6">
         <v-form v-model="valid">
           <v-text-field
-            v-model="spentTime"
+            v-model="$v.spentTime.$model"
             placeholder="0.0"
             :disabled="active"
             @input="selectPendingClass"
-            :rules="spentTimeRules"
-            @blur="update()"
+            :error-messages="$validationErrorMessage($v.spentTime, ['spentTimeFormat'])"
+            @blur="onlyUpdate()"
           />
         </v-form>
       </v-col>
@@ -48,7 +48,14 @@
         <v-row>
           <v-col cols="6">
             <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
-            <v-icon v-else @click="update(true)" :text="true" :large="true" :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
+            <v-icon
+              v-else
+              @click="update(true)"
+              :text="true"
+              :large="true"
+              @mouseover="toggleBtnStatus"
+              @mouseout="toggleBtnStatus"
+              :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
           </v-col>
           <v-col cols="6">
             <v-menu offset-y>
@@ -90,9 +97,13 @@
 </template>
 
 <script>
+import validationErrorMixin from '@/mixins/validation_errors'
+import { validationMixin } from 'vuelidate'
+import { helpers } from 'vuelidate/lib/validators'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
+  mixins: [validationMixin, validationErrorMixin],
 
   props: {
     task: {
@@ -107,6 +118,12 @@ export default {
     }
   },
 
+  validations() {
+    return {
+      spentTime: { spentTimeFormat }
+    }
+  },
+
   data: function() {
     return {
       rowClass: "",
@@ -117,10 +134,7 @@ export default {
       intervalId: null,
       valid: true,
       dialog: false,
-      spentTimeRules: [
-        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) ||
-          `${this.$t('validations.should_has_format')} "0.00"`,
-      ]
+      btnStartFocused: false
     }
   },
 
@@ -150,6 +164,7 @@ export default {
 
   watch: {
     active: function(value){
+      this.btnStartFocused = value
       if(value)
         this.start()
     }
@@ -169,6 +184,11 @@ export default {
       "deletePendingTaskId",
       "addPendingTaskId"
     ]),
+
+    onlyUpdate(){
+      if(!this.btnStartFocused && this.valid)
+        this.update()
+    },
 
     async update(state=false){
       if(!this.valid)
@@ -236,6 +256,10 @@ export default {
       }
     },
 
+    toggleBtnStatus(){
+      this.btnStartFocused = !this.btnStartFocused
+    },
+
     deleteItem(){
       this.dialog = false
       this.deleteTask({
@@ -244,7 +268,12 @@ export default {
       })
     }
   }
+
 }
+
+const spentTimeFormat = (value) => {
+  return !helpers.req(value) || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(value);
+};
 </script>
 
 <style>

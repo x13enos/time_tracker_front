@@ -35,7 +35,7 @@
                 <v-text-field
                   label="Email"
                   v-model.trim="$v.email.$model"
-                  :error-messages="emailErrors"
+                  :error-messages="$validationErrorMessage($v.email, ['required', 'email', 'workspaceAlreadyContainsUser'])"
                   :dense="true" />
               </v-form>
             </v-col>
@@ -84,6 +84,7 @@
 </template>
 
 <script>
+  import validationErrorMixin from '@/mixins/validation_errors'
   import { validationMixin } from 'vuelidate'
   import { required, email } from 'vuelidate/lib/validators'
 
@@ -94,7 +95,7 @@
 
 
   export default {
-    mixins: [validationMixin],
+    mixins: [validationMixin, validationErrorMixin],
 
     props: {
       workspace: {
@@ -122,7 +123,7 @@
         email: {
           required,
           email,
-          contains: contains(this.assignedUsers)
+          workspaceAlreadyContainsUser: contains(this.assignedUsers)
         }
       }
     },
@@ -137,16 +138,6 @@
       userNames: function() {
         const names = this.assignedUsers.map((u) => u.name )
         return names.sort().slice(0, 2).join(', ')
-      },
-
-      emailErrors(){
-        const attribute = this.$v.email
-        const errors = []
-        if (!attribute.$dirty) return errors
-        !attribute.required && errors.push(this.$t('validations.required'))
-        !attribute.email && errors.push(this.$t('validations.email_must_be_valid'))
-        !attribute.contains && errors.push(this.$t('validations.already_invited'))
-        return errors
       }
     },
 
