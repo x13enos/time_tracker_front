@@ -13,23 +13,28 @@
   <v-card v-else class="elevation-12">
     <v-toolbar color="primary" dark flat>
       <v-toolbar-title>
-        {{ $t('password-set.title') }}
+        {{ $t('invitation.title') }}
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
       <v-form v-model="valid">
         <v-text-field
           v-model.trim="$v.form.name.$model"
-          :label="$t('password-set.name')"
+          :label="$t('invitation.name')"
           type="text"
           :error-messages="$validationErrorMessage($v.form.name, ['required'])"
         />
         <v-text-field
-          id="password"
           v-model.trim="$v.form.password.$model"
-          :label="$t('password-set.password')"
+          :label="$t('invitation.password')"
           type="password"
           :error-messages="$validationErrorMessage($v.form.password, ['required', 'passwordLength'])"
+        />
+        <v-text-field
+          v-model.trim="$v.form.confirmPassword.$model"
+          :label="$t('invitation.confirm_password')"
+          type="password"
+          :error-messages="$validationErrorMessage($v.form.confirmPassword, ['required', 'sameAsPassword'])"
         />
       </v-form>
       <span class='red--text' v-if="errorMessage">
@@ -41,8 +46,8 @@
         color="primary"
         :block="true"
         @click="submit()"
-        :disabled="!valid || !this.form.name || !this.form.password">
-        {{ $t('continue') }}
+        :disabled="!valid || !this.form.name || !this.form.password || !this.form.confirmPassword">
+        {{ $t('invitation.accept_invitation') }}
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -65,6 +70,10 @@ export default {
         password: {
           required,
           passwordLength
+        },
+        confirmPassword: {
+          required,
+          sameAsPassword: sameAs('password')
         }
       }
     }
@@ -74,7 +83,8 @@ export default {
     return {
       form: {
         name: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
       },
       valid: true,
       errorMessage: '',

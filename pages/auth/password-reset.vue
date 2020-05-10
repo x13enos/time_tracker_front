@@ -91,8 +91,7 @@ export default {
       try {
         const response = await this.$api.changePassword({
           token: this.$route.query.token,
-          password: this.form.password,
-          confirm_password: this.form.confirmPassword
+          password: this.form.password
         })
         this.passwordWasChanged = true
       } catch ( error ) {

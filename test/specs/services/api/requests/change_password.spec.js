@@ -31,7 +31,7 @@ describe("changePassword", () =>  {
     }
     mock = sinon.stub(client, "put").resolves({ data: "data" })
     await apiInstance.changePassword(params)
-    expect(mock.args[0]).to.eql(["/passwords", params])
+    expect(mock.args[0]).to.eql(["/users/passwords", params])
   })
 
   it('should return response in case of success', async () => {
