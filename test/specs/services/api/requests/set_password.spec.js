@@ -2,9 +2,8 @@ import Api from '@/services/api/requests';
 import axios from 'axios';
 
 let client, apiInstance, mock, router, store
-const date = new Date()
 
-describe("changePassword", () =>  {
+describe("setPassword", () =>  {
 
   beforeEach(() => {
     client = axios.create()
@@ -18,32 +17,33 @@ describe("changePassword", () =>  {
     sinon.restore()
   })
 
-  it('should make put request', async () => {
-    mock = sinon.stub(client, "put").resolves({ data: "data" })
-    await apiInstance.changePassword(date)
+  it('should make post request', async () => {
+    mock = sinon.stub(client, "post").resolves({ data: "data" })
+    await apiInstance.setPassword({})
     expect(mock.calledOnce).to.be.true
   })
 
   it('should pass data', async () => {
     const params = {
+      name: "test user",
       password: "11111111",
-      confirm_password: "11111111"
+      token: "fods324fdsf2"
     }
-    mock = sinon.stub(client, "put").resolves({ data: "data" })
-    await apiInstance.changePassword(params)
+    mock = sinon.stub(client, "post").resolves({ data: "data" })
+    await apiInstance.setPassword(params)
     expect(mock.args[0]).to.eql(["/passwords", params])
   })
 
   it('should return response in case of success', async () => {
-    mock = sinon.stub(client, "put").resolves({ data: "data" })
-    const response = await apiInstance.changePassword(date)
+    mock = sinon.stub(client, "post").resolves({ data: "data" })
+    const response = await apiInstance.setPassword({})
     expect(response).to.eql({ data: "data" })
   })
 
   it('should reject error in case of fail', async () => {
     const error = { response: { data: { error: "error message" }} }
-    sinon.stub(client, "put").rejects(error)
-    return expect(apiInstance.changePassword(date)).to.be.rejectedWith(error);
+    sinon.stub(client, "post").rejects(error)
+    return expect(apiInstance.setPassword({})).to.be.rejectedWith(error);
   })
 
 })

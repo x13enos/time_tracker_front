@@ -6,6 +6,7 @@
   "create": "Create",
   "update": "Update",
   "add": "Add",
+  "continue": "Continue",
   "navigation": {
     "tasks": "Tasks",
     "reports": "Reports",
@@ -47,6 +48,12 @@
     "title": "Change Password",
     "password": "Password",
     "confirm_password": "Confirm password",
+    "create_new_password": "Create new password"
+  },
+  "password-set": {
+    "title": "Set User Data",
+    "name": "Name",
+    "password": "Password",
     "create_new_password": "Create new password"
   },
   "time_sheet": {
