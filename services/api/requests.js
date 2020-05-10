@@ -95,15 +95,15 @@ function Api({ router, store }, appMethods) {
   }
 
   this.forgotPassword = (email) => {
-    return client.get("/passwords/new", { params: { email } })
+    return client.post("/users/passwords", { email })
   }
 
   this.changePassword = (data) => {
-    return client.put(`/passwords`, data)
+    return client.put(`/users/passwords`, data)
   }
 
   this.setPassword = (data) => {
-    return client.post(`/passwords`, data)
+    return client.put(`/users/invitations`, data)
   }
 
   this.allWorkspaces = () => {

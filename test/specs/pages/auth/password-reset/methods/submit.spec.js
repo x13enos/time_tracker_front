@@ -33,8 +33,7 @@ describe("submit", () => {
     await wrapper.vm.submit()
     expect(actionSpy.calledOnceWith({
       token: "2222",
-      password: '11111111',
-      confirm_password: '11111111'
+      password: '11111111'
     })).to.be.true
 
     sinon.restore()

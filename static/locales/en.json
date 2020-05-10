@@ -50,11 +50,12 @@
     "confirm_password": "Confirm password",
     "create_new_password": "Create new password"
   },
-  "password-set": {
-    "title": "Set User Data",
+  "invitation": {
+    "title": "Sign Up",
     "name": "Name",
     "password": "Password",
-    "create_new_password": "Create new password"
+    "confirm_password": "Confirm password",
+    "accept_invitation": "Accept Invitation"
   },
   "time_sheet": {
     "title": "Time Sheet",
