@@ -27,7 +27,7 @@ describe("forgotPassword", () =>  {
   it('should pass data', async () => {
     mock = sinon.stub(client, "get").resolves({ data: "data" })
     await apiInstance.forgotPassword("test@gmail.com")
-    expect(mock.args[0]).to.eql(["/forgot_password", {
+    expect(mock.args[0]).to.eql(["/passwords/new", {
       params: {
         email: "test@gmail.com"
       }
