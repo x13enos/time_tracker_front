@@ -10,16 +10,16 @@
         ref="form"
         v-model="valid">
           <v-text-field
-            v-model="form.name"
+          v-model="$v.form.name.$model"
             :label="$t('profile.name')"
-            :rules="nameRules"
+            :error-messages="$validationErrorMessage($v.form.name, ['required'])"
             :disabled="updating"
           />
 
           <v-text-field
-            v-model="form.email"
+            v-model="$v.form.email.$model"
             :label="$t('profile.email')"
-            :rules="emailRules"
+            :error-messages="$validationErrorMessage($v.form.email, ['required', 'email'])"
             :disabled="updating"
             required
           />
@@ -41,12 +41,12 @@
           />
 
           <v-text-field
-            v-model="form.password"
+          v-model="$v.form.password.$model"
             :label="$t('profile.new_password')"
             :disabled="updating"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            :rules="passwordRules"
+            :error-messages="$validationErrorMessage($v.form.password, ['passwordLength'])"
             @click:append="showPassword = !showPassword"
           />
         </v-form>
@@ -72,32 +72,37 @@
 </template>
 
 <script>
+import { validationMixin } from 'vuelidate'
+import validationErrorMixin from '@/mixins/validation_errors'
+import { required, email, helpers } from 'vuelidate/lib/validators'
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
+
+  mixins: [validationMixin, validationErrorMixin],
 
   data() {
     return {
       updating: false,
       showPassword: false,
-      valid: true,
+      valid: false,
       workspaceList: [],
-      nameRules: [
-        v => !!v || this.$t('profile.name_is_required'),
-      ],
-      emailRules: [
-        v => !!v || this.$t('profile.email_is_required'),
-        v => /.+@.+\..+/.test(v) || this.$t('profile.email_must_be_valid'),
-      ],
-      passwordRules: [
-        v => (!v || (!!v && (v || "").length >= 8)) || this.$t("profile.password_should_contain"),
-      ],
       form: {
         name: "",
         email: "",
         locale: "",
         password: "",
         activeWorkspaceId: ""
+      }
+    }
+  },
+
+  validations() {
+    return {
+      form: {
+        name: { required },
+        email: { required, email },
+        password: { passwordLength }
       }
     }
   },
@@ -151,6 +156,10 @@ function handleFormParams(formData) {
     active_workspace_id: formData.activeWorkspaceId
   }
 }
+
+const passwordLength = (value) => {
+  return !helpers.req(value) || (value.length >=8 && value.length <= 32);
+};
 </script>
 
 <style scoped>

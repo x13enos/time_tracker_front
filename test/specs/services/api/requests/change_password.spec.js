@@ -18,8 +18,8 @@ describe("changePassword", () =>  {
     sinon.restore()
   })
 
-  it('should make post request', async () => {
-    mock = sinon.stub(client, "post").resolves({ data: "data" })
+  it('should make put request', async () => {
+    mock = sinon.stub(client, "put").resolves({ data: "data" })
     await apiInstance.changePassword(date)
     expect(mock.calledOnce).to.be.true
   })
@@ -29,20 +29,20 @@ describe("changePassword", () =>  {
       password: "11111111",
       confirm_password: "11111111"
     }
-    mock = sinon.stub(client, "post").resolves({ data: "data" })
+    mock = sinon.stub(client, "put").resolves({ data: "data" })
     await apiInstance.changePassword(params)
-    expect(mock.args[0]).to.eql(["/reset_password", params])
+    expect(mock.args[0]).to.eql(["/users/passwords", params])
   })
 
   it('should return response in case of success', async () => {
-    mock = sinon.stub(client, "post").resolves({ data: "data" })
+    mock = sinon.stub(client, "put").resolves({ data: "data" })
     const response = await apiInstance.changePassword(date)
     expect(response).to.eql({ data: "data" })
   })
 
   it('should reject error in case of fail', async () => {
     const error = { response: { data: { error: "error message" }} }
-    sinon.stub(client, "post").rejects(error)
+    sinon.stub(client, "put").rejects(error)
     return expect(apiInstance.changePassword(date)).to.be.rejectedWith(error);
   })
 

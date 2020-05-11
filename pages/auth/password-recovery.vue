@@ -11,7 +11,7 @@
           v-model.trim="$v.email.$model"
           :label="$t('password_recovery.email')"
           type="email"
-          :error-messages="emailErrors"
+          :error-messages="$validationErrorMessage($v.email, ['required', 'email'])"
         />
       </v-form>
       <span class='red--text' v-if="errorMessage">
@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import validationErrorMixin from '@/mixins/validation_errors'
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
 import { mapMutations } from 'vuex'
@@ -39,7 +40,7 @@ import { mapMutations } from 'vuex'
 export default {
   layout: 'auth',
 
-  mixins: [validationMixin],
+  mixins: [validationMixin, validationErrorMixin],
 
   validations: {
     email: {
@@ -74,6 +75,7 @@ export default {
         await this.$api.forgotPassword(this.email)
         this.updateSnack({ message: this.$t("password_recovery.we_sent_email"), color: "green" })
         this.email = ""
+        this.$nextTick(() => { this.$v.$reset() })
       } catch ( error ) {
         this.errorMessage = error
       }

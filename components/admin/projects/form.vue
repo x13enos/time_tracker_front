@@ -20,7 +20,7 @@
                 <v-text-field
                 :label="$t('projects.name')"
                 v-model.trim="$v.form.name.$model"
-                :error-messages="nameErrors"
+                :error-messages="$validationErrorMessage($v.form.name, ['required'])"
                 required />
               </v-col>
 
@@ -54,12 +54,13 @@
 </template>
 
 <script>
+  import validationErrorMixin from '@/mixins/validation_errors'
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
   import { mapMutations } from 'vuex'
 
   export default {
-    mixins: [validationMixin],
+    mixins: [validationMixin, validationErrorMixin],
 
     props: {
       project: {
@@ -90,14 +91,6 @@
     computed: {
       newProject(){
         return this.$appMethods.isEmpty(this.project)
-      },
-
-      nameErrors(){
-        const attribute = this.$v.form.name
-        const errors = []
-        if (!attribute.$dirty) return errors
-        !attribute.required && errors.push(this.$t('validations.required'))
-        return errors
       }
     },
 

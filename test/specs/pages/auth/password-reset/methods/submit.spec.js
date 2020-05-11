@@ -33,8 +33,7 @@ describe("submit", () => {
     await wrapper.vm.submit()
     expect(actionSpy.calledOnceWith({
       token: "2222",
-      password: '11111111',
-      confirm_password: '11111111'
+      password: '11111111'
     })).to.be.true
 
     sinon.restore()
@@ -51,7 +50,7 @@ describe("submit", () => {
     sinon.restore()
   });
 
-  it('should change attribute "passwordWasChanged" in case of successful request', async () => {
+  it('should update errorMessage in case of failed request', async () => {
     const $api = { changePassword: () => { return successResponse } }
     sinon.stub($api, "changePassword").rejects(Error)
     const wrapper = createWrapper(PasswordReset, { mocks: { $api, $route }, stubs }, fakeStoreData())

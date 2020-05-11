@@ -29,10 +29,10 @@
     <v-col class="col-sm-1 col-6">
       <v-form v-model="valid">
         <v-text-field
-          v-model="spentTime"
+          v-model="$v.spentTime.$model"
           placeholder="0.0"
           :disabled="doesNotReadyForAction"
-          :rules="spentTimeRules"
+          :error-messages="$validationErrorMessage($v.spentTime, ['spentTimeFormat'])"
           @blur="onlyCreate"
         />
       </v-form>
@@ -52,9 +52,14 @@
 </template>
 
 <script>
+import validationErrorMixin from '@/mixins/validation_errors'
+import { validationMixin } from 'vuelidate'
+import { helpers } from 'vuelidate/lib/validators'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
+  mixins: [validationMixin, validationErrorMixin],
+
   props: {
     day: {
       type: Object,
@@ -74,11 +79,13 @@ export default {
       description: null,
       spentTime: null,
       btnStartFocused: false,
-      valid: true,
-      spentTimeRules: [
-        v => (v === null || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(v)) ||
-          `${this.$t('validations.should_has_format')} "0.00"`,
-      ],
+      valid: false,
+    }
+  },
+
+  validations() {
+    return {
+      spentTime: { spentTimeFormat }
     }
   },
 
@@ -180,4 +187,9 @@ export default {
     }
   }
 }
+
+const spentTimeFormat = (value) => {
+  return !helpers.req(value) || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(value);
+};
+
 </script>

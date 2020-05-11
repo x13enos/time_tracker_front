@@ -1,7 +1,7 @@
 <template>
-  <v-card v-if="passwordWasChanged" class="elevation-12">
+  <v-card v-if="dataWasUpdated" class="elevation-12">
     <v-card-text>
-      <p>Your password was successfully updated.</p>
+      <p>You successfully updated your data.</p>
       <p>Please go to the login page and try to authorise.</p>
       <nuxt-link to="/auth/sign-in">
         <v-btn :block="true" class="primary" text>
@@ -13,21 +13,26 @@
   <v-card v-else class="elevation-12">
     <v-toolbar color="primary" dark flat>
       <v-toolbar-title>
-        {{ $t('password-reset.title') }}
+        {{ $t('invitation.title') }}
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
       <v-form v-model="valid">
         <v-text-field
+          v-model.trim="$v.form.name.$model"
+          :label="$t('invitation.name')"
+          type="text"
+          :error-messages="$validationErrorMessage($v.form.name, ['required'])"
+        />
+        <v-text-field
           v-model.trim="$v.form.password.$model"
-          :label="$t('password-reset.password')"
+          :label="$t('invitation.password')"
           type="password"
           :error-messages="$validationErrorMessage($v.form.password, ['required', 'passwordLength'])"
         />
         <v-text-field
-          id="password"
           v-model.trim="$v.form.confirmPassword.$model"
-          :label="$t('password-reset.confirm_password')"
+          :label="$t('invitation.confirm_password')"
           type="password"
           :error-messages="$validationErrorMessage($v.form.confirmPassword, ['required', 'sameAsPassword'])"
         />
@@ -41,8 +46,8 @@
         color="primary"
         :block="true"
         @click="submit()"
-        :disabled="!valid || !this.form.password || !this.form.confirmPassword">
-        {{ $t('password-reset.create_new_password') }}
+        :disabled="!valid || !this.form.name || !this.form.password || !this.form.confirmPassword">
+        {{ $t('invitation.accept_invitation') }}
       </v-btn>
     </v-card-actions>
   </v-card>
@@ -61,6 +66,7 @@ export default {
   validations() {
     return {
       form: {
+        name: { required },
         password: {
           required,
           passwordLength
@@ -76,12 +82,13 @@ export default {
   data () {
     return {
       form: {
+        name: "",
         password: "",
         confirmPassword: ""
       },
       valid: true,
       errorMessage: '',
-      passwordWasChanged: false
+      dataWasUpdated: false
     }
   },
 
@@ -89,11 +96,12 @@ export default {
     async submit () {
       this.errorMessage = ""
       try {
-        const response = await this.$api.changePassword({
+        const response = await this.$api.setPassword({
           token: this.$route.query.token,
+          name: this.form.name,
           password: this.form.password
         })
-        this.passwordWasChanged = true
+        this.dataWasUpdated = true
       } catch ( error ) {
         this.errorMessage = error
       }
