@@ -4,9 +4,12 @@ const storeData = function () {
       projects: [],
       counterOfPendingTasks: 0,
       user: {
+        id: null,
+        role: null,
         name: null,
         email: null,
-        timezone: null
+        locale: null,
+        activeWorkspaceId: null
       },
       snack: {
         message: '',

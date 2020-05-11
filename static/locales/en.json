@@ -23,6 +23,7 @@
     "email": "Email",
     "new_password": "New Password",
     "locale": "Locale",
+    "active_workspace": "Active workspace",
     "save": "Save",
     "was_updated_succesfully": "Profile was updated succesfully",
     "name_is_required": "Name is required",

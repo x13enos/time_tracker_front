@@ -87,10 +87,10 @@
             </v-list-item>
           </nuxt-link>
 
-          <nuxt-link to="/admin/users">
+          <nuxt-link to="/admin/workspaces">
             <v-list-item v-if="isAdmin">
               <v-list-item-title>
-                {{ $t("navigation.users") }}
+                {{ $t("navigation.workspaces") }}
               </v-list-item-title>
             </v-list-item>
           </nuxt-link>

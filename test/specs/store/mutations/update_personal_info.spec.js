@@ -8,24 +8,36 @@ describe('updatePersonalInfo', () => {
 
   const state = {
     user: {
+      id: null,
       name: null,
       email: null,
-      timezone: null
+      locale: null,
+      role: null,
+      activeWorkspaceId: null
     }
   }
 
   const userInfo = {
+    id: 100,
     name: 'John',
     email: 'john@gmail.com',
-    timezone: 'Athens',
-    locale: 'ru'
+    locale: 'ru',
+    role: "staff",
+    active_workspace_id: 101
   }
 
   it('should update personal info', () => {
     Vuex.Store.prototype.$i18n = { locale: 'en' }
     const store = new Vuex.Store({ state, mutations })
     store.commit('updatePersonalInfo', userInfo)
-    expect(state.user).to.eql(userInfo)
+    expect(state.user).to.eql({
+      id: 100,
+      name: 'John',
+      email: 'john@gmail.com',
+      locale: 'ru',
+      role: 'staff',
+      activeWorkspaceId: 101
+    })
     delete Vuex.Store.prototype.$i18n
   })
 

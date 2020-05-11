@@ -20,6 +20,7 @@
     "name": "Имя",
     "email": "Email",
     "locale": "Язык",
+    "active_workspace": "Активное рабочее пространство",
     "new_password": "Новый Пароль",
     "save": "Сохранить",
     "was_updated_succesfully": "Профиль был успешно обновлен",
