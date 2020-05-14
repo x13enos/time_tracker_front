@@ -14,7 +14,7 @@ describe('totalTimeOfDailyTasks', () => {
     } }
     const getter = getters.totalTimeOfDailyTasks(state)
 
-    expect(getter(DateTime.local(2019, 10, 27))).to.eq('2.00')
+    expect(getter(DateTime.local(2019, 10, 27))).to.eq(2)
   })
 
   it('should return 0.0 if list of tasks are empty', () => {
@@ -23,5 +23,5 @@ describe('totalTimeOfDailyTasks', () => {
     } }
     const getter = getters.totalTimeOfDailyTasks(state)
 
-    expect(getter(DateTime.local(2019, 10, 27))).to.eq('0.0')  })
+    expect(getter(DateTime.local(2019, 10, 27))).to.eq(0)  })
 });

@@ -32,7 +32,7 @@
           v-model="$v.spentTime.$model"
           placeholder="0.0"
           :disabled="doesNotReadyForAction"
-          :error-messages="$validationErrorMessage($v.spentTime, ['spentTimeFormat'])"
+          :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
           @blur="onlyCreate"
         />
       </v-form>
@@ -48,17 +48,21 @@
         mdi-play-circle
       </v-icon>
     </v-col>
+    <v-col class="col-12" v-if="!!errorMessages.base">
+      <span class='red--text'>{{ errorMessages.base.join(", ") }}</span>
+    </v-col>
   </v-row>
 </template>
 
 <script>
-import validationErrorMixin from '@/mixins/validation_errors'
+import formMixin from '@/mixins/form'
+
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
-  mixins: [validationMixin, validationErrorMixin],
+  mixins: [validationMixin, formMixin],
 
   props: {
     day: {
@@ -124,12 +128,15 @@ export default {
 
     async create(){
       try {
+        this.errorMessages = []
         const response = await this.addTask({params: this.formData(), day: this.day })
         this.removePendingState();
         Object.assign(this, this.defaultData())
         this.selectOneProject()
-      } catch (error){
-        this.rowClass = "red"
+        this.updateSnack({ message: this.$t("time_sheet.task_was_created"), color: "green" })
+      } catch (errors){
+        this.updateSnack({ message: this.$t("time_sheet.task_was_not_created"), color: "red" })
+        this.errorMessages = errors
       }
     },
 

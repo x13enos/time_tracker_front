@@ -8,13 +8,13 @@ describe("submit", () => {
   }
   const stubs =  { NuxtLink: RouterLinkStub }
 
-  it('should clean errorMessage', () => {
+  it('should clean errorMessages', () => {
     const $api = { forgotPassword: () => { return successResponse } }
     const wrapper = createWrapper(PasswordRecovery, { mocks: { $api }, stubs }, fakeStoreData())
-    wrapper.vm.errorMessage = "Error"
+    wrapper.vm.errorMessages = "Error"
 
     wrapper.vm.submit()
-    expect(wrapper.vm.errorMessage).to.be.empty
+    expect(wrapper.vm.errorMessages).to.be.empty
 
     sinon.restore()
   });
@@ -53,7 +53,7 @@ describe("submit", () => {
 
     await wrapper.vm.submit()
 
-    expect(wrapper.vm.errorMessage).to.eq(Error)
+    expect(wrapper.vm.errorMessages).to.eq(Error)
     sinon.restore()
   });
 })

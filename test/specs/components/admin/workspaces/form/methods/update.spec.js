@@ -72,18 +72,4 @@ describe('update', () => {
     });
 
   });
-
-  it('should record message in case of exception was raised', async () => {
-    sinon.stub(mocks.$api, "updateWorkspace").rejects("test error")
-    const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-    wrapper.vm.errorMessage = ""
-
-
-    try{
-      await wrapper.vm.update()
-    } catch(error) {
-      expect(wrapper.vm.errorMessage).to.eq("test error")
-      sinon.restore()
-    }
-  });
 });

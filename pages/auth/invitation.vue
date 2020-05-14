@@ -1,7 +1,7 @@
 <template>
   <v-card v-if="dataWasUpdated" class="elevation-12">
     <v-card-text>
-      <p>You successfully updated your data.</p>
+      <p>You succesfully updated your data.</p>
       <p>Please go to the login page and try to authorise.</p>
       <nuxt-link to="/auth/sign-in">
         <v-btn :block="true" class="primary" text>
@@ -22,23 +22,23 @@
           v-model.trim="$v.form.name.$model"
           :label="$t('invitation.name')"
           type="text"
-          :error-messages="$validationErrorMessage($v.form.name, ['required'])"
+          :error-messages="$formErrorMessage('name', ['required'])"
         />
         <v-text-field
           v-model.trim="$v.form.password.$model"
           :label="$t('invitation.password')"
           type="password"
-          :error-messages="$validationErrorMessage($v.form.password, ['required', 'passwordLength'])"
+          :error-messages="$formErrorMessage('password', ['required', 'passwordLength'])"
         />
         <v-text-field
           v-model.trim="$v.form.confirmPassword.$model"
           :label="$t('invitation.confirm_password')"
           type="password"
-          :error-messages="$validationErrorMessage($v.form.confirmPassword, ['required', 'sameAsPassword'])"
+          :error-messages="$formErrorMessage('confirmPassword', ['required', 'sameAsPassword'])"
         />
       </v-form>
-      <span class='red--text' v-if="errorMessage">
-        {{ errorMessage }}
+      <span class='red--text' v-if="!!errorMessages.base">
+        {{ errorMessages.base }}
       </span>
     </v-card-text>
     <v-card-actions>
@@ -54,14 +54,15 @@
 </template>
 
 <script>
-import validationErrorMixin from '@/mixins/validation_errors'
+import formMixin from '@/mixins/form'
+
 import { validationMixin } from 'vuelidate'
 import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   layout: 'auth',
 
-  mixins: [validationMixin, validationErrorMixin],
+  mixins: [validationMixin, formMixin],
 
   validations() {
     return {
@@ -87,14 +88,14 @@ export default {
         confirmPassword: ""
       },
       valid: true,
-      errorMessage: '',
+      errorMessages: {},
       dataWasUpdated: false
     }
   },
 
   methods: {
     async submit () {
-      this.errorMessage = ""
+      this.errorMessages = {}
       try {
         const response = await this.$api.setPassword({
           token: this.$route.query.token,
@@ -102,8 +103,8 @@ export default {
           password: this.form.password
         })
         this.dataWasUpdated = true
-      } catch ( error ) {
-        this.errorMessage = error
+      } catch ( errors ) {
+        this.errorMessages = errors
       }
     }
   }

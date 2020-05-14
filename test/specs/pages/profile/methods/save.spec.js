@@ -1,12 +1,24 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import profile from '@/pages/profile'
 
-const successResponse = { success: () => { return true } }
-const methods = {
-  fetchWorkspaces: () => {},
-}
-
 describe("save", () => {
+  const successResponse = { success: () => { return true } }
+  const methods = {
+    fetchWorkspaces: () => {},
+  }
+
+  it('should call formSubmit method and pass callbacks', async () => {
+    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
+    sinon.stub(wrapper.vm, 'successCallback').returns("successCallback")
+    sinon.stub(wrapper.vm, 'errorCallback').returns("errorCallback")
+    const formSubmitStub = sinon.stub(wrapper.vm, "$formSubmit")
+
+    await wrapper.vm.save()
+    expect(formSubmitStub.calledOnce).to.be.true
+    expect(formSubmitStub.args[0][1]).to.eq("successCallback")
+    expect(formSubmitStub.args[0][2]).to.eq("errorCallback")
+  });
+
   it('should call method for updating user profile', () => {
     const params = {
       name: 'john',
@@ -30,43 +42,5 @@ describe("save", () => {
     expect(updateStub.args[0]).to.eql([params])
 
     updateStub.restore()
-  })
-
-  it('should clean up password field after updating', async () => {
-    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
-    const updateStub = sinon.stub(wrapper.vm, "updateUserProfile").returns(successResponse)
-    wrapper.vm.form.pasword = "11111111"
-    await wrapper.vm.save()
-
-    expect(wrapper.vm.form.password).to.eq("")
-
-    updateStub.restore()
-  })
-
-  it('should show notitication for user if profile was updated', async () => {
-    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
-    const snackSpy = sinon.spy(wrapper.vm, "updateSnack")
-    const updateStub = sinon.stub(wrapper.vm, "updateUserProfile").returns(successResponse)
-
-    await wrapper.vm.save()
-    expect(snackSpy.calledOnce).to.be.true
-    expect(snackSpy.args[0]).to.eql([{ message: "profile.was_updated_succesfully", color: "green" }])
-
-    updateStub.restore()
-    snackSpy.restore()
-  })
-
-  it('should not show notitication for user if profile was not updated', async () => {
-    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
-    const snackSpy = sinon.spy(wrapper.vm, "updateSnack")
-    const updateStub = sinon.stub(wrapper.vm, "updateUserProfile").rejects("error")
-
-    try{
-      await wrapper.vm.save()
-    } catch (error) {
-      expect(snackSpy.called).to.be.false
-    }
-
-    sinon.restore()
   })
 })

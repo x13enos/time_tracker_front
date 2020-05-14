@@ -1,7 +1,7 @@
 <template>
   <v-card v-if="passwordWasChanged" class="elevation-12">
     <v-card-text>
-      <p>Your password was successfully updated.</p>
+      <p>Your password was succesfully updated.</p>
       <p>Please go to the login page and try to authorise.</p>
       <nuxt-link to="/auth/sign-in">
         <v-btn :block="true" class="primary" text>
@@ -22,18 +22,18 @@
           v-model.trim="$v.form.password.$model"
           :label="$t('password-reset.password')"
           type="password"
-          :error-messages="$validationErrorMessage($v.form.password, ['required', 'passwordLength'])"
+          :error-messages="$formErrorMessage('password', ['required', 'passwordLength'])"
         />
         <v-text-field
           id="password"
           v-model.trim="$v.form.confirmPassword.$model"
           :label="$t('password-reset.confirm_password')"
           type="password"
-          :error-messages="$validationErrorMessage($v.form.confirmPassword, ['required', 'sameAsPassword'])"
+          :error-messages="$formErrorMessage('confirmPassword', ['required', 'sameAsPassword'])"
         />
       </v-form>
-      <span class='red--text' v-if="errorMessage">
-        {{ errorMessage }}
+      <span class='red--text' v-if="!!errorMessages.base">
+        {{ errorMessages.base }}
       </span>
     </v-card-text>
     <v-card-actions>
@@ -49,14 +49,15 @@
 </template>
 
 <script>
-import validationErrorMixin from '@/mixins/validation_errors'
+import formMixin from '@/mixins/form'
+
 import { validationMixin } from 'vuelidate'
 import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   layout: 'auth',
 
-  mixins: [validationMixin, validationErrorMixin],
+  mixins: [validationMixin, formMixin],
 
   validations() {
     return {
@@ -80,22 +81,22 @@ export default {
         confirmPassword: ""
       },
       valid: true,
-      errorMessage: '',
+      errorMessages: {},
       passwordWasChanged: false
     }
   },
 
   methods: {
     async submit () {
-      this.errorMessage = ""
+      this.errorMessages = {}
       try {
         const response = await this.$api.changePassword({
           token: this.$route.query.token,
           password: this.form.password
         })
         this.passwordWasChanged = true
-      } catch ( error ) {
-        this.errorMessage = error
+      } catch ( errors ) {
+        this.errorMessages = errors
       }
     }
   }

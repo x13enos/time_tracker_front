@@ -10,17 +10,19 @@
         ref="form"
         v-model="valid">
           <v-text-field
-          v-model="$v.form.name.$model"
+            v-model="$v.form.name.$model"
             :label="$t('profile.name')"
-            :error-messages="$validationErrorMessage($v.form.name, ['required'])"
-            :disabled="updating"
+            :error-messages="$formErrorMessage('name', ['required'])"
+            :disabled="formSubmitting"
+            required
           />
 
           <v-text-field
             v-model="$v.form.email.$model"
             :label="$t('profile.email')"
-            :error-messages="$validationErrorMessage($v.form.email, ['required', 'email'])"
-            :disabled="updating"
+            :error-messages="$formErrorMessage('email', ['required', 'email'])"
+            @keydown="$formErrorMessageCleanUp('email')"
+            :disabled="formSubmitting"
             required
           />
 
@@ -28,7 +30,7 @@
             v-model="form.locale"
             :label="$t('profile.locale')"
             :items="localeList()"
-            :disabled="updating"
+            :disabled="formSubmitting"
             required
           />
 
@@ -36,25 +38,25 @@
             v-model="form.activeWorkspaceId"
             :label="$t('profile.active_workspace')"
             :items="workspaceList"
-            :disabled="updating"
+            :disabled="formSubmitting"
             required
           />
 
           <v-text-field
           v-model="$v.form.password.$model"
             :label="$t('profile.new_password')"
-            :disabled="updating"
+            :disabled="formSubmitting"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
             :type="showPassword ? 'text' : 'password'"
-            :error-messages="$validationErrorMessage($v.form.password, ['passwordLength'])"
+            :error-messages="$formErrorMessage('password', ['passwordLength'])"
             @click:append="showPassword = !showPassword"
           />
         </v-form>
 
         <v-btn
           class="ma-2"
-          :loading="updating"
-          :disabled="updating || !valid"
+          :loading="formSubmitting"
+          :disabled="formSubmitting || !valid"
           color="info"
           @click="save"
         >
@@ -73,20 +75,20 @@
 
 <script>
 import { validationMixin } from 'vuelidate'
-import validationErrorMixin from '@/mixins/validation_errors'
+import formMixin from '@/mixins/form'
 import { required, email, helpers } from 'vuelidate/lib/validators'
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
 
-  mixins: [validationMixin, validationErrorMixin],
+  mixins: [validationMixin, formMixin],
 
   data() {
     return {
-      updating: false,
       showPassword: false,
       valid: false,
       workspaceList: [],
+      errorMessages: [],
       form: {
         name: "",
         email: "",
@@ -136,12 +138,25 @@ export default {
       }
     },
 
-    async save(){
-      this.updating = true
-      const response = await this.updateUserProfile(handleFormParams(this.form))
-      this.updateSnack({ message: this.$t("profile.was_updated_succesfully"), color: "green" })
-      this.form.password = ""
-      this.updating = false
+    async save() {
+      await this.$formSubmit(
+        () => { return this.updateUserProfile(handleFormParams(this.form)) },
+        this.successCallback(),
+        this.errorCallback()
+      )
+    },
+
+    successCallback() {
+      return () => {
+        this.updateSnack({ message: this.$t("profile.was_updated_succesfully"), color: "green" });
+        this.form.password = ""
+      }
+    },
+
+    errorCallback() {
+      return () => {
+        this.updateSnack({ message: this.$t("profile.was_not_updated_succesfully"), color: "red" });
+      }
     }
   }
 }
