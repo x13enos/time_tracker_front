@@ -39,7 +39,7 @@
             placeholder="0.0"
             :disabled="active"
             @input="selectPendingClass"
-            :error-messages="$validationErrorMessage($v.spentTime, ['spentTimeFormat'])"
+            :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
             @blur="onlyUpdate()"
           />
         </v-form>
@@ -74,6 +74,9 @@
         </v-row>
       </v-col>
 
+      <v-col class="col-12" v-if="!!errorMessages.base">
+        <span class='red--text'>{{ errorMessages.base.join(", ") }}</span>
+      </v-col>
       <v-dialog v-model="dialog" max-width="290">
         <v-card>
           <v-card-title class="headline">{{ $t("are_you_sure") }}</v-card-title>
@@ -97,13 +100,14 @@
 </template>
 
 <script>
-import validationErrorMixin from '@/mixins/validation_errors'
+import formMixin from '@/mixins/form'
+
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
 import { mapActions, mapMutations } from 'vuex'
 
 export default {
-  mixins: [validationMixin, validationErrorMixin],
+  mixins: [validationMixin, formMixin],
 
   props: {
     task: {
@@ -134,7 +138,8 @@ export default {
       intervalId: null,
       valid: true,
       dialog: false,
-      btnStartFocused: false
+      btnStartFocused: false,
+      cachedSpentTime: this.task.spentTime
     }
   },
 
@@ -198,10 +203,13 @@ export default {
       params.active = state
 
       try{
+        this.errorMessages = []
         await this.updateTask(params)
         this.removePendingState()
-      } catch (error) {
-        this.rowClass = "red"
+        this.updateSnack({ message: this.$t("time_sheet.task_was_updated"), color: "green" })
+      } catch (errors) {
+        this.updateSnack({ message: this.$t("time_sheet.task_was_not_updated"), color: "red" })
+        this.errorMessages = errors
       }
     },
 
@@ -274,6 +282,7 @@ export default {
 const spentTimeFormat = (value) => {
   return !helpers.req(value) || /^[0-9]+(\.[0-9]{1,2})?$/gm.test(value);
 };
+
 </script>
 
 <style>

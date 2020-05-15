@@ -11,18 +11,18 @@
           v-model.trim="$v.form.email.$model"
           :label="$t('login_form.email')"
           type="email"
-          :error-messages="$validationErrorMessage($v.form.email, ['required', 'email'])"
+          :error-messages="$formErrorMessage('email', ['required', 'email'])"
         />
         <v-text-field
           id="password"
           v-model.trim="$v.form.password.$model"
           :label="$t('login_form.password')"
           type="password"
-          :error-messages="$validationErrorMessage($v.form.password, ['required'])"
+          :error-messages="$formErrorMessage('password', ['required'])"
         />
       </v-form>
-      <span class='red--text' v-if="errorMessage">
-        {{ errorMessage }}
+      <span class='red--text' v-if="!!errorMessages.base">
+        {{ errorMessages.base }}
       </span>
     </v-card-text>
     <v-card-actions class="d-flex pa-2 justify-space-between">
@@ -38,7 +38,8 @@
 </template>
 
 <script>
-import validationErrorMixin from '@/mixins/validation_errors'
+import formMixin from '@/mixins/form'
+
 import { validationMixin } from 'vuelidate'
 import { email, required } from 'vuelidate/lib/validators'
 import { mapMutations } from 'vuex'
@@ -46,7 +47,7 @@ import { mapMutations } from 'vuex'
 export default {
   layout: 'auth',
 
-  mixins: [validationMixin, validationErrorMixin],
+  mixins: [validationMixin, formMixin],
 
   data () {
     return {
@@ -55,7 +56,7 @@ export default {
         password: ''
       },
       valid: false,
-      errorMessage: ''
+      errorMessages: {}
     }
   },
 
@@ -70,13 +71,13 @@ export default {
     ...mapMutations([ "updatePersonalInfo" ]),
 
     async onSubmit () {
-      this.errorMessage = "";
+      this.errorMessage = {};
       try {
         const response = await this.$api.signIn(this.form);
         this.updatePersonalInfo(response.data);
         this.$router.replace({ path: '/tasks' });
-      } catch ( error ) {
-        this.errorMessage = error;
+      } catch (errors) {
+        this.errorMessages = errors;
       }
     }
   }

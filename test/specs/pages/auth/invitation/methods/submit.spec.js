@@ -9,14 +9,14 @@ describe("submit", () => {
   const stubs =  { NuxtLink: RouterLinkStub }
   const $route = { query: { token: "2222" } }
 
-  it('should clean errorMessage', () => {
+  it('should clean errorMessages', () => {
     const $api = { setPassword: () => { return successResponse } }
     const actionSpy = sinon.spy($api, "setPassword")
     const wrapper = createWrapper(Invitation, { mocks: { $api }, stubs }, fakeStoreData())
-    wrapper.vm.errorMessage = "Error"
+    wrapper.vm.errorMessages = "Error"
 
     wrapper.vm.submit()
-    expect(wrapper.vm.errorMessage).to.be.empty
+    expect(wrapper.vm.errorMessages).to.be.empty
 
     sinon.restore()
   });
@@ -53,11 +53,11 @@ describe("submit", () => {
 
   it('should update errorMessage in case of failed request', async () => {
     const $api = { setPassword: () => { return successResponse } }
-    sinon.stub($api, "setPassword").rejects(Error)
+    sinon.stub($api, "setPassword").rejects({ base: 'error' })
     const wrapper = createWrapper(Invitation, { mocks: { $api, $route }, stubs }, fakeStoreData())
 
     await wrapper.vm.submit()
-    expect(wrapper.vm.errorMessage).to.eq(Error)
+    expect(wrapper.vm.errorMessages).to.eql({ base: 'error' })
 
     sinon.restore()
   });

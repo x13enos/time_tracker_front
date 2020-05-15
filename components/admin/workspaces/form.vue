@@ -20,15 +20,11 @@
                 <v-text-field
                 :label="$t('workspaces.name')"
                 v-model.trim="$v.form.name.$model"
-                :error-messages="$validationErrorMessage($v.form.name, ['required'])"
+                :error-messages="$formErrorMessage('name', ['required'])"
                 required />
               </v-col>
             </v-row>
           </v-form>
-
-          <span class='red--text' v-if="errorMessage">
-            {{ errorMessage }}
-          </span>
 
         </v-container>
       </v-card-text>
@@ -48,13 +44,14 @@
 </template>
 
 <script>
-  import validationErrorMixin from '@/mixins/validation_errors'
+  import formMixin from '@/mixins/form'
+
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
   import { mapMutations } from 'vuex'
 
   export default {
-    mixins: [validationMixin, validationErrorMixin],
+    mixins: [validationMixin, formMixin],
 
     props: {
       workspace: {
@@ -91,28 +88,20 @@
       ...mapMutations(["updateSnack"]),
 
       async create(){
-        try {
-          this.errorMessage = ""
-          const response = await this.$api.createWorkspace(this.form)
-          this.dialog = false
-          this.updateSnack({ message: this.$t("workspaces.was_created"), color: "green" })
-          this.form = { name: "" }
-          this.$emit("processData", response.data)
-        } catch(error) {
-          this.errorMessage = error
-        }
+        this.errorMessage = ""
+        const response = await this.$api.createWorkspace(this.form)
+        this.dialog = false
+        this.updateSnack({ message: this.$t("workspaces.was_created"), color: "green" })
+        this.form = { name: "" }
+        this.$emit("processData", response.data)
       },
 
       async update(){
-        try {
-          this.errorMessage = ""
-          const response = await this.$api.updateWorkspace(this.workspace.id, this.form)
-          this.dialog = false
-          this.updateSnack({ message: this.$t("workspaces.was_updated"), color: "green" })
-          this.$emit("processData", response.data)
-        } catch(error) {
-          this.errorMessage = error
-        }
+        this.errorMessage = ""
+        const response = await this.$api.updateWorkspace(this.workspace.id, this.form)
+        this.dialog = false
+        this.updateSnack({ message: this.$t("workspaces.was_updated"), color: "green" })
+        this.$emit("processData", response.data)
       }
     }
   }

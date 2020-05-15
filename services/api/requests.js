@@ -143,7 +143,7 @@ function Api({ router, store }, appMethods) {
   }, function (error) {
     showError(error.response)
     redirectIfUserUnathorized(error.response)
-    return Promise.reject(error.response.data.error);
+    return Promise.reject(error.response.data.errors);
   });
 
 
@@ -155,7 +155,7 @@ function Api({ router, store }, appMethods) {
 
   const showError = (response) => {
     const itIsNotAuthPage = document.location.pathname.match("/auth/") === null;
-    if(itIsNotAuthPage){
+    if(itIsNotAuthPage && !!response.data.error){
       store.commit("updateSnack", { message: response.data.error, color: "red" });
     }
   }

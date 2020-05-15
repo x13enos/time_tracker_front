@@ -46,12 +46,34 @@ describe('create', () => {
     mutationStub.restore()
   });
 
-  it('should update row color class', async () => {
+  it('should show notification in case of success', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, "addTask").returns({ success: () => { return true } })
+    const snackStub = sinon.stub(wrapper.vm, "updateSnack")
+
+    await wrapper.vm.create()
+    expect(snackStub.calledOnceWith({ message: wrapper.vm.$t('time_sheet.task_was_created'), color: "green"})).to.be.true
+
+    actionStub.restore()
+  });
+
+  it('should show notification in case of fail', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, "addTask").rejects({ errors: "Big message of errors" })
+    const snackStub = sinon.stub(wrapper.vm, "updateSnack")
+
+    await wrapper.vm.create()
+    expect(snackStub.calledOnceWith({ message: wrapper.vm.$t('time_sheet.task_was_not_created'), color: "red"})).to.be.true
+
+    actionStub.restore()
+  });
+
+  it('should write errors to errorMessages attribute in case of fail', async () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const actionStub = sinon.stub(wrapper.vm, "addTask").rejects({ errors: "Big message of errors" })
 
     await wrapper.vm.create()
-    expect(wrapper.vm.rowClass).to.eq('red')
+    expect(wrapper.vm.errorMessages).to.eql({ errors: "Big message of errors" })
 
     actionStub.restore()
   });

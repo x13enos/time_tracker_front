@@ -35,7 +35,7 @@
                 <v-text-field
                   label="Email"
                   v-model.trim="$v.email.$model"
-                  :error-messages="$validationErrorMessage($v.email, ['required', 'email', 'workspaceAlreadyContainsUser'])"
+                  :error-messages="$formErrorMessage('email', ['required', 'email', 'workspaceAlreadyContainsUser'])"
                   :dense="true" />
               </v-form>
             </v-col>
@@ -84,7 +84,8 @@
 </template>
 
 <script>
-  import validationErrorMixin from '@/mixins/validation_errors'
+  import formMixin from '@/mixins/form'
+
   import { validationMixin } from 'vuelidate'
   import { required, email } from 'vuelidate/lib/validators'
 
@@ -95,7 +96,7 @@
 
 
   export default {
-    mixins: [validationMixin, validationErrorMixin],
+    mixins: [validationMixin, formMixin],
 
     props: {
       workspace: {

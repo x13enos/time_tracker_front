@@ -10,82 +10,42 @@ describe('update', () => {
   const successResponse = { data: { name: 'new-test-project', id: 1 } }
 
 
-  context('successful updating', () => {
-    let apiStub;
+  let apiStub;
 
-    beforeEach(() => {
-      apiStub = sinon.stub(mocks.$api, 'updateProject').returns(successResponse)
-    });
 
-    afterEach(() => {
-      sinon.restore();
-    });
-
-    it('should clean up the errorMessage attribute', () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      wrapper.vm.errorMessage = "error"
-
-      wrapper.vm.update()
-      expect(wrapper.vm.errorMessage).to.be.empty
-    });
-
-    it('should call the api method', async () => {
-      const propsData = { project: { id: 1, name: "test" } }
-      const wrapper = createWrapper(form, { mocks, propsData }, fakeStoreData())
-      wrapper.setData({ form: {
-        name: "test-example",
-        regexp_of_grouping: "\ATT-\d+"
-      } })
-
-      await wrapper.vm.update()
-      expect(apiStub.calledOnceWith(1, {
-        name: "test-example",
-        regexp_of_grouping: "\ATT-\d+"
-      } )).to.be.true
-    });
-
-    it('should close the dialog', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      wrapper.vm.dialog = true
-
-      await wrapper.vm.update()
-      expect(wrapper.vm.dialog).to.be.false
-    });
-
-    it('should emit form data to the parent component', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      wrapper.setData({ form: {
-        name: "test-example",
-        regexp_of_grouping: "\ATT-\d+"
-      } })
-
-      await wrapper.vm.update()
-
-      expect(wrapper.emitted("processData")[0]).to.eql([{ name: 'new-test-project', id: 1 }])
-    });
-
-    it('should show snack message', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
-      wrapper.vm.form = { name: "test" }
-
-      await wrapper.vm.update()
-      expect(snackStub.calledOnceWith({ message: 'projects.was_updated', color: "green" })).to.be.true
-    });
-
+  beforeEach(() => {
+    apiStub = sinon.stub(mocks.$api, 'updateProject').returns(successResponse)
   });
 
-  it('should record message in case of exception was raised', async () => {
-    sinon.stub(mocks.$api, "updateProject").rejects("test error")
+  afterEach(() => {
+    sinon.restore();
+  });
+
+  it('should call formSubmit method and pass callbacks', async () => {
     const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-    wrapper.vm.errorMessage = ""
+    const successCallbackStub = sinon.stub(wrapper.vm, 'successUpdatedCallback').returns("successCallback")
+    const errorCallbackStub = sinon.stub(wrapper.vm, 'errorCallback').withArgs(wrapper.vm.$t("projects.was_not_updated")).returns("errorCallback")
+    const formSubmitStub = sinon.stub(wrapper.vm, "$formSubmit")
+
+    await wrapper.vm.update()
+    expect(formSubmitStub.calledOnce).to.be.true
+    expect(formSubmitStub.args[0][1]).to.eq("successCallback")
+    expect(formSubmitStub.args[0][2]).to.eq("errorCallback")
+  });
 
 
-    try{
-      await wrapper.vm.update()
-    } catch(error) {
-      expect(wrapper.vm.errorMessage).to.eq("test error")
-      sinon.restore()
-    }
+  it('should call the api method', async () => {
+    const propsData = { project: { id: 1, name: "test" } }
+    const wrapper = createWrapper(form, { mocks, propsData }, fakeStoreData())
+    wrapper.setData({ form: {
+      name: "test-example",
+      regexp_of_grouping: "\ATT-\d+"
+    } })
+
+    await wrapper.vm.update()
+    expect(apiStub.calledOnceWith(1, {
+      name: "test-example",
+      regexp_of_grouping: "\ATT-\d+"
+    } )).to.be.true
   });
 });

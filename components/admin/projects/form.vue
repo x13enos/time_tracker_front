@@ -20,21 +20,20 @@
                 <v-text-field
                 :label="$t('projects.name')"
                 v-model.trim="$v.form.name.$model"
-                :error-messages="$validationErrorMessage($v.form.name, ['required'])"
+                :error-messages="$formErrorMessage('name', ['required'])"
+                @keydown="$formErrorMessageCleanUp('name')"
                 required />
               </v-col>
 
               <v-col cols="12">
                 <v-text-field
                 :label="$t('projects.regexp_of_grouping')"
-                v-model="form.regexp_of_grouping"/>
+                :error-messages="$formErrorMessage('regexp_of_grouping')"
+                @keydown="$formErrorMessageCleanUp('regexp_of_grouping')"
+                v-model.trim="$v.form.regexp_of_grouping.$model"/>
               </v-col>
             </v-row>
           </v-form>
-
-          <span class='red--text' v-if="errorMessage">
-            {{ errorMessage }}
-          </span>
 
         </v-container>
       </v-card-text>
@@ -54,13 +53,14 @@
 </template>
 
 <script>
-  import validationErrorMixin from '@/mixins/validation_errors'
+  import formMixin from '@/mixins/form'
+
   import { validationMixin } from 'vuelidate'
   import { required } from 'vuelidate/lib/validators'
   import { mapMutations } from 'vuex'
 
   export default {
-    mixins: [validationMixin, validationErrorMixin],
+    mixins: [validationMixin, formMixin],
 
     props: {
       project: {
@@ -74,7 +74,6 @@
       return {
         valid: false,
         dialog: false,
-        errorMessage: "",
         form: {
           name: this.project.name || "",
           regexp_of_grouping: this.project.regexp_of_grouping || ""
@@ -84,7 +83,8 @@
 
     validations: {
       form: {
-        name: { required }
+        name: { required },
+        regexp_of_grouping: {}
       }
     },
 
@@ -98,27 +98,41 @@
       ...mapMutations(["updateSnack"]),
 
       async create(){
-        try {
-          this.errorMessage = ""
-          const response = await this.$api.createProject(this.form)
-          this.dialog = false
-          this.updateSnack({ message: this.$t("projects.was_created"), color: "green" })
-          this.form = { name: "", regexp_of_grouping: "" }
-          this.$emit("processData", response.data)
-        } catch(error) {
-          this.errorMessage = error
-        }
+        await this.$formSubmit(
+          () => { return this.$api.createProject(this.form) },
+          this.successCreatedCallback(),
+          this.errorCallback(this.$t("projects.was_not_created"))
+        )
       },
 
       async update(){
-        try {
-          this.errorMessage = ""
-          const response = await this.$api.updateProject(this.project.id, this.form)
+        await this.$formSubmit(
+          () => { return this.$api.updateProject(this.project.id, this.form) },
+          this.successUpdatedCallback(),
+          this.errorCallback(this.$t("projects.was_not_updated"))
+        )
+      },
+
+      successCreatedCallback() {
+        return (data) => {
+          this.updateSnack({ message: this.$t("projects.was_created_succesfully"), color: "green" });
           this.dialog = false
-          this.updateSnack({ message: this.$t("projects.was_updated"), color: "green" })
-          this.$emit("processData", response.data)
-        } catch(error) {
-          this.errorMessage = error
+          this.form = { name: "", regexp_of_grouping: "" }
+          this.$emit("processData", data)
+        }
+      },
+
+      successUpdatedCallback() {
+        return (data) => {
+          this.updateSnack({ message: this.$t("projects.was_updated_succesfully"), color: "green" })
+          this.dialog = false
+          this.$emit("processData", data)
+        }
+      },
+
+      errorCallback(message) {
+        return () => {
+          this.updateSnack({ message, color: "red" });
         }
       }
     }

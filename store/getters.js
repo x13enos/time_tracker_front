@@ -18,9 +18,9 @@ export default {
       const tasks = state.tasks[$appMethods.systemFormatDate(day)]
       if(tasks && Object.values(tasks).length){
         const time = Object.values(tasks).reduce((accumulator, task) => accumulator + task.spentTime, 0)
-        return parseFloat(time).toFixed(2);
+        return parseFloat(time.toFixed(2));
       } else {
-        return "0.0"
+        return 0.0
       }
     }
   }
