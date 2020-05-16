@@ -6,6 +6,9 @@ const dateTimeSample = {
   long: {
     month: 'long',
     day: 'numeric'
+  },
+  onlyWeekday: {
+    weekday: 'long'
   }
 }
 

@@ -2,7 +2,7 @@ export default function state(){
   return {
     activeTaskIntervalId: null,
     projects: [],
-    tasks: [],
+    tasks: {},
     counterOfPendingTasks: 0,
     pendingTasks: [],
     snack: {
