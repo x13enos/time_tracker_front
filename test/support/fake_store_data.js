@@ -38,7 +38,8 @@ const storeData = function () {
     },
     getters: {
       isAdmin: () => {},
-      totalTimeOfDailyTasks: () => { return () => {} }
+      totalTimeOfDailyTasks: () => { return () => {} },
+      totalTimeOfWeeklyTasks: () => {}
     }
   }
 }

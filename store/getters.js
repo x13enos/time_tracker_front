@@ -13,10 +13,19 @@ export default {
     return state.user.role === 'admin'
   },
 
+  totalTimeOfWeeklyTasks (state) {
+    const tasks = []
+    Object.values(state.tasks).forEach((dailyTasks, _day) => {
+      tasks.push(...Object.values(dailyTasks))
+    })
+    const time = tasks.reduce((accumulator, task) => accumulator + task.spentTime, 0)
+    return parseFloat(time.toFixed(2));
+  },
+
   totalTimeOfDailyTasks (state) {
     return function (day) {
       const tasks = state.tasks[$appMethods.systemFormatDate(day)]
-      if(tasks && Object.values(tasks).length){
+      if(!!tasks){
         const time = Object.values(tasks).reduce((accumulator, task) => accumulator + task.spentTime, 0)
         return parseFloat(time.toFixed(2));
       } else {
