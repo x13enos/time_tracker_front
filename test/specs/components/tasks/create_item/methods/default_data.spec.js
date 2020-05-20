@@ -16,7 +16,8 @@ describe('defaultData', () => {
       btnStartFocused: false,
       description: null,
       spentTime: null,
-      project: null
+      project: null,
+      tagIds: []
     })
   });
 

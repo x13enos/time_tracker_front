@@ -29,7 +29,8 @@ describe("updateTimeRecord", () =>  {
       description: "test",
       active: true,
       project: 12,
-      id: 125
+      id: 125,
+      tagIds: [1]
     }
     mock = sinon.stub(client, "put").resolves({ data: "data" })
     await apiInstance.updateTimeRecord(data)
@@ -39,7 +40,8 @@ describe("updateTimeRecord", () =>  {
         start_task: true,
         description: 'test',
         project_id: 12,
-        spent_time: 1.0
+        spent_time: 1.0,
+        tag_ids: [1]
       }
     ])
   })

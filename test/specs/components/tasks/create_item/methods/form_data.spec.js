@@ -3,7 +3,7 @@ import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
 
 describe('formData', () => {
-  
+
   const propsData = {
     day: DateTime.local(),
     activeDay: false
@@ -12,7 +12,8 @@ describe('formData', () => {
   const newData = {
     project: "1",
     description: "test",
-    spentTime: 0.5
+    spentTime: 0.5,
+    tagIds: [1]
   }
 
   it('should return task data', () => {
@@ -28,7 +29,8 @@ describe('formData', () => {
       active: false,
       description: null,
       spentTime: 0.0,
-      project: null
+      project: null,
+      tagIds: []
     })
   });
 

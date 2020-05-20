@@ -21,16 +21,23 @@
         ></v-select>
       </v-col>
       <v-col class="col-sm-8 col-12">
-        <v-textarea
-          v-model="description"
-          :placeholder="$t('time_sheet.description')"
-          autocomplete="off"
-          @input="selectPendingClass"
-          :disabled="active"
-          rows="1"
-          :auto-grow="true"
-          @blur="onlyUpdate()"
-        />
+        <div class='d-flex justify-end'>
+          <v-textarea
+            v-model="description"
+            :placeholder="$t('time_sheet.description')"
+            autocomplete="off"
+            @input="selectPendingClass"
+            :disabled="active"
+            rows="1"
+            :auto-grow="true"
+            @blur="onlyUpdate()"
+          />
+          <tags-menu
+            :tagIds="tagIds"
+            @updateTags="tagIds = $event; selectPendingClass()"
+            @change="onlyUpdate()">
+          </tags-menu>
+        </div>
       </v-col>
       <v-col class="col-sm-1 col-6">
         <v-form v-model="valid">
@@ -102,12 +109,17 @@
 <script>
 import formMixin from '@/mixins/form'
 
+import TagsMenu from '@/components/tasks/tags_menu'
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
 export default {
   mixins: [validationMixin, formMixin],
+
+  components: {
+    'tags-menu': TagsMenu
+  },
 
   props: {
     task: {
@@ -135,6 +147,7 @@ export default {
       project: this.task.project,
       description: this.task.description,
       spentTime: this.task.spentTime,
+      tagIds: this.task.tagIds,
       intervalId: null,
       valid: true,
       dialog: false,
@@ -150,9 +163,7 @@ export default {
   },
 
   computed: {
-    projects(){
-      return this.$store.state.projects;
-    },
+    ...mapState(["projects"]),
 
     active(){
       return !this.$appMethods.isEmpty(this.task.timeStart)
@@ -218,7 +229,8 @@ export default {
         id: this.task.id,
         project: this.project,
         description: this.description,
-        spentTime: this.spentTime || 0.0
+        spentTime: this.spentTime || 0.0,
+        tagIds: this.tagIds
       }
     },
 
@@ -247,9 +259,10 @@ export default {
     },
 
     taskHasTheSameAttributes(){
+      const tagsIdsEqual = this.task.tagIds.every( e => this.tagIds.includes(e)) && this.task.tagIds.length === this.tagIds.length
       return ["project", "description", "spentTime"].every((attr) => {
         return this.task[attr] === this[attr]
-      })
+      }) && tagsIdsEqual
     },
 
     removePendingState(){
@@ -285,7 +298,7 @@ const spentTimeFormat = (value) => {
 
 </script>
 
-<style>
+<style scoped>
   .clock-image{
     width: 2.25rem;
     cursor: pointer;

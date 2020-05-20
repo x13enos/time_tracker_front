@@ -2,7 +2,7 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
 
 const propsData = {
-  task: { timeStart: 'now' },
+  task: { timeStart: 'now', tagIds: [] },
   activeDay: false
 }
 

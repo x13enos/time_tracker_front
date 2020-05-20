@@ -7,7 +7,8 @@ describe('stop', () => {
     id: 125,
     project: 1,
     description: "test",
-    spentTime: '0.50'
+    spentTime: '0.50',
+    tagIds: []
   }
   const propsData = { activeDay: false, task: taskData }
 

@@ -10,7 +10,7 @@ describe('addNewWorkspace', () => {
 
   const workspaceData = { name: "test-workspace" }
 
-  it("should add passed data to the list of projects", () => {
+  it("should add passed data to the list of workspaces", () => {
     const wrapper = createWrapper(Workspaces, { methods }, fakeStoreData())
 
     wrapper.vm.addNewWorkspace(workspaceData)

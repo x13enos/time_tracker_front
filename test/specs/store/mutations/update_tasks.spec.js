@@ -13,7 +13,8 @@ describe('mutation: updateTasks', () => {
     description: 'text',
     spent_time: 1.5,
     time_start: 'time',
-    assigned_date: '1572123600'
+    assigned_date: '1572123600',
+    tag_ids: [1, 2]
   }]
 
   it('should update list of tasks', () => {
@@ -24,7 +25,8 @@ describe('mutation: updateTasks', () => {
       description: 'text',
       spentTime: 1.5,
       timeStart: 'time',
-      assignedDate: '1572123600'
+      assignedDate: '1572123600',
+      tagIds: [1, 2]
     })
   })
 })

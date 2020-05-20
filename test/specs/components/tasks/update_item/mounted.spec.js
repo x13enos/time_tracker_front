@@ -10,7 +10,8 @@ describe('mounted', () => {
     project: 1,
     description: "test",
     spentTime: 0.5,
-    timeStart: 28218231828
+    timeStart: 28218231828,
+    tagIds: []
   }
   const propsData = { activeDay: false, task: taskData }
   const newData = {

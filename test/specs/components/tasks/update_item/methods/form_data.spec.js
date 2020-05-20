@@ -7,7 +7,8 @@ describe('formData', () => {
     id: 125,
     project: 1,
     description: "test",
-    spentTime: 0.5
+    spentTime: 0.5,
+    tagIds: [1]
   }
 
   const propsData = { activeDay: false, task: taskData }
@@ -23,7 +24,8 @@ describe('formData', () => {
       id: 125,
       project: 1,
       description: "new text",
-      spentTime: 0.5
+      spentTime: 0.5,
+      tagIds: [1]
     })
   });
 
