@@ -34,13 +34,14 @@ export default {
   },
 
   async fetch({ app }){
-    let projects;
 
     const projectsResponse = await app.$api.allProjects()
     if(projectsResponse.data)
-      projects = projectsResponse.data
+      app.store.commit("updateProjects", projectsResponse.data)
 
-    app.store.commit("updateProjects", projects)
+    const tagsResponse = await app.$api.allTags()
+    if(tagsResponse.data)
+      app.store.commit("updateTags", tagsResponse.data)
   },
 
   methods: {

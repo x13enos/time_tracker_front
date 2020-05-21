@@ -8,7 +8,8 @@ describe('deleteItem', () => {
     project: 1,
     description: "test",
     spentTime: '0.50',
-    assignedDate: "1572123600"
+    assignedDate: "1572123600",
+    tagIds: []
   }
 
   const propsData = { activeDay: false, task: taskData }

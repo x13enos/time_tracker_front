@@ -2,6 +2,7 @@ const storeData = function () {
   return {
     state: {
       projects: [],
+      tags: [],
       counterOfPendingTasks: 0,
       user: {
         id: null,

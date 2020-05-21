@@ -1,7 +1,7 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
 
-const propsData = { activeDay: false, task: {} }
+const propsData = { activeDay: false, task: { tagIds: [] } }
 
 describe('selectPendingClass', () => {
 

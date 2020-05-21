@@ -3,7 +3,7 @@ import task from '@/components/tasks/update_item'
 
 describe('update', () => {
 
-  const propsData = { task: {}, activeDay: false }
+  const propsData = { task: { tagIds: [] }, activeDay: false }
 
   it('should not call action updateTask if validation was failed', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())

@@ -9,7 +9,8 @@ describe('updateTask', () => {
           project: 2,
           description: 'text',
           spentTime: 1.5,
-          timeStart: 'time'
+          timeStart: 'time',
+          tagIds: [1, 2]
         }
       }
     }
@@ -21,7 +22,8 @@ describe('updateTask', () => {
     description: 'another text',
     spent_time: 2.5,
     time_start: 'day',
-    assigned_date: '1572123600'
+    assigned_date: '1572123600',
+    tag_ids: [1]
   }
 
   it('should add updated task to the list', () => {
@@ -33,7 +35,8 @@ describe('updateTask', () => {
         description: 'another text',
         spentTime: 2.5,
         timeStart: 'day',
-        assignedDate: '1572123600'
+        assignedDate: '1572123600',
+        tagIds: [1]
       }
     )
   })

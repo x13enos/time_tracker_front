@@ -17,14 +17,20 @@
       ></v-select>
     </v-col>
     <v-col class="col-sm-8 col-12">
-      <v-textarea
-        v-model="description"
-        :placeholder="$t('time_sheet.description')"
-        autocomplete="off"
-        rows="1"
-        :auto-grow="true"
-        @input="selectPendingClass"
-      />
+      <div class='d-flex justify-end'>
+        <v-textarea
+          v-model="description"
+          :placeholder="$t('time_sheet.description')"
+          autocomplete="off"
+          rows="1"
+          :auto-grow="true"
+          @input="selectPendingClass"
+        />
+        <tags-menu
+          :tagIds="tagIds"
+          @updateTags="tagIds = $event; selectPendingClass()">
+        </tags-menu>
+      </div>
     </v-col>
     <v-col class="col-sm-1 col-6">
       <v-form v-model="valid">
@@ -57,12 +63,17 @@
 <script>
 import formMixin from '@/mixins/form'
 
+import TagsMenu from '@/components/tasks/tags_menu'
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
 export default {
   mixins: [validationMixin, formMixin],
+
+  components: {
+    'tags-menu': TagsMenu
+  },
 
   props: {
     day: {
@@ -79,6 +90,7 @@ export default {
   data: function() {
     return {
       rowClass: "",
+      tagIds: [],
       project: null,
       description: null,
       spentTime: null,
@@ -98,13 +110,16 @@ export default {
   },
 
   computed: {
+    ...mapState(["projects", "tags"]),
+
+    selectedTags() {
+      const tags = this.tags.filter((t) => this.tagIds.includes(t.id))
+      return tags.map((t) => t.name).join(', ')
+    },
+
     doesNotReadyForAction(){
       return this.$appMethods.isEmpty(this.project) ||
         this.$appMethods.isEmpty(this.description);
-    },
-
-    projects(){
-      return this.$store.state.projects;
     },
 
     internalId(){
@@ -153,7 +168,8 @@ export default {
         project: this.project,
         description: this.description,
         spentTime: this.spentTime || 0.0,
-        active: this.btnStartFocused
+        active: this.btnStartFocused,
+        tagIds: this.tagIds
       }
     },
 
@@ -163,7 +179,7 @@ export default {
 
     containsEmptyData(){
       return (this.projects.length === 1 || this.$appMethods.isEmpty(this.project)) &&
-        this.$appMethods.isEmpty(this.description)
+        this.$appMethods.isEmpty(this.description) && this.$appMethods.isEmpty(this.tagIds)
     },
 
     selectOneProject(){
@@ -174,6 +190,7 @@ export default {
     defaultData(){
       return {
         rowClass: "",
+        tagIds: [],
         project: null,
         description: null,
         spentTime: null,

@@ -2,15 +2,9 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
 
 describe('stateClass', () => {
-
-  const propsData = {
-    task: { timeStart: 'now' },
-    activeDay: false
-  }
-
   it('should return class for active state if task was launched', () => {
     const propsData = {
-      task: { timeStart: 'now' },
+      task: { timeStart: 'now', tagIds: []  },
       activeDay: false
     }
 
@@ -20,7 +14,7 @@ describe('stateClass', () => {
 
   it('should return row class if task is not active', () => {
     const propsData = {
-      task: { timeStart: "" },
+      task: { timeStart: "", tagIds: [] },
       activeDay: false
     }
 

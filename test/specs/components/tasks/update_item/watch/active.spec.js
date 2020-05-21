@@ -4,7 +4,10 @@ import task from '@/components/tasks/update_item'
 describe('active', () => {
 
   const propsData = {
-    task: { timeStart: null },
+    task: {
+      timeStart: null,
+      tagIds: []
+    },
     activeDay: false
   }
 

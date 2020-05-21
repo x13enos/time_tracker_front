@@ -13,6 +13,10 @@ export default {
     state.projects = projects
   },
 
+  updateTags(state, tags) {
+    state.tags = tags
+  },
+
   updateTasks(state, data) {
     data.forEach((timeRecord) => {
       Vue.set(state.tasks[timeRecord.assigned_date], timeRecord.id, collectTaskData(timeRecord));
@@ -96,6 +100,7 @@ function collectTaskData(taskData){
     description: taskData.description,
     spentTime: taskData.spent_time,
     timeStart: taskData.time_start,
-    assignedDate: taskData.assigned_date
+    assignedDate: taskData.assigned_date,
+    tagIds: taskData.tag_ids
   }
 }

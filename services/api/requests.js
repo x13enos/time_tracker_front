@@ -23,7 +23,8 @@ function Api({ router, store }, appMethods) {
       description: data.description,
       project_id: data.project,
       spent_time: data.spentTime,
-      assigned_date: data.assignedDate
+      assigned_date: data.assignedDate,
+      tag_ids: data.tagIds
     })
   }
 
@@ -32,7 +33,8 @@ function Api({ router, store }, appMethods) {
       start_task: data.active,
       description: data.description,
       project_id: data.project,
-      spent_time: data.spentTime
+      spent_time: data.spentTime,
+      tag_ids: data.tagIds
     })
   }
 
@@ -128,6 +130,22 @@ function Api({ router, store }, appMethods) {
 
   this.inviteUser = (workspaceId, email) => {
     return client.post(`/workspaces/${workspaceId}/workspace_users/`, { email } )
+  }
+
+  this.allTags = () => {
+    return client.get("/tags")
+  }
+
+  this.createTag = (data) => {
+    return client.post("/tags", data)
+  },
+
+  this.updateTag = (id, data) => {
+    return client.put(`/tags/${id}`, data)
+  },
+
+  this.deleteTag = (id) => {
+    return client.delete(`/tags/${id}`)
   }
 
   // private logic

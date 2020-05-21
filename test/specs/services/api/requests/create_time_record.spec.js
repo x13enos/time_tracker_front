@@ -30,7 +30,8 @@ describe("createTimeRecord", () =>  {
       description: "test",
       active: true,
       project: 12,
-      assignedDate
+      assignedDate,
+      tagIds: [2]
     }
     mock = sinon.stub(client, "post").resolves({ data: "data" })
     await apiInstance.createTimeRecord(data)
@@ -39,7 +40,8 @@ describe("createTimeRecord", () =>  {
       description: "test",
       start_task: true,
       project_id: 12,
-      assigned_date: assignedDate
+      assigned_date: assignedDate,
+      tag_ids: [2]
     }])
   })
 

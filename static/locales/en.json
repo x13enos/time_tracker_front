@@ -12,6 +12,7 @@
     "reports": "Reports",
     "projects": "Projects",
     "users": "Users",
+    "tags": "Tags",
     "workspaces": "Workspaces",
     "profile": "Profile",
     "sign_out": "Sign Out",
@@ -67,6 +68,7 @@
     "time": "Time",
     "total": "Total",
     "remove": "Remove",
+    "tags": "Tags",
     "you_can_lose_changes": "Changes that you made may not be saved.",
     "approve_deleting": "Please approve that you want to remove this task.",
     "task_was_created": "Task was succesfully created!",
@@ -107,6 +109,18 @@
     "was_created": "Project was succesfully created!",
     "was_updated": "Project was succesfully updated!",
     "was_deleted": "Project was succesfully deleted!",
+    "change_details": "Change details"
+  },
+  "tags": {
+    "title": "Tags",
+    "no_tags": "No tags",
+    "name": "Name",
+    "new_tag": "New tag",
+    "name_is_required": "Name is required",
+    "approve_deleting": "Please approve that you really want to remove this tag.",
+    "was_created": "Tag was succesfully created!",
+    "was_updated": "Tag was succesfully updated!",
+    "was_deleted": "Tag was succesfully deleted!",
     "change_details": "Change details"
   },
   "workspaces": {
