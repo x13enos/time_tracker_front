@@ -3,10 +3,7 @@ import axios from 'axios';
 function Api({ router, store }, appMethods) {
 
   this.signIn = (data) => {
-    return client.post("/auth", {
-      email: data.email,
-      password: data.password
-    })
+    return client.post("/auth", data) 
   }
 
   this.signOut = () => {

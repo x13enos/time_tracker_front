@@ -35,7 +35,8 @@
     "email": "Email",
     "password": "Пароль",
     "login": "Войти",
-    "email_must_be_valid": "E-mail должен иметь правильный формат"
+    "email_must_be_valid": "E-mail должен иметь правильный формат",
+    "remember_me": "Запомнить меня"
   },
   "time_sheet": {
     "title": "Учет рабочего времени",

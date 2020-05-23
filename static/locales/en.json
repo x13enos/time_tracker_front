@@ -38,7 +38,8 @@
     "password": "Password",
     "login": "Login",
     "email_must_be_valid": "E-mail must be valid",
-    "forgot_password": "Forgot password?"
+    "forgot_password": "Forgot password?",
+    "remember_me": "Remember me"
   },
   "password_recovery": {
     "title": "Recovery Password",
