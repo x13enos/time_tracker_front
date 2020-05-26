@@ -16,12 +16,11 @@ describe("onSubmit", () => {
     const $api = { signIn: () => { return successResponse } }
     const actionSpy = sinon.spy($api, "signIn")
     const wrapper = createWrapper(signIn, { mocks: { $api }, stubs }, fakeStoreData())
+    sinon.stub(wrapper.vm, 'handledFormData').returns({ email: 'example@gmail.com' })
     sinon.stub(wrapper.vm.$router, 'replace')
-    Object.assign(wrapper.vm, { form: { email: 'example@gmail.com', password: '11111111' } })
 
     await wrapper.vm.onSubmit()
-    expect(actionSpy.calledOnce).to.be.true
-    expect(actionSpy.args[0]).to.eql([{ email: 'example@gmail.com', password: '11111111' }])
+    expect(actionSpy.calledOnceWith({ email: 'example@gmail.com' })).to.be.true
 
     sinon.restore()
   });

@@ -21,6 +21,10 @@
           :error-messages="$formErrorMessage('password', ['required'])"
         />
       </v-form>
+      <v-checkbox 
+        v-model="form.rememberMe" 
+        :label="$t('login_form.remember_me')" />
+
       <span class='red--text' v-if="!!errorMessages.base">
         {{ errorMessages.base }}
       </span>
@@ -53,7 +57,8 @@ export default {
     return {
       form: {
         email: '',
-        password: ''
+        password: '',
+        rememberMe: false
       },
       valid: false,
       errorMessages: {}
@@ -73,11 +78,20 @@ export default {
     async onSubmit () {
       this.errorMessage = {};
       try {
-        const response = await this.$api.signIn(this.form);
+        const response = await this.$api.signIn(this.handledFormData());
         this.updatePersonalInfo(response.data);
         this.$router.replace({ path: '/tasks' });
       } catch (errors) {
         this.errorMessages = errors;
+      }
+    },
+
+    handledFormData() {
+      const { email, password } = this.form
+      return {
+        email,
+        password,
+        remember_me: this.form.rememberMe
       }
     }
   }
