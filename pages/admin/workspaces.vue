@@ -40,6 +40,12 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </workspace-form>
+              <time-locking-rules 
+                v-if="$appMethods.extensionEnabled()"
+                :rules="timeLockingRules.filter(r => r.workspace_id === workspace.id)"
+                :workspace="workspace" 
+                @addRule="addRule($event)"
+                @removeRule="removeRule($event)"/>
               <v-btn
                 color="error"
                 fab
@@ -78,19 +84,22 @@
 <script>
 import WorkspaceForm from "@/components/admin/workspaces/form"
 import UsersBlock from "@/components/admin/workspaces/users_block"
+import TimeLockingRules from "@/components/admin/workspaces/time_locking_rules_block"
 import { mapMutations } from 'vuex'
 
 export default {
 
   components: {
     "workspace-form": WorkspaceForm,
-    "users-block": UsersBlock
+    "users-block": UsersBlock,
+    "time-locking-rules": TimeLockingRules
   },
 
   data() {
     return {
       workspaces: [],
       users: [],
+      timeLockingRules: [],
       deleteDialog: false,
       deletingWorkspaceId: null
     }
@@ -99,6 +108,8 @@ export default {
   mounted(){
     this.fetchWorkspaces();
     this.fetchUsers();
+    if(this.$appMethods.extensionEnabled())
+      this.fetchTimeLockingRules();
   },
 
   methods: {
@@ -114,6 +125,12 @@ export default {
       const response = await this.$api.allUsers()
       if(response.data)
         this.users = response.data
+    },
+
+    async fetchTimeLockingRules(){
+      const response = await this.$api.allTimeLockingRules()
+      if(response.data)
+        this.timeLockingRules = response.data
     },
 
     addNewWorkspace(data){
@@ -148,6 +165,15 @@ export default {
       } else {
         workspace.user_ids = workspace.user_ids.filter(id => id !== user)
       }
+    },
+
+    addRule(rule){
+      this.timeLockingRules.push(rule)
+    },
+
+    removeRule(id){
+      const ruleIndex = this.timeLockingRules.findIndex(r => r.id === id)
+      this.$delete(this.timeLockingRules, ruleIndex)
     }
   }
 }

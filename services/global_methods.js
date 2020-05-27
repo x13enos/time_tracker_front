@@ -14,6 +14,10 @@ class GlobalMethods {
     return date.toLocaleString({ locale: 'en-gb' });
   }
 
+  static extensionEnabled() {
+    return process.env.extensionEnabled === 'true';
+  }
+
 }
 
 export default GlobalMethods;

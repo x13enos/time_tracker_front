@@ -1,8 +1,8 @@
 export default {
+  env: {
+    extensionEnabled: process.env.TIME_TRACKER_EXTENSION_ENABLED
+  },
   mode: 'spa',
-  /*
-   ** Headers of the page
-   */
   server: {
     host: process.env.HOST_IP || 'localhost' // default: localhost
   },
