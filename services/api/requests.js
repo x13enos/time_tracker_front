@@ -143,6 +143,18 @@ function Api({ router, store }, appMethods) {
 
   this.deleteTag = (id) => {
     return client.delete(`/tags/${id}`)
+  },
+
+  this.allTimeLockingRules = () => {
+    return client.get("/time_locking_rules")
+  },
+
+  this.createTimeLockingRule = (data) => {
+    return client.post("/time_locking_rules", data) 
+  },
+
+  this.deleteTimeLockingRule = (id) => {
+    return client.delete(`/time_locking_rules/${id}`)
   }
 
   // private logic

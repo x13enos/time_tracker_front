@@ -136,7 +136,10 @@
     "was_created": "Workspace was succesfully created!",
     "was_updated": "Workspace was succesfully updated!",
     "was_deleted": "Workspace was succesfully deleted!",
-    "change_details": "Change details"
+    "change_details": "Change details",
+    "time_locking_rules": "Lock Tasks",
+    "weekly_time_lock": "Weekly",
+    "monthly_time_lock": "Monthly"
   },
   "validations": {
     "required": "This field is required.",

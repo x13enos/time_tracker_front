@@ -1,4 +1,3 @@
-
 import GlobalMethods from '@/services/global_methods';
 
 it('should return true if passed value is undefined', () => {
