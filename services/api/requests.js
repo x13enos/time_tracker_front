@@ -155,8 +155,11 @@ function Api({ router, store }, appMethods) {
 
   this.deleteTimeLockingRule = (id) => {
     return client.delete(`/time_locking_rules/${id}`)
-  }
+  },
 
+  this.approveTimeReport = (id, data) => {
+    return client.put(`/time_locking_periods/${id}`, data)
+  }
   // private logic
 
   const client = axios.create({
