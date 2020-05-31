@@ -14,7 +14,7 @@ export default {
     commit('reinitTasksObject', day)
     commit('clearActiveTaskIntervalId')
     const response = await this.$api.weeklyTimeRecords(day)
-    commit('updateTasks', response.data.time_records)
+    commit('updateTasks', response.data)
     return response;
   },
 

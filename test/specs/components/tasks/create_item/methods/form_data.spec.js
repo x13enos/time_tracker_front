@@ -6,7 +6,8 @@ describe('formData', () => {
 
   const propsData = {
     day: DateTime.local(),
-    activeDay: false
+    activeDay: false,
+    dayIsBlocked: false
   }
 
   const newData = {

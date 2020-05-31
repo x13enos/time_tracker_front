@@ -30,6 +30,7 @@
 
     <ul class="nav nav-tabs timesheet">
       <li
+        :class="{ 'blue-grey lighten-3': dayIsBlocked(day) }"
         v-for="day in days"
         :key="getFormattedDateForTab(day)">
         <a
@@ -40,7 +41,10 @@
           @click="selectedDate = day"
           v-ripple="{ class: `primary--text` }">
           <div class="tabHour">{{ totalTimeOfDailyTasks(day) }}</div>
-          <div class="dateDay">{{ getFormattedDateForTab(day) }}</div>
+          <div class="dateDay">
+            {{ getFormattedDateForTab(day) }}
+            <v-icon v-if="dayIsBlocked(day)" class="lock-icon">mdi-lock</v-icon>
+          </div>
           <div class="weekDayName">{{ getFormattedWeekDateForTab(day) }}</div>
         </a>
       </li>
@@ -61,7 +65,7 @@
         :day="day"
         :currentDate="currentDate" />
     </transition-group>
-    
+
   </div>
 </template>
 
@@ -98,7 +102,7 @@
     },
 
     computed: {
-      ...mapGetters(["totalTimeOfDailyTasks", "totalTimeOfWeeklyTasks"]),
+      ...mapGetters(["totalTimeOfDailyTasks", "totalTimeOfWeeklyTasks", "dayIsBlocked"]),
 
       days(){
         return this.weekDays(this.selectedDate)
@@ -232,6 +236,10 @@
 
   .fade-enter, .fade-leave-to {
     opacity: 0;
+  }
+
+  .lock-icon {
+    font-size: 12px;
   }
 
   @media screen and (min-width: 800px) {

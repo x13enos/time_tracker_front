@@ -5,7 +5,8 @@ describe('stateClass', () => {
   it('should return class for active state if task was launched', () => {
     const propsData = {
       task: { timeStart: 'now', tagIds: []  },
-      activeDay: false
+      activeDay: false,
+      dayIsBlocked: false
     }
 
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
@@ -15,7 +16,8 @@ describe('stateClass', () => {
   it('should return row class if task is not active', () => {
     const propsData = {
       task: { timeStart: "", tagIds: [] },
-      activeDay: false
+      activeDay: false,
+      dayIsBlocked: false
     }
 
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())

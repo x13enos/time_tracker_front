@@ -3,7 +3,8 @@ import task from '@/components/tasks/update_item'
 
 const propsData = {
   task: { timeStart: 'now', tagIds: [] },
-  activeDay: false
+  activeDay: false,
+  dayIsBlocked: false
 }
 
 it('should call method isEmpty and passed timeStart argument', () => {

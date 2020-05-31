@@ -2,7 +2,7 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
 
-const propsData = { activeDay: true, day: DateTime.local() }
+const propsData = { activeDay: true, day: DateTime.local(), dayIsBlocked: false }
 
 describe('internalId', () => {
 

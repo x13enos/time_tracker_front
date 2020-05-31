@@ -12,6 +12,7 @@
         item-value="id"
         item-key="id"
         single-line
+        :disabled="dayIsBlocked"
         :label="$t('time_sheet.project')"
         @focus="selectPendingClass"
       ></v-select>
@@ -24,10 +25,12 @@
           autocomplete="off"
           rows="1"
           :auto-grow="true"
+          :disabled="dayIsBlocked"
           @input="selectPendingClass"
         />
         <tags-menu
           :tagIds="tagIds"
+          :disabled="dayIsBlocked"
           @updateTags="tagIds = $event; selectPendingClass()">
         </tags-menu>
       </div>
@@ -84,6 +87,11 @@ export default {
     activeDay: {
       type: Boolean,
       required: true
+    },
+
+    dayIsBlocked: {
+      type: Boolean,
+      required: true
     }
   },
 
@@ -119,7 +127,8 @@ export default {
 
     doesNotReadyForAction(){
       return this.$appMethods.isEmpty(this.project) ||
-        this.$appMethods.isEmpty(this.description);
+        this.$appMethods.isEmpty(this.description)  ||
+        this.dayIsBlocked;
     },
 
     internalId(){

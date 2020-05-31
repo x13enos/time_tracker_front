@@ -5,7 +5,8 @@ import { DateTime } from 'luxon'
 describe('selectPendingClass', () => {
   const propsData = {
     day: DateTime.local(),
-    activeDay: false
+    activeDay: false,
+    dayIsBlocked: false
   }
 
   it('should call method for removing pending state in case of deleting info', () => {

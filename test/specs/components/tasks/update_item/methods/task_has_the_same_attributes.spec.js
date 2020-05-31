@@ -9,7 +9,7 @@ describe('taskHasTheSameAttributes', () => {
     spentTime: '0.50',
     tagIds: [1]
   }
-  const propsData = { activeDay: false, task: taskData }
+  const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
 
   it('should return true if all filled data is the same as in task', function(){
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())

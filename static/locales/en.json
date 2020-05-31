@@ -141,6 +141,9 @@
     "weekly_time_lock": "Weekly",
     "monthly_time_lock": "Monthly"
   },
+  "time_reports": {
+    "you_approved_this": "Thanks! You succesfully approved your time report."
+  },
   "validations": {
     "required": "This field is required.",
     "spent_time_format": "should have format \"0.00\"",
