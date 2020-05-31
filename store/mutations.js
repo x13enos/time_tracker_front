@@ -18,9 +18,13 @@ export default {
   },
 
   updateTasks(state, data) {
-    data.forEach((timeRecord) => {
+    data.time_records.forEach((timeRecord) => {
       Vue.set(state.tasks[timeRecord.assigned_date], timeRecord.id, collectTaskData(timeRecord));
     })
+
+    if(this.$appMethods.extensionEnabled()){
+      state.blockedDays = data.blocked_days
+    }
   },
 
   updateTask(state, data){

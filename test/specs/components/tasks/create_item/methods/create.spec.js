@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 
 const day = DateTime.local();
 
-const propsData = { activeDay: false, day }
+const propsData = { activeDay: false, day, dayIsBlocked: false }
 
 describe('create', () => {
 

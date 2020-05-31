@@ -119,6 +119,9 @@
     "weekly_time_lock": "Еженедельно",
     "monthly_time_lock": "Ежемесячно"
   },
+  "time_reports": {
+    "you_approved_this": "Спасибо! Вы, только что, потвердили ваш отчет."
+  },
   "validations": {
     "required": "Это поле обязательно для заполнения.",
     "spent_time_format": "должно иметь формат \"0.00\"",

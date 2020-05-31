@@ -5,7 +5,8 @@ import { DateTime } from 'luxon'
 describe('containsEmptyData', () => {
   const propsData = {
     day: DateTime.local(),
-    activeDay: false
+    activeDay: false,
+    dayIsBlocked: false
   }
 
   it('should return true if projects numbers is 1, description is empty and tagIds is empty as well', () => {

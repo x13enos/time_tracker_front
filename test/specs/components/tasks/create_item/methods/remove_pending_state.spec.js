@@ -3,7 +3,7 @@ import task from '@/components/tasks/create_item'
 import { DateTime } from 'luxon'
 
 describe('removePendingState', () => {
-  const propsData = { activeDay: true, day: DateTime.local() }
+  const propsData = { activeDay: true, day: DateTime.local(), dayIsBlocked: false }
 
   it('call mutation for deleting pending taks id', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())

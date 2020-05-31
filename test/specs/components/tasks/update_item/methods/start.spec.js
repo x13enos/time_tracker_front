@@ -9,7 +9,7 @@ const taskData = {
   assignedDate: "1572123600",
   tagIds: []
 }
-const propsData = { activeDay: false, task: taskData }
+const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
 
 it('should call mutation keepActiveTaskIntervalId', () => {
   const wrapper = createWrapper(task, { propsData }, fakeStoreData())

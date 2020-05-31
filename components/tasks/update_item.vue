@@ -15,7 +15,7 @@
           single-line
           :label="$t('time_sheet.project')"
           :hide-selected="true"
-          :disabled="active"
+          :disabled="active || dayIsBlocked"
           @focus="selectPendingClass"
           @change="onlyUpdate()"
         ></v-select>
@@ -27,13 +27,14 @@
             :placeholder="$t('time_sheet.description')"
             autocomplete="off"
             @input="selectPendingClass"
-            :disabled="active"
+            :disabled="active || dayIsBlocked"
             rows="1"
             :auto-grow="true"
             @blur="onlyUpdate()"
           />
           <tags-menu
             :tagIds="tagIds"
+            :disabled="dayIsBlocked"
             @updateTags="tagIds = $event; selectPendingClass()"
             @change="onlyUpdate()">
           </tags-menu>
@@ -44,7 +45,7 @@
           <v-text-field
             v-model="$v.spentTime.$model"
             placeholder="0.0"
-            :disabled="active"
+            :disabled="active || dayIsBlocked"
             @input="selectPendingClass"
             :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
             @blur="onlyUpdate()"
@@ -62,10 +63,10 @@
               :large="true"
               @mouseover="toggleBtnStatus"
               @mouseout="toggleBtnStatus"
-              :disabled="!activeDay || !valid">mdi-play-circle</v-icon>
+              :disabled="!activeDay || !valid || dayIsBlocked">mdi-play-circle</v-icon>
           </v-col>
           <v-col cols="6">
-            <v-menu offset-y>
+            <v-menu v-if="!dayIsBlocked" offset-y>
               <template v-slot:activator="{ on }">
                 <v-icon v-on="on" :large="true" :text="true" :disabled="active">mdi-dots-vertical</v-icon>
               </template>
@@ -129,6 +130,11 @@ export default {
     },
 
     activeDay: {
+      type: Boolean,
+      required: true
+    },
+
+    dayIsBlocked: {
       type: Boolean,
       required: true
     }

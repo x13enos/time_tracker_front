@@ -19,10 +19,12 @@
       v-for="(taskInfo, taskId, index) in dailyTasks" :key="taskId"
       :task="taskInfo"
       :activeDay="activeDay"
+      :dayIsBlocked="dayIsBlocked(day)"
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
     />
     <new-task
+      :dayIsBlocked="dayIsBlocked(day)"
       :activeDay="activeDay"
       :day="day"
     />
@@ -60,7 +62,7 @@ export default {
 
   computed: {
     ...mapState(["tasks"]),
-    ...mapGetters(["totalTimeOfDailyTasks"]),
+    ...mapGetters(["totalTimeOfDailyTasks", "dayIsBlocked"]),
 
     dailyTasks(){
       return this.tasks[this.$appMethods.systemFormatDate(this.day)] || []

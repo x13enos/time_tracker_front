@@ -6,6 +6,7 @@ export default function state(){
     tasks: {},
     counterOfPendingTasks: 0,
     pendingTasks: [],
+    blockedDays: [],
     snack: {
       message: "",
       color: ""

@@ -12,7 +12,7 @@ describe('deleteItem', () => {
     tagIds: []
   }
 
-  const propsData = { activeDay: false, task: taskData }
+  const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
 
   it('should change dialog flag', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())

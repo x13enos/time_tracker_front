@@ -4,7 +4,7 @@ import { DateTime } from 'luxon'
 
  describe('mounted', () => {
    const day = DateTime.local();
-   const propsData = { activeDay: false, day }
+   const propsData = { activeDay: false, day, dayIsBlocked: false }
 
    it('should select project if it is only one in list', () => {
      const store = fakeStoreData()

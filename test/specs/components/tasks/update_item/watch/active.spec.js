@@ -8,7 +8,8 @@ describe('active', () => {
       timeStart: null,
       tagIds: []
     },
-    activeDay: false
+    activeDay: false,
+    dayIsBlocked: false
   }
 
   it('should call "start" method if value is true', async () => {

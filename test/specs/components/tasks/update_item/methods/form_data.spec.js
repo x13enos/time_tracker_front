@@ -11,7 +11,7 @@ describe('formData', () => {
     tagIds: [1]
   }
 
-  const propsData = { activeDay: false, task: taskData }
+  const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
 
   const newData = {
     description: "new text"

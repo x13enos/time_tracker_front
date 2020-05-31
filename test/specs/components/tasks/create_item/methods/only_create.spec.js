@@ -6,7 +6,8 @@ describe('onlyCreate', () => {
 
   const propsData = {
     day: DateTime.local(),
-    activeDay: false
+    activeDay: false,
+    dayIsBlocked: false
   }
 
   it('should not call create method if start button was focused', async () => {

@@ -3,6 +3,7 @@
     content-class="tags-menu"
     :close-on-content-click="false"
     nudge-top="15"
+    :disabled="disabled"
     v-model="menuOpened"
     offset-y>
       <template v-slot:activator="{ on }">
@@ -37,6 +38,11 @@ export default {
     tagIds: {
       type: Array,
       required: true
+    },
+
+    disabled: {
+      type: Boolean,
+      required: false
     }
   },
 

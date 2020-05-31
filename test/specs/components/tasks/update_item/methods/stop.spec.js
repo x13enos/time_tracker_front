@@ -10,7 +10,7 @@ describe('stop', () => {
     spentTime: '0.50',
     tagIds: []
   }
-  const propsData = { activeDay: false, task: taskData }
+  const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
 
   it('should call mutation for clearing interval id', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())

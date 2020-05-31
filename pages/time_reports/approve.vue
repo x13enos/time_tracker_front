@@ -1,7 +1,7 @@
 <template>
   <v-card v-if="reportWasApproved" class="elevation-12">
     <v-card-text>
-      <h3>Thanks! You succesfully approved your timereport.</h3>
+      <h3> {{ $t("time_reports.you_approved_this") }}</h3>
     </v-card-text>
   </v-card>
 

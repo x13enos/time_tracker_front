@@ -48,7 +48,7 @@ describe("getWeeklyTasks", () => {
     const commitStub = sinon.stub(commitObject, 'commit')
     const apiStub = sinon.stub(actions.$api, 'weeklyTimeRecords').returns(successResponse)
     await actions.getWeeklyTasks(commitObject, new Date())
-    expect(commitStub.args[2]).to.eql([ 'updateTasks', 'data' ])
+    expect(commitStub.args[2]).to.eql([ 'updateTasks', { time_records: "data" } ])
     apiStub.restore()
     commitStub.restore()
   })

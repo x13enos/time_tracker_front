@@ -6,7 +6,8 @@ describe('toggleBtnStatus', () => {
 
   const propsData = {
     day: DateTime.local(),
-    activeDay: false
+    activeDay: false,
+    dayIsBlocked: false
   }
 
   it('should set the opposite status for start button', () => {

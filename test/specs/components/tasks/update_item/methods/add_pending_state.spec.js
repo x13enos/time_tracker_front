@@ -2,7 +2,7 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/update_item'
 
 describe('addPendingState', () => {
-  const propsData = { activeDay: false, task: { tagIds: [] } }
+  const propsData = { activeDay: false, task: { tagIds: [] }, dayIsBlocked: false }
 
   it('should call mutation "addPendingTaskId" if row class is  empty', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())

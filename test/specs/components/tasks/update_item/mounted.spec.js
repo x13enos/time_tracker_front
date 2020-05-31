@@ -13,7 +13,7 @@ describe('mounted', () => {
     timeStart: 28218231828,
     tagIds: []
   }
-  const propsData = { activeDay: false, task: taskData }
+  const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
   const newData = {
     description: "new text"
   }

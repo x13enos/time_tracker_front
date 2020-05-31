@@ -13,7 +13,7 @@ export default {
     return state.user.role === 'admin'
   },
 
-  totalTimeOfWeeklyTasks (state) {
+  totalTimeOfWeeklyTasks(state) {
     const tasks = []
     Object.values(state.tasks).forEach((dailyTasks, _day) => {
       tasks.push(...Object.values(dailyTasks))
@@ -22,7 +22,17 @@ export default {
     return parseFloat(time.toFixed(2));
   },
 
-  totalTimeOfDailyTasks (state) {
+  dayIsBlocked(state) {
+    return function(day) {
+      if($appMethods.extensionEnabled){
+        return state.blockedDays.includes($appMethods.systemFormatDate(day))
+      } else {
+        return false
+      }
+    }
+  },
+
+  totalTimeOfDailyTasks(state) {
     return function (day) {
       const tasks = state.tasks[$appMethods.systemFormatDate(day)]
       if(!!tasks){
