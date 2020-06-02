@@ -142,7 +142,9 @@
     "monthly_time_lock": "Monthly"
   },
   "time_reports": {
-    "you_approved_this": "Thanks! You succesfully approved your time report."
+    "you_approved_this": "Thanks! You succesfully approved your time report.",
+    "please_approve_your_report_for_following_dates": "Please approve that you have filled your timereport for period {from} - {to}.",
+    "approve": "Approve"
   },
   "validations": {
     "required": "This field is required.",

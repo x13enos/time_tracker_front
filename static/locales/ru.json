@@ -120,7 +120,9 @@
     "monthly_time_lock": "Ежемесячно"
   },
   "time_reports": {
-    "you_approved_this": "Спасибо! Вы, только что, потвердили ваш отчет."
+    "you_approved_this": "Спасибо! Вы, только что, потвердили ваш отчет.",
+    "please_approve_your_report_for_following_dates": "Пожалуйста, подтвердите что вы заполнили отчет за период {from} - {to}.",
+    "approve": "Подтверждаю"
   },
   "validations": {
     "required": "Это поле обязательно для заполнения.",

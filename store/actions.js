@@ -55,5 +55,10 @@ export default {
     } else {
       callback()
     }
+  },
+
+  async approveTimeReport({ commit }, periodId) {
+    await this.$api.approveTimeReport(periodId, {})
+    commit("removeUnapprovedTimePeriod", periodId)
   }
 }

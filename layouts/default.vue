@@ -5,6 +5,7 @@
       <v-container :fluid="true" class="main-container">
         <v-row align="start" justify="start" class="main-row">
           <v-col cols="12">
+            <PendingTimeReportNotifications />
             <nuxt />
           </v-col>
         </v-row>
@@ -18,10 +19,11 @@
 <script>
 import Snackbar from '~/components/layout/snackbar.vue'
 import Header from '~/components/layout/header.vue'
+import PendingTimeReportNotifications from '~/components/layout/pending_time_report_notifications.vue'
 
 export default {
   middleware: 'auth',
-  components: { Header, Snackbar }
+  components: { Header, Snackbar, PendingTimeReportNotifications }
 }
 </script>
 
