@@ -13,7 +13,7 @@ describe('formData', () => {
   const newData = {
     project: "1",
     description: "test",
-    spentTime: 0.5,
+    spentTime: "0.50",
     tagIds: [1]
   }
 
@@ -29,7 +29,7 @@ describe('formData', () => {
     expect(wrapper.vm.formData()).to.eql({
       active: false,
       description: null,
-      spentTime: 0.0,
+      spentTime: "0.00",
       project: null,
       tagIds: []
     })

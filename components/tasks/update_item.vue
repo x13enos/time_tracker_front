@@ -235,7 +235,7 @@ export default {
         id: this.task.id,
         project: this.project,
         description: this.description,
-        spentTime: this.spentTime || 0.0,
+        spentTime: parseFloat(this.spentTime || 0.0).toFixed(2),
         tagIds: this.tagIds
       }
     },
