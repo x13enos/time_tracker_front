@@ -7,7 +7,7 @@ describe('formData', () => {
     id: 125,
     project: 1,
     description: "test",
-    spentTime: 0.5,
+    spentTime: "0.50",
     tagIds: [1]
   }
 
@@ -24,7 +24,7 @@ describe('formData', () => {
       id: 125,
       project: 1,
       description: "new text",
-      spentTime: 0.5,
+      spentTime: "0.50",
       tagIds: [1]
     })
   });
