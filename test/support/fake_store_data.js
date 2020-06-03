@@ -16,7 +16,8 @@ const storeData = function () {
         message: '',
         color: ''
       },
-      tasks: []
+      tasks: [],
+      unapprovedPeriods: []
     },
     actions: {
       signIn: () => {},

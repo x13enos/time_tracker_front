@@ -2,7 +2,7 @@ import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import mutations from '@/store/mutations'
 
-describe('updatePersonalInfo', () => {
+describe('removePendingTimeReport', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
 
@@ -23,7 +23,8 @@ describe('updatePersonalInfo', () => {
     email: 'john@gmail.com',
     locale: 'ru',
     role: "staff",
-    active_workspace_id: 101
+    active_workspace_id: 101,
+    unapproved_periods: [1, 2, 3]
   }
 
   it('should update personal info', () => {
@@ -46,6 +47,14 @@ describe('updatePersonalInfo', () => {
     const store = new Vuex.Store({ state, mutations })
     store.commit('updatePersonalInfo', userInfo)
     expect(store.$i18n.locale).to.eq('ru')
+    delete Vuex.Store.prototype.$i18n
+  })
+
+  it('should update list of unapproving periods', () => {
+    Vuex.Store.prototype.$i18n = { locale: 'en' }
+    const store = new Vuex.Store({ state, mutations })
+    store.commit('updatePersonalInfo', userInfo)
+    expect(store.state.unapprovedPeriods).to.eql([1, 2, 3])
     delete Vuex.Store.prototype.$i18n
   })
 })

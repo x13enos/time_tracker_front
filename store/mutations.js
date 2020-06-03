@@ -6,6 +6,7 @@ export default {
     const activeWorkspaceId = userData.active_workspace_id
 
     Object.assign(state.user, { id, name, email, locale, role, activeWorkspaceId })
+    state.unapprovedPeriods = userData.unapproved_periods || []
     this.$i18n.locale = locale
   },
 
@@ -94,6 +95,11 @@ export default {
     const tasks = state.pendingTasks
     if(tasks.includes(id))
       tasks.splice( tasks.indexOf(id), 1 );
+  },
+
+  removeUnapprovedTimePeriod(state, id) {
+    const periodIndex = state.unapprovedPeriods.findIndex(p => p.id === id)
+    state.unapprovedPeriods.splice(periodIndex, 1)
   }
 }
 
