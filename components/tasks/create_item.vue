@@ -1,5 +1,5 @@
 <template>
-  <v-row justify="center" align="center" :class="rowClass">
+  <v-row justify="center" align="center" class="task-attributes" :class="rowClass">
     <v-col class="col-sm-2 col-12">
       <span v-if="projects.length == 1">
         {{ projects[0].name }}
@@ -226,3 +226,10 @@ const spentTimeFormat = (value) => {
 };
 
 </script>
+
+<style scoped>
+  .task-attributes > .col {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+</style>
