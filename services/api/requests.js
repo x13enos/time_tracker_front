@@ -3,7 +3,7 @@ import axios from 'axios';
 function Api({ router, store }, appMethods) {
 
   this.signIn = (data) => {
-    return client.post("/auth", data) 
+    return client.post("/auth", data)
   }
 
   this.signOut = () => {
@@ -150,7 +150,7 @@ function Api({ router, store }, appMethods) {
   },
 
   this.createTimeLockingRule = (data) => {
-    return client.post("/time_locking_rules", data) 
+    return client.post("/time_locking_rules", data)
   },
 
   this.deleteTimeLockingRule = (id) => {
@@ -167,6 +167,14 @@ function Api({ router, store }, appMethods) {
   });
 
   client.defaults.headers.common['Accept'] = 'application/json'
+
+  client.interceptors.request.use((config) => {
+    config.params = config.params || {};
+    const currentDate = new Date()
+    const timeZoneOffset = currentDate.getTimezoneOffset() / 60 * -1
+    config.params['timezone_offset'] = timeZoneOffset;
+    return config;
+  });
 
   client.interceptors.response.use(function (response) {
     return response;
