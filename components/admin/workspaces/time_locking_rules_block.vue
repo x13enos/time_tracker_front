@@ -16,7 +16,7 @@
         <span class="headline">{{ $t("workspaces.time_locking_rules") }}</span>
       </v-card-title>
       <v-card-text>
-        <v-switch 
+        <v-switch
           :disabled="loading"
           :loading="loading"
           v-model="weeklyPeriod"
@@ -62,11 +62,16 @@
       }
     },
 
-    watch: {
-      rules: function() {
+    mounted(){
+      setTimeout(() => {
         this.weeklyPeriod = !!this.rules.find(r => r.period === 'weekly')
         this.monthlyPeriod = !!this.rules.find(r => r.period === 'monthly')
-      }
+      }, 500);
+
+      setTimeout(() => {
+        this.weeklyPeriod = !!this.rules.find(r => r.period === 'weekly')
+        this.monthlyPeriod = !!this.rules.find(r => r.period === 'monthly')
+      }, 1000);
     },
 
     methods: {
@@ -74,9 +79,9 @@
         value ? this.create(period) : this.remove(period)
       },
 
-      async create(period) { 
+      async create(period) {
         this.loading = true
-        const response = await this.$api.createTimeLockingRule({ 
+        const response = await this.$api.createTimeLockingRule({
           workspace_id: this.workspace.id,
           period
         })
@@ -86,7 +91,7 @@
         this.loading = false
       },
 
-      async remove(period) { 
+      async remove(period) {
         this.loading = true
         const rule = this.rules.find(r => r.period === period)
         const response = await this.$api.deleteTimeLockingRule(rule.id)

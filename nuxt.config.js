@@ -1,6 +1,6 @@
 export default {
   env: {
-    extensionEnabled: process.env.TIME_TRACKER_EXTENSION_ENABLED
+    extensionEnabled: process.env.TIME_TRACKER_EXTENSION_ENABLED || "true"
   },
   mode: 'spa',
   server: {

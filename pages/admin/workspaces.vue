@@ -40,10 +40,10 @@
                   <v-icon>mdi-pencil</v-icon>
                 </v-btn>
               </workspace-form>
-              <time-locking-rules 
+              <time-locking-rules
                 v-if="$appMethods.extensionEnabled()"
                 :rules="timeLockingRules.filter(r => r.workspace_id === workspace.id)"
-                :workspace="workspace" 
+                :workspace="workspace"
                 @addRule="addRule($event)"
                 @removeRule="removeRule($event)"/>
               <v-btn
