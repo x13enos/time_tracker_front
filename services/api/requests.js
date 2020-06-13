@@ -86,11 +86,11 @@ function Api({ router, store }, appMethods) {
   }
 
   this.assignUserToProject = (projectId, userId) => {
-    return client.put(`/projects/${projectId}/assign_user`, { user_id: userId })
+    return client.post(`/projects/${projectId}/project_users/`, { user_id: userId } )
   }
 
   this.removeUserFromProject = (projectId, userId) => {
-    return client.put(`/projects/${projectId}/remove_user`, { user_id: userId })
+    return client.delete(`/projects/${projectId}/project_users/${userId}`)
   }
 
   this.forgotPassword = (email) => {
