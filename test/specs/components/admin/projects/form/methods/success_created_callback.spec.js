@@ -10,7 +10,7 @@ describe('successCreatedCallback', () => {
 
 
     callback()
-    expect(snackStub.calledOnceWith({ message: wrapper.vm.$t("projects.was_created_succesfully"), color: "green" }))
+    expect(snackStub.calledOnceWith({ message: wrapper.vm.$t("projects.was_created"), color: "green" }))
     sinon.restore()
   });
 

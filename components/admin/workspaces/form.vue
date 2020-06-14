@@ -94,6 +94,7 @@
         this.updateSnack({ message: this.$t("workspaces.was_created"), color: "green" })
         this.form = { name: "" }
         this.$emit("processData", response.data)
+        this.$nextTick(() => { this.$v.$reset() })
       },
 
       async update(){

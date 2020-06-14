@@ -9,7 +9,7 @@ describe('successUpdatedCallback', () => {
     const callback = wrapper.vm.successUpdatedCallback()
 
     callback()
-    expect(snackStub.calledOnceWith({ message: wrapper.vm.$t("projects.was_updated_succesfully"), color: "green" }))
+    expect(snackStub.calledOnceWith({ message: wrapper.vm.$t("projects.was_updated"), color: "green" }))
     sinon.restore()
   });
 
