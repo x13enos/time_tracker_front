@@ -115,16 +115,17 @@
 
       successCreatedCallback() {
         return (data) => {
-          this.updateSnack({ message: this.$t("projects.was_created_succesfully"), color: "green" });
+          this.updateSnack({ message: this.$t("projects.was_created"), color: "green" });
           this.dialog = false
           this.form = { name: "", regexp_of_grouping: "" }
           this.$emit("processData", data)
+          this.$nextTick(() => { this.$v.$reset() })
         }
       },
 
       successUpdatedCallback() {
         return (data) => {
-          this.updateSnack({ message: this.$t("projects.was_updated_succesfully"), color: "green" })
+          this.updateSnack({ message: this.$t("projects.was_updated"), color: "green" })
           this.dialog = false
           this.$emit("processData", data)
         }
