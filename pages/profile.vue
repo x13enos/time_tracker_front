@@ -52,24 +52,51 @@
             @click:append="showPassword = !showPassword"
           />
         </v-form>
-
-        <v-btn
-          class="ma-2"
-          :loading="formSubmitting"
-          :disabled="formSubmitting || !valid"
-          color="info"
-          @click="save"
-        >
-          {{ $t('profile.save') }}
-
-          <template v-slot:loader>
-            <span class="custom-loader">
-              <v-icon light>mdi-cached</v-icon>
-            </span>
-          </template>
-        </v-btn>
       </v-col>
+
     </v-row>
+
+    <template v-if="$appMethods.extensionEnabled()">
+      <v-divider />
+
+      <v-row>
+        <v-col class="col-12">
+          <h2>{{ $t("profile.notification_settings") }}</h2>
+
+          <p class="mt-2">
+            {{ $t("profile.telegram_token") }}
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <code v-bind="attrs" v-on="on" v-clipboard="user.telegramToken" @click="updateSnack({ message: $t('profile.token_was_copied'), color: 'success' })">{{ user.telegramToken }}</code>
+              </template>
+              <span>{{ $t('profile.click_for_copy') }}</span>
+            </v-tooltip>
+            <span v-if="user.telegramActive">
+              - {{ $t("profile.account_was_linked") }} <v-icon class="mr-2" color="success">mdi-check-circle</v-icon>
+            </span>
+          </p>
+        </v-col>
+      </v-row>
+    </template>
+
+    <v-divider />
+
+    <v-btn
+      class="ma-2"
+      :loading="formSubmitting"
+      :disabled="formSubmitting || !valid"
+      color="info"
+      @click="save"
+    >
+      {{ $t('profile.save') }}
+
+      <template v-slot:loader>
+        <span class="custom-loader">
+          <v-icon light>mdi-cached</v-icon>
+        </span>
+      </template>
+    </v-btn>
+
   </div>
 </template>
 
@@ -78,6 +105,7 @@ import { validationMixin } from 'vuelidate'
 import formMixin from '@/mixins/form'
 import { required, email, helpers } from 'vuelidate/lib/validators'
 import { mapState, mapActions, mapMutations } from 'vuex'
+import Clipboard from 'v-clipboard'
 
 export default {
 

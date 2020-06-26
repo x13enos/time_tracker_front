@@ -24,6 +24,7 @@
     "minimist": "^1.2.5",
     "nuxt": "2.12.1",
     "nuxt-i18n": "^6.5.0",
+    "v-clipboard": "^2.2.3",
     "vuelidate": "^0.7.5"
   },
   "devDependencies": {
