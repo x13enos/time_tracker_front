@@ -2,7 +2,7 @@ import { createLocalVue } from '@vue/test-utils'
 import Vuex from 'vuex'
 import mutations from '@/store/mutations'
 
-describe('removePendingTimeReport', () => {
+describe('updatePersonalInfo', () => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
 
@@ -13,7 +13,9 @@ describe('removePendingTimeReport', () => {
       email: null,
       locale: null,
       role: null,
-      activeWorkspaceId: null
+      activeWorkspaceId: null,
+      telegramToken: null,
+      telegramActive: null
     }
   }
 
@@ -24,7 +26,9 @@ describe('removePendingTimeReport', () => {
     locale: 'ru',
     role: "staff",
     active_workspace_id: 101,
-    unapproved_periods: [1, 2, 3]
+    unapproved_periods: [1, 2, 3],
+    telegram_token: "token",
+    telegram_active: true
   }
 
   it('should update personal info', () => {
@@ -37,7 +41,9 @@ describe('removePendingTimeReport', () => {
       email: 'john@gmail.com',
       locale: 'ru',
       role: 'staff',
-      activeWorkspaceId: 101
+      activeWorkspaceId: 101,
+      telegramToken: 'token',
+      telegramActive: true
     })
     delete Vuex.Store.prototype.$i18n
   })

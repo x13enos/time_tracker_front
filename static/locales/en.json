@@ -30,7 +30,12 @@
     "name_is_required": "Name is required",
     "email_is_required": "Email is required",
     "email_must_be_valid": "E-mail must be valid",
-    "password_should_contain": "Password should contain at least 8 characters"
+    "password_should_contain": "Password should contain at least 8 characters",
+    "notification_settings": "Notification Settings",
+    "telegram_token": "Telegram token",
+    "token_was_copied": "Token was copied",
+    "click_for_copy": "Click for copy",
+    "account_was_linked": "Account was linked"
   },
   "login_form": {
     "title": "Log into Time Tracker",

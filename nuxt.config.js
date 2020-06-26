@@ -33,6 +33,7 @@ export default {
   plugins: [
     "@/plugins/api.js",
     "@/plugins/app_methods.js",
+    "@/plugins/v_clipboard.js",
     { src: '~plugins/i18n-config.js' }
   ],
   /*

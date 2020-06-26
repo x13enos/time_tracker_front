@@ -28,7 +28,12 @@
     "name_is_required": "Поле 'Имя' обязательно",
     "email_is_required": "Поле 'Email' обязательно",
     "email_must_be_valid": "E-mail должен иметь правильный формат",
-    "password_should_contain": "Пароль должен содержать не менее 8 символов"
+    "password_should_contain": "Пароль должен содержать не менее 8 символов",
+    "notification_settings": "Настройки оповещений",
+    "telegram_token": "Телеграм токен",
+    "token_was_copied": "Токен был скопирован",
+    "click_for_copy": "Нажмите, чтобы скопировать",
+    "account_was_linked": "Телеграм аккаунт был привязан"
   },
   "login_form": {
     "title": "Вход на Time Tracker",

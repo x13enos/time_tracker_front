@@ -4,8 +4,12 @@ export default {
   updatePersonalInfo (state, userData) {
     const { id, name, email, locale, role } = userData
     const activeWorkspaceId = userData.active_workspace_id
+    const telegramToken = userData.telegram_token
+    const telegramActive = userData.telegram_active
 
-    Object.assign(state.user, { id, name, email, locale, role, activeWorkspaceId })
+    Object.assign(state.user, {
+      id, name, email, locale, role, activeWorkspaceId, telegramToken, telegramActive
+    })
     state.unapprovedPeriods = userData.unapproved_periods || []
     this.$i18n.locale = locale
   },
