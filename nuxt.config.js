@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 export default {
   env: {
     extensionEnabled: process.env.TIME_TRACKER_EXTENSION_ENABLED || "true"
@@ -41,7 +43,8 @@ export default {
    */
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
-    '@nuxtjs/vuetify'
+    '@nuxtjs/vuetify',
+    '@nuxtjs/dotenv'
   ],
   /*
    ** Nuxt.js modules

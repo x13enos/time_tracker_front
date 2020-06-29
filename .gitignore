@@ -8,6 +8,7 @@ yarn-debug.log*
 yarn-error.log*
 
 .vimrc.local
+.env
 
 # Runtime data
 pids
