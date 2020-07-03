@@ -208,7 +208,7 @@ export default {
     ]),
 
     onlyUpdate(){
-      if(!this.btnStartFocused && this.valid)
+      if(!this.btnStartFocused && this.valid && !this.taskHasTheSameAttributes())
         this.update()
     },
 
@@ -265,9 +265,9 @@ export default {
     },
 
     taskHasTheSameAttributes(){
-      const tagsIdsEqual = this.task.tagIds.every( e => this.tagIds.includes(e)) && this.task.tagIds.length === this.tagIds.length
+      const tagsIdsEqual = this.task.tagIds.every( e => this.tagIds.includes(e)) && this.task.tagIds.length === this.tagIds.length;
       return ["project", "description", "spentTime"].every((attr) => {
-        return this.task[attr] === this[attr]
+        return this.task[attr].toString() === this[attr].toString()
       }) && tagsIdsEqual
     },
 
