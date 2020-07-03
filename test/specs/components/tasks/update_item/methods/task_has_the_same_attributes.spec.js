@@ -6,7 +6,7 @@ describe('taskHasTheSameAttributes', () => {
     id: 125,
     project: 1,
     description: "test",
-    spentTime: '0.50',
+    spentTime: 0.5,
     tagIds: [1]
   }
   const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
@@ -16,7 +16,7 @@ describe('taskHasTheSameAttributes', () => {
 
     wrapper.vm.project = 1
     wrapper.vm.description = "test"
-    wrapper.vm.spentTime = '0.50'
+    wrapper.vm.spentTime = '0.5'
     wrapper.vm.tagIds = [1]
 
     expect(wrapper.vm.taskHasTheSameAttributes()).to.be.true
