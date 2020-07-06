@@ -31,6 +31,12 @@
           </v-btn>
         </nuxt-link>
 
+        <nuxt-link v-if="isAdmin" to="/admin/users">
+          <v-btn text>
+            {{ $t("navigation.users") }}
+          </v-btn>
+        </nuxt-link>
+
         <nuxt-link v-if="isAdmin" to="/admin/tags">
           <v-btn text>
             {{ $t("navigation.tags") }}
@@ -89,6 +95,14 @@
             <v-list-item v-if="isAdmin">
               <v-list-item-title>
                 {{ $t("navigation.projects") }}
+              </v-list-item-title>
+            </v-list-item>
+          </nuxt-link>
+
+          <nuxt-link to="/admin/users">
+            <v-list-item v-if="isAdmin">
+              <v-list-item-title>
+                {{ $t("navigation.users") }}
               </v-list-item-title>
             </v-list-item>
           </nuxt-link>
