@@ -94,20 +94,3 @@ describe('$formErrorMessage', () => {
   });
 
 })
-
-
-// async $formSubmit(request,
-//                   successCallback = () => {},
-//                   errorCallback = () => {} ) {
-//   this.errorMessages = {}
-//   this.formSubmitting = true
-//   try{
-//     const response = await request() || {}
-//     successCallback(response.data)
-//     this.formSubmitting = false
-//   } catch(errors) {
-//     this.errorMessages = errors
-//     errorCallback()
-//     this.formSubmitting = false
-//   }
-// },

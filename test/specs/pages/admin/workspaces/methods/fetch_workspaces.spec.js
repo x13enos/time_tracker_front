@@ -6,6 +6,9 @@ describe('fetchWorkspaces', () => {
     $api: {
       allUsers: () => { return { data: "" } },
       allWorkspaces: () => {}
+    },
+    $config: {
+      extensionEnabled: false
     }
   }
 

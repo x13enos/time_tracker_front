@@ -7,8 +7,14 @@ describe('localeList', () => {
     fetchWorkspaces: () => {},
   }
 
+  const mocks = {
+    $config: {
+      extensionEnabled: false
+    }
+  }
+
   it('should return list of locales', function(){
-    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
 
     expect(wrapper.vm.localeList()).to.eql([
       { text: "English", value: "en" },

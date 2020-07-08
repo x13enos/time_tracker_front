@@ -6,7 +6,10 @@ describe('fetchTimeLockingRules', () => {
     $api: {
       allUsers: () => { return { data: "" } },
       allWorkspaces: () => { return { data: "" } },
-      allTimeLockingRules: () => {} 
+      allTimeLockingRules: () => {}
+    },
+    $config: {
+      extensionEnabled: true
     }
   }
 

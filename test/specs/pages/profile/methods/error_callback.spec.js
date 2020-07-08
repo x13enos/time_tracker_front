@@ -6,8 +6,14 @@ describe("errorCallback", () => {
     fetchWorkspaces: () => {},
   }
 
+  const mocks = {
+    $config: {
+      extensionEnabled: false
+    }
+  }
+
   it('should update snack', () => {
-    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
     const callback = wrapper.vm.errorCallback()
 

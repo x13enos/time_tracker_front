@@ -40,12 +40,4 @@ describe("deleteTask", () => {
     apiStub.restore()
   })
 
-  // async deleteTask ({ commit }, data) {
-  //   const response = await this.$api.deleteTimeRecord(data)
-  //   if (response.success()) {
-  //     commit('deleteTask', data.id)
-  //   }
-  //   return response;
-  // }
-
 })

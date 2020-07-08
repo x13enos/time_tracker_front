@@ -56,7 +56,7 @@
 
     </v-row>
 
-    <template v-if="$appMethods.extensionEnabled()">
+    <template v-if="$config.extensionEnabled">
       <v-divider />
 
       <v-row>

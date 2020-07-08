@@ -24,7 +24,7 @@ export default {
 
   dayIsBlocked(state) {
     return function(day) {
-      if($appMethods.extensionEnabled){
+      if(this.$config.extensionEnabled){
         return state.blockedDays.includes($appMethods.systemFormatDate(day))
       } else {
         return false

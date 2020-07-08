@@ -5,6 +5,9 @@ describe('fetchWorkspaces', () => {
   const mocks = {
     $api: {
       allWorkspaces: () => {}
+    },
+    $config: {
+      extensionEnabled: false
     }
   }
 
