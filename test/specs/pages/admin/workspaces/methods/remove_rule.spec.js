@@ -8,8 +8,14 @@ describe('removeRule', () => {
     fetchTimeLockingRules: () => {}
   }
 
+  const mocks = {
+    $config: {
+      extensionEnabled: true
+    }
+  }
+
   it("should find and remove rule's data from the list", () => {
-    const wrapper = createWrapper(Workspaces, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks, methods }, fakeStoreData())
     wrapper.vm.timeLockingRules = [{ period: "weekly", id: 1 }]
 
     wrapper.vm.removeRule(1)

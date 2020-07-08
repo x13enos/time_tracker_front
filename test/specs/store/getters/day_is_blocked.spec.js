@@ -13,8 +13,10 @@ describe('dayIsBlocked', () => {
       ]
     }
     const getter = getters.dayIsBlocked(state)
+    const mockedNuxtInstance = { $config: { extensionEnabled: true } }
+    const boundGetter = getter.bind(mockedNuxtInstance)
 
-    expect(getter('10/27/2019')).to.be.true
+    expect(boundGetter('10/27/2019')).to.be.true
   })
 
   it("should return false if day wasn't blocked", () => {
@@ -25,7 +27,9 @@ describe('dayIsBlocked', () => {
       ]
     }
     const getter = getters.dayIsBlocked(state)
+    const mockedNuxtInstance = { $config: { extensionEnabled: true } }
+    const boundGetter = getter.bind(mockedNuxtInstance)
 
-    expect(getter('10/30/2019')).to.be.false
+    expect(boundGetter('10/30/2019')).to.be.false
   })
 });

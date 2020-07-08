@@ -1,7 +1,7 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import Tags from '@/pages/admin/tags'
 
-describe('addNewWorkspace', () => {
+describe('addNewTag', () => {
 
   const methods = {
     fetchTags: () => {}

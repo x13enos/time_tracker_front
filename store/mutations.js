@@ -27,7 +27,7 @@ export default {
       Vue.set(state.tasks[timeRecord.assigned_date], timeRecord.id, collectTaskData(timeRecord));
     })
 
-    if(this.$appMethods.extensionEnabled()){
+    if(this.app.$config.extensionEnabled){
       state.blockedDays = data.blocked_days
     }
   },

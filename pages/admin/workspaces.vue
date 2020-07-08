@@ -41,7 +41,7 @@
                 </v-btn>
               </workspace-form>
               <time-locking-rules
-                v-if="$appMethods.extensionEnabled()"
+                v-if="$config.extensionEnabled"
                 :rules="timeLockingRules.filter(r => r.workspace_id === workspace.id)"
                 :workspace="workspace"
                 @addRule="addRule($event)"
@@ -108,7 +108,7 @@ export default {
   mounted(){
     this.fetchWorkspaces();
     this.fetchUsers();
-    if(this.$appMethods.extensionEnabled())
+    if(this.$config.extensionEnabled)
       this.fetchTimeLockingRules();
   },
 

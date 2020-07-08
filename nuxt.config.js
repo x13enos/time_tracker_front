@@ -1,9 +1,10 @@
 require('dotenv').config()
 
 export default {
-  env: {
-    extensionEnabled: process.env.TIME_TRACKER_EXTENSION_ENABLED || "true"
+  publicRuntimeConfig: {
+    extensionEnabled: process.env.TIME_TRACKER_EXTENSION_ENABLED
   },
+  telemetry: false,
   mode: 'spa',
   server: {
     host: process.env.HOST_IP || 'localhost' // default: localhost

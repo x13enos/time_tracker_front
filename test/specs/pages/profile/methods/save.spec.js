@@ -7,8 +7,14 @@ describe("save", () => {
     fetchWorkspaces: () => {},
   }
 
+  const mocks = {
+    $config: {
+      extensionEnabled: false
+    }
+  }
+
   it('should call formSubmit method and pass callbacks', async () => {
-    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
     sinon.stub(wrapper.vm, 'successCallback').returns("successCallback")
     sinon.stub(wrapper.vm, 'errorCallback').returns("errorCallback")
     const formSubmitStub = sinon.stub(wrapper.vm, "$formSubmit")
@@ -27,7 +33,7 @@ describe("save", () => {
       password: '',
       active_workspace_id: 100
     }
-    const wrapper = createWrapper(profile, { methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
     const updateStub = sinon.stub(wrapper.vm, "updateUserProfile").returns(successResponse)
     wrapper.setData({ form: {
       name: 'john',

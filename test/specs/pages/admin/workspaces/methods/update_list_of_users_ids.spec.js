@@ -7,8 +7,14 @@ describe('updateListOfUserIds', () => {
     fetchUsers: () => {}
   }
 
+  const mocks = {
+    $config: {
+      extensionEnabled: false
+    }
+  }
+
   it("should add passed id to the project user ids list", () => {
-    const wrapper = createWrapper(Workspaces, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks, methods }, fakeStoreData())
     wrapper.vm.workspaces = [{ user_ids: [1] }]
 
     wrapper.vm.updateListOfUserIds('assign', { id: 2, email: "admin@gmail.com" }, wrapper.vm.workspaces[0])
@@ -16,7 +22,7 @@ describe('updateListOfUserIds', () => {
   });
 
   it("should remove passed id from the list of project's user ids", () => {
-    const wrapper = createWrapper(Workspaces, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks, methods }, fakeStoreData())
     wrapper.vm.workspaces = [{ user_ids: [1, 2] }]
 
     wrapper.vm.updateListOfUserIds('remove', 2, wrapper.vm.workspaces[0])
@@ -24,7 +30,7 @@ describe('updateListOfUserIds', () => {
   })
 
   it("should add data about new user to users list", () => {
-    const wrapper = createWrapper(Workspaces, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks, methods }, fakeStoreData())
     wrapper.vm.users = [{ email: "admin@gmail.com", id: 1 }]
     wrapper.vm.workspaces = [{ user_ids: [1] }]
 

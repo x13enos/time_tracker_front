@@ -26,7 +26,9 @@ describe('mutation: updateTasks', () => {
   it('should update list of tasks', () => {
     const mutations = Object.assign({}, storeMutations)
     mutations.$appMethods = $appMethods
-    mutations.updateTasks(state, data)
+    const mockedNuxtInstance = { app: { $config: { extensionEnabled: false } } }
+    const boundMutation = mutations.updateTasks.bind(mockedNuxtInstance)
+    boundMutation(state, data)
     expect(state.tasks['1572123600']['1']).to.eql({
       id: 1,
       project: 2,
@@ -40,9 +42,9 @@ describe('mutation: updateTasks', () => {
 
   it('should update list of blocked days if extension was enabled', () => {
     const mutations = Object.assign({}, storeMutations)
-    sinon.stub($appMethods, "extensionEnabled").returns(true)
-    mutations.$appMethods = $appMethods
-    mutations.updateTasks(state, data)
+    const mockedNuxtInstance = { app: { $config: { extensionEnabled: true } } }
+    const boundMutation = mutations.updateTasks.bind(mockedNuxtInstance)
+    boundMutation(state, data)
 
     expect(state.blockedDays).to.eql([1,2,3])
     sinon.restore()

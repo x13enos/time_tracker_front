@@ -10,13 +10,12 @@ describe('mounted', () => {
   }
 
   const mocks = {
-    $appMethods: {
-      extensionEnabled: () => {}
+    $config: {
+      extensionEnabled: true
     }
   }
 
   it("should fetch projects", () => {
-    sinon.stub(mocks.$appMethods, "extensionEnabled").returns(true)
     const methodStub = sinon.stub(methods, 'fetchWorkspaces')
     createWrapper(Workspaces, { methods, mocks }, fakeStoreData())
 
@@ -26,7 +25,6 @@ describe('mounted', () => {
   });
 
   it("should fetch users", () => {
-    sinon.stub(mocks.$appMethods, "extensionEnabled").returns(true)
     const methodStub = sinon.stub(methods, 'fetchUsers')
     createWrapper(Workspaces, { methods, mocks }, fakeStoreData())
 
@@ -36,7 +34,6 @@ describe('mounted', () => {
   });
 
   it("should fetch time locking rules", () => {
-    sinon.stub(mocks.$appMethods, "extensionEnabled").returns(true)
     const methodStub = sinon.stub(methods, 'fetchTimeLockingRules')
     createWrapper(Workspaces, { methods, mocks }, fakeStoreData())
 
@@ -46,7 +43,7 @@ describe('mounted', () => {
   });
 
   it("should not fetch time locking rules in case of not using extensions", () => {
-    sinon.stub(mocks.$appMethods, "extensionEnabled").returns(false)
+    mocks.$config.extensionEnabled = false
     const methodStub = sinon.stub(methods, 'fetchTimeLockingRules')
     createWrapper(Workspaces, { methods, mocks }, fakeStoreData())
 
