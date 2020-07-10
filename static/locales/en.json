@@ -151,6 +151,21 @@
     "please_approve_your_report_for_following_dates": "Please approve that you have filled your timereport for period {from} - {to}.",
     "approve": "Approve"
   },
+  "users": {
+    "title": "User Management",
+    "name": "Name",
+    "role": "Role",
+    "roles": {
+      "admin": "Admin",
+      "staff": "Staff"
+    },
+    "time_reports": {
+      "title": "Time reports",
+      "approved": "Approved",
+      "unapproved": "Unapproved",
+      "period_was_unblocked": "Report was unblocked for re-confirmation."
+    }
+  },
   "validations": {
     "required": "This field is required.",
     "spent_time_format": "should have format \"0.00\"",

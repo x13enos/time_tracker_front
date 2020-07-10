@@ -64,6 +64,18 @@ function Api({ router, store }, appMethods) {
     return client.get("/users")
   }
 
+  this.getUsersForManaging = () => {
+    return client.get("/admin/users")
+  }
+
+  this.getUserTimeReports = (userId) => {
+    return client.get(`/admin/users/${userId}/time_reports`)
+  }
+
+  this.unblockUserTimeReport = (userId, reportId) => {
+    return client.put(`/admin/users/${userId}/time_reports/${reportId}`)
+  }
+
   this.generateReport = (data) => {
     return client.get("/reports", { params: {
       from_date: data.fromDate,
