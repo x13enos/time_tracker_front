@@ -38,6 +38,12 @@
             </v-col>
           </v-row>
 
+          <v-row v-if="timeReports.length === 0">
+            <v-col>
+              {{ $t("users.time_reports.no_reports") }}
+            </v-col>
+          </v-row>
+
         </v-container>
       </v-card-text>
       <v-card-actions>
