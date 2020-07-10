@@ -7,9 +7,15 @@ describe('mounted', () => {
     fetchUsers: () => {}
   }
 
+  const mocks = {
+    $config: {
+      extensionEnabled: true
+    }
+  }
+
   it("should fetch users", () => {
     const methodStub = sinon.stub(methods, 'fetchUsers')
-    createWrapper(Users, { methods }, fakeStoreData())
+    createWrapper(Users, { mocks, methods }, fakeStoreData())
 
     expect(methodStub.calledOnce).to.be.true
 

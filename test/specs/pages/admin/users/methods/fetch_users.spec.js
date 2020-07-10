@@ -5,11 +5,14 @@ describe('fetchUsers', () => {
   const mocks = {
     $api: {
       getUsersForManaging: () => {}
+    },
+    $config: {
+      extensionEnabled: true
     }
   }
 
   const successResponse = {
-    data: [{ name: 'super admin', role: 'admin' }]
+    data: [{ name: 'super admin', role: 'admin', id: 1 }]
   }
 
   it("should call api method for fetching users", async () => {
@@ -27,7 +30,7 @@ describe('fetchUsers', () => {
     const wrapper = createWrapper(Users, { mocks }, fakeStoreData())
 
     await wrapper.vm.fetchUsers()
-    expect(wrapper.vm.users).to.eql([{ name: 'super admin', role: 'admin' }])
+    expect(wrapper.vm.users).to.eql([{ id: 1, name: 'super admin', role: 'admin' }])
 
     sinon.restore()
   })

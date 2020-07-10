@@ -17,7 +17,7 @@
             <td>{{ $t(`users.roles.${user.role}`) }}
             <td align="right">
               <time-reports
-                v-if="$appMethods.extensionEnabled()"
+                v-if="$config.extensionEnabled"
                 :userId="user.id" />
             </td>
           </tr>
@@ -54,7 +54,7 @@ export default {
       if(response.data)
         this.users = response.data
     }
-    
+
   }
 }
 </script>

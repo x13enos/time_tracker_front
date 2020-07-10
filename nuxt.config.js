@@ -2,7 +2,7 @@ require('dotenv').config()
 
 export default {
   publicRuntimeConfig: {
-    extensionEnabled: process.env.TIME_TRACKER_EXTENSION_ENABLED
+    extensionEnabled: process.env.EXTENSION_ENABLED
   },
   telemetry: false,
   mode: 'spa',
