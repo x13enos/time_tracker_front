@@ -68,3 +68,12 @@ it('should not change spent time on 0.01 each 35 seconds', () => {
 
   clock.restore();
 });
+
+it('should set btnStartFocused as false', () => {
+  const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+  sinon.stub(wrapper.vm, "keepActiveTaskIntervalId")
+  wrapper.vm.btnStartFocused = true
+
+  wrapper.vm.start()
+  expect(wrapper.vm.btnStartFocused).to.be.false
+});

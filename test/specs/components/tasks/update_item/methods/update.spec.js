@@ -28,8 +28,36 @@ describe('update', () => {
       active: true
     }])
 
-    actionStub.restore()
-    paramsStub.restore()
+    sinon.restore()
+  });
+
+  it('should call action updateTask and form data should have active status as false', () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
+    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+
+    wrapper.vm.update(false)
+    expect(actionStub.calledOnce).to.be.true
+    expect(actionStub.args[0]).to.eql([{
+      description: "text",
+      active: false
+    }])
+
+    sinon.restore()
+  });
+
+  it('should call action updateTask and form data should not have "active" value', () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
+    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+
+    wrapper.vm.update()
+    expect(actionStub.calledOnce).to.be.true
+    expect(actionStub.args[0]).to.eql([{
+      description: "text"
+    }])
+
+    sinon.restore()
   });
 
   it('should remove pending state if request was successful', async () => {

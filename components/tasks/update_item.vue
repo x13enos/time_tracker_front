@@ -15,7 +15,7 @@
           single-line
           :label="$t('time_sheet.project')"
           :hide-selected="true"
-          :disabled="active || dayIsBlocked"
+          :disabled="dayIsBlocked"
           @focus="selectPendingClass"
           @change="onlyUpdate()"
         ></v-select>
@@ -27,7 +27,7 @@
             :placeholder="$t('time_sheet.description')"
             autocomplete="off"
             @input="selectPendingClass"
-            :disabled="active || dayIsBlocked"
+            :disabled="dayIsBlocked"
             rows="1"
             :auto-grow="true"
             @blur="onlyUpdate()"
@@ -186,7 +186,6 @@ export default {
 
   watch: {
     active: function(value){
-      this.btnStartFocused = value
       if(value)
         this.start()
     }
@@ -212,12 +211,13 @@ export default {
         this.update()
     },
 
-    async update(state=false){
+    async update(launch=undefined){
       if(!this.valid)
         return
 
       const params = this.formData()
-      params.active = state
+      if(typeof launch !== 'undefined')
+        params.active = launch
 
       try{
         this.errorMessages = []
@@ -249,11 +249,12 @@ export default {
           id: this.id })
       }, 36000);
       this.keepActiveTaskIntervalId(intervalId)
+      this.btnStartFocused = false
     },
 
     stop(){
       this.clearActiveTaskIntervalId()
-      this.update()
+      this.update(false)
     },
 
     selectPendingClass(){
