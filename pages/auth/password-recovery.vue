@@ -6,11 +6,14 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <v-form v-model="valid">
+      <v-form
+        @submit.prevent
+        v-model="valid">
         <v-text-field
           v-model.trim="$v.email.$model"
           :label="$t('password_recovery.email')"
           type="email"
+          @keyup.enter.prevent="submit"
           :error-messages="$formErrorMessage('email', ['required', 'email'])"
         />
       </v-form>
@@ -22,7 +25,7 @@
       <v-btn
         color="primary"
         :block="true"
-        @click="submit()"
+        @click="submit"
         :disabled="!valid || !this.email">
         {{ $t('password_recovery.reset_password') }}
       </v-btn>

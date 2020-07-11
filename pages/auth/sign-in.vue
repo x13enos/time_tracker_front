@@ -6,11 +6,14 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <v-form v-model="valid">
+      <v-form
+        @submit.prevent
+        v-model="valid">
         <v-text-field
           v-model.trim="$v.form.email.$model"
           :label="$t('login_form.email')"
           type="email"
+          @keyup.enter.prevent="onSubmit"
           :error-messages="$formErrorMessage('email', ['required', 'email'])"
         />
         <v-text-field
@@ -18,11 +21,12 @@
           v-model.trim="$v.form.password.$model"
           :label="$t('login_form.password')"
           type="password"
+          @keyup.enter.prevent="onSubmit"
           :error-messages="$formErrorMessage('password', ['required'])"
         />
       </v-form>
-      <v-checkbox 
-        v-model="form.rememberMe" 
+      <v-checkbox
+        v-model="form.rememberMe"
         :label="$t('login_form.remember_me')" />
 
       <span class='red--text' v-if="!!errorMessages.base">

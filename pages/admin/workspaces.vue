@@ -31,7 +31,7 @@
                 @updateListOfUsers="updateListOfUserIds(...arguments, workspace)" />
             </td>
             <td align="right">
-              <workspace-form :workspace="workspace" @processData="updateWorspaceData(workspace.id, $event)">
+              <workspace-form :workspace="workspace" @processData="updateWorkspaceData(workspace.id, $event)">
                 <v-btn
                   color="primary"
                   fab

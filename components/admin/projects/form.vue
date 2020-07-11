@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog
+    @keydown.esc="dialog = false"
+    v-model="dialog"
+    persistent
+    max-width="600px">
     <template v-slot:activator="{ on }">
       <span v-on="on">
         <slot />
@@ -13,8 +17,9 @@
         <v-container>
 
           <v-form
-          ref="form"
-          v-model="valid">
+            @submit.prevent
+            ref="form"
+            v-model="valid">
             <v-row>
               <v-col cols="12">
                 <v-text-field
@@ -22,6 +27,7 @@
                 v-model.trim="$v.form.name.$model"
                 :error-messages="$formErrorMessage('name', ['required'])"
                 @keydown="$formErrorMessageCleanUp('name')"
+                @keyup.enter.prevent="submit"
                 required />
               </v-col>
 
@@ -30,6 +36,7 @@
                 :label="$t('projects.regexp_of_grouping')"
                 :error-messages="$formErrorMessage('regexp_of_grouping')"
                 @keydown="$formErrorMessageCleanUp('regexp_of_grouping')"
+                @keyup.enter.prevent="submit"
                 v-model.trim="$v.form.regexp_of_grouping.$model"/>
               </v-col>
             </v-row>
@@ -43,7 +50,7 @@
         <v-btn
           color="blue darken-1"
           text
-          @click="newProject ? create() : update()"
+          @click="submit"
           :disabled="!valid || !form.name">
           {{ $t(`${ newProject ? "create" : "update" }`)}}
         </v-btn>
@@ -111,6 +118,10 @@
           this.successUpdatedCallback(),
           this.errorCallback(this.$t("projects.was_not_updated"))
         )
+      },
+
+      submit(){
+        this.newProject ? this.create() : this.update()
       },
 
       successCreatedCallback() {

@@ -17,11 +17,14 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-card-text>
-      <v-form v-model="valid">
+      <v-form
+        @submit.prevent
+        v-model="valid">
         <v-text-field
           v-model.trim="$v.form.password.$model"
           :label="$t('password-reset.password')"
           type="password"
+          @keyup.enter.prevent="submit"
           :error-messages="$formErrorMessage('password', ['required', 'passwordLength'])"
         />
         <v-text-field
@@ -29,6 +32,7 @@
           v-model.trim="$v.form.confirmPassword.$model"
           :label="$t('password-reset.confirm_password')"
           type="password"
+          @keyup.enter.prevent="submit"
           :error-messages="$formErrorMessage('confirmPassword', ['required', 'sameAsPassword'])"
         />
       </v-form>
