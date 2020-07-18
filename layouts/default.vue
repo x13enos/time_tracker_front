@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Header />
-    <v-content>
+    <v-main>
       <v-container :fluid="true" class="main-container">
         <v-row align="start" justify="start" class="main-row">
           <v-col cols="12">
@@ -10,7 +10,7 @@
           </v-col>
         </v-row>
       </v-container>
-    </v-content>
+    </v-main>
 
     <Snackbar />
   </v-app>

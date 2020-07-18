@@ -1,6 +1,7 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import { RouterLinkStub } from '@vue/test-utils'
 import header from '@/components/layout/header'
+import Vuetify from 'vuetify'
 
 describe('signOut', () => {
   const mocks = {
@@ -15,7 +16,12 @@ describe('signOut', () => {
   it('should call api method for sign out ', async () => {
     const actionSpy = sinon.spy(mocks.$api, "signOut")
     const wrapper = createWrapper(header,
-      { mocks, computed, stubs: { NuxtLink: RouterLinkStub } },
+      {
+        mocks,
+        computed,
+        stubs: { NuxtLink: RouterLinkStub },
+        vuetify: new Vuetify()
+      },
       fakeStoreData()
     )
 
@@ -27,7 +33,12 @@ describe('signOut', () => {
 
   it('should redirect to sign in page', async () => {
     const wrapper = createWrapper(header,
-      { mocks, computed, stubs: { NuxtLink: RouterLinkStub } },
+      {
+        mocks,
+        computed,
+        stubs: { NuxtLink: RouterLinkStub },
+        vuetify: new Vuetify()
+      },
       fakeStoreData()
     )
     const routerStub = sinon.stub(wrapper.vm.$router, "push")
