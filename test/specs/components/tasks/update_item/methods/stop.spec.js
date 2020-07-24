@@ -30,7 +30,7 @@ describe('stop', () => {
     const updateStub = sinon.stub(wrapper.vm, "update")
 
     wrapper.vm.stop()
-    expect(updateStub.calledOnce).to.be.true
+    expect(updateStub.calledOnceWith(false)).to.be.true
     updateStub.restore()
   });
 
