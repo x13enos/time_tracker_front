@@ -8,7 +8,7 @@
   <v-card v-else class="elevation-12">
     <v-card-text>
       <span class='red--text' v-if="!!errorMessages.base">
-        {{ errorMessages.base }}
+        {{ errorMessages.base.join(", ") }}
       </span>
       <div v-else class="loader" />
     </v-card-text>
