@@ -5,7 +5,10 @@
     :top="true"
     :right="true">
     {{ snack.message }}
-    <v-icon @click="show = false">mdi-close-circle</v-icon>
+
+    <template v-slot:action="{ attrs }">
+      <v-icon v-bind="attrs" @click="show = false">mdi-close-circle</v-icon>
+    </template>
   </v-snackbar>
 </template>
 
