@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog
+    @keydown.esc="dialog = false"
+    v-model="dialog"
+    persistent
+    max-width="600px">
     <template v-slot:activator="{ on }">
       <span v-on="on">
         <span>{{ userNames }}</span>

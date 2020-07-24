@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog
+    @keydown.esc="dialog = false"
+    v-model="dialog"
+    persistent
+    max-width="600px">
     <template v-slot:activator="{ on }">
       <span v-on="on">
         <slot />
@@ -13,13 +17,15 @@
         <v-container>
 
           <v-form
-          ref="form"
-          v-model="valid">
+            ref="form"
+            @submit.prevent
+            v-model="valid">
             <v-row>
               <v-col cols="12">
                 <v-text-field
                 :label="$t('workspaces.name')"
                 v-model.trim="$v.form.name.$model"
+                @keyup.enter.prevent="submit"
                 :error-messages="$formErrorMessage('name', ['required'])"
                 required />
               </v-col>
@@ -34,7 +40,7 @@
         <v-btn
           color="blue darken-1"
           text
-          @click="newWorkspace ? create() : update()"
+          @click="submit"
           :disabled="!valid || !form.name">
           {{ $t(`${ newWorkspace ? "create" : "update" }`)}}
         </v-btn>
@@ -103,7 +109,11 @@
         this.dialog = false
         this.updateSnack({ message: this.$t("workspaces.was_updated"), color: "green" })
         this.$emit("processData", response.data)
-      }
+      },
+
+      submit(){
+        this.newWorkspace ? this.create() : this.update()
+      },
     }
   }
 </script>

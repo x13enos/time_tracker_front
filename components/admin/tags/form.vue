@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog
+    v-model="dialog"
+    @keydown.esc="dialog = false"
+    persistent
+    max-width="600px">
     <template v-slot:activator="{ on }">
       <span v-on="on">
         <slot />
@@ -13,8 +17,9 @@
         <v-container>
 
           <v-form
-          ref="form"
-          v-model="valid">
+            ref="form"
+            @submit.prevent
+            v-model="valid">
             <v-row>
               <v-col cols="12">
                 <v-text-field
@@ -22,6 +27,7 @@
                 v-model.trim="$v.form.name.$model"
                 :error-messages="$formErrorMessage('name', ['required'])"
                 @keydown="$formErrorMessageCleanUp('name')"
+                @keyup.enter.prevent="submit"
                 required />
               </v-col>
             </v-row>
@@ -35,7 +41,7 @@
         <v-btn
           color="blue darken-1"
           text
-          @click="newTag ? create() : update()"
+          @click="submit"
           :disabled="!valid || !form.name">
           {{ $t(`${ newTag ? "create" : "update" }`)}}
         </v-btn>
@@ -101,6 +107,10 @@
           this.successUpdatedCallback(),
           this.errorCallback(this.$t("tags.was_not_updated"))
         )
+      },
+
+      submit(){
+        this.newTag ? this.create() : this.update()
       },
 
       successCreatedCallback() {

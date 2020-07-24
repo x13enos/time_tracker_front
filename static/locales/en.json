@@ -113,7 +113,9 @@
     "users_management": "Users management",
     "regexp_of_grouping": "Regular expression of grouping tasks",
     "was_created": "Project was succesfully created!",
+    "was_not_created": "Project wasn't created.",
     "was_updated": "Project was succesfully updated!",
+    "was_not_updated": "Project wasn't updated.",
     "was_deleted": "Project was succesfully deleted!",
     "change_details": "Change details"
   },

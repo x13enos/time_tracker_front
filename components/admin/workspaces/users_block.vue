@@ -1,5 +1,9 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog
+    @keydown.esc="dialog = false"
+    v-model="dialog"
+    persistent
+    max-width="600px">
     <template v-slot:activator="{ on }">
       <span v-on="on">
         <span>{{ userNames }}</span>
@@ -31,7 +35,7 @@
 
           <v-row v-if="newUser">
             <v-col cols="10">
-              <v-form v-model="valid">
+              <v-form @submit.prevent v-model="valid">
                 <v-text-field
                   label="Email"
                   v-model.trim="$v.email.$model"
