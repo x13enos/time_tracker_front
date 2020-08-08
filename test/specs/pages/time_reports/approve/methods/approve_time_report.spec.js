@@ -46,11 +46,11 @@ describe("approveTimeReport", () => {
 
   it('should update errorMessage in case of failed request', async () => {
     const $api = { approveTimeReport: () => { return successResponse } }
-    sinon.stub($api, "approveTimeReport").rejects({ base: 'error' })
+    sinon.stub($api, "approveTimeReport").rejects({ base: ['error', 'another error'] })
     const wrapper = createWrapper(TimeReportApprove, { mocks: { $api, $route } }, fakeStoreData())
 
     await wrapper.vm.approveTimeReport()
-    expect(wrapper.vm.errorMessages).to.eql({ base: 'error' })
+    expect(wrapper.vm.errorMessages).to.eql({ base: ['error', 'another error'] })
 
     sinon.restore()
   });

@@ -4,6 +4,7 @@ import profile from '@/pages/profile'
 describe("errorCallback", () => {
   const methods = {
     fetchWorkspaces: () => {},
+    setNotificationValues: () => {}
   }
 
   const mocks = {

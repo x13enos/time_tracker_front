@@ -2,13 +2,16 @@ import Vue from 'vue'
 
 export default {
   updatePersonalInfo (state, userData) {
-    const { id, name, email, locale, role } = userData
-    const activeWorkspaceId = userData.active_workspace_id
-    const telegramToken = userData.telegram_token
-    const telegramActive = userData.telegram_active
+    const {
+      id, name, email, locale, role,
+       active_workspace_id: activeWorkspaceId,
+       telegram_token: telegramToken,
+       telegram_active: telegramActive,
+       notification_settings: notificationSettings
+    } = userData
 
     Object.assign(state.user, {
-      id, name, email, locale, role, activeWorkspaceId, telegramToken, telegramActive
+      id, name, email, locale, role, activeWorkspaceId, telegramToken, telegramActive, notificationSettings
     })
     state.unapprovedPeriods = userData.unapproved_periods || []
     this.$i18n.locale = locale

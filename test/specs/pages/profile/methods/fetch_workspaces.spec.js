@@ -11,9 +11,13 @@ describe('fetchWorkspaces', () => {
     }
   }
 
+  const methods = {
+    setNotificationValues: () => {}
+  }
+
   it('should call api method for fetching workspaces', async () => {
     const apiStub = sinon.stub(mocks.$api, "allWorkspaces").returns({ data: [] })
-    await createWrapper(profile, { mocks }, fakeStoreData())
+    await createWrapper(profile, { mocks, methods }, fakeStoreData())
 
     expect(apiStub.called).to.be.true
     sinon.restore()
@@ -23,7 +27,7 @@ describe('fetchWorkspaces', () => {
     const apiStub = sinon.stub(mocks.$api, "allWorkspaces").returns({ data: [
       { name: "test-workspace", id: 105 }
     ] })
-    const wrapper = await createWrapper(profile, { mocks }, fakeStoreData())
+    const wrapper = await createWrapper(profile, { mocks, methods }, fakeStoreData())
 
     expect(wrapper.vm.workspaceList).to.eql([{ text: "test-workspace", value: 105 }])
     sinon.restore()
