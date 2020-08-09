@@ -29,11 +29,20 @@
     "email_is_required": "Поле 'Email' обязательно",
     "email_must_be_valid": "E-mail должен иметь правильный формат",
     "password_should_contain": "Пароль должен содержать не менее 8 символов",
-    "notification_settings": "Настройки оповещений",
     "telegram_token": "Телеграм токен",
     "token_was_copied": "Токен был скопирован",
     "click_for_copy": "Нажмите, чтобы скопировать",
-    "account_was_linked": "Телеграм аккаунт был привязан"
+    "account_was_linked": "Телеграм аккаунт был привязан",
+    "notification_settings": {
+      "title": "Настройки оповещений",
+      "email": "Email",
+      "telegram": "Телеграм",
+      "email_assign_user_to_project": "Добавление к новым проектам",
+      "email_approve_period": "Подтверждение отчетов",
+      "telegram_assign_user_to_project": "Добавление к новым проектам",
+      "telegram_approve_period": "Подтверждение отчетов",
+      "telegram_daily_report": "Ежедневный отчет"
+    }
   },
   "login_form": {
     "title": "Вход на Time Tracker",

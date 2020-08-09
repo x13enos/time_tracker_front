@@ -5,6 +5,7 @@ describe("save", () => {
   const successResponse = { success: () => { return true } }
   const methods = {
     fetchWorkspaces: () => {},
+    setNotificationValues: () => {}
   }
 
   const mocks = {
@@ -31,7 +32,10 @@ describe("save", () => {
       email: 'john@gmail.com',
       locale: 'ru',
       password: '',
-      active_workspace_id: 100
+      active_workspace_id: 100,
+      notification_settings_attributes: {
+        rules: ["email_approve_period", "telegram_assign_user_to_project"]
+      }
     }
     const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
     const updateStub = sinon.stub(wrapper.vm, "updateUserProfile").returns(successResponse)
@@ -40,7 +44,9 @@ describe("save", () => {
       email: 'john@gmail.com',
       locale: 'ru',
       password: '',
-      activeWorkspaceId: 100
+      activeWorkspaceId: 100,
+      emailSettings: ["email_approve_period"],
+      telegramSettings: ["telegram_assign_user_to_project"]
     } })
     wrapper.vm.save()
 

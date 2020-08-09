@@ -56,28 +56,34 @@
 
     </v-row>
 
-    <template v-if="$config.extensionEnabled">
-      <v-divider />
+    <v-divider />
 
-      <v-row>
-        <v-col class="col-12">
-          <h2>{{ $t("profile.notification_settings") }}</h2>
+    <v-row>
+      <v-col class="col-12">
+        <h2>{{ $t("profile.notification_settings.title") }}</h2>
 
-          <p class="mt-2">
-            {{ $t("profile.telegram_token") }}
-            <v-tooltip top>
-              <template v-slot:activator="{ on, attrs }">
-                <code v-bind="attrs" v-on="on" v-clipboard="user.telegramToken" @click="updateSnack({ message: $t('profile.token_was_copied'), color: 'success' })">{{ user.telegramToken }}</code>
-              </template>
-              <span>{{ $t('profile.click_for_copy') }}</span>
-            </v-tooltip>
-            <span v-if="user.telegramActive">
-              - {{ $t("profile.account_was_linked") }} <v-icon class="mr-2" color="success">mdi-check-circle</v-icon>
-            </span>
-          </p>
-        </v-col>
-      </v-row>
-    </template>
+        <p v-if="$config.extensionEnabled" class="mt-2">
+          {{ $t("profile.telegram_token") }}
+          <v-tooltip top>
+            <template v-slot:activator="{ on, attrs }">
+              <code v-bind="attrs" v-on="on" v-clipboard="user.telegramToken" @click="updateSnack({ message: $t('profile.token_was_copied'), color: 'success' })">{{ user.telegramToken }}</code>
+            </template>
+            <span>{{ $t('profile.click_for_copy') }}</span>
+          </v-tooltip>
+          <span v-if="user.telegramActive">
+            - {{ $t("profile.account_was_linked") }} <v-icon class="mr-2" color="success">mdi-check-circle</v-icon>
+          </span>
+        </p>
+
+        <h3>{{ $t("profile.notification_settings.email") }}:</h3>
+        <notification-settings v-model="form.emailSettings" typeOfNotifications="email" />
+
+        <template v-if="$config.extensionEnabled && user.telegramActive">
+          <h3>{{ $t("profile.notification_settings.telegram") }}:</h3>
+          <notification-settings v-model="form.telegramSettings" typeOfNotifications="telegram" />
+        </template>
+      </v-col>
+    </v-row>
 
     <v-divider />
 
@@ -101,6 +107,7 @@
 </template>
 
 <script>
+import NotificationSettings from "~/components/profile/notification_settings.vue"
 import { validationMixin } from 'vuelidate'
 import formMixin from '@/mixins/form'
 import { required, email, helpers } from 'vuelidate/lib/validators'
@@ -110,6 +117,9 @@ import Clipboard from 'v-clipboard'
 export default {
 
   mixins: [validationMixin, formMixin],
+  components: {
+    "notification-settings": NotificationSettings
+  },
 
   data() {
     return {
@@ -122,7 +132,9 @@ export default {
         email: "",
         locale: "",
         password: "",
-        activeWorkspaceId: ""
+        activeWorkspaceId: "",
+        emailSettings: [],
+        telegramSettings: []
       }
     }
   },
@@ -137,9 +149,10 @@ export default {
     }
   },
 
-  mounted(){
+  created(){
     Object.assign(this.form, this.user)
     this.fetchWorkspaces()
+    this.setNotificationValues()
   },
 
   computed: {
@@ -155,6 +168,12 @@ export default {
         { text: "English", value: "en" },
         { text: "Русский", value: "ru" }
       ]
+    },
+
+    setNotificationValues() {
+      this.form.emailSettings = this.user.notificationSettings.filter((v) => v.indexOf("email") > -1)
+      if (this.$config.extensionEnabled)
+        this.form.telegramSettings = this.user.notificationSettings.filter((v) => v.indexOf("telegram") > -1)
     },
 
     async fetchWorkspaces(){
@@ -196,12 +215,15 @@ function handleFormParams(formData) {
     email,
     locale,
     password,
-    active_workspace_id: formData.activeWorkspaceId
+    active_workspace_id: formData.activeWorkspaceId,
+    notification_settings_attributes: {
+      rules: [...formData.emailSettings, ...formData.telegramSettings]
+    }
   }
 }
 
 const passwordLength = (value) => {
-  return !helpers.req(value) || (value.length >=8 && value.length <= 32);
+  return !helpers.req(value) || (value.length >= 8 && value.length <= 32);
 };
 </script>
 

@@ -31,11 +31,20 @@
     "email_is_required": "Email is required",
     "email_must_be_valid": "E-mail must be valid",
     "password_should_contain": "Password should contain at least 8 characters",
-    "notification_settings": "Notification Settings",
     "telegram_token": "Telegram token",
     "token_was_copied": "Token was copied",
     "click_for_copy": "Click for copy",
-    "account_was_linked": "Account was linked"
+    "account_was_linked": "Account was linked",
+    "notification_settings": {
+      "title": "Notification Settings",
+      "email": "Email",
+      "telegram": "Telegram",
+      "email_assign_user_to_project": "Assigning to new projects",
+      "email_approve_period": "Approve time reports",
+      "telegram_assign_user_to_project": "Assigning to new projects",
+      "telegram_approve_period": "Approve time reports",
+      "telegram_daily_report": "Daily report"
+    }
   },
   "login_form": {
     "title": "Log into Time Tracker",
