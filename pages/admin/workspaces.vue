@@ -25,10 +25,7 @@
           <tr v-for="workspace in workspaces" :key="workspace.id">
             <td>{{ workspace.name }}</td>
             <td>
-              <users-block
-                :workspace="workspace"
-                :allUsers="users"
-                @updateListOfUsers="updateListOfUserIds(...arguments, workspace)" />
+              <users-block :workspace="workspace"/>
             </td>
             <td align="right">
               <workspace-form :workspace="workspace" @processData="updateWorkspaceData(workspace.id, $event)">
@@ -98,7 +95,6 @@ export default {
   data() {
     return {
       workspaces: [],
-      users: [],
       timeLockingRules: [],
       deleteDialog: false,
       deletingWorkspaceId: null
@@ -107,7 +103,6 @@ export default {
 
   mounted(){
     this.fetchWorkspaces();
-    this.fetchUsers();
     if(this.$config.extensionEnabled)
       this.fetchTimeLockingRules();
   },
@@ -119,12 +114,6 @@ export default {
       const response = await this.$api.allWorkspaces()
       if(response.data)
         this.workspaces = response.data
-    },
-
-    async fetchUsers(){
-      const response = await this.$api.allUsers()
-      if(response.data)
-        this.users = response.data
     },
 
     async fetchTimeLockingRules(){
@@ -154,16 +143,6 @@ export default {
         this.updateSnack({ message: this.$t("workspaces.was_deleted"), color: "green" })
         const workspaceIndex = this.workspaces.findIndex(p => p.id === this.deletingWorkspaceId)
         this.$delete(this.workspaces, workspaceIndex)
-      }
-    },
-
-    updateListOfUserIds(action, user, workspace){
-      if(action === "assign"){
-        workspace.user_ids.push(user.id)
-        if(!this.users.some(u => u.id === user.id))
-          this.users.push(user)
-      } else {
-        workspace.user_ids = workspace.user_ids.filter(id => id !== user)
       }
     },
 

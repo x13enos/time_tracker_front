@@ -6,8 +6,6 @@
     max-width="600px">
     <template v-slot:activator="{ on }">
       <span v-on="on">
-        <span>{{ userNames }}</span>
-        <span v-if="assignedUsers.length > 2">... +{{ assignedUsers.length - 2 }}</span>
         <v-btn
           class="ma-2"
           color="success"
@@ -65,7 +63,7 @@
             <v-col cols="4">
               {{ user.email }}
             </v-col>
-            <v-col v-if="isNotCurrentUser(user)" cols="4" align="end">
+            <v-col v-if="appropriateUser(user)" cols="4" align="end">
               <v-btn
                 color="error"
                 fab
@@ -106,12 +104,7 @@
       workspace: {
         type: Object,
         required: true
-      },
-
-      allUsers: {
-        type: Array,
-        required: true
-      },
+      }
     },
 
     data() {
@@ -120,6 +113,7 @@
         dialog: false,
         email: null,
         valid: false
+        users: []
       }
     },
 
@@ -133,23 +127,32 @@
       }
     },
 
+    watch: {
+      dialog: function(value) {
+        if(value)
+          this.fetchUsersByWorkspace()
+      }
+    },
+
     computed: {
       assignedUsers: function(){
         return this.allUsers.filter((user) => {
           return this.workspace.user_ids.includes(user.id)
         })
-      },
-
-      userNames: function() {
-        const names = this.assignedUsers.map((u) => u.name )
-        return names.sort().slice(0, 2).join(', ')
       }
     },
 
     methods: {
-      isNotCurrentUser(user){
-        return this.$store.state.user.id !== user.id
+      appropriateUser(user){
+        return this.$store.state.user.id !== user.id || user.role === 'owner'
       },
+
+      async fetchUsersByWorkspace() {
+        const response = await this.$api.getUsersByWorkspace(this.workspace.id)
+        if(response.data)
+          this.users = response.data
+      },
+
 
       async removeUser(user){
         const response = await this.$api.removeUserFromWorkspace(this.workspace.id, user.id)

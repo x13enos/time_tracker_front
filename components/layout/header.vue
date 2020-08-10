@@ -25,25 +25,25 @@
           </v-btn>
         </nuxt-link>
 
-        <nuxt-link v-if="isAdmin" to="/admin/projects">
+        <nuxt-link v-if="isManager" to="/admin/projects">
           <v-btn text>
             {{ $t("navigation.projects") }}
           </v-btn>
         </nuxt-link>
 
-        <nuxt-link v-if="isAdmin" to="/admin/users">
+        <nuxt-link v-if="isManager" to="/admin/users">
           <v-btn text>
             {{ $t("navigation.users") }}
           </v-btn>
         </nuxt-link>
 
-        <nuxt-link v-if="isAdmin" to="/admin/tags">
+        <nuxt-link v-if="isManager" to="/admin/tags">
           <v-btn text>
             {{ $t("navigation.tags") }}
           </v-btn>
         </nuxt-link>
 
-        <nuxt-link v-if="isAdmin" to="/admin/workspaces">
+        <nuxt-link v-if="isManager" to="/admin/workspaces">
           <v-btn text>
             {{ $t("navigation.workspaces") }}
           </v-btn>
@@ -92,7 +92,7 @@
           </nuxt-link>
 
           <nuxt-link to="/admin/projects">
-            <v-list-item v-if="isAdmin">
+            <v-list-item v-if="isManager">
               <v-list-item-title>
                 {{ $t("navigation.projects") }}
               </v-list-item-title>
@@ -100,7 +100,7 @@
           </nuxt-link>
 
           <nuxt-link to="/admin/users">
-            <v-list-item v-if="isAdmin">
+            <v-list-item v-if="isManager">
               <v-list-item-title>
                 {{ $t("navigation.users") }}
               </v-list-item-title>
@@ -108,7 +108,7 @@
           </nuxt-link>
 
           <nuxt-link to="/admin/tags">
-            <v-list-item v-if="isAdmin">
+            <v-list-item v-if="isManager">
               <v-list-item-title>
                 {{ $t("navigation.tags") }}
               </v-list-item-title>
@@ -116,7 +116,7 @@
           </nuxt-link>
 
           <nuxt-link to="/admin/workspaces">
-            <v-list-item v-if="isAdmin">
+            <v-list-item v-if="isManager">
               <v-list-item-title>
                 {{ $t("navigation.workspaces") }}
               </v-list-item-title>
@@ -149,7 +149,7 @@ import { mapGetters } from 'vuex'
 
 export default {
   computed: {
-    ...mapGetters(["isAdmin"]),
+    ...mapGetters(["isManager"]),
 
     isMobile(){
       return this.$vuetify.breakpoint.smAndUp;

@@ -51,12 +51,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['isAdmin']),
+    ...mapGetters(['isManager']),
 
     rules() {
       const settings = this.$config.extensionEnabled ? EXTENDED_NOTIFICATION_SETTINGS : NOTIFICATION_SETTINGS;
       const notifications = settings[this.typeOfNotifications];
-      if(this.isAdmin){
+      if(this.isManager){
         return [...notifications.everyone, ...notifications.admin];
       }
       else

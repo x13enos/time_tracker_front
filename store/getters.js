@@ -9,8 +9,16 @@ export default {
     return state.pendingTasks.length > 0
   },
 
-  isAdmin (state) {
+  isManager (state) {
     return state.user.role === 'admin'
+  },
+
+  isOwner (state) {
+    return state.user.role === 'owner'
+  },
+
+  isManager (state) {
+    return ['owner', 'admin'].includes(state.user.role)
   },
 
   totalTimeOfWeeklyTasks(state) {
