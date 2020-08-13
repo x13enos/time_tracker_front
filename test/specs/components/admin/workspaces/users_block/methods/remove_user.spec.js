@@ -7,11 +7,8 @@ describe('removeUser', () => {
   const propsData = {
     workspace: {
       id: 111,
-      name: "test-workspace",
-      user_ids: [1, 2, 3]
-    },
-
-    allUsers: []
+      name: "test-workspace"
+    }
   }
 
   const mocks = {
@@ -22,8 +19,7 @@ describe('removeUser', () => {
 
   it('should call api method for removing user from workspaces', () => {
     const methodStub = sinon.stub(mocks.$api, 'removeUserFromWorkspace').returns(successResponse)
-    const storeData = fakeStoreData()
-    const wrapper = createWrapper(UsersBlock, { propsData, mocks }, storeData)
+    const wrapper = createWrapper(UsersBlock, { propsData, mocks }, fakeStoreData())
 
     wrapper.vm.removeUser(user)
     expect(methodStub.calledOnceWith(111, 2)).to.be.true
@@ -31,14 +27,15 @@ describe('removeUser', () => {
     sinon.restore()
   });
 
-  it('should emit user id if api request was successful', async () => {
+  it('should emit remove user from list if api request was successful', async () => {
     const methodStub = sinon.stub(mocks.$api, 'removeUserFromWorkspace').returns(successResponse)
-    const storeData = fakeStoreData()
-    const wrapper = createWrapper(UsersBlock, { propsData, mocks }, storeData)
+    const wrapper = createWrapper(UsersBlock, { propsData, mocks }, fakeStoreData())
+    wrapper.vm.users = [{ id: 1 }, { id: 2}]
 
     await wrapper.vm.removeUser(user)
-    expect(wrapper.emitted("updateListOfUsers")[0]).to.eql(["remove", 2])
+    expect(wrapper.vm.users).to.eql([{ id: 1 }])
 
     sinon.restore()
   });
+
 });

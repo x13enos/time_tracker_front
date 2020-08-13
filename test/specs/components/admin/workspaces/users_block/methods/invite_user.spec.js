@@ -7,11 +7,8 @@ describe('inviteUser', () => {
   const propsData = {
     workspace: {
       id: 111,
-      name: "test-workspace",
-      user_ids: [1, 2, 3]
-    },
-
-    allUsers: []
+      name: "test-workspace"
+    }
   }
 
   const mocks = {
@@ -31,12 +28,12 @@ describe('inviteUser', () => {
     sinon.restore()
   });
 
-  it('should emit user data if api request was successful', async () => {
+  it('should add new user data to the list if api request was successful', async () => {
     sinon.stub(mocks.$api, 'inviteUser').returns(successResponse)
     const wrapper = createWrapper(UsersBlock, { propsData, mocks }, fakeStoreData())
 
     await wrapper.vm.inviteUser(user)
-    expect(wrapper.emitted("updateListOfUsers")[0]).to.eql(["assign", successResponse.data])
+    expect(wrapper.vm.users).to.eql([{ email: "admin@gmail.com" }])
 
     sinon.restore()
   });

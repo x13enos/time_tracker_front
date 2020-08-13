@@ -56,7 +56,7 @@
           <v-divider v-if="newUser" />
 
 
-          <v-row class='active-user' v-for="user in assignedUsers" :key="user.id">
+          <v-row class='active-user' v-for="user in users" :key="user.id">
             <v-col cols="4">
               {{ user.name }}
             </v-col>
@@ -93,7 +93,7 @@
 
   const contains = (param) =>
     (value) => {
-      return !param.some(u => u.email == value);
+      return !param.some(u => u.email === value);
     };
 
 
@@ -112,7 +112,7 @@
         newUser: false,
         dialog: false,
         email: null,
-        valid: false
+        valid: false,
         users: []
       }
     },
@@ -122,7 +122,7 @@
         email: {
           required,
           email,
-          workspaceAlreadyContainsUser: contains(this.assignedUsers)
+          workspaceAlreadyContainsUser: contains(this.users)
         }
       }
     },
@@ -134,17 +134,9 @@
       }
     },
 
-    computed: {
-      assignedUsers: function(){
-        return this.allUsers.filter((user) => {
-          return this.workspace.user_ids.includes(user.id)
-        })
-      }
-    },
-
     methods: {
       appropriateUser(user){
-        return this.$store.state.user.id !== user.id || user.role === 'owner'
+        return this.$store.state.user.id !== user.id && user.role !== 'owner'
       },
 
       async fetchUsersByWorkspace() {
@@ -154,17 +146,17 @@
       },
 
 
-      async removeUser(user){
-        const response = await this.$api.removeUserFromWorkspace(this.workspace.id, user.id)
+      async removeUser(deletedUser){
+        const response = await this.$api.removeUserFromWorkspace(this.workspace.id, deletedUser.id)
         if(response.data){
-          this.$emit("updateListOfUsers", "remove", user.id)
+          this.users = this.users.filter(user => user.id !== deletedUser.id)
         }
       },
 
       async inviteUser(){
         const response = await this.$api.inviteUser(this.workspace.id, this.email)
         if(response.data){
-          this.$emit("updateListOfUsers", "assign", response.data)
+          this.users.push(response.data)
           this.closeDialogOfInvitingUser()
         }
       },

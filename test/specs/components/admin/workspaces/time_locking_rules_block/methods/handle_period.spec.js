@@ -1,6 +1,5 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import RulesBlock from '@/components/admin/workspaces/time_locking_rules_block'
-import GlobalMethods from '@/services/global_methods'
 
 describe('handlePeriod', () => {
 

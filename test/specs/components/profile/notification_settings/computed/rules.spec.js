@@ -12,7 +12,7 @@ describe('rules', () => {
     it('should return email rules for admin', () => {
       const store = fakeStoreData();
       store.getters = {
-        isAdmin: () => true
+        isManager: () => true
       }
       const propsData = { value: [], typeOfNotifications: "email" }
       const wrapper = createWrapper(NotificationSettings, { propsData, mocks }, store)
@@ -23,7 +23,7 @@ describe('rules', () => {
     it('should return email rules for user', () => {
       const store = fakeStoreData();
       store.getters = {
-        isAdmin: () => false
+        isManager: () => false
       }
       const propsData = { value: [], typeOfNotifications: "email" }
       const wrapper = createWrapper(NotificationSettings, { propsData, mocks }, store)
@@ -34,7 +34,7 @@ describe('rules', () => {
     it('should return telegram rules for admin', () => {
       const store = fakeStoreData();
       store.getters = {
-        isAdmin: () => true
+        isManager: () => true
       }
       const propsData = { value: [], typeOfNotifications: "telegram" }
       const wrapper = createWrapper(NotificationSettings, { propsData, mocks }, store)
@@ -45,7 +45,7 @@ describe('rules', () => {
     it('should return telegram rules for user', () => {
       const store = fakeStoreData();
       store.getters = {
-        isAdmin: () => false
+        isManager: () => false
       }
       const propsData = { value: [], typeOfNotifications: "telegram" }
       const wrapper = createWrapper(NotificationSettings, { propsData, mocks }, store)
@@ -64,7 +64,7 @@ describe('rules', () => {
     it('should return email rules for admin', () => {
       const store = fakeStoreData();
       store.getters = {
-        isAdmin: () => true
+        isManager: () => true
       }
       const propsData = { value: [], typeOfNotifications: "email" }
       const wrapper = createWrapper(NotificationSettings, { propsData, mocks }, store)
@@ -75,7 +75,7 @@ describe('rules', () => {
     it('should return email rules for user', () => {
       const store = fakeStoreData();
       store.getters = {
-        isAdmin: () => false
+        isManager: () => false
       }
       const propsData = { value: [], typeOfNotifications: "email" }
       const wrapper = createWrapper(NotificationSettings, { propsData, mocks }, store)

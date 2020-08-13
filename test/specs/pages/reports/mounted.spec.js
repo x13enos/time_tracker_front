@@ -13,7 +13,7 @@ describe("mounted", () => {
   it('should call method for fetching users if user is admin', async () => {
     const store = fakeStoreData()
     store.getters = {
-      isAdmin: () => true
+      isManager: () => true
     }
 
     const methods = { fetchUsers: () => {} }
@@ -28,7 +28,7 @@ describe("mounted", () => {
   it('should not call method for fetching users if user is not admin', async () => {
     const store = fakeStoreData()
     store.getters = {
-      isAdmin: () => false
+      isManager: () => false
     }
 
     const methods = {

@@ -9,7 +9,7 @@ export default {
     return state.pendingTasks.length > 0
   },
 
-  isManager (state) {
+  isAdmin (state) {
     return state.user.role === 'admin'
   },
 

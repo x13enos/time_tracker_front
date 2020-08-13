@@ -1,6 +1,5 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import RulesBlock from '@/components/admin/workspaces/time_locking_rules_block'
-import GlobalMethods from '@/services/global_methods'
 
 describe('remove', () => {
 
@@ -9,8 +8,6 @@ describe('remove', () => {
       id: 1,
       name: "test-workspace",
     },
-
-    rules: [{ period: "monthly", id: 33 }]
   }
 
   const mocks = {
@@ -24,6 +21,7 @@ describe('remove', () => {
   it('should set loading state', () => {
     const methodStub = sinon.stub(mocks.$api, "deleteTimeLockingRule").returns(successResponse)
     const wrapper = createWrapper(RulesBlock, { propsData, mocks }, fakeStoreData())
+    wrapper.vm.rules = [{ period: "monthly", id: 33 }]
     wrapper.vm.loading = false
 
     wrapper.vm.remove('monthly')
@@ -35,6 +33,7 @@ describe('remove', () => {
   it('should call api for removing rule', () => {
     const methodStub = sinon.stub(mocks.$api, "deleteTimeLockingRule").returns(successResponse)
     const wrapper = createWrapper(RulesBlock, { propsData, mocks }, fakeStoreData())
+    wrapper.vm.rules = [{ period: "monthly", id: 33 }]
 
     wrapper.vm.remove('monthly')
     expect(methodStub.calledOnceWith(33)).to.be.true
@@ -42,12 +41,13 @@ describe('remove', () => {
     sinon.restore()
   });
 
-  it('should emit rule id', async () => {
+  it('should remove rule from rules list', async () => {
     const methodStub = sinon.stub(mocks.$api, "deleteTimeLockingRule").returns(successResponse)
     const wrapper = createWrapper(RulesBlock, { propsData, mocks }, fakeStoreData())
+    wrapper.vm.rules = [{ period: "monthly", id: 33 }]
 
     await wrapper.vm.remove('monthly')
-    expect(wrapper.emitted("removeRule")[0]).to.eql([33])
+    expect(wrapper.vm.rules).to.eql([])
 
     sinon.restore()
   });
@@ -55,6 +55,7 @@ describe('remove', () => {
   it('should drop loading state', async () => {
     const methodStub = sinon.stub(mocks.$api, "deleteTimeLockingRule").returns(successResponse)
     const wrapper = createWrapper(RulesBlock, { propsData, mocks }, fakeStoreData())
+    wrapper.vm.rules = [{ period: "monthly", id: 33 }]
     wrapper.vm.loading = true
 
     await wrapper.vm.remove('monthly')
