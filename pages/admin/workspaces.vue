@@ -25,35 +25,34 @@
           <tr v-for="workspace in workspaces" :key="workspace.id">
             <td>{{ workspace.name }}</td>
             <td>
-              <users-block
-                :workspace="workspace"
-                :allUsers="users"
-                @updateListOfUsers="updateListOfUserIds(...arguments, workspace)" />
+              <users-block v-if="workspace.owner" :workspace="workspace"/>
             </td>
             <td align="right">
-              <workspace-form :workspace="workspace" @processData="updateWorkspaceData(workspace.id, $event)">
+              <template v-if="workspace">
+                <workspace-form :workspace="workspace" @processData="updateWorkspaceData(workspace.id, $event)">
+                  <v-btn
+                    color="primary"
+                    fab
+                    x-small
+                    dark>
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                </workspace-form>
+                <time-locking-rules
+                  v-if="$config.extensionEnabled"
+                  :rules="timeLockingRules.filter(r => r.workspace_id === workspace.id)"
+                  :workspace="workspace"
+                  @addRule="addRule($event)"
+                  @removeRule="removeRule($event)"/>
                 <v-btn
-                  color="primary"
+                  color="error"
                   fab
                   x-small
-                  dark>
-                  <v-icon>mdi-pencil</v-icon>
+                  dark
+                  @click="markWorkspaceAsPendingDelete(workspace.id)">
+                  <v-icon>mdi-delete</v-icon>
                 </v-btn>
-              </workspace-form>
-              <time-locking-rules
-                v-if="$config.extensionEnabled"
-                :rules="timeLockingRules.filter(r => r.workspace_id === workspace.id)"
-                :workspace="workspace"
-                @addRule="addRule($event)"
-                @removeRule="removeRule($event)"/>
-              <v-btn
-                color="error"
-                fab
-                x-small
-                dark
-                @click="markWorkspaceAsPendingDelete(workspace.id)">
-                <v-icon>mdi-delete</v-icon>
-              </v-btn>
+              </template>
             </td>
           </tr>
         </tbody>
@@ -98,7 +97,6 @@ export default {
   data() {
     return {
       workspaces: [],
-      users: [],
       timeLockingRules: [],
       deleteDialog: false,
       deletingWorkspaceId: null
@@ -107,9 +105,6 @@ export default {
 
   mounted(){
     this.fetchWorkspaces();
-    this.fetchUsers();
-    if(this.$config.extensionEnabled)
-      this.fetchTimeLockingRules();
   },
 
   methods: {
@@ -119,18 +114,6 @@ export default {
       const response = await this.$api.allWorkspaces()
       if(response.data)
         this.workspaces = response.data
-    },
-
-    async fetchUsers(){
-      const response = await this.$api.allUsers()
-      if(response.data)
-        this.users = response.data
-    },
-
-    async fetchTimeLockingRules(){
-      const response = await this.$api.allTimeLockingRules()
-      if(response.data)
-        this.timeLockingRules = response.data
     },
 
     addNewWorkspace(data){
@@ -154,16 +137,6 @@ export default {
         this.updateSnack({ message: this.$t("workspaces.was_deleted"), color: "green" })
         const workspaceIndex = this.workspaces.findIndex(p => p.id === this.deletingWorkspaceId)
         this.$delete(this.workspaces, workspaceIndex)
-      }
-    },
-
-    updateListOfUserIds(action, user, workspace){
-      if(action === "assign"){
-        workspace.user_ids.push(user.id)
-        if(!this.users.some(u => u.id === user.id))
-          this.users.push(user)
-      } else {
-        workspace.user_ids = workspace.user_ids.filter(id => id !== user)
       }
     },
 

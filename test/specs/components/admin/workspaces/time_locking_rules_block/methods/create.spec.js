@@ -1,6 +1,5 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import RulesBlock from '@/components/admin/workspaces/time_locking_rules_block'
-import GlobalMethods from '@/services/global_methods'
 
 describe('create', () => {
 
@@ -8,9 +7,7 @@ describe('create', () => {
     workspace: {
       id: 1,
       name: "test-workspace",
-    },
-
-    rules: [{ period: "monthly", id: 33 }]
+    }
   }
 
   const mocks = {
@@ -42,12 +39,13 @@ describe('create', () => {
     sinon.restore()
   });
 
-  it('should emit received data', async () => {
+  it('should add received data to the list of rules', async () => {
     const methodStub = sinon.stub(mocks.$api, "createTimeLockingRule").returns(successResponse)
     const wrapper = createWrapper(RulesBlock, { propsData, mocks }, fakeStoreData())
+    wrapper.vm.rules = []
 
     await wrapper.vm.create('weekly')
-    expect(wrapper.emitted("addRule")[0]).to.eql([successResponse.data])
+    expect(wrapper.vm.rules).to.eql(["rule"])
 
     sinon.restore()
   });

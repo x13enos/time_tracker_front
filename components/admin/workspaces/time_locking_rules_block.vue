@@ -48,38 +48,38 @@
       workspace: {
         type: Object,
         required: true
-      },
-
-      rules: {
-        type: Array,
-        required: true
       }
     },
 
     data() {
       return {
         loading: false,
+        dialog: false,
         weeklyPeriod: false,
         monthlyPeriod: false,
-        dialog: false
+        rules: []
       }
     },
 
-    mounted(){
-      setTimeout(() => {
-        this.weeklyPeriod = !!this.rules.find(r => r.period === 'weekly')
-        this.monthlyPeriod = !!this.rules.find(r => r.period === 'monthly')
-      }, 500);
-
-      setTimeout(() => {
-        this.weeklyPeriod = !!this.rules.find(r => r.period === 'weekly')
-        this.monthlyPeriod = !!this.rules.find(r => r.period === 'monthly')
-      }, 1000);
+    watch: {
+      dialog: function(value) {
+        if(value)
+          this.fetchRules()
+      }
     },
 
     methods: {
       handlePeriod(value, period){
         value ? this.create(period) : this.remove(period)
+      },
+
+      async fetchRules() {
+        const response = await this.$api.getTimeLockingRulesByWorkspace({ workspace_id: this.workspace.id })
+        if(response.data)
+          this.rules = response.data
+          this.monthlyPeriod = !!this.rules.find(r => r.period === 'monthly')
+          this.weeklyPeriod = !!this.rules.find(r => r.period === 'weekly')
+
       },
 
       async create(period) {
@@ -89,17 +89,17 @@
           period
         })
         if(response.data){
-          this.$emit("addRule", response.data)
+          this.rules.push(response.data)
         }
         this.loading = false
       },
 
       async remove(period) {
         this.loading = true
-        const rule = this.rules.find(r => r.period === period)
-        const response = await this.$api.deleteTimeLockingRule(rule.id)
+        const deletedRule = this.rules.find(r => r.period === period)
+        const response = await this.$api.deleteTimeLockingRule(deletedRule.id)
         if(response.data){
-          this.$emit("removeRule", rule.id)
+          this.rules = this.rules.filter(rule => rule.id !== deletedRule.id)
         }
         this.loading = false
       }

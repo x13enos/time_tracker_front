@@ -40,6 +40,8 @@ const storeData = function () {
     },
     getters: {
       isAdmin: () => {},
+      isManager: () => {},
+      isOwner: () => {},
       totalTimeOfDailyTasks: () => { return () => {} },
       totalTimeOfWeeklyTasks: () => {},
       dayIsBlocked: () => { return () => false }

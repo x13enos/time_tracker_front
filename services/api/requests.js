@@ -64,6 +64,10 @@ function Api({ router, store }, appMethods) {
     return client.get("/users")
   }
 
+  this.getUsersByWorkspace = (workspaceId) => {
+    return client.get(`/workspaces/${workspaceId}/workspace_users`)
+  }
+
   this.getUsersForManaging = () => {
     return client.get("/admin/users")
   }
@@ -157,8 +161,8 @@ function Api({ router, store }, appMethods) {
     return client.delete(`/tags/${id}`)
   },
 
-  this.allTimeLockingRules = () => {
-    return client.get("/time_locking_rules")
+  this.getTimeLockingRulesByWorkspace = (data) => {
+    return client.get("/time_locking_rules", { params: data })
   },
 
   this.createTimeLockingRule = (data) => {

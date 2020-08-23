@@ -6,8 +6,6 @@
     max-width="600px">
     <template v-slot:activator="{ on }">
       <span v-on="on">
-        <span>{{ userNames }}</span>
-        <span v-if="assignedUsers.length > 2">... +{{ assignedUsers.length - 2 }}</span>
         <v-btn
           class="ma-2"
           color="success"
@@ -58,14 +56,14 @@
           <v-divider v-if="newUser" />
 
 
-          <v-row class='active-user' v-for="user in assignedUsers" :key="user.id">
+          <v-row class='active-user' v-for="user in users" :key="user.id">
             <v-col cols="4">
               {{ user.name }}
             </v-col>
             <v-col cols="4">
               {{ user.email }}
             </v-col>
-            <v-col v-if="isNotCurrentUser(user)" cols="4" align="end">
+            <v-col v-if="appropriateUser(user)" cols="4" align="end">
               <v-btn
                 color="error"
                 fab
@@ -95,7 +93,7 @@
 
   const contains = (param) =>
     (value) => {
-      return !param.some(u => u.email == value);
+      return !param.some(u => u.email === value);
     };
 
 
@@ -106,12 +104,7 @@
       workspace: {
         type: Object,
         required: true
-      },
-
-      allUsers: {
-        type: Array,
-        required: true
-      },
+      }
     },
 
     data() {
@@ -119,7 +112,8 @@
         newUser: false,
         dialog: false,
         email: null,
-        valid: false
+        valid: false,
+        users: []
       }
     },
 
@@ -128,40 +122,41 @@
         email: {
           required,
           email,
-          workspaceAlreadyContainsUser: contains(this.assignedUsers)
+          workspaceAlreadyContainsUser: contains(this.users)
         }
       }
     },
 
-    computed: {
-      assignedUsers: function(){
-        return this.allUsers.filter((user) => {
-          return this.workspace.user_ids.includes(user.id)
-        })
-      },
-
-      userNames: function() {
-        const names = this.assignedUsers.map((u) => u.name )
-        return names.sort().slice(0, 2).join(', ')
+    watch: {
+      dialog: function(value) {
+        if(value)
+          this.fetchUsersByWorkspace()
       }
     },
 
     methods: {
-      isNotCurrentUser(user){
-        return this.$store.state.user.id !== user.id
+      appropriateUser(user){
+        return this.$store.state.user.id !== user.id && user.role !== 'owner'
       },
 
-      async removeUser(user){
-        const response = await this.$api.removeUserFromWorkspace(this.workspace.id, user.id)
+      async fetchUsersByWorkspace() {
+        const response = await this.$api.getUsersByWorkspace(this.workspace.id)
+        if(response.data)
+          this.users = response.data
+      },
+
+
+      async removeUser(deletedUser){
+        const response = await this.$api.removeUserFromWorkspace(this.workspace.id, deletedUser.id)
         if(response.data){
-          this.$emit("updateListOfUsers", "remove", user.id)
+          this.users = this.users.filter(user => user.id !== deletedUser.id)
         }
       },
 
       async inviteUser(){
         const response = await this.$api.inviteUser(this.workspace.id, this.email)
         if(response.data){
-          this.$emit("updateListOfUsers", "assign", response.data)
+          this.users.push(response.data)
           this.closeDialogOfInvitingUser()
         }
       },

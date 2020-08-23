@@ -6,11 +6,8 @@ describe('closeDialogOfInvitingUser', () => {
 
   const propsData = {
     workspace: {
-      name: "test-workspace",
-      user_ids: [1, 2, 3]
-    },
-
-    allUsers: []
+      name: "test-workspace"
+    }
   }
 
   it('should change attribute newUser to false', () => {

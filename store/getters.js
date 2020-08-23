@@ -13,6 +13,14 @@ export default {
     return state.user.role === 'admin'
   },
 
+  isOwner (state) {
+    return state.user.role === 'owner'
+  },
+
+  isManager (state) {
+    return ['owner', 'admin'].includes(state.user.role)
+  },
+
   totalTimeOfWeeklyTasks(state) {
     const tasks = []
     Object.values(state.tasks).forEach((dailyTasks, _day) => {

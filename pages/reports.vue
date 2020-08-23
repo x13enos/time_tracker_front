@@ -170,12 +170,12 @@ export default {
 
   mounted(){
     this.filters.userId = this.user.id
-    if(this.isAdmin)
+    if(this.isManager)
       this.fetchUsers()
   },
 
   computed: {
-    ...mapGetters(['isAdmin']),
+    ...mapGetters(['isManager']),
     ...mapState(['user']),
 
     indexedItems () {
