@@ -31,11 +31,9 @@ describe("save", () => {
       name: 'john',
       email: 'john@gmail.com',
       locale: 'ru',
-      password: '',
+      password: null,
       active_workspace_id: 100,
-      notification_settings_attributes: {
-        rules: ["email_approve_period", "telegram_assign_user_to_project"]
-      }
+      notification_rules: ["email_approve_period", "telegram_assign_user_to_project"]
     }
     const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
     const updateStub = sinon.stub(wrapper.vm, "updateUserProfile").returns(successResponse)

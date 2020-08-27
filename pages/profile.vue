@@ -209,16 +209,15 @@ export default {
 }
 
 function handleFormParams(formData) {
-  const { name, email, locale, password } = formData
+  const { name, email, locale } = formData
+  const password = formData.password === "" ? null : formData.password
   return {
     name,
     email,
     locale,
     password,
     active_workspace_id: formData.activeWorkspaceId,
-    notification_settings_attributes: {
-      rules: [...formData.emailSettings, ...formData.telegramSettings]
-    }
+    notification_rules: [...formData.emailSettings, ...formData.telegramSettings]
   }
 }
 
