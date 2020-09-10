@@ -24,6 +24,7 @@
     "active_workspace": "Активное рабочее пространство",
     "new_password": "Новый Пароль",
     "save": "Сохранить",
+    "workspace_was_changed": "Активное рабочее пространство было изменено",
     "was_updated_succesfully": "Профиль был успешно обновлен",
     "name_is_required": "Поле 'Имя' обязательно",
     "email_is_required": "Поле 'Email' обязательно",
@@ -33,6 +34,8 @@
     "token_was_copied": "Токен был скопирован",
     "click_for_copy": "Нажмите, чтобы скопировать",
     "account_was_linked": "Телеграм аккаунт был привязан",
+    "active_workspace": "активное",
+    "workspaces": "Рабочие пространства",
     "notification_settings": {
       "title": "Настройки оповещений",
       "email": "Email",
@@ -133,7 +136,8 @@
     "change_details": "Изменение данных",
     "time_locking_rules": "Блокирование задач",
     "weekly_time_lock": "Еженедельно",
-    "monthly_time_lock": "Ежемесячно"
+    "monthly_time_lock": "Ежемесячно",
+    "manage": "Управление"
   },
   "time_reports": {
     "you_approved_this": "Спасибо! Вы, только что, потвердили ваш отчет.",
@@ -146,7 +150,8 @@
     "role": "Роль",
     "roles": {
       "admin": "Администратор",
-      "staff": "Работник"
+      "staff": "Работник",
+      "owner": "Владелец"
     },
     "time_reports": {
       "title": "Отчеты",

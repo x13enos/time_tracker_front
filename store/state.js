@@ -18,6 +18,7 @@ export default function state(){
       email: null,
       role: "",
       activeWorkspaceId: "",
+      workspaces: []
     }
   }
 }

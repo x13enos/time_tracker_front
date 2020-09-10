@@ -176,6 +176,11 @@ function Api({ router, store }, appMethods) {
   this.approveTimeReport = (id, data) => {
     return client.put(`/time_locking_periods/${id}`, data)
   }
+
+  this.changeActiveWorkspaceId = (workspaceId) => {
+    return client.put("/users/change_workspace", { workspace_id: workspaceId })
+  }
+
   // private logic
 
   const client = axios.create({

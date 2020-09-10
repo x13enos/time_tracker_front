@@ -26,6 +26,7 @@
     "locale": "Locale",
     "active_workspace": "Active workspace",
     "save": "Save",
+    "workspace_was_changed": "Active workspace was changed",
     "was_updated_succesfully": "Profile was updated succesfully",
     "name_is_required": "Name is required",
     "email_is_required": "Email is required",
@@ -35,6 +36,8 @@
     "token_was_copied": "Token was copied",
     "click_for_copy": "Click for copy",
     "account_was_linked": "Account was linked",
+    "active_workspace": "active",
+    "workspaces": "Workspaces",
     "notification_settings": {
       "title": "Notification Settings",
       "email": "Email",
@@ -155,7 +158,8 @@
     "change_details": "Change details",
     "time_locking_rules": "Lock Tasks",
     "weekly_time_lock": "Weekly",
-    "monthly_time_lock": "Monthly"
+    "monthly_time_lock": "Monthly",
+    "manage": "Manage"
   },
   "time_reports": {
     "you_approved_this": "Thanks! You succesfully approved your time report.",
@@ -168,7 +172,8 @@
     "role": "Role",
     "roles": {
       "admin": "Admin",
-      "staff": "Staff"
+      "staff": "Staff",
+      "owner": "Owner"
     },
     "time_reports": {
       "title": "Time reports",

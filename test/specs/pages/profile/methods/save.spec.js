@@ -32,7 +32,6 @@ describe("save", () => {
       email: 'john@gmail.com',
       locale: 'ru',
       password: null,
-      active_workspace_id: 100,
       notification_rules: ["email_approve_period", "telegram_assign_user_to_project"]
     }
     const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
@@ -42,7 +41,6 @@ describe("save", () => {
       email: 'john@gmail.com',
       locale: 'ru',
       password: '',
-      activeWorkspaceId: 100,
       emailSettings: ["email_approve_period"],
       telegramSettings: ["telegram_assign_user_to_project"]
     } })

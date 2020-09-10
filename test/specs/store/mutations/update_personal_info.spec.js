@@ -16,7 +16,8 @@ describe('updatePersonalInfo', () => {
       activeWorkspaceId: null,
       telegramToken: null,
       telegramActive: null,
-      notificationSettings: []
+      notificationSettings: [],
+      workspaces: []
     }
   }
 
@@ -30,7 +31,8 @@ describe('updatePersonalInfo', () => {
     unapproved_periods: [1, 2, 3],
     telegram_token: "token",
     telegram_active: true,
-    notification_settings: ["email_approve_period"]
+    notification_settings: ["email_approve_period"],
+    workspaces: [ { id: 1, name: "first workspace" } ]
   }
 
   it('should update personal info', () => {
@@ -46,7 +48,8 @@ describe('updatePersonalInfo', () => {
       activeWorkspaceId: 101,
       telegramToken: 'token',
       telegramActive: true,
-      notificationSettings: ["email_approve_period"]
+      notificationSettings: ["email_approve_period"],
+      workspaces: [ { id: 1, name: "first workspace" } ]
     })
     delete Vuex.Store.prototype.$i18n
   })
