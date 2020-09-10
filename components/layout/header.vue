@@ -49,17 +49,54 @@
           </v-btn>
         </nuxt-link>
 
-        <nuxt-link to="/profile">
-          <v-btn icon>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-btn>
-        </nuxt-link>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn icon v-bind="attrs" class="profile-button" v-on="on">
+              <v-icon>mdi-account-circle</v-icon>
+            </v-btn>
+          </template>
+          <v-card>
+            <v-list>
+              <v-list-item-group>
+              <div class="workspaces d-flex">
+                {{ $t("profile.workspaces") }}:
+                <nuxt-link to="/admin/workspaces" class="ml-3">
+                  {{ $t("workspaces.manage") }}
+                </nuxt-link>
+              </div>
+              <v-list-item v-for="workspace in user.workspaces" :key="workspace.id">
+                <v-list-item-content>
+                  <v-list-item-title>
+                    <a @click="changeWorkspace(workspace.id)">
+                      {{ workspace.name }}
+                    </a>
+                    <span v-if="workspace.id === user.activeWorkspaceId" >
+                      {{ $t("profile.active_workspace") }}
+                      <v-icon color="green">mdi-checkbox-marked</v-icon>
+                    </span>
+                  </v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
 
-        <v-btn icon>
-          <v-icon @click="signOut">
-            mdi-logout
-          </v-icon>
-        </v-btn>
+              <v-divider></v-divider>
+
+              <v-list-item>
+                <v-list-item-title>
+                  <nuxt-link to="/profile">
+                    {{ $t("navigation.profile") }}
+                  </nuxt-link>
+                </v-list-item-title>
+              </v-list-item>
+
+              <v-list-item >
+                  <v-list-item-title>
+                    <a @click="signOut"> {{ $t("navigation.sign_out") }} </a>
+                  </v-list-item-title>
+              </v-list-item>
+            </v-list-item-group>
+            </v-list>
+          </v-card>
+        </v-menu>
       </template>
     </v-app-bar>
 
@@ -115,13 +152,29 @@
             </v-list-item>
           </nuxt-link>
 
+          <v-divider />
+
           <nuxt-link to="/admin/workspaces">
             <v-list-item v-if="isManager">
               <v-list-item-title>
-                {{ $t("navigation.workspaces") }}
+                {{ $t("navigation.workspaces") }}:
               </v-list-item-title>
             </v-list-item>
           </nuxt-link>
+
+          <v-list-item v-for="workspace in user.workspaces" :key="workspace.id">
+            <v-list-item-content>
+              <v-list-item-title>
+                <a @click="changeWorkspace(workspace.id)">
+                  {{ workspace.name }}
+                </a>
+                <span v-if="workspace.id === user.activeWorkspaceId" >
+                  {{ $t("profile.active_workspace") }}
+                  <v-icon color="green">mdi-checkbox-marked</v-icon>
+                </span>
+              </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
 
           <v-divider />
 
@@ -145,10 +198,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapMutations } from 'vuex'
 
 export default {
   computed: {
+    ...mapState(["user"]),
     ...mapGetters(["isManager"]),
 
     isMobile(){
@@ -161,9 +215,16 @@ export default {
   }),
 
   methods: {
+    ...mapMutations(["updatePersonalInfo", "updateSnack"]),
+
     async signOut(){
       await this.$api.signOut()
       this.$router.push("/auth/sign-in")
+    },
+
+    async changeWorkspace(workspaceId){
+      await this.$api.changeActiveWorkspaceId(workspaceId)
+      this.$router.go();
     }
   }
 }
@@ -172,5 +233,17 @@ export default {
 <style scoped>
   .v-application a{
     text-decoration: none;
+  }
+
+  a.active {
+    color: green;
+  }
+
+  .workspaces{
+    margin: 5px 15px;
+  }
+
+  .profile-button {
+    margin-right: 10px;
   }
 </style>

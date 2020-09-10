@@ -34,14 +34,6 @@
             required
           />
 
-          <v-select
-            v-model="form.activeWorkspaceId"
-            :label="$t('profile.active_workspace')"
-            :items="workspaceList"
-            :disabled="formSubmitting"
-            required
-          />
-
           <v-text-field
           v-model="$v.form.password.$model"
             :label="$t('profile.new_password')"
@@ -132,7 +124,6 @@ export default {
         email: "",
         locale: "",
         password: "",
-        activeWorkspaceId: "",
         emailSettings: [],
         telegramSettings: []
       }
@@ -216,7 +207,6 @@ function handleFormParams(formData) {
     email,
     locale,
     password,
-    active_workspace_id: formData.activeWorkspaceId,
     notification_rules: [...formData.emailSettings, ...formData.telegramSettings]
   }
 }
