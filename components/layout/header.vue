@@ -43,12 +43,6 @@
           </v-btn>
         </nuxt-link>
 
-        <nuxt-link v-if="isManager" to="/admin/workspaces">
-          <v-btn text>
-            {{ $t("navigation.workspaces") }}
-          </v-btn>
-        </nuxt-link>
-
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
             <v-btn icon v-bind="attrs" class="profile-button" v-on="on">
@@ -60,16 +54,14 @@
               <v-list-item-group>
               <div class="workspaces d-flex">
                 {{ $t("profile.workspaces") }}:
-                <nuxt-link to="/admin/workspaces" class="ml-3">
+                <nuxt-link to="/workspaces" class="ml-3">
                   {{ $t("workspaces.manage") }}
                 </nuxt-link>
               </div>
               <v-list-item v-for="workspace in user.workspaces" :key="workspace.id">
-                <v-list-item-content>
-                  <v-list-item-title>
-                    <a @click="changeWorkspace(workspace.id)">
-                      {{ workspace.name }}
-                    </a>
+                <v-list-item-content @click="changeWorkspace(workspace.id)">
+                  <v-list-item-title class="link-color">
+                    {{ workspace.name }}
                     <span v-if="workspace.id === user.activeWorkspaceId" >
                       {{ $t("profile.active_workspace") }}
                       <v-icon color="green">mdi-checkbox-marked</v-icon>
@@ -80,17 +72,18 @@
 
               <v-divider></v-divider>
 
-              <v-list-item>
-                <v-list-item-title>
-                  <nuxt-link to="/profile">
-                    {{ $t("navigation.profile") }}
-                  </nuxt-link>
-                </v-list-item-title>
-              </v-list-item>
+              <nuxt-link to="/profile">
+                <v-list-item>
+                  <v-list-item-title class="link-color">
+                      {{ $t("navigation.profile") }}
+                  </v-list-item-title>
+                </v-list-item>
+              </nuxt-link>
 
-              <v-list-item >
-                  <v-list-item-title>
-                    <a @click="signOut"> {{ $t("navigation.sign_out") }} </a>
+
+              <v-list-item @click="signOut">
+                  <v-list-item-title class="link-color">
+                    {{ $t("navigation.sign_out") }}
                   </v-list-item-title>
               </v-list-item>
             </v-list-item-group>
@@ -154,8 +147,8 @@
 
           <v-divider />
 
-          <nuxt-link to="/admin/workspaces">
-            <v-list-item v-if="isManager">
+          <nuxt-link to="/workspaces">
+            <v-list-item>
               <v-list-item-title>
                 {{ $t("navigation.workspaces") }}:
               </v-list-item-title>
@@ -245,5 +238,9 @@ export default {
 
   .profile-button {
     margin-right: 10px;
+  }
+
+  .link-color {
+    color: #1976d2;
   }
 </style>

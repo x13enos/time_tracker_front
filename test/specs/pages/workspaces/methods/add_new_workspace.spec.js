@@ -1,5 +1,5 @@
 import createWrapper from '@/test/support/create_wrapper.js'
-import Workspaces from '@/pages/admin/workspaces'
+import Workspaces from '@/pages/workspaces'
 
 describe('addNewWorkspace', () => {
 
