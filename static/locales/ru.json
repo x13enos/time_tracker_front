@@ -42,6 +42,7 @@
       "telegram": "Телеграм",
       "email_assign_user_to_project": "Добавление к новым проектам",
       "email_approve_period": "Подтверждение отчетов",
+      "email_period_reports": "Подтвержденные отчеты пользователей за прошедшие периоды",
       "telegram_assign_user_to_project": "Добавление к новым проектам",
       "telegram_approve_period": "Подтверждение отчетов",
       "telegram_daily_report": "Ежедневный отчет"

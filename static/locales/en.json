@@ -44,6 +44,7 @@
       "telegram": "Telegram",
       "email_assign_user_to_project": "Assigning to new projects",
       "email_approve_period": "Approve time reports",
+      "email_period_reports": "Approved user timereports by periods",
       "telegram_assign_user_to_project": "Assigning to new projects",
       "telegram_approve_period": "Approve time reports",
       "telegram_daily_report": "Daily report"

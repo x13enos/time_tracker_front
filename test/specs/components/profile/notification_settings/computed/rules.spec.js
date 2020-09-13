@@ -17,7 +17,7 @@ describe('rules', () => {
       const propsData = { value: [], typeOfNotifications: "email" }
       const wrapper = createWrapper(NotificationSettings, { propsData, mocks }, store)
 
-      expect(wrapper.vm.rules).to.eql(["email_assign_user_to_project", "email_approve_period"])
+      expect(wrapper.vm.rules).to.eql(["email_assign_user_to_project", "email_approve_period", "email_period_reports"])
     });
 
     it('should return email rules for user', () => {
