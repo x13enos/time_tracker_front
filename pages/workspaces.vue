@@ -28,7 +28,7 @@
               <users-block v-if="workspace.owner" :workspace="workspace"/>
             </td>
             <td align="right">
-              <template v-if="workspace">
+              <template v-if="workspace.owner">
                 <workspace-form :workspace="workspace" @processData="updateWorkspaceData(workspace.id, $event)">
                   <v-btn
                     color="primary"
