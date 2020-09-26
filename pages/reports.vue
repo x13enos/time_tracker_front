@@ -231,7 +231,7 @@ export default {
     },
 
     async fetchUsers(){
-      const response = await this.$api.allUsers()
+      const response = await this.$api.getUsersByCurrentWorkspace()
       this.users = response.data
     },
 

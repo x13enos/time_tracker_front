@@ -4,7 +4,7 @@ import Projects from '@/pages/admin/projects'
 describe('fetchProjects', () => {
   const mocks = {
     $api: {
-      allUsers: () => { return { data: "" } },
+      getUsersByCurrentWorkspace: () => { return { data: "" } },
       allProjects: () => {}
     }
   }
