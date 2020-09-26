@@ -60,12 +60,12 @@ function Api({ router, store }, appMethods) {
     } })
   }
 
-  this.allUsers = () => {
-    return client.get("/users")
-  }
-
   this.getUsersByWorkspace = (workspaceId) => {
     return client.get(`/workspaces/${workspaceId}/workspace_users`)
+  }
+
+  this.getUsersByCurrentWorkspace = () => {
+    return client.get("/users")
   }
 
   this.getUsersForManaging = () => {

@@ -2,7 +2,7 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import reports from '@/pages/reports'
 
 describe("fetchUsers", () => {
-  const mocks = { $api: { allUsers: () => {} } }
+  const mocks = { $api: { getUsersByCurrentWorkspace: () => {} } }
 
   const successResponse = {
     success: () => { return true },
@@ -10,7 +10,7 @@ describe("fetchUsers", () => {
   }
 
   it('should call method for fetching users', async () => {
-    const apiStub = sinon.stub(mocks.$api, "allUsers").rejects('error')
+    const apiStub = sinon.stub(mocks.$api, "getUsersByCurrentWorkspace").rejects('error')
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     try{
@@ -23,7 +23,7 @@ describe("fetchUsers", () => {
   })
 
   it('should keep users from recieved data if request was successful', async () => {
-    const apiStub = sinon.stub(mocks.$api, "allUsers").returns(successResponse)
+    const apiStub = sinon.stub(mocks.$api, "getUsersByCurrentWorkspace").returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     await wrapper.vm.fetchUsers()
