@@ -1,5 +1,6 @@
 <template>
   <v-menu
+    v-if="!$appMethods.isEmpty(tags)"
     content-class="tags-menu"
     :close-on-content-click="false"
     nudge-top="15"
@@ -11,7 +12,7 @@
           <div v-if="tagNames" class='multiple-tags blue lighten-5'>
             {{ tagNames }}
           </div>
-          <v-icon v-if="tagIds.length === 0">
+          <v-icon v-if="$appMethods.isEmpty(tagIds)">
             mdi-tag-multiple
           </v-icon>
         </div>
