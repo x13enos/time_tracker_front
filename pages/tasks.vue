@@ -1,19 +1,22 @@
 <template>
   <div>
-    <h1>
-      {{ $t("time_sheet.title") }}
-    </h1>
+    <div class='d-flex justify-space-between mb-2'>
+      <h1>{{ $t("time_sheet.title") }}</h1>
 
+      <TomatoTimer />
+    </div>
     <daysBar />
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import TomatoTimer from '@/components/tasks/tomato_timer'
 
 export default {
   components: {
-    daysBar: () => import('~/components/days/bar.vue')
+    daysBar: () => import('~/components/days/bar.vue'),
+    TomatoTimer
   },
 
   data() {
