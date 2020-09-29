@@ -192,5 +192,12 @@
     "password_length": "Number of symbols should be between 8 and 32",
     "workspace_already_contains_user": "User with this email was already invited",
     "sum_time_should_be_less_than24_hours": "The total amount of spent time cannot exceed 24 hours per day"
+  },
+  "pomodoro": {
+    "title": "Pomodoro",
+    "long_break": "Long Break",
+    "short_break": "Short Break",
+    "time_is_up": "Your time is up!",
+    "stop": "Stop"
   }
 }
