@@ -25,9 +25,10 @@ describe("forgotPassword", () =>  {
   })
 
   it('should pass data', async () => {
+    localStorage.setItem("locale", "ru")
     mock = sinon.stub(client, "post").resolves({ data: "data" })
     await apiInstance.forgotPassword("test@gmail.com")
-    expect(mock.args[0]).to.eql(["/users/passwords", { email: "test@gmail.com" }])
+    expect(mock.args[0]).to.eql(["/users/passwords", { email: "test@gmail.com", locale: "ru" }])
   })
 
   it('should return response in case of success', async () => {

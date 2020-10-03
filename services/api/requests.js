@@ -1,5 +1,9 @@
 import axios from 'axios';
 
+function getLocale() {
+  return localStorage.getItem("locale");
+}
+
 function Api({ router, store }, appMethods) {
 
   this.signIn = (data) => {
@@ -110,14 +114,16 @@ function Api({ router, store }, appMethods) {
   }
 
   this.forgotPassword = (email) => {
-    return client.post("/users/passwords", { email })
+    return client.post("/users/passwords", { email, locale: getLocale() })
   }
 
   this.changePassword = (data) => {
+    data.locale = getLocale()
     return client.put(`/users/passwords`, data)
   }
 
   this.setPassword = (data) => {
+    data.locale = getLocale()
     return client.put(`/users/invitations`, data)
   }
 

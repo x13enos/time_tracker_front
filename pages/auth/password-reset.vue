@@ -1,8 +1,8 @@
 <template>
   <v-card v-if="passwordWasChanged" class="elevation-12">
     <v-card-text>
-      <p>Your password was succesfully updated.</p>
-      <p>Please go to the login page and try to authorise.</p>
+      <p>{{ $t('password-reset.password_was_updated') }}</p>
+      <p>{{ $t('password-reset.go_to_login_page') }}</p>
       <nuxt-link to="/auth/sign-in">
         <v-btn :block="true" class="primary" text>
           {{ $t("navigation.login") }}
@@ -15,6 +15,9 @@
       <v-toolbar-title>
         {{ $t('password-reset.title') }}
       </v-toolbar-title>
+
+      <v-spacer />
+      <locale-selector />
     </v-toolbar>
     <v-card-text>
       <v-form
@@ -55,6 +58,7 @@
 <script>
 import formMixin from '@/mixins/form'
 
+import LocaleSelector from "~/components/auth/locale_selector.vue"
 import { validationMixin } from 'vuelidate'
 import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 
@@ -62,7 +66,9 @@ export default {
   layout: 'auth',
 
   mixins: [validationMixin, formMixin],
-
+  components: {
+    "locale-selector": LocaleSelector
+  },
   validations() {
     return {
       form: {

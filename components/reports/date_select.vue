@@ -17,7 +17,7 @@
       ></v-text-field>
     </template>
     <v-date-picker
-      locale="en-in"
+      :locale="locale"
       :value="value"
       :max="max"
       :min="min"
@@ -45,6 +45,10 @@ export default {
     max: {
       type: String,
       required: false
+    },
+    locale: {
+      type: String,
+      required: true
     }
   },
 

@@ -9,7 +9,7 @@ const storeData = function () {
         role: null,
         name: null,
         email: null,
-        locale: null,
+        locale: 'en',
         activeWorkspaceId: null
       },
       snack: {

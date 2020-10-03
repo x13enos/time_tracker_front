@@ -16,7 +16,6 @@ const { shallowMount, createLocalVue } = VueTestUtils
 const createWrapper = (component, options = {}, storeState = {}) => {
   const localVue = createLocalVue()
   localVue.use(Vuex)
-  localVue.use(VueI18n)
   const store = new Vuex.Store(storeState)
 
   const wrapperOptions = {
@@ -30,11 +29,21 @@ const createWrapper = (component, options = {}, storeState = {}) => {
     wrapperOptions.router = new VueRouter();
   }
 
+  if(i18nShouldBeAdd(options)) {
+    localVue.use(VueI18n)
+  }
+
   return shallowMount(component, wrapperOptions);
 }
 
 const randString = () => {
   return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
+}
+
+const i18nShouldBeAdd = (options) => {
+  return (
+    !options.mocks || (!!options.mocks && !Object.keys(options.mocks).includes("$i18n"))
+  )
 }
 
 const routerShouldBeAdd = (options) => {

@@ -34,7 +34,7 @@
           :label="$t('reports.from_date')"
           :max="filters.toDate"
           v-model="filters.fromDate"
-
+          :locale="user.locale"
         />
       </v-col>
 
@@ -43,6 +43,7 @@
         :label="$t('reports.to_date')"
           :min="filters.fromDate"
           v-model="filters.toDate"
+          :locale="user.locale"
         />
       </v-col>
 
