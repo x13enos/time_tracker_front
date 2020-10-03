@@ -69,4 +69,14 @@ describe('updatePersonalInfo', () => {
     expect(store.state.unapprovedPeriods).to.eql([1, 2, 3])
     delete Vuex.Store.prototype.$i18n
   })
+
+  it('should keep user locale into localStorage', () => {
+    Vuex.Store.prototype.$i18n = { locale: 'en' }
+    localStorage.setItem("locale", 'en')
+    const store = new Vuex.Store({ state, mutations })
+
+    store.commit('updatePersonalInfo', userInfo)
+    expect(localStorage.getItem("locale")).to.eq('ru')
+    delete Vuex.Store.prototype.$i18n
+  })
 })

@@ -17,6 +17,7 @@
   import Snackbar from '~/components/layout/snackbar.vue'
 
   export default {
+    middleware: 'locale',
     components: { Snackbar }
   }
 </script>

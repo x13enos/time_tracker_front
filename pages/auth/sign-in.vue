@@ -4,6 +4,9 @@
       <v-toolbar-title>
         {{ $t('login_form.title') }}
       </v-toolbar-title>
+
+      <v-spacer />
+      <locale-selector />
     </v-toolbar>
     <v-card-text>
       <v-form
@@ -48,13 +51,16 @@
 <script>
 import formMixin from '@/mixins/form'
 
+import LocaleSelector from "~/components/auth/locale_selector.vue"
 import { validationMixin } from 'vuelidate'
 import { email, required } from 'vuelidate/lib/validators'
 import { mapMutations } from 'vuex'
 
 export default {
   layout: 'auth',
-
+  components: {
+    "locale-selector": LocaleSelector
+  },
   mixins: [validationMixin, formMixin],
 
   data () {

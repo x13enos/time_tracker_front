@@ -4,6 +4,7 @@ import axios from 'axios';
 let client, apiInstance, mock, router, store
 const date = new Date()
 
+
 describe("changePassword", () =>  {
 
   beforeEach(() => {

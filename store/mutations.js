@@ -16,6 +16,8 @@ export default {
     })
     state.unapprovedPeriods = userData.unapproved_periods || []
     this.$i18n.locale = locale
+
+    localStorage.setItem('locale', locale)
   },
 
   updateProjects(state, projects) {

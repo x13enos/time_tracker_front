@@ -69,7 +69,9 @@
     "title": "Change Password",
     "password": "Password",
     "confirm_password": "Confirm password",
-    "create_new_password": "Create new password"
+    "create_new_password": "Create new password",
+    "password_was_updated": "Your password was succesfully updated.",
+    "go_to_login_page": "Please go to the login page and try to authorise."
   },
   "invitation": {
     "title": "Sign Up",

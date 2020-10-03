@@ -4,6 +4,9 @@
       <v-toolbar-title>
         {{ $t('password_recovery.title') }}
       </v-toolbar-title>
+
+      <v-spacer />
+      <locale-selector />
     </v-toolbar>
     <v-card-text>
       <v-form
@@ -37,6 +40,7 @@
 <script>
 import formMixin from '@/mixins/form'
 
+import LocaleSelector from "~/components/auth/locale_selector.vue"
 import { validationMixin } from 'vuelidate'
 import { required, email } from 'vuelidate/lib/validators'
 import { mapMutations } from 'vuex'
@@ -45,7 +49,9 @@ export default {
   layout: 'auth',
 
   mixins: [validationMixin, formMixin],
-
+  components: {
+    "locale-selector": LocaleSelector
+  },
   validations: {
     email: {
       required, email

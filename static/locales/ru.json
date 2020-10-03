@@ -14,7 +14,8 @@
     "tags": "Метки",
     "workspaces": "Рабочие пространства",
     "profile": "Профиль",
-    "sign_out": "Выйти"
+    "sign_out": "Выйти",
+    "login": "Войти"
   },
   "profile": {
     "title": "Настройки Профиля",
@@ -54,7 +55,22 @@
     "password": "Пароль",
     "login": "Войти",
     "email_must_be_valid": "E-mail должен иметь правильный формат",
-    "remember_me": "Запомнить меня"
+    "remember_me": "Запомнить меня",
+    "forgot_password": "Забыли пароль?"
+  },
+  "password_recovery": {
+    "title": "Восстановление пароля",
+    "email": "Email",
+    "reset_password": "Восстановить",
+    "we_sent_email": "Данные для восстановления пароля отправлены на ваш e-mail."
+  },
+  "password-reset": {
+    "title": "Изменение Пароля",
+    "password": "Новый пароль",
+    "confirm_password": "Введите пароль еще раз",
+    "create_new_password": "Обновить пароль",
+    "password_was_updated": "Пароль был изменен!",
+    "go_to_login_page": "Теперь вы можете вернуться на страницу входа и попытаться войти в систему."
   },
   "time_sheet": {
     "title": "Учет рабочего времени",

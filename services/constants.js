@@ -16,7 +16,21 @@ const EXTENDED_NOTIFICATION_SETTINGS = {
   }
 };
 
+const LOCALES = [
+  {
+    title: 'English',
+    flag: "gb",
+    code: "en"
+  },
+  {
+    title: "Русский",
+    flag: "ru",
+    code: "ru"
+  }
+];
+
 export {
   NOTIFICATION_SETTINGS,
-  EXTENDED_NOTIFICATION_SETTINGS
+  EXTENDED_NOTIFICATION_SETTINGS,
+  LOCALES
 };
