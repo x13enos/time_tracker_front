@@ -42,10 +42,12 @@
           placeholder="0.0"
           :disabled="doesNotReadyForAction"
           :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
+          @input="delete errorMessages['spent_time']"
           @blur="onlyCreate"
         />
       </v-form>
     </v-col>
+    {{errorMessages}}
     <v-col class="col-sm-1 col-6">
       <v-icon
       @click="create"
