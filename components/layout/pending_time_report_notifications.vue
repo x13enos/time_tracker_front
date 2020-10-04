@@ -35,11 +35,15 @@ export default {
     ...mapMutations(["updateSnack"]),
 
     async approve(id){
-      await this.approveTimeReport(id)
-      this.updateSnack({
-        message: this.$t("time_reports.you_approved_this"),
-        color: "green"
-      })
+      try {
+        await this.approveTimeReport(id)
+        this.updateSnack({
+          message: this.$t("time_reports.you_approved_this"),
+          color: "green"
+        })
+      } catch(errors){
+        this.updateSnack({ message: errors.base[0], color: "red" })
+      }
     }
   }
 }
