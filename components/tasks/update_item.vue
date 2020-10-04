@@ -46,7 +46,7 @@
             v-model="$v.spentTime.$model"
             placeholder="0.0"
             :disabled="active || dayIsBlocked"
-            @input="selectPendingClass"
+            @input="handleSpentTimeInput"
             :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
             @blur="onlyUpdate()"
           />
@@ -286,6 +286,11 @@ export default {
 
     toggleBtnStatus(){
       this.btnStartFocused = !this.btnStartFocused
+    },
+
+    handleSpentTimeInput() {
+      this.selectPendingClass()
+      delete this.errorMessages['spent_time']
     },
 
     deleteItem(){

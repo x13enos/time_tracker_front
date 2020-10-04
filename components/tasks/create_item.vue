@@ -42,6 +42,7 @@
           placeholder="0.0"
           :disabled="doesNotReadyForAction"
           :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
+          @input="delete errorMessages['spent_time']"
           @blur="onlyCreate"
         />
       </v-form>
