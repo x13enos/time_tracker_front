@@ -191,7 +191,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from 'vuex'
+import { mapGetters, mapState, mapMutations, mapActions } from 'vuex'
 
 export default {
   computed: {
@@ -209,15 +209,11 @@ export default {
 
   methods: {
     ...mapMutations(["updatePersonalInfo", "updateSnack"]),
+    ...mapActions(["changeWorkspace"]),
 
     async signOut(){
       await this.$api.signOut()
       this.$router.push("/auth/sign-in")
-    },
-
-    async changeWorkspace(workspaceId){
-      await this.$api.changeActiveWorkspaceId(workspaceId)
-      this.$router.go();
     }
   }
 }

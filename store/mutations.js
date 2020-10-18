@@ -110,6 +110,20 @@ export default {
   removeUnapprovedTimePeriod(state, id) {
     const periodIndex = state.unapprovedPeriods.findIndex(p => p.id === id)
     state.unapprovedPeriods.splice(periodIndex, 1)
+  },
+
+  addWorkspaceToUserInfo(state, workspaceInfo) {
+    state.user.workspaces.push(workspaceInfo);
+  },
+
+  changeWorkspaceInfo(state, workspaceInfo) {
+    const changedWorkspace = state.user.workspaces.find(w => w.id === workspaceInfo.id);
+    Object.assign(changedWorkspace, workspaceInfo);
+  },
+
+  deleteWorkspaceFromUserInfo(state, id) {
+    const workspaceIndex = state.user.workspaces.findIndex(w => w.id === id);
+    state.user.workspaces.splice(workspaceIndex, 1);
   }
 }
 
