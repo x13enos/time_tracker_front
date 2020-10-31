@@ -30,6 +30,11 @@ export default {
    ** Global CSS
    */
   css: [],
+  loadingIndicator: {
+    name: 'cube-grid',
+    color: 'white',
+    background: '#1976d2'
+  },
   /*
    ** Plugins to load before mounting the App
    */
