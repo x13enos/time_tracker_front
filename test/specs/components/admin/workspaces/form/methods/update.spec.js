@@ -62,6 +62,14 @@ describe('update', () => {
       expect(wrapper.emitted("processData")[0]).to.eql([{ name: 'new-test-workspace', id: 1 }])
     });
 
+    it('should call the mutation for updating workspace info in the user info', async () => {
+      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
+      const mutationStub = sinon.stub(wrapper.vm, 'changeWorkspaceInfo');
+
+      await wrapper.vm.update()
+      expect(mutationStub.calledOnceWith(successResponse.data)).to.be.true;
+    });
+
     it('should show snack message', async () => {
       const wrapper = createWrapper(form, { mocks }, fakeStoreData())
       const snackStub = sinon.stub(wrapper.vm, 'updateSnack')

@@ -84,7 +84,7 @@
 import WorkspaceForm from "@/components/admin/workspaces/form"
 import UsersBlock from "@/components/admin/workspaces/users_block"
 import TimeLockingRules from "@/components/admin/workspaces/time_locking_rules_block"
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 
 export default {
 
@@ -109,6 +109,7 @@ export default {
 
   methods: {
     ...mapMutations(["updateSnack"]),
+    ...mapActions(["deleteWorkspaceFromUserInfo"]),
 
     async fetchWorkspaces(){
       const response = await this.$api.allWorkspaces()
@@ -134,6 +135,7 @@ export default {
       this.deleteDialog = false
       const response = await this.$api.deleteWorkspace(this.deletingWorkspaceId)
       if(response.data){
+        await this.deleteWorkspaceFromUserInfo(this.deletingWorkspaceId)
         this.updateSnack({ message: this.$t("workspaces.was_deleted"), color: "green" })
         const workspaceIndex = this.workspaces.findIndex(p => p.id === this.deletingWorkspaceId)
         this.$delete(this.workspaces, workspaceIndex)

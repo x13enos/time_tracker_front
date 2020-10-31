@@ -36,7 +36,9 @@ const storeData = function () {
       updatePersonalInfo: () => {},
       clearActiveTaskIntervalId: () => {},
       addPendingTaskId: () => {},
-      deletePendingTaskId: () => {}
+      deletePendingTaskId: () => {},
+      addWorkspaceToUserInfo: () => {},
+      changeWorkspaceInfo: () => {}
     },
     getters: {
       isAdmin: () => {},

@@ -60,5 +60,20 @@ export default {
   async approveTimeReport({ commit }, periodId) {
     await this.$api.approveTimeReport(periodId, {})
     commit("removeUnapprovedTimePeriod", periodId)
+  },
+
+  async changeWorkspace(app, id) {
+    await this.$api.changeActiveWorkspaceId(id)
+    this.$router.go();
+  },
+
+  async deleteWorkspaceFromUserInfo({ commit, state, dispatch }, id) {
+    const activeWorkspaceWasDeleted = state.user.activeWorkspaceId === id
+    if(activeWorkspaceWasDeleted && state.user.workspaces.length !== 1) {
+      const firstWorkspace = state.user.workspaces.filter(w => w.id !== id)[0]
+      await dispatch("changeWorkspace", firstWorkspace.id)
+    } else {
+      commit("deleteWorkspaceFromUserInfo", id)
+    }
   }
 }

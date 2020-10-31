@@ -91,7 +91,11 @@
     },
 
     methods: {
-      ...mapMutations(["updateSnack"]),
+      ...mapMutations([
+        "updateSnack",
+        "addWorkspaceToUserInfo",
+        "changeWorkspaceInfo"
+      ]),
 
       async create(){
         this.errorMessage = ""
@@ -100,6 +104,7 @@
         this.updateSnack({ message: this.$t("workspaces.was_created"), color: "green" })
         this.form = { name: "" }
         this.$emit("processData", response.data)
+        this.addWorkspaceToUserInfo(response.data)
         this.$nextTick(() => { this.$v.$reset() })
       },
 
@@ -108,6 +113,7 @@
         const response = await this.$api.updateWorkspace(this.workspace.id, this.form)
         this.dialog = false
         this.updateSnack({ message: this.$t("workspaces.was_updated"), color: "green" })
+        this.changeWorkspaceInfo(response.data)
         this.$emit("processData", response.data)
       },
 
