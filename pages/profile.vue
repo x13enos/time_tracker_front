@@ -62,9 +62,6 @@
             </template>
             <span>{{ $t('profile.click_for_copy') }}</span>
           </v-tooltip>
-          <span v-if="user.telegramActive">
-            - {{ $t("profile.account_was_linked") }} <v-icon class="mr-2" color="success">mdi-check-circle</v-icon>
-          </span>
         </p>
 
         <h3>{{ $t("profile.notification_settings.email") }}:</h3>
