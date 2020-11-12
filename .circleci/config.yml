@@ -37,7 +37,28 @@ jobs:
       - run:
           name: test
           command: npm run test
-
+  deploy_staging:
+    docker:
+      - image: circleci/node:12.10.0
+    steps:
+      - checkout
+      - run: |
+          curl -u $CATTLE_KEY \
+          -X POST \
+          -H 'Accept: application/json' \
+          -H 'Content-Type: application/json' \
+          'https://k8s.andres-sild.com/v3/project/c-r9l2h:p-cnhjm/workloads/deployment:staging:time-tracker-front?action=redeploy'
+  deploy_production:
+    docker:
+      - image: circleci/node:12.10.0
+    steps:
+      - checkout
+      - run: |
+          curl -u $CATTLE_KEY \
+          -X POST \
+          -H 'Accept: application/json' \
+          -H 'Content-Type: application/json' \
+          'https://k8s.andres-sild.com/v3/project/c-r9l2h:p-cnhjm/workloads/deployment:staging:time-tracker-front-production?action=redeploy'
 
 workflows:
   build_and_deploy:
@@ -51,6 +72,34 @@ workflows:
       - build_image:
           requires:
             - build
+          filters:
+            branches:
+              only: master
+      - deploy_staging_approval:
+          name: Deploy to staging
+          type: approval
+          requires:
+            - build_image
+          filters:
+            branches:
+              only: master
+      - deploy_staging:
+          requires:
+            - Deploy to staging
+          filters:
+            branches:
+              only: master
+      - deploy_production_approval:
+          name: Deploy to production
+          type: approval
+          requires:
+            - build_image
+          filters:
+            branches:
+              only: master
+      - deploy_production:
+          requires:
+            - Deploy to production
           filters:
             branches:
               only: master
