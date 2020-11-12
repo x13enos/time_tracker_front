@@ -1,5 +1,5 @@
 <template>
-  <v-card class="elevation-12">
+  <v-card class="elevation-4">
     <v-toolbar color="primary" dark flat>
       <v-toolbar-title>
         {{ $t('login_form.title') }}
