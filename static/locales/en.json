@@ -182,7 +182,7 @@
       "title": "Time reports",
       "approved": "Approved",
       "unapproved": "Unapproved",
-      "period_was_unblocked": "Report was unblocked for re-confirmation.",
+      "was_unblocked": "Report was unblocked for re-confirmation.",
       "no_reports": "This user doesn't have any reports yet."
     }
   },
