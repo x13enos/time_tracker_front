@@ -1,40 +1,50 @@
 <template>
-  <v-card class="elevation-12">
-    <v-toolbar color="primary" dark flat>
-      <v-toolbar-title>
-        {{ $t('password_recovery.title') }}
-      </v-toolbar-title>
+  <div>
+    <v-card class="elevation-4">
+      <v-toolbar color="primary" dark flat>
+        <v-toolbar-title>
+          {{ $t('password_recovery.title') }}
+        </v-toolbar-title>
 
-      <v-spacer />
-      <locale-selector />
-    </v-toolbar>
-    <v-card-text>
-      <v-form
-        @submit.prevent
-        v-model="valid">
-        <v-text-field
-          v-model.trim="$v.email.$model"
-          :label="$t('password_recovery.email')"
-          type="email"
-          @keyup.enter.prevent="submit"
-          :error-messages="$formErrorMessage('email', ['required', 'email'])"
-        />
-      </v-form>
-      <span class='red--text' v-if="!!errorMessages.base">
-        {{ errorMessages.base }}
-      </span>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        color="primary"
-        :block="true"
-        @click="submit"
-        :disabled="!valid || !this.email">
-        {{ $t('password_recovery.reset_password') }}
-      </v-btn>
-    </v-card-actions>
+        <v-spacer />
+        <locale-selector />
+      </v-toolbar>
+      <v-card-text>
+        <v-form
+          @submit.prevent
+          v-model="valid">
+          <v-text-field
+            v-model.trim="$v.email.$model"
+            :label="$t('password_recovery.email')"
+            type="email"
+            @keyup.enter.prevent="submit"
+            :error-messages="$formErrorMessage('email', ['required', 'email'])"
+          />
+        </v-form>
+        <span class='red--text' v-if="!!errorMessages.base">
+          {{ errorMessages.base }}
+        </span>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn
+          color="primary"
+          :block="true"
+          @click="submit"
+          :disabled="!valid || !this.email">
+          {{ $t('password_recovery.reset_password') }}
+        </v-btn>
+      </v-card-actions>
 
-  </v-card>
+    </v-card>
+
+    <v-card class="elevation-4 mt-3 auth-card">
+      <v-card-text class="d-flex justify-center auth-links-block">
+        <NuxtLink to="/">
+          {{ $t('navigation.login') }}
+        </NuxtLink>
+      </v-card-text>
+    </v-card>
+  </div>
 </template>
 
 <script>
@@ -93,3 +103,13 @@ export default {
   }
 }
 </script>
+
+<style>
+ .auth-links-block a {
+   text-decoration: none;
+ }
+
+ .auth-links-block {
+   padding: 0.5rem;
+ }
+</style>
