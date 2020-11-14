@@ -124,6 +124,10 @@ export default {
   deleteWorkspaceFromUserInfo(state, id) {
     const workspaceIndex = state.user.workspaces.findIndex(w => w.id === id);
     state.user.workspaces.splice(workspaceIndex, 1);
+  },
+
+  updateBlockedDays(state, days) {
+    state.blockedDays = days;
   }
 }
 

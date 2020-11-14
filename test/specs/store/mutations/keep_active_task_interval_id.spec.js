@@ -1,4 +1,3 @@
-
 import mutations from '@/store/mutations'
 
 const state = {

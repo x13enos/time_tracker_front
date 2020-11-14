@@ -1,23 +1,23 @@
 import GlobalMethods from '@/services/global_methods';
 
 it('should return true if passed value is undefined', () => {
-  t.truthy(GlobalMethods.isEmpty(undefined))
+  expect(GlobalMethods.isEmpty(undefined)).to.be.true
 })
 
 it('should return true if passed value is null', () => {
-  t.truthy(GlobalMethods.isEmpty(null))
+  expect(GlobalMethods.isEmpty(null)).to.be.true
 })
 
 it('should return true if passed value is empty string', () => {
-  t.truthy(GlobalMethods.isEmpty(""))
+  expect(GlobalMethods.isEmpty("")).to.be.true
 })
 
 it('should return true if passed value is empty array', () => {
-  t.truthy(GlobalMethods.isEmpty([]))
+  expect(GlobalMethods.isEmpty([])).to.be.true
 })
 
 it('should return true if passed value is empty object', () => {
-  t.truthy(GlobalMethods.isEmpty({}))
+  expect(GlobalMethods.isEmpty()).to.be.true
 })
 
 it('should return false if passed value is digit', () => {
