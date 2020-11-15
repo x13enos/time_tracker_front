@@ -170,6 +170,7 @@
     "approve": "Approve"
   },
   "users": {
+    "no_users": "No users",
     "title": "User Management",
     "name": "Name",
     "role": "Role",
