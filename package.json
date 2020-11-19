@@ -15,18 +15,18 @@
   },
   "dependencies": {
     "@growthbunker/vueflags": "^0.1.9",
-    "@nuxtjs/axios": "^5.3.6",
-    "@nuxtjs/pwa": "^3.0.0-0",
+    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/pwa": "^3.2.2",
     "@nuxtjs/vuetify": "^1.11.2",
-    "acorn": "^7.1.1",
-    "cross-env": "^5.2.0",
+    "acorn": "^8.0.4",
+    "cross-env": "^7.0.2",
     "kind-of": "^6.0.3",
-    "luxon": "^1.21.3",
+    "luxon": "^1.25.0",
     "minimist": "^1.2.5",
-    "nuxt": "^2.13.3",
-    "nuxt-i18n": "^6.5.0",
+    "nuxt": "^2.14.7",
+    "nuxt-i18n": "^6.15.4",
     "v-clipboard": "^2.2.3",
-    "vuelidate": "^0.7.5"
+    "vuelidate": "^0.7.6"
   },
   "devDependencies": {
     "@nuxtjs/dotenv": "^1.4.1",
