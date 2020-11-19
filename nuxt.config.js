@@ -41,6 +41,7 @@ export default {
   plugins: [
     "@/plugins/api.js",
     "@/plugins/app_methods.js",
+    '@plugins/app_active_checker.js',
     "@/plugins/v_clipboard.js",
     "@/plugins/vueflags.js",
     '@plugins/i18n-config.js'
