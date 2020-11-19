@@ -5,7 +5,7 @@ export default {
     extensionEnabled: process.env.EXTENSION_ENABLED
   },
   telemetry: false,
-  mode: 'spa',
+  ssr: false,
   server: {
     host: process.env.HOST_IP || 'localhost' // default: localhost
   },
