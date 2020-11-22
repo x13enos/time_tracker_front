@@ -21,14 +21,14 @@ export default {
   async addTask ({ commit, dispatch }, { params, day }) {
     params.assignedDate = this.$appMethods.systemFormatDate(day)
     const response = await this.$api.createTimeRecord(params)
-    dispatch("stopOtherTasks", response.data)
+    dispatch("stopOtherTasks", params.active)
     commit('updateTask', response.data)
     return response;
   },
 
-  async updateTask ({ commit, dispatch }, params) {
+  async updateTask ({ state, commit, dispatch }, params) {
     const response = await this.$api.updateTimeRecord(params)
-    dispatch("stopOtherTasks", response.data)
+    dispatch("stopOtherTasks", params.active)
     commit('updateTask', response.data)
     return response;
   },
@@ -39,8 +39,8 @@ export default {
     return response;
   },
 
-  stopOtherTasks ({ commit }, data) {
-    if(!this.$appMethods.isEmpty(data.time_start)){
+  stopOtherTasks ({ commit }, taskIsActive) {
+    if(taskIsActive){
       commit("clearActiveTaskIntervalId")
       commit("cleanTasksStartTime")
     }
