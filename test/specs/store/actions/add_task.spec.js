@@ -51,9 +51,9 @@ describe("addTask", () => {
   it('should call action stopOtherTasks if response is success', async () => {
     const dispatchStub = sinon.stub(commitObject, 'dispatch')
     const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)
-    await actions.addTask(commitObject, { params: {}, day })
+    await actions.addTask(commitObject, { params: { active: true }, day })
 
-    expect(dispatchStub.args[0]).to.eql(['stopOtherTasks', 'data' ])
+    expect(dispatchStub.args[0]).to.eql(['stopOtherTasks', true ])
   })
 
   it('should return response', async () => {

@@ -55,10 +55,11 @@
       <v-col class="col-sm-1 col-6">
         <v-row>
           <v-col cols="6">
+            <img class="clock-image" src="/circle-loader.svg" alt="loader" v-if="loading" :text="true"/>
             <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
             <v-icon
-              v-else
-              @click="update(true)"
+              v-if="!active && !loading"
+              @click="launchTask"
               :text="true"
               :large="true"
               @mouseover="toggleBtnStatus"
@@ -158,6 +159,7 @@ export default {
       valid: true,
       dialog: false,
       btnStartFocused: false,
+      loading: false,
       cachedSpentTime: this.task.spentTime
     }
   },
@@ -169,7 +171,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["projects"]),
+    ...mapState(["projects", "activeTaskIntervalId"]),
 
     active(){
       return !this.$appMethods.isEmpty(this.task.timeStart)
@@ -238,6 +240,15 @@ export default {
         spentTime: parseFloat(this.spentTime || 0.0).toFixed(2),
         tagIds: this.tagIds
       }
+    },
+
+    launchTask() {
+      const delay = this.activeTaskIntervalId === null ? 0 : 500;
+      this.loading = true;
+      setTimeout(async () => {
+        await this.update(true);
+        this.loading = false;
+      }, delay)
     },
 
     start(){
