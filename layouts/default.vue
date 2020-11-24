@@ -25,7 +25,7 @@ import PendingTimeReportNotifications from '~/components/layout/pending_time_rep
 import { mapGetters } from 'vuex'
 
 export default {
-  middleware: 'auth',
+  middleware: ['auth', 'redirects'],
   components: { Header, Snackbar, PendingTimeReportNotifications },
 
   computed: {
