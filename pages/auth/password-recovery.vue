@@ -39,9 +39,9 @@
 
     <v-card class="elevation-4 mt-3 auth-card">
       <v-card-text class="d-flex justify-center auth-links-block">
-        <NuxtLink to="/">
+        <nuxt-link to="/auth/sign-in">
           {{ $t('navigation.login') }}
-        </NuxtLink>
+        </nuxt-link>
       </v-card-text>
     </v-card>
   </div>
