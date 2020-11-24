@@ -1,3 +1,5 @@
+import BlockedDaysSearcher from "@/services/blocked_days_searcher";
+
 export default {
   async getUserInfo ({ commit }) {
     const response = await this.$api.personalInfo()
@@ -57,7 +59,15 @@ export default {
     }
   },
 
-  async approveTimeReport({ commit }, periodId) {
+  async approveTimeReport({ commit, state }, periodId) {
+    if(this.app.$config.extensionEnabled){
+      const period = state.unapprovedPeriods.find(p => p.id === periodId);
+      const currentDates = Object.keys(state.tasks)
+      const blockedDays = new BlockedDaysSearcher(period, currentDates).perform();
+      if(blockedDays.length > 0) {
+        commit('updateBlockedDays', blockedDays);
+      }
+    }
     await this.$api.approveTimeReport(periodId, {})
     commit("removeUnapprovedTimePeriod", periodId)
   },

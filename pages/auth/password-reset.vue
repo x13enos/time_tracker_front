@@ -42,7 +42,7 @@
       <v-card-actions>
         <v-btn
           color="primary"
-          block="true"
+          :block="true"
           @click="submit()"
           :disabled="!valid || !this.form.password || !this.form.confirmPassword">
           {{ $t('password-reset.create_new_password') }}
