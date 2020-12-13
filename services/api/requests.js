@@ -10,6 +10,11 @@ function Api({ router, store }, appMethods) {
     return client.post("/auth", data)
   }
 
+  this.signUp = (data) => {
+    data.locale = getLocale();
+    return client.post("/users/registrations", data)
+  }
+
   this.signOut = () => {
     return client.delete("/auth")
   }

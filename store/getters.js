@@ -2,7 +2,7 @@ import $appMethods from "@/services/global_methods";
 
 export default {
   userAuthorized (state) {
-    return state.user.name != null
+    return state.user.email != null
   },
 
   somePendingTasks (state) {

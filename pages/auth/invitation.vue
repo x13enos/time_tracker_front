@@ -1,61 +1,66 @@
 <template>
-  <v-card v-if="dataWasUpdated" class="elevation-12">
-    <v-card-text>
-      <p>You succesfully updated your data.</p>
-      <p>Please go to the login page and try to authorise.</p>
-      <nuxt-link to="/auth/sign-in">
-        <v-btn :block="true" class="primary" text>
-          {{ $t("navigation.login") }}
+  <div>
+    <v-card v-if="dataWasUpdated" class="elevation-12">
+      <v-card-text>
+        <p>You succesfully updated your data.</p>
+        <p>Please go to the login page and try to authorise.</p>
+        <nuxt-link to="/auth/sign-in">
+          <v-btn :block="true" class="primary" text>
+            {{ $t("navigation.login") }}
+          </v-btn>
+        </nuxt-link>
+      </v-card-text>
+    </v-card>
+    <v-card v-else class="elevation-12">
+      <v-toolbar color="primary" dark flat>
+        <v-toolbar-title>
+          {{ $t('invitation.title') }}
+        </v-toolbar-title>
+      </v-toolbar>
+      <v-card-text>
+        <v-form v-model="valid">
+          <v-text-field
+            v-model.trim="$v.form.name.$model"
+            :label="$t('invitation.name')"
+            type="text"
+            :error-messages="$formErrorMessage('name', ['required'])"
+          />
+          <v-text-field
+            v-model.trim="$v.form.password.$model"
+            :label="$t('invitation.password')"
+            type="password"
+            :error-messages="$formErrorMessage('password', ['required', 'passwordLength'])"
+          />
+          <v-text-field
+            v-model.trim="$v.form.confirmPassword.$model"
+            :label="$t('invitation.confirm_password')"
+            type="password"
+            :error-messages="$formErrorMessage('confirmPassword', ['required', 'sameAsPassword'])"
+          />
+        </v-form>
+        <span class='red--text' v-if="!!errorMessages.base">
+          {{ errorMessages.base }}
+        </span>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn
+          color="primary"
+          :block="true"
+          @click="submit()"
+          :disabled="!valid || !this.form.name || !this.form.password || !this.form.confirmPassword">
+          {{ $t('invitation.accept_invitation') }}
         </v-btn>
-      </nuxt-link>
-    </v-card-text>
-  </v-card>
-  <v-card v-else class="elevation-12">
-    <v-toolbar color="primary" dark flat>
-      <v-toolbar-title>
-        {{ $t('invitation.title') }}
-      </v-toolbar-title>
-    </v-toolbar>
-    <v-card-text>
-      <v-form v-model="valid">
-        <v-text-field
-          v-model.trim="$v.form.name.$model"
-          :label="$t('invitation.name')"
-          type="text"
-          :error-messages="$formErrorMessage('name', ['required'])"
-        />
-        <v-text-field
-          v-model.trim="$v.form.password.$model"
-          :label="$t('invitation.password')"
-          type="password"
-          :error-messages="$formErrorMessage('password', ['required', 'passwordLength'])"
-        />
-        <v-text-field
-          v-model.trim="$v.form.confirmPassword.$model"
-          :label="$t('invitation.confirm_password')"
-          type="password"
-          :error-messages="$formErrorMessage('confirmPassword', ['required', 'sameAsPassword'])"
-        />
-      </v-form>
-      <span class='red--text' v-if="!!errorMessages.base">
-        {{ errorMessages.base }}
-      </span>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn
-        color="primary"
-        :block="true"
-        @click="submit()"
-        :disabled="!valid || !this.form.name || !this.form.password || !this.form.confirmPassword">
-        {{ $t('invitation.accept_invitation') }}
-      </v-btn>
-    </v-card-actions>
-  </v-card>
+      </v-card-actions>
+    </v-card>
+
+    <additional-links link="home" />
+  </div>
 </template>
 
 <script>
-import formMixin from '@/mixins/form'
 
+import formMixin from '@/mixins/form'
+import AdditionalLinks from  "~/components/auth/additional_links.vue"
 import { validationMixin } from 'vuelidate'
 import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 
@@ -63,6 +68,10 @@ export default {
   layout: 'auth',
 
   mixins: [validationMixin, formMixin],
+
+  components: {
+    "additional-links": AdditionalLinks
+  },
 
   validations() {
     return {

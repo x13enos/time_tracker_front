@@ -3,7 +3,7 @@
     <v-card class="elevation-4">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
-          {{ $t('sign_in_form.title') }}
+          {{ $t('sign_up_form.title') }}
         </v-toolbar-title>
 
         <v-spacer />
@@ -15,7 +15,7 @@
           v-model="valid">
           <v-text-field
             v-model.trim="$v.form.email.$model"
-            :label="$t('sign_in_form.email')"
+            :label="$t('sign_up_form.email')"
             type="email"
             @keyup.enter.prevent="onSubmit"
             :error-messages="$formErrorMessage('email', ['required', 'email'])"
@@ -23,7 +23,7 @@
           <v-text-field
             id="password"
             v-model.trim="$v.form.password.$model"
-            :label="$t('sign_in_form.password')"
+            :label="$t('sign_up_form.password')"
             type="password"
             @keyup.enter.prevent="onSubmit"
             :error-messages="$formErrorMessage('password', ['required'])"
@@ -32,22 +32,19 @@
         <span class='red--text' v-if="!!errorMessages.base">
           {{ errorMessages.base }}
         </span>
-        <v-checkbox
-          v-model="form.rememberMe"
-          :label="$t('sign_in_form.remember_me')" />
       </v-card-text>
-      <v-card-actions class="d-flex pa-2 justify-space-between">
-        <v-btn color="primary" @click="onSubmit()" :disabled="!valid || !form.email || !form.password">
-          {{ $t('sign_in_form.login') }}
+      <v-card-actions class="d-flex pa-2 justify-center">
+        <v-btn
+          class="sign-up-button"
+          color="primary"
+          @click="onSubmit()"
+          :disabled="!valid || !form.email || !form.password">
+          {{ $t('sign_up_form.submit') }}
         </v-btn>
-
-        <nuxt-link class="forgot-link" to="/auth/password-recovery">
-            {{ $t("sign_in_form.forgot_password") }}
-        </nuxt-link>
       </v-card-actions>
     </v-card>
 
-    <additional-links link="sign-up" />
+    <additional-links link="sign-in" />
   </div>
 </template>
 
@@ -72,13 +69,17 @@ export default {
     return {
       form: {
         email: '',
-        password: '',
-        rememberMe: false
+        password: ''
       },
-      valid: false,
-      errorMessages: {}
+      valid: false
     }
   },
+
+  watch: {
+    "form.email": function() { this.errorMessages["email"] = "" },
+    "form.password": function() { this.errorMessages["password"] = "" }
+  },
+
 
   validations: {
     form: {
@@ -91,22 +92,13 @@ export default {
     ...mapMutations([ "updatePersonalInfo" ]),
 
     async onSubmit () {
-      this.errorMessage = {};
+      this.errorMessages = {};
       try {
-        const response = await this.$api.signIn(this.handledFormData());
+        const response = await this.$api.signUp(this.form);
         this.updatePersonalInfo(response.data);
-        this.$router.replace({ path: '/tasks' });
+        this.$router.push('/tasks');
       } catch (errors) {
         this.errorMessages = errors;
-      }
-    },
-
-    handledFormData() {
-      const { email, password } = this.form
-      return {
-        email,
-        password,
-        remember_me: this.form.rememberMe
       }
     }
   }
@@ -114,7 +106,7 @@ export default {
 </script>
 
 <style scoped>
-  .forgot-link {
-    text-decoration: none;
+  .sign-up-button {
+    width: 100%;
   }
 </style>

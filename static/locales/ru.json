@@ -49,7 +49,7 @@
       "telegram_daily_report": "Ежедневный отчет"
     }
   },
-  "login_form": {
+  "sign_in_form": {
     "title": "Вход на Time Tracker",
     "email": "Email",
     "password": "Пароль",
@@ -57,6 +57,12 @@
     "email_must_be_valid": "E-mail должен иметь правильный формат",
     "remember_me": "Запомнить меня",
     "forgot_password": "Забыли пароль?"
+  },
+  "sign_up_form": {
+    "title": "Зарегистрируйтесь на Time Tracker",
+    "email": "Email",
+    "password": "Пароль",
+    "submit": "Зарегистрироваться"
   },
   "password_recovery": {
     "title": "Восстановление пароля",
@@ -71,6 +77,19 @@
     "create_new_password": "Обновить пароль",
     "password_was_updated": "Пароль был изменен!",
     "go_to_login_page": "Теперь вы можете вернуться на страницу входа и попытаться войти в систему."
+  },
+  "auth": {
+    "additional_links": {
+      "sign-in": {
+        "description": "Уже зарегистрированы?",
+        "link": "Войдите"
+      },
+      "sign-up": {
+        "description": "Еще нет аккаунта?",
+        "link": "Зарегистрируйтесь"
+      },
+      "home": "Вернуться домой"
+    }
   },
   "time_sheet": {
     "title": "Учет рабочего времени",
