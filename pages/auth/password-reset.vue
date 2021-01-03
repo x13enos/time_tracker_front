@@ -50,13 +50,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-card class="elevation-4 mt-3 auth-card">
-      <v-card-text class="d-flex justify-center auth-links-block">
-        <nuxt-link to="/auth/sign-in">
-          {{ $t('navigation.login') }}
-        </nuxt-link>
-      </v-card-text>
-    </v-card>
+    <additional-links link="home" />
   </div>
 </template>
 
@@ -64,6 +58,7 @@
 import formMixin from '@/mixins/form'
 
 import LocaleSelector from "~/components/auth/locale_selector.vue"
+import AdditionalLinks from  "~/components/auth/additional_links.vue"
 import { validationMixin } from 'vuelidate'
 import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 
@@ -72,7 +67,8 @@ export default {
 
   mixins: [validationMixin, formMixin],
   components: {
-    "locale-selector": LocaleSelector
+    "locale-selector": LocaleSelector,
+    "additional-links": AdditionalLinks
   },
   validations() {
     return {

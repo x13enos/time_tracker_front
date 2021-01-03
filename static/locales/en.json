@@ -50,7 +50,7 @@
       "telegram_daily_report": "Daily report"
     }
   },
-  "login_form": {
+  "sign_in_form": {
     "title": "Log into Time Tracker",
     "email": "Email",
     "password": "Password",
@@ -58,6 +58,12 @@
     "email_must_be_valid": "E-mail must be valid",
     "forgot_password": "Forgot password?",
     "remember_me": "Remember me"
+  },
+  "sign_up_form": {
+    "title": "Create your Time Tracker Account",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit"
   },
   "password_recovery": {
     "title": "Recovery Password",
@@ -72,6 +78,19 @@
     "create_new_password": "Create new password",
     "password_was_updated": "Your password was succesfully updated.",
     "go_to_login_page": "Please go to the login page and try to authorise."
+  },
+  "auth": {
+    "additional_links": {
+      "sign-in": {
+        "description": "Already have account?",
+        "link": "Sign in"
+      },
+      "sign-up": {
+        "description": "Do not have an account?",
+        "link": "Create an account"
+      },
+      "home": "Back to home"
+    }
   },
   "invitation": {
     "title": "Sign Up",
