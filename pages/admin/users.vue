@@ -16,6 +16,10 @@
             <td>{{ user.name }}</td>
             <td>{{ $t(`users.roles.${user.role}`) }}
             <td align="right">
+              <user-form
+                v-if="user.role !== 'owner' "
+                :user="user"
+                @updateUserData="updateUserData"/>
               <time-reports
                 v-if="$config.extensionEnabled"
                 :userId="user.id" />
@@ -30,11 +34,13 @@
 
 <script>
 import TimeReports from "@/components/admin/users/time_reports_block"
+import UserForm from "@/components/admin/users/user_form"
 
 export default {
 
   components: {
-    "time-reports": TimeReports
+    "time-reports": TimeReports,
+    "user-form": UserForm
   },
 
   data() {
@@ -53,6 +59,11 @@ export default {
       const response = await this.$api.getUsersForManaging()
       if(response.data)
         this.users = response.data
+    },
+
+    updateUserData(data) {
+      const elementIndex = this.users.findIndex((e) => { return e.id === data.id });
+      this.$set(this.users, elementIndex, data);
     }
 
   }
