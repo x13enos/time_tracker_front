@@ -192,6 +192,10 @@ function Api({ router, store }, appMethods) {
     return client.put("/users/change_workspace", { workspace_id: workspaceId })
   }
 
+  this.updateUserData = (userId, data) => {
+    return client.put(`/admin/users/${userId}`, data)
+  }
+
   // private logic
 
   const client = axios.create({

@@ -204,7 +204,9 @@
       "unapproved": "Unapproved",
       "was_unblocked": "Report was unblocked for re-confirmation.",
       "no_reports": "This user doesn't have any reports yet."
-    }
+    },
+    "change_details": "Change details",
+    "details_were_updated": "User's details were updated succesfully"
   },
   "validations": {
     "required": "This field is required.",
