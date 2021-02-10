@@ -31,6 +31,7 @@ describe("save", () => {
       name: 'john',
       email: 'john@gmail.com',
       locale: 'ru',
+      timezone: 'Europe/Kiev',
       password: null,
       notification_rules: ["email_approve_period", "telegram_assign_user_to_project"]
     }
@@ -40,6 +41,7 @@ describe("save", () => {
       name: 'john',
       email: 'john@gmail.com',
       locale: 'ru',
+      timezone: 'Europe/Kiev',
       password: '',
       emailSettings: ["email_approve_period"],
       telegramSettings: ["telegram_assign_user_to_project"]

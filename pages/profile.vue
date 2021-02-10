@@ -34,6 +34,13 @@
             required
           />
 
+          <v-select
+            v-model="form.timezone"
+            label="Timezone"
+            :items="timezoneList()"
+            required
+          />
+
           <v-text-field
           v-model="$v.form.password.$model"
             :label="$t('profile.new_password')"
@@ -99,12 +106,13 @@
 </template>
 
 <script>
-import NotificationSettings from "~/components/profile/notification_settings.vue"
-import { validationMixin } from 'vuelidate'
-import formMixin from '@/mixins/form'
-import { required, email, helpers } from 'vuelidate/lib/validators'
-import { mapState, mapActions, mapMutations } from 'vuex'
-import Clipboard from 'v-clipboard'
+import NotificationSettings from "~/components/profile/notification_settings.vue";
+import { validationMixin } from 'vuelidate';
+import formMixin from '@/mixins/form';
+import { TIMEZONES } from "@/services/constants";
+import { required, email, helpers } from 'vuelidate/lib/validators';
+import { mapState, mapActions, mapMutations } from 'vuex';
+import Clipboard from 'v-clipboard';
 
 export default {
 
@@ -123,6 +131,7 @@ export default {
         name: "",
         email: "",
         locale: "",
+        timezone: "",
         password: "",
         emailSettings: [],
         telegramSettings: []
@@ -159,6 +168,12 @@ export default {
         { text: "English", value: "en" },
         { text: "Русский", value: "ru" }
       ]
+    },
+
+    timezoneList(){
+      return Object.keys(TIMEZONES).map((key) => {
+        return { text: TIMEZONES[key], value: key }
+      });
     },
 
     setNotificationValues() {
@@ -200,12 +215,13 @@ export default {
 }
 
 function handleFormParams(formData) {
-  const { name, email, locale } = formData
+  const { name, email, locale, timezone } = formData
   const password = formData.password === "" ? null : formData.password
   return {
     name,
     email,
     locale,
+    timezone,
     password,
     notification_rules: [...formData.emailSettings, ...formData.telegramSettings]
   }

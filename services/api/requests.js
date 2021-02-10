@@ -206,9 +206,7 @@ function Api({ router, store }, appMethods) {
 
   client.interceptors.request.use((config) => {
     config.params = config.params || {};
-    const currentDate = new Date()
-    const timeZoneOffset = currentDate.getTimezoneOffset() / 60 * -1
-    config.params['timezone_offset'] = timeZoneOffset;
+    config.params['current_timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone;
     return config;
   });
 
