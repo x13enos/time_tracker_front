@@ -38,6 +38,12 @@ import UserForm from "@/components/admin/users/user_form"
 
 export default {
 
+  head() {
+    return {
+      title: this.$t('page_titles.users')
+    }
+  },
+
   components: {
     "time-reports": TimeReports,
     "user-form": UserForm

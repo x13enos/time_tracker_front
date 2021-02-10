@@ -32,12 +32,13 @@ describe("onSubmit", () => {
     const $api = { signUp: () => { return successResponse } }
     const wrapper = createWrapper(signUp, { mocks: { $api }, stubs }, fakeStoreData())
     const mutationStub = sinon.stub(wrapper.vm, 'updatePersonalInfo')
+    sinon.stub(wrapper.vm.$router, 'push')
 
     await wrapper.vm.onSubmit()
     expect(mutationStub.calledOnce).to.be.true
     expect(mutationStub.args[0]).to.eql([{ token: "123" }])
 
-    mutationStub.restore()
+    sinon.restore()
   });
 
   it('should redirect user to main page if status is success', async () => {

@@ -14,6 +14,12 @@ import { mapGetters, mapActions } from 'vuex'
 import TomatoTimer from '@/components/tasks/tomato_timer'
 
 export default {
+  head() {
+    return {
+      title: this.$t('page_titles.tasks')
+    }
+  },
+  
   components: {
     daysBar: () => import('~/components/days/bar.vue'),
     TomatoTimer

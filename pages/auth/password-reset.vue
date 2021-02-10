@@ -65,6 +65,12 @@ import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 export default {
   layout: 'auth',
 
+  head() {
+    return {
+      title: this.$t('page_titles.password_reset')
+    }
+  },
+
   mixins: [validationMixin, formMixin],
   components: {
     "locale-selector": LocaleSelector,

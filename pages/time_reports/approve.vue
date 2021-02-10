@@ -19,6 +19,12 @@
 export default {
   layout: 'auth',
 
+  head() {
+    return {
+      title: this.$t('page_titles.timereport_approve')
+    }
+  },
+
   data(){
     return {
       errorMessages: {},

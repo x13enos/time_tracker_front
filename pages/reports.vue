@@ -141,6 +141,12 @@ import { DateTime } from 'luxon'
 
 export default {
 
+  head() {
+    return {
+      title: this.$t('page_titles.reports')
+    }
+  },
+
   components: {
     "date-select": dateSelect
   },

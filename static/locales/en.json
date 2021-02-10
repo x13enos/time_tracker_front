@@ -7,6 +7,20 @@
   "update": "Update",
   "add": "Add",
   "continue": "Continue",
+  "page_titles": {
+    "tasks": "Tasks - Toime",
+    "reports": "Reports - Toime",
+    "profile": "Profile - Toime",
+    "workspaces": "Workspaces - Toime",
+    "projects": "Projects - Toime",
+    "users": "Users - Toime",
+    "tags": "Tags - Toime",
+    "sign_up": "Sign Up - Toime",
+    "sign_in": "Login - Toime",
+    "password_recovery": "Password recovery - Toime",
+    "password_reset": "Change password - Toime",
+    "timereport_approve": "Time report approving - Toime"
+  },
   "navigation": {
     "tasks": "Tasks",
     "reports": "Reports",
@@ -190,7 +204,7 @@
   },
   "users": {
     "no_users": "No users",
-    "title": "User Management",
+    "title": "Users",
     "name": "Name",
     "role": "Role",
     "roles": {

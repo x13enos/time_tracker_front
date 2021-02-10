@@ -62,10 +62,19 @@ import { mapMutations } from 'vuex'
 
 export default {
   layout: 'auth',
+  name: 'Login',
+
+  head() {
+    return {
+      title: this.$t('page_titles.sign_in')
+    }
+  },
+
   components: {
     "locale-selector": LocaleSelector,
     "additional-links": AdditionalLinks
   },
+
   mixins: [validationMixin, formMixin],
 
   data () {

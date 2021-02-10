@@ -82,6 +82,12 @@ import { mapMutations } from 'vuex'
 
 export default {
 
+  head() {
+    return {
+      title: this.$t('page_titles.projects')
+    }
+  },
+
   components: {
     "project-form": ProjectForm,
     "users-block": UsersBlock

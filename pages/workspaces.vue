@@ -88,6 +88,12 @@ import { mapMutations, mapActions } from 'vuex'
 
 export default {
 
+  head() {
+    return {
+      title: this.$t('page_titles.workspaces')
+    }
+  },
+
   components: {
     "workspace-form": WorkspaceForm,
     "users-block": UsersBlock,
