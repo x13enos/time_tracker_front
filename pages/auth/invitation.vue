@@ -67,6 +67,12 @@ import { required, helpers, sameAs } from 'vuelidate/lib/validators'
 export default {
   layout: 'auth',
 
+  head() {
+    return {
+      title: this.$t('page_titles.sign_up')
+    }
+  },
+
   mixins: [validationMixin, formMixin],
 
   components: {

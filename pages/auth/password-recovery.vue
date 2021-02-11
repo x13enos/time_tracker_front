@@ -52,6 +52,12 @@ import { mapMutations } from 'vuex'
 export default {
   layout: 'auth',
 
+  head() {
+    return {
+      title: this.$t('page_titles.password_recovery')
+    }
+  },
+
   mixins: [validationMixin, formMixin],
   components: {
     "locale-selector": LocaleSelector,

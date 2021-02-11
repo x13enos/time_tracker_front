@@ -74,6 +74,12 @@ import { mapMutations } from 'vuex'
 
 export default {
 
+  head() {
+    return {
+      title: this.$t('page_titles.tags')
+    }
+  },
+
   components: {
     "tag-form": TagForm
   },

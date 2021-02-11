@@ -6,6 +6,20 @@
   "create": "Создать",
   "update": "Обновить",
   "add": "Добавить",
+  "page_titles": {
+    "tasks": "Задачи - Toime",
+    "reports": "Отчеты - Toime",
+    "profile": "Профиль - Toime",
+    "workspaces": "Рабочие пространства - Toime",
+    "projects": "Проекты - Toime",
+    "users": "Пользователи - Toime",
+    "tags": "Метки - Toime",
+    "sign_up": "Регистрация - Toime",
+    "sign_in": "Вход - Toime",
+    "password_recovery": "Восстановление пароля - Toime",
+    "password_reset": "Изменение пароля - Toime",
+    "timereport_approve": "Подтверждение отчета - Toime"
+  },
   "navigation": {
     "tasks": "Задачи",
     "reports": "Отчеты",
@@ -182,7 +196,7 @@
   },
   "users": {
     "no_users": "Пока что, тут еще нет ни одного пользователя.",
-    "title": "Управление пользователями",
+    "title": "Пользователи",
     "name": "Имя",
     "role": "Роль",
     "roles": {

@@ -116,6 +116,12 @@ import Clipboard from 'v-clipboard';
 
 export default {
 
+  head() {
+    return {
+      title: this.$t('page_titles.profile')
+    }
+  },
+
   mixins: [validationMixin, formMixin],
   components: {
     "notification-settings": NotificationSettings

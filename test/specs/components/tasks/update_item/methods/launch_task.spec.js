@@ -31,16 +31,17 @@ describe('launchTask', () => {
     }, 600)
   });
 
-  it('should call update method with the delay in case of other task is active now', () => {
+  it('should call update method with the delay in case of other task is active now', (done) => {
     const storeData = fakeStoreData();
     storeData.state.activeTaskIntervalId = 1;
     const wrapper = createWrapper(task, { propsData }, storeData)
     const methodStub = sinon.stub(wrapper.vm, 'update')
 
     wrapper.vm.launchTask()
-    setTimeout(async () => {
+    setTimeout(() => {
       expect(methodStub.calledOnceWith(true)).to.be.true
       sinon.restore()
+      done();
     }, 600)
   });
 
@@ -55,16 +56,17 @@ describe('launchTask', () => {
     sinon.restore()
   });
 
-  it('should call update method immediately if no any other active task there', () => {
+  it('should call update method immediately if no any other active task there', (done) => {
     const storeData = fakeStoreData();
     storeData.state.activeTaskIntervalId = null;
     const wrapper = createWrapper(task, { propsData }, storeData)
     const methodStub = sinon.stub(wrapper.vm, 'update')
 
     wrapper.vm.launchTask()
-    setTimeout(async () => {
+    setTimeout(() => {
       expect(methodStub.calledOnceWith(true)).to.be.true
       sinon.restore()
+      done();
     }, 0)
   });
 })
