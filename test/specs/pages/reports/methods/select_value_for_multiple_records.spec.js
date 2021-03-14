@@ -1,20 +1,22 @@
 import createWrapper from '@/test/support/create_wrapper.js'
-import reports from '@/pages/reports';
+import reports from '@/pages/reports'
 
-describe("selectValueForMultipleRecords", () => {
+describe('selectValueForMultipleRecords', () => {
+  const mocks = { $api: {
+    allTags: () => { return { data: [] } }
+  } }
 
   it('should return number of uniq values if them more than one', async () => {
-    const wrapper = createWrapper(reports, {}, fakeStoreData())
-    const tasks = [{ project_name: "first_project" }, { project_name: "second_project" }]
+    const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
+    const tasks = [{ project_name: 'first_project' }, { project_name: 'second_project' }]
 
-    expect(wrapper.vm.selectValueForMultipleRecords(tasks, "project_name")).to.eq(2)
+    expect(wrapper.vm.selectValueForMultipleRecords(tasks, 'project_name')).to.eq(2)
   })
 
   it('should return value if all of tasks have that one', async () => {
-    const wrapper = createWrapper(reports, {}, fakeStoreData())
-    const tasks = [{ project_name: "first_project" }, { project_name: "first_project" }]
+    const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
+    const tasks = [{ project_name: 'first_project' }, { project_name: 'first_project' }]
 
-    expect(wrapper.vm.selectValueForMultipleRecords(tasks, "project_name")).to.eq("first_project")
+    expect(wrapper.vm.selectValueForMultipleRecords(tasks, 'project_name')).to.eq('first_project')
   })
-
 })

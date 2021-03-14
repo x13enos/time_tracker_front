@@ -1,16 +1,19 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import reports from '@/pages/reports'
 
-describe("getReportLink", () => {
-  const mocks = { $api: { generateReport: () => {} } }
+describe('getReportLink', () => {
+  const mocks = { $api: {
+    generateReport: () => {},
+    allTags: () => { return { data: [] } }
+  } }
   const successResponse = {
     data: {
-      link: "/report.pdf"
+      link: '/report.pdf'
     }
   }
 
-  it("it should change status of loader", () => {
-    const apiStub = sinon.stub(mocks.$api, "generateReport").returns(successResponse)
+  it('it should change status of loader', () => {
+    const apiStub = sinon.stub(mocks.$api, 'generateReport').returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
     wrapper.vm.loadingReport = false
@@ -23,7 +26,7 @@ describe("getReportLink", () => {
   })
 
   it('should call method for generating report', async () => {
-    const apiStub = sinon.stub(mocks.$api, "generateReport").returns(successResponse)
+    const apiStub = sinon.stub(mocks.$api, 'generateReport').returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     const filtersData = sinon.stub(wrapper.vm, 'handledFilters').returns('filters')
 
@@ -35,17 +38,17 @@ describe("getReportLink", () => {
   })
 
   it('should keep report link if response was successful', async () => {
-    const apiStub = sinon.stub(mocks.$api, "generateReport").returns(successResponse)
+    const apiStub = sinon.stub(mocks.$api, 'generateReport').returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     await wrapper.vm.getReportLink()
-    expect(wrapper.vm.reportLink).to.eq("/report.pdf")
+    expect(wrapper.vm.reportLink).to.eq('/report.pdf')
 
     apiStub.restore()
   })
 
   it('should drop loading report status', async () => {
-    const apiStub = sinon.stub(mocks.$api, "generateReport").returns(successResponse)
+    const apiStub = sinon.stub(mocks.$api, 'generateReport').returns(successResponse)
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
     wrapper.vm.loadingReport = true
 
