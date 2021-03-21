@@ -8,6 +8,7 @@ export default function state(){
     pendingTasks: [],
     blockedDays: [],
     unapprovedPeriods: [],
+    currentTask: null,
     snack: {
       message: "",
       color: ""

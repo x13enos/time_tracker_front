@@ -21,35 +21,35 @@ describe("updateTask", () => {
 
   it('should call api for updating time record', async () => {
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
+
     await actions.updateTask(commitObject, { params: "params" })
-    expect(apiStub.calledOnce).to.be.true
-    expect(apiStub.args[0]).to.eql([{ params: "params" }])
-    apiStub.restore()
+    expect(apiStub.calledOnceWith({ params: "params" })).to.be.true
+    sinon.restore()
   })
 
   it('should commit data if response is success', async () => {
     const commitStub = sinon.stub(commitObject, 'commit')
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
+
     await actions.updateTask(commitObject, { params: "params" })
     expect(commitStub.args[0]).to.eql(['updateTask', 'data' ])
-    apiStub.restore()
-    commitStub.restore()
+    sinon.restore()
   })
 
-  it('should call action stopOtherTasks if response is success', async () => {
-    const dispatchStub = sinon.stub(commitObject, 'dispatch')
+  it('should cleap up current task in case of stopping time record', async () => {
+    const commitStub = sinon.stub(commitObject, 'commit')
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
-    await actions.updateTask(commitObject, { active: true })
-    expect(dispatchStub.args[0]).to.eql(['stopOtherTasks', true])
-    apiStub.restore()
-    dispatchStub.restore()
+    await actions.updateTask(commitObject, { active: false })
+
+    expect(commitStub.args[0]).to.eql(['updateCurrentTask', null])
+    sinon.restore()
   })
 
   it('should return response', async () => {
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
     const response = await actions.updateTask(commitObject, { params: "data" })
     expect(response).to.eql(successResponse)
-    apiStub.restore()
+    sinon.restore()
   })
 
 })

@@ -111,7 +111,7 @@
 <script>
 import formMixin from '@/mixins/form'
 
-import TagsMenu from '@/components/tasks/tags_menu'
+import TagsMenu from '@/components/tasks/inputs/tags_menu'
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
 import { mapActions, mapMutations, mapState } from 'vuex'

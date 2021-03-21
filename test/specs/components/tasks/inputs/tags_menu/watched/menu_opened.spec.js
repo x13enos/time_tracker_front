@@ -1,5 +1,5 @@
 import createWrapper from '@/test/support/create_wrapper.js'
-import TagsMenu from '@/components/tasks/tags_menu'
+import TagsMenu from '@/components/tasks/inputs/tags_menu'
 
 describe('watched menuOpened', () => {
   const propsData = {

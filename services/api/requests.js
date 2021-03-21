@@ -69,6 +69,10 @@ function Api({ router, store }, appMethods) {
     } })
   }
 
+  this.activeTimeRecord = () => {
+    return client.get("/time_records/active")
+  }
+
   this.getUsersByWorkspace = (workspaceId) => {
     return client.get(`/workspaces/${workspaceId}/workspace_users`)
   }

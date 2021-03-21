@@ -20,17 +20,26 @@ export default {
     return response;
   },
 
+  async fetchActiveTimeRecord({ commit }) {
+    const response = await this.$api.activeTimeRecord()
+    if (response.data)
+      commit('updateCurrentTask', response.data)
+  },
+
   async addTask ({ commit, dispatch }, { params, day }) {
     params.assignedDate = this.$appMethods.systemFormatDate(day)
     const response = await this.$api.createTimeRecord(params)
     dispatch("stopOtherTasks", params.active)
-    commit('updateTask', response.data)
+    await commit('updateTask', response.data)
+    if (response.data.time_start)
+      commit('updateCurrentTask', response.data)
     return response;
   },
 
   async updateTask ({ state, commit, dispatch }, params) {
     const response = await this.$api.updateTimeRecord(params)
-    dispatch("stopOtherTasks", params.active)
+     if (params.active === false)
+      commit('updateCurrentTask', null)
     commit('updateTask', response.data)
     return response;
   },

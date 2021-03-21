@@ -48,6 +48,31 @@ describe("addTask", () => {
     expect(commitStub.args[0]).to.eql([ 'updateTask', 'data' ])
   })
 
+  it('should call mutation for setting current task id if this task is active', async function(){
+    const commitStub = sinon.stub(commitObject, 'commit')
+    successResponse.data = {
+      id: 222,
+      time_start: 12312313
+    }
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)
+    await actions.addTask(commitObject, { params: {}, day })
+
+    expect(commitStub.args[1]).to.eql([ 'updateCurrentTask', successResponse.data ])
+  });
+
+  it('should not call mutation for setting current task id if this task is not active', async function(){
+    const commitStub = sinon.stub(commitObject, 'commit')
+    successResponse.data = {
+      id: 222,
+      time_start: null
+    }
+    const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)
+    await actions.addTask(commitObject, { params: {}, day })
+
+    expect(commitStub.args[1]).to.be.undefined;
+  });
+
+
   it('should call action stopOtherTasks if response is success', async () => {
     const dispatchStub = sinon.stub(commitObject, 'dispatch')
     const apiStub = sinon.stub(actions.$api, 'createTimeRecord').returns(successResponse)

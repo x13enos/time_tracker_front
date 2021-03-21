@@ -1,61 +1,67 @@
 <template>
   <div>
-    <div class='d-flex justify-space-between mb-2'>
+    <div class="d-flex justify-space-between mb-2">
       <h1>{{ $t("time_sheet.title") }}</h1>
 
       <TomatoTimer />
     </div>
-    <daysBar />
+    <CurrentTask
+      :day="selectedDate"
+    />
+    <!-- <daysBar /> -->
   </div>
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
+import { DateTime } from 'luxon'
 import TomatoTimer from '@/components/tasks/tomato_timer'
 
 export default {
-  head() {
+  head () {
     return {
       title: this.$t('page_titles.tasks')
     }
   },
-  
+
   components: {
     daysBar: () => import('~/components/days/bar.vue'),
+    CurrentTask: () => import('~/components/tasks/current.vue'),
     TomatoTimer
   },
 
-  data() {
+  data () {
     return {
       dialog: false,
+      selectedDate: DateTime.local(),
+      currentDate: DateTime.local()
     }
   },
 
-  beforeRouteLeave(to, from, next) {
+  beforeRouteLeave (to, from, next) {
     this.checkOnPendingTasks(() => { next() })
   },
 
-  mounted() {
-    window.addEventListener('beforeunload', (event) => {
-      if(this.somePendingTasks())
-        event.returnValue = this.$t("you_can_lose_changes");
-    });
-  },
-
-  async fetch({ app }){
-
+  async fetch ({ app }) {
     const projectsResponse = await app.$api.allProjects()
-    if(projectsResponse.data)
-      app.store.commit("updateProjects", projectsResponse.data)
+    if (projectsResponse.data) { app.store.commit('updateProjects', projectsResponse.data) }
 
     const tagsResponse = await app.$api.allTags()
-    if(tagsResponse.data)
-      app.store.commit("updateTags", tagsResponse.data)
+    if (tagsResponse.data) { app.store.commit('updateTags', tagsResponse.data) }
+  },
+
+  async mounted () {
+    await this.getWeeklyTasks(this.selectedDate);
+    await this.fetchActiveTimeRecord();
+
+    window.addEventListener('beforeunload', (event) => {
+      if (this.somePendingTasks()) { event.returnValue = this.$t('you_can_lose_changes') }
+    })
   },
 
   methods: {
-    ...mapGetters(["somePendingTasks"]),
-    ...mapActions(["checkOnPendingTasks"])
+    ...mapGetters(['somePendingTasks']),
+    ...mapActions(['checkOnPendingTasks', 'getWeeklyTasks', 'fetchActiveTimeRecord'])
   }
 }
 </script>
