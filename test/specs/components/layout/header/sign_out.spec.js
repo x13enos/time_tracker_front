@@ -1,6 +1,6 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import { RouterLinkStub } from '@vue/test-utils'
-import header from '@/components/layout/header'
+import sidebar from '@/components/layout/sidebar'
 import Vuetify from 'vuetify'
 
 describe('signOut', () => {
@@ -15,7 +15,7 @@ describe('signOut', () => {
 
   it('should call api method for sign out ', async () => {
     const actionSpy = sinon.spy(mocks.$api, "signOut")
-    const wrapper = createWrapper(header,
+    const wrapper = createWrapper(sidebar,
       {
         mocks,
         computed,
@@ -32,7 +32,7 @@ describe('signOut', () => {
   });
 
   it('should redirect to sign in page', async () => {
-    const wrapper = createWrapper(header,
+    const wrapper = createWrapper(sidebar,
       {
         mocks,
         computed,

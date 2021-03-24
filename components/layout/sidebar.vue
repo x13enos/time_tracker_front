@@ -1,5 +1,68 @@
 <template>
-  <div>
+  <v-navigation-drawer
+    app
+    floating
+    width="236"
+    class="navbar"
+  >
+    <v-list class="pt-1">
+      <v-list-item>
+          <v-list-item-content class="text-truncate">
+            <nuxt-link to="/tasks">
+                Time Tracker
+            </nuxt-link>
+          </v-list-item-content>
+          <v-btn icon x-small>
+              <v-icon>mdi-bell</v-icon>
+          </v-btn>
+      </v-list-item>
+
+      <v-list-item class="mt-4">
+            <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+            <nuxt-link to="/tasks">{{ $t("navigation.tasks") }}</nuxt-link>
+      </v-list-item>
+      <div class="group-items mt-2">
+        <v-subheader>{{ $t("navigation.analyze") }}</v-subheader>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/tasks">Dashboard</nuxt-link>
+        </v-list-item>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/reports">{{ $t("navigation.reports") }}</nuxt-link>
+        </v-list-item>
+      </div>
+      <div class="group-items mt-4" v-if="isManager" >
+        <v-subheader>{{ $t("navigation.manage") }}</v-subheader>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/admin/projects">{{ $t("navigation.projects") }}</nuxt-link>
+        </v-list-item>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/admin/users">{{ $t("navigation.users") }}</nuxt-link>
+        </v-list-item>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/admin/tags">{{ $t("navigation.users") }}</nuxt-link>
+        </v-list-item>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/tasks">Clients</nuxt-link>
+        </v-list-item>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/tasks">Settings</nuxt-link>
+        </v-list-item>
+        <v-list-item>
+          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <nuxt-link to="/tasks">Help</nuxt-link>
+        </v-list-item>
+      </div>
+    </v-list>
+
+  </v-navigation-drawer>
+  <!-- <div>
     <v-app-bar
       color="primary"
       :dark="true"
@@ -91,103 +154,7 @@
           </v-card>
         </v-menu>
       </template>
-    </v-app-bar>
-
-    <v-navigation-drawer
-      v-model="drawer"
-      :light="true"
-      absolute
-      temporary>
-      <v-list
-        nav
-        dense>
-        <v-list-item-group
-          active-class="primary--text text--accent-4"
-        >
-
-          <nuxt-link to="/tasks">
-            <v-list-item>
-              <v-list-item-title>
-                 {{ $t("navigation.tasks") }}
-              </v-list-item-title>
-            </v-list-item>
-          </nuxt-link>
-
-          <nuxt-link to="/reports">
-            <v-list-item>
-              <v-list-item-title>
-                {{ $t("navigation.reports") }}
-              </v-list-item-title>
-            </v-list-item>
-          </nuxt-link>
-
-          <nuxt-link to="/admin/projects">
-            <v-list-item v-if="isManager">
-              <v-list-item-title>
-                {{ $t("navigation.projects") }}
-              </v-list-item-title>
-            </v-list-item>
-          </nuxt-link>
-
-          <nuxt-link to="/admin/users">
-            <v-list-item v-if="isManager">
-              <v-list-item-title>
-                {{ $t("navigation.users") }}
-              </v-list-item-title>
-            </v-list-item>
-          </nuxt-link>
-
-          <nuxt-link to="/admin/tags">
-            <v-list-item v-if="isManager">
-              <v-list-item-title>
-                {{ $t("navigation.tags") }}
-              </v-list-item-title>
-            </v-list-item>
-          </nuxt-link>
-
-          <v-divider />
-
-          <nuxt-link to="/workspaces">
-            <v-list-item>
-              <v-list-item-title>
-                {{ $t("navigation.workspaces") }}:
-              </v-list-item-title>
-            </v-list-item>
-          </nuxt-link>
-
-          <v-list-item v-for="workspace in user.workspaces" :key="workspace.id">
-            <v-list-item-content>
-              <v-list-item-title>
-                <a @click="changeWorkspace(workspace.id)">
-                  {{ workspace.name }}
-                </a>
-                <span v-if="workspace.id === user.activeWorkspaceId" >
-                  {{ $t("profile.active_workspace") }}
-                  <v-icon color="green">mdi-checkbox-marked</v-icon>
-                </span>
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-divider />
-
-          <nuxt-link to="/profile">
-            <v-list-item>
-                <v-list-item-title>
-                  {{ $t("navigation.profile") }}
-                </v-list-item-title>
-            </v-list-item>
-          </nuxt-link>
-
-          <v-list-item @click="signOut">
-              <v-list-item-title>
-                {{ $t("navigation.sign_out") }}
-              </v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-navigation-drawer>
-  </div>
+    </v-app-bar> -->
 </template>
 
 <script>
@@ -238,5 +205,13 @@ export default {
 
   .link-color {
     color: #1976d2;
+  }
+
+  .navbar .v-subheader {
+    height: 24px;
+  }
+
+  .group-items .v-list-item {
+    min-height: 36px;
   }
 </style>

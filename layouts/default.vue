@@ -1,32 +1,27 @@
 <template>
   <v-app>
-    <template v-if="userAuthorized">
-      <Header />
-      <v-main>
+    <Sidebar />
+    <v-content>
+      <!-- <Header /> -->
         <v-container :fluid="true" class="main-container">
-          <v-row align="start" justify="start" class="main-row">
-            <v-col cols="12">
-              <PendingTimeReportNotifications />
-              <nuxt />
-            </v-col>
-          </v-row>
+          <!-- <PendingTimeReportNotifications /> -->
+          <nuxt />
         </v-container>
-      </v-main>
 
       <Snackbar />
-    </template>
+  </v-content>
   </v-app>
 </template>
 
 <script>
 import Snackbar from '~/components/layout/snackbar.vue'
-import Header from '~/components/layout/header.vue'
+import Sidebar from '~/components/layout/sidebar.vue'
 import PendingTimeReportNotifications from '~/components/layout/pending_time_report_notifications.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   middleware: ['auth', 'spa_redirects'],
-  components: { Header, Snackbar, PendingTimeReportNotifications },
+  components: { Sidebar, Snackbar, PendingTimeReportNotifications },
 
   computed: {
     ...mapGetters(["userAuthorized"])
@@ -35,13 +30,13 @@ export default {
 </script>
 
 <style scoped>
-  .main-container{
-    background-color: #f2f3fa;
-    height: 100%;
+  .navbar {
+    border-right: 1px solid #E0E0E0;
   }
 
-  .main-row{
-    background-color: white;
-    margin: 2rem 1rem 0rem 1rem;
+  .main-container{
+    padding: 0 12px;
+    background-color: #E5E5E5;
+    height: 100%;
   }
 </style>

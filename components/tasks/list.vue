@@ -1,44 +1,37 @@
 <template>
   <div>
-    <v-row class="caption font-weight-black d-none d-sm-flex">
+    <v-row class="d-none d-sm-flex subtitle-2 titles">
       <v-col cols="2">
         {{ $t("time_sheet.project") }}
       </v-col>
       <v-col cols="8">
         {{ $t("time_sheet.description") }}
       </v-col>
-      <v-col cols="1">
+      <v-col cols="1" class='text-center'>
         {{ $t("time_sheet.time") }}
       </v-col>
-      <v-col cols="1" class="text-right">
-        {{ $t("time_sheet.total") }}: {{ totalTimeOfDailyTasks(day) }}
-      </v-col>
+      <!-- <v-col cols="1" class="text-right">
+        {{ $t("time_sheet.total") }}: {{ totalTimeOfDailyTasks(selectedDate) }}
+      </v-col> -->
     </v-row>
-    <v-divider />
     <task
       v-for="(taskInfo, taskId, index) in dailyTasks" :key="taskId"
       :task="taskInfo"
       :activeDay="activeDay"
-      :dayIsBlocked="dayIsBlocked(day)"
+      :dayIsBlocked="dayIsBlocked(selectedDate)"
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
-    />
-    <new-task
-      :dayIsBlocked="dayIsBlocked(day)"
-      :activeDay="activeDay"
-      :day="day"
     />
   </div>
 </template>
 
 <script>
-import CreateItem from '~/components/tasks/create_item.vue'
 import UpdateItem from '~/components/tasks/update_item.vue'
 import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   props: {
-    day: {
+    selectedDate: {
       type: Object,
       required: true
     },
@@ -50,7 +43,6 @@ export default {
   },
 
   components: {
-    "new-task": CreateItem,
     "task": UpdateItem
   },
 
@@ -65,11 +57,12 @@ export default {
     ...mapGetters(["totalTimeOfDailyTasks", "dayIsBlocked"]),
 
     dailyTasks(){
-      return this.tasks[this.$appMethods.systemFormatDate(this.day)] || []
+      const tasks = this.tasks[this.$appMethods.systemFormatDate(this.selectedDate)] || {}
+      return Object.values(tasks).filter(t => !t.timeStart )
     },
 
     activeDay(){
-      return this.currentDate.startOf('day').ts === this.day.startOf('day').ts
+      return this.currentDate.startOf('day').ts === this.selectedDate.startOf('day').ts
     }
   },
 
@@ -84,3 +77,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .titles {
+    color: #828282;
+  }
+</style>

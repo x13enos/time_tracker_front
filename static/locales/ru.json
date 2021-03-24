@@ -29,6 +29,8 @@
     "workspaces": "Рабочие пространства",
     "profile": "Профиль",
     "sign_out": "Выйти",
+    "analyze": "Анализ",
+    "manage": "Управление",
     "login": "Войти"
   },
   "profile": {

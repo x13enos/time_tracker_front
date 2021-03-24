@@ -29,6 +29,8 @@
     "tags": "Tags",
     "workspaces": "Workspaces",
     "profile": "Profile",
+    "analyze": "Analyze",
+    "manage": "Manage",
     "sign_out": "Sign Out",
     "login": "Login"
   },

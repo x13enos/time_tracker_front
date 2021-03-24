@@ -1,27 +1,29 @@
 <template>
-  <v-container :fluid="true">
-    <v-row>
-      <v-col cols="2" class="clickable">
-        <ProjectSelect :project="project" @update="updateAttribute($event, 'project')" />
-      </v-col>
-      <v-col cols="8" class="clickable">
-        <div class="d-flex justify-end">
-          <DescriptionInput :description="description" @update="updateAttribute($event, 'description')" />
-          <TagsMenu :tagIds="tagIds" @update="updateAttribute($event, 'tagIds')" />
-        </div>
-      </v-col>
-      <v-col>
-        <TimeInput :spentTime="spentTime" @update="updateAttribute($event, 'spentTime')" />
-      </v-col>
-      <v-col>
-        <v-icon v-if="!intervalId" @click="create">
+  <v-row class="main-content-container">
+    <v-col cols="2" class="clickable">
+      <ProjectSelect :project="project" @update="updateAttribute($event, 'project')" />
+    </v-col>
+    <v-col cols="8" class="clickable">
+      <div class="d-flex justify-end">
+        <DescriptionInput :description="description" @update="updateAttribute($event, 'description')" />
+        <TagsMenu :tagIds="tagIds" @update="updateAttribute($event, 'tagIds')" />
+      </div>
+    </v-col>
+    <v-col>
+      <TimeInput :spentTime="spentTime" @update="updateAttribute($event, 'spentTime')" />
+    </v-col>
+    <v-col>
+      <div class="start-timer" v-if="!intervalId" @click="create">
+        <v-icon >
           mdi-play-circle
         </v-icon>
+        <span>Start</span>
+      </div>
 
-        <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="intervalId" :text="true" @click="update(false)"/>
-      </v-col>
-    </v-row>
-  </v-container>
+
+      <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="intervalId" :text="true" @click="update(false)"/>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -144,5 +146,24 @@ export default {
     cursor: pointer;
     height: inherit;
     align-items: center;
+  }
+
+  .main-content-container {
+    background-color: white;
+    border-bottom: 1px solid #E0E0E0;
+  }
+
+  .start-timer {
+    cursor: pointer;
+  }
+</style>
+
+<style>
+  .main-content-container .v-input .v-input__slot {
+    margin-bottom: 0px;
+  }
+
+  .main-content-container .v-messages {
+    min-height: 0px;
   }
 </style>

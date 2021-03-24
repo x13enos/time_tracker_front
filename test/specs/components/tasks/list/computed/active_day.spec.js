@@ -7,7 +7,7 @@ describe("activeDay", () => {
 
   it('should return true if currentDate is equal to day', () => {
     const propsData = {
-      day: DateTime.local(2019, 10, 27),
+      selectedDate: DateTime.local(2019, 10, 27),
       currentDate: DateTime.local(2019, 10, 27)
     }
 
@@ -17,7 +17,7 @@ describe("activeDay", () => {
 
   it('should return false if currentDate is not equal to day', () => {
     const propsData = {
-      day: DateTime.local(2019, 10, 27),
+      selectedDate: DateTime.local(2019, 10, 27),
       currentDate: DateTime.local(2019, 10, 28)
     }
 

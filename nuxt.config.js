@@ -29,7 +29,7 @@ export default {
   /*
    ** Global CSS
    */
-  css: [ '@/assets/css/global.css'],
+  css: [ '@/assets/css/global.scss'],
   loadingIndicator: {
     name: 'cube-grid',
     color: 'white',

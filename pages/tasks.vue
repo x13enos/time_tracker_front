@@ -1,14 +1,17 @@
 <template>
   <div>
-    <div class="d-flex justify-space-between mb-2">
+    <!-- <div class="d-flex justify-space-between mb-2">
       <h1>{{ $t("time_sheet.title") }}</h1>
 
       <TomatoTimer />
-    </div>
+    </div> -->
     <CurrentTask
       :day="selectedDate"
     />
-    <!-- <daysBar /> -->
+    <!-- <DaysBar /> -->
+    <div class="main-content-container">
+      <TasksList :selectedDate="selectedDate" :currentDate="currentDate" />
+    </div>
   </div>
 </template>
 
@@ -25,8 +28,9 @@ export default {
   },
 
   components: {
-    daysBar: () => import('~/components/days/bar.vue'),
+    DaysBar: () => import('~/components/days/bar.vue'),
     CurrentTask: () => import('~/components/tasks/current.vue'),
+    TasksList: () => import('~/components/tasks/list.vue'),
     TomatoTimer
   },
 
