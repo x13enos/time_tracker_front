@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <Sidebar />
-    <v-content>
+    <v-main>
       <!-- <Header /> -->
         <v-container :fluid="true" class="main-container">
           <!-- <PendingTimeReportNotifications /> -->
@@ -9,7 +9,7 @@
         </v-container>
 
       <Snackbar />
-  </v-content>
+  </v-main>
   </v-app>
 </template>
 

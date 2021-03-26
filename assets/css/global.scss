@@ -1,5 +1,18 @@
-.empty-color {
-  color: #828282;
+$gray-color: #828282;
+$font-green: #4BBBA9;
+$object-green: #66C5B6;
+
+.gray-color {
+  color: $gray-color;
+}
+
+.font-green {
+  color: $font-green;
+}
+
+.object-green {
+  background-color: $object-green;
+  color: white;
 }
 
 .main-content-container {

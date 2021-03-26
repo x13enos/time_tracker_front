@@ -1,11 +1,17 @@
 const dateTimeSample = {
-  short: {
-    month: 'short',
+  onlyDay: {
     day: 'numeric'
   },
+  onlyMonth: {
+    month: 'short'
+  },
+  short: {
+    day: 'numeric',
+    month: 'short'
+  },
   long: {
-    month: 'long',
-    day: 'numeric'
+    day: 'numeric',
+    month: 'long'
   },
   onlyWeekday: {
     weekday: 'long'

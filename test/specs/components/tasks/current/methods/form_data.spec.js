@@ -13,7 +13,7 @@ describe('formData', () => {
       description: 'text',
       project: 1,
       tagIds: [1, 2],
-      spentTime: 0.255
+      spentTime: '0.255'
     });
 
     expect(wrapper.vm.formData(false)).to.eql({

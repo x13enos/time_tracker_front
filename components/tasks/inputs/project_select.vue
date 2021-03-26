@@ -2,7 +2,7 @@
   <v-menu>
     <template v-slot:activator="{ on }">
       <template v-on="on">
-        <span :class="{ 'empty-color': !projectName }" v-on="on">
+        <span :class="{ 'gray-color': !projectName }" v-on="on">
           {{ projectName || 'Select Project' }}
         </span>
       </template>

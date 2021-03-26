@@ -30,6 +30,9 @@ export default {
    ** Global CSS
    */
   css: [ '@/assets/css/global.scss'],
+  styleResources: {
+    scss: ['@/assets/css/global.scss']
+  },
   loadingIndicator: {
     name: 'cube-grid',
     color: 'white',
@@ -59,6 +62,7 @@ export default {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/style-resources',
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
     '@nuxtjs/proxy',

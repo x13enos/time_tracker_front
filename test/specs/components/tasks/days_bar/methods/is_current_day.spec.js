@@ -1,12 +1,17 @@
 import createWrapper from '@/test/support/create_wrapper.js'
-import bar from '@/components/days/bar'
+import daysBar from '@/components/tasks/days_bar'
 import { DateTime } from 'luxon'
 
-const date = DateTime.local(2019, 10, 27);
 
 describe('isCurrentDay', () => {
+  const date = DateTime.local(2019, 10, 27);
+  const propsData = {
+    selectedDate: date,
+    currentDate: date,
+  }
+
   it('should return true if passed day the same as current', () => {
-    const wrapper = createWrapper(bar, {}, fakeStoreData())
+    const wrapper = createWrapper(daysBar, { propsData }, fakeStoreData())
     const formatterStub = sinon.stub(wrapper.vm, "getFormattedDateForTab")
     formatterStub.withArgs(date).returns("10-27-2019")
     wrapper.vm.currentDate = date
@@ -16,7 +21,7 @@ describe('isCurrentDay', () => {
   });
 
   it('should return false if passed day does not same as current', () => {
-    const wrapper = createWrapper(bar, {}, fakeStoreData())
+    const wrapper = createWrapper(daysBar, { propsData }, fakeStoreData())
     const formatterStub = sinon.stub(wrapper.vm, "getFormattedDateForTab")
     wrapper.vm.currentDate = date
     const anotherDate = DateTime.local(2019, 10, 28);

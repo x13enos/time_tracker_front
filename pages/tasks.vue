@@ -8,7 +8,7 @@
     <CurrentTask
       :day="selectedDate"
     />
-    <!-- <DaysBar /> -->
+    <DaysBar :selectedDate="selectedDate" :currentDate="currentDate" v-bind:selected-date.sync="selectedDate" />
     <div class="main-content-container">
       <TasksList :selectedDate="selectedDate" :currentDate="currentDate" />
     </div>
@@ -28,7 +28,7 @@ export default {
   },
 
   components: {
-    DaysBar: () => import('~/components/days/bar.vue'),
+    DaysBar: () => import('~/components/tasks/days_bar.vue'),
     CurrentTask: () => import('~/components/tasks/current.vue'),
     TasksList: () => import('~/components/tasks/list.vue'),
     TomatoTimer
@@ -38,7 +38,8 @@ export default {
     return {
       dialog: false,
       selectedDate: DateTime.local(),
-      currentDate: DateTime.local()
+      currentDate: DateTime.local(),
+      intervalId: null
     }
   },
 
@@ -61,6 +62,16 @@ export default {
     window.addEventListener('beforeunload', (event) => {
       if (this.somePendingTasks()) { event.returnValue = this.$t('you_can_lose_changes') }
     })
+  },
+
+  created: function () {
+    this.intervalId = setInterval(() => {
+      this.currentDate = DateTime.local()
+    }, 60000)
+  },
+
+  destroyed: function(){
+    clearInterval(this.intervalId)
   },
 
   methods: {
