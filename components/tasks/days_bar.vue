@@ -1,5 +1,5 @@
 <template>
-  <ul class="nav nav-tabs timesheet">
+  <ul class="nav nav-tabs timesheet mt-4">
     <li
       :class="{ 'blue-grey lighten-3': dayIsBlocked(day) }"
       v-for="day in days"
@@ -26,7 +26,6 @@
 
 <script>
   import { mapActions, mapState, mapGetters } from 'vuex'
-  import { DateTime } from 'luxon'
 
   export default {
 
@@ -38,6 +37,11 @@
 
       currentDate: {
         type: Object,
+        required: true
+      },
+
+      days: {
+        type: Array,
         required: true
       }
     },
@@ -56,10 +60,6 @@
     computed: {
       ...mapGetters(["dayIsBlocked", "totalTimeOfDailyTasks"]),
 
-      days(){
-        return this.weekDays(this.selectedDate)
-      },
-
       currentWeek(){
         return `${this.getFormattedDateForWeek(this.days[0])} - ${this.getFormattedDateForWeek(this.days[6])}`
       }
@@ -71,13 +71,6 @@
         "checkOnPendingTasks"
       ]),
       ...mapState(["user"]),
-
-      weekDays(passedDate) {
-        let date = passedDate.startOf('week')
-        return [...Array(7).keys()].map((day) => {
-          return date.plus({ days: day })
-        })
-      },
 
       isSelectedDate(day){
         return this.getFormattedDateForTab(day) === this.getFormattedDateForTab(this.selectedDate)
@@ -143,7 +136,7 @@
     color: white;
   }
 
-  .current-day > div {
+  .current-day div {
     color: $font-green;
   }
 

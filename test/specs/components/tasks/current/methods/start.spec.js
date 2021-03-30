@@ -3,7 +3,7 @@ import currentTask from '@/components/tasks/current'
 import { DateTime } from 'luxon'
 
 const day = DateTime.local();
-const propsData = { day }
+const propsData = { day, days: [] }
 
 const taskData = {
   project: 1,

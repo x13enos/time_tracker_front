@@ -36,7 +36,7 @@ export default {
 
   .main-container{
     padding: 0 12px;
-    background-color: #E5E5E5;
+    background-color: #F5F5F5;
     height: 100%;
   }
 </style>

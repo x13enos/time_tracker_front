@@ -3,10 +3,20 @@ import daysBar from '@/components/tasks/days_bar'
 import { DateTime } from 'luxon'
 
 describe('currentWeek', () => {
-  const date = DateTime.local(2019, 10, 27);
+  const date = DateTime.local();
+  const weekDays = [
+    DateTime.local(2020, 4, 27),
+    DateTime.local(2020, 4, 28),
+    DateTime.local(2020, 4, 29),
+    DateTime.local(2020, 4, 30),
+    DateTime.local(2020, 5, 1),
+    DateTime.local(2020, 5, 2),
+    DateTime.local(2020, 5, 3)
+  ];
   const propsData = {
     selectedDate: date,
-    currentDate: date
+    currentDate: date,
+    days: weekDays
   }
 
   it('should return formatted range of week', () => {

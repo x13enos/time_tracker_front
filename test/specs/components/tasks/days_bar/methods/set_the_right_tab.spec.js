@@ -6,6 +6,7 @@ describe('setTheRightTab', () => {
   const date = DateTime.local(2019, 10, 27);
   it('should set 6 as the value for tab', () => {
     const propsData = {
+      days: [],
       selectedDate: DateTime.local(2019, 11, 3),
       currentDate: date,
     }
@@ -17,6 +18,7 @@ describe('setTheRightTab', () => {
 
   it('should set 4 as the value for tab', () => {
     const propsData = {
+      days: [],
       selectedDate: DateTime.local(2019, 11, 1),
       currentDate: date,
     }

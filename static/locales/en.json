@@ -125,6 +125,7 @@
     "total": "Total",
     "remove": "Remove",
     "tags": "Tags",
+    "hour_short": "h",
     "you_can_lose_changes": "Changes that you made may not be saved.",
     "approve_deleting": "Please approve that you want to remove this task.",
     "task_was_created": "Task was succesfully created!",

@@ -8,7 +8,13 @@
     <CurrentTask
       :day="selectedDate"
     />
-    <DaysBar :selectedDate="selectedDate" :currentDate="currentDate" v-bind:selected-date.sync="selectedDate" />
+    <DatePanel
+      v-bind:selected-date.sync="selectedDate"
+      :days="weekDays"/>
+    <DaysBar
+      :currentDate="currentDate"
+      v-bind:selected-date.sync="selectedDate"
+      :days="weekDays"/>
     <div class="main-content-container">
       <TasksList :selectedDate="selectedDate" :currentDate="currentDate" />
     </div>
@@ -28,6 +34,7 @@ export default {
   },
 
   components: {
+    DatePanel: () => import('~/components/tasks/date_panel.vue'),
     DaysBar: () => import('~/components/tasks/days_bar.vue'),
     CurrentTask: () => import('~/components/tasks/current.vue'),
     TasksList: () => import('~/components/tasks/list.vue'),
@@ -45,6 +52,15 @@ export default {
 
   beforeRouteLeave (to, from, next) {
     this.checkOnPendingTasks(() => { next() })
+  },
+
+  computed: {
+    weekDays() {
+      let date = this.selectedDate.startOf('week')
+      return [...Array(7).keys()].map((day) => {
+        return date.plus({ days: day })
+      })
+    }
   },
 
   async fetch ({ app }) {

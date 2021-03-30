@@ -5,6 +5,7 @@ import { DateTime } from 'luxon'
 describe('getFormattedDateForTab', () => {
   const date = DateTime.local(2019, 10, 27);
   const propsData = {
+    days: [],
     selectedDate: date,
     currentDate: date,
   }

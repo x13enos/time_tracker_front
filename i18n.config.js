@@ -5,6 +5,12 @@ const dateTimeSample = {
   onlyMonth: {
     month: 'short'
   },
+  monthLong: {
+    month: 'long',
+  },
+  onlyYear: {
+    year: 'numeric'
+  },
   short: {
     day: 'numeric',
     month: 'short'
