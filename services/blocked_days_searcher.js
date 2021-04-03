@@ -29,7 +29,7 @@ function convertStringToDateData(val) {
 }
 
 function numberOfDaysInPeriod(startDate, endDate) {
-  return ((endDate - startDate) / (3600 * 24 * 1000)) + 1
+  return Math.round(((endDate - startDate) / (3600 * 24 * 1000)) + 1);
 }
 
 export default BlockedDaysSearcher;
