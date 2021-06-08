@@ -11,7 +11,7 @@
       <v-list>
         <v-list-item-group>
           <v-list-item v-for="project in projects" :key="project.id">
-            <v-list-item-content @click="selectProject(project.id)">
+            <v-list-item-content @click="selectProject(project.id)" @focus="$emit('selectPendingClass')">
               <v-list-item-title>
                 {{ project.name }}
               </v-list-item-title>

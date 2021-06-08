@@ -24,6 +24,13 @@ describe('updateTime', () => {
     expect(wrapper.emitted("update")[0]).to.eql(['0.12'])
   });
 
+  it('should emit spent time and format string 03 to 0.3', () => {
+    const wrapper = createWrapper(TimeInput, { spentTime: null }, fakeStoreData())
+
+    wrapper.vm.updateTime({ target: { value: '03' } })
+    expect(wrapper.emitted("update")[0]).to.eql(['0.3'])
+  });
+
   it('should emit spent time and correct parsed only one passed digit', () => {
     const wrapper = createWrapper(TimeInput, { spentTime: null }, fakeStoreData())
 

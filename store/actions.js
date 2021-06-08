@@ -38,8 +38,10 @@ export default {
 
   async updateTask ({ state, commit, dispatch }, params) {
     const response = await this.$api.updateTimeRecord(params)
-     if (params.active === false)
+    if (params.active === false)
       commit('updateCurrentTask', null)
+    if (params.active === true)
+      commit('updateCurrentTask', response.data)
     commit('updateTask', response.data)
     return response;
   },

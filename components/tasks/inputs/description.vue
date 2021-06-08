@@ -1,6 +1,10 @@
 <template>
   <v-input class="description-input">
-    <input placeholder="What are you working on?" :value="description" @blur="updateDescription">
+    <input 
+      placeholder="What are you working on?" 
+      :value="description" 
+      @input="$emit('selectPendingClass')"
+      @blur="updateDescription">
   </v-input>
 </template>
 <script>

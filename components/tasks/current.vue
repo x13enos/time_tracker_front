@@ -1,5 +1,5 @@
 <template>
-  <v-row class="main-content-container">
+  <v-row class="main-content-container align-center">
     <v-col cols="2" class="clickable">
       <ProjectSelect :project="project" @update="updateAttribute($event, 'project')" />
     </v-col>

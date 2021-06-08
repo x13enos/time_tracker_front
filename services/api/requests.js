@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function getLocale() {
-  return localStorage.getItem("locale");
+  return localStorage.getItem("locale") || 'en';
 }
 
 function Api({ router, store }, appMethods) {

@@ -24,9 +24,9 @@ export default {
 function parseTime (value) {
   const onlyDigits = value.match(/\d/g)
   if (onlyDigits === null) { return '0.00' }
-
   if (onlyDigits.length <= 2) {
-    return `0.${onlyDigits.join('')}`
+    const decimalPart = onlyDigits[0] === '0' ? onlyDigits[1] : onlyDigits.join('');
+    return `0.${decimalPart}`;
   }
 
   const integerPart = parseInt(onlyDigits.join('').slice(-4, -2))

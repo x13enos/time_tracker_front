@@ -9,8 +9,11 @@
     offset-y
   >
     <template v-slot:activator="{ on }">
-      <div class="tags d-flex justify-end" v-on="on">
-        <div v-if="tagNames" class="multiple-tags blue lighten-5">
+      <div 
+      class="tags d-flex justify-end align-center"
+      :class="{ 'tags-selected': !$appMethods.isEmpty(tagIds) }"
+      v-on="on">
+        <div v-if="tagNames" class="multiple-tags lighten-5">
           {{ tagNames }}
         </div>
         <v-icon v-if="$appMethods.isEmpty(tagIds)">
@@ -91,6 +94,10 @@ export default {
     cursor: pointer;
   }
 
+  .tags-selected {
+    background: rgba(102, 197, 182, 0.1);
+  }
+
   .tags-menu {
     background-color: white;
   }
@@ -101,10 +108,12 @@ export default {
   }
 
   .multiple-tags {
+    font-size: 14px;
+    font-weight: 500;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-    color: #02587f;
+    color: #66C5B6;
     border-radius: 4px;
     padding: 0px 10px;
   }

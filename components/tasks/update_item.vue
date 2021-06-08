@@ -1,16 +1,22 @@
 <template>
-  <v-row class="task-attributes" :class="stateClass">
+  <v-row class="task-attributes mb-2" :class="stateClass">
     <v-col class="col-sm-2 col-12">
-      <ProjectSelect :project="project" @update="updateAttribute($event, 'project')" />
+      <ProjectSelect :project="project"  @update="updateAttribute($event, 'project')" />
     </v-col>
     <v-col class="col-sm-8 col-12">
       <div class="d-flex justify-end">
-        <DescriptionInput :description="description" @update="updateAttribute($event, 'description')" />
-        <TagsMenu :tagIds="tagIds" @update="updateAttribute($event, 'tagIds')" />
+        <DescriptionInput 
+          :description="description" 
+          @update="updateAttribute($event, 'description')" 
+          @selectPendingClass="selectPendingClass"/>
+        <TagsMenu 
+          :tagIds="tagIds" 
+          @update="updateAttribute($event, 'tagIds');"
+          @selectPendingClass="selectPendingClass" />
       </div>
     </v-col>
     <v-col class="col-sm-1 col-6">
-      <TimeInput :spentTime="spentTime" @update="updateAttribute($event, 'spentTime')" />
+      <TimeInput :spentTime="formattedSpentTime" @update="updateAttribute($event, 'spentTime')" />
     </v-col>
     <v-col class="col-sm-1 col-6">
       <img class="clock-image" src="/circle-loader.svg" alt="loader" v-if="loading" :text="true"/>
@@ -134,6 +140,13 @@ export default {
 
     stateClass() {
       return this.active ? "amber lighten-3" : this.rowClass
+    },
+
+    formattedSpentTime() {
+      if(this.spentTime)
+        return this.spentTime.toString();
+      else
+        return '0.00';
     }
   },
 
@@ -250,10 +263,10 @@ export default {
       this.btnStartFocused = !this.btnStartFocused
     },
 
-    handleSpentTimeInput() {
-      this.selectPendingClass()
-      delete this.errorMessages['spent_time']
-    },
+    // handleSpentTimeInput() {
+    //   this.selectPendingClass()
+    //   delete this.errorMessages['spent_time']
+    // },
 
     deleteItem(){
       this.dialog = false
@@ -265,7 +278,7 @@ export default {
 
     updateAttribute(value, attr) {
       this[attr] = value
-      this.update()
+      this.onlyUpdate()
     }
   }
 
@@ -281,7 +294,7 @@ const spentTimeFormat = (value) => {
   .task-attributes{
     padding: 6px 0;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
   }
 
   .clock-image{
