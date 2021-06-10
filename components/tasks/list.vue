@@ -15,7 +15,7 @@
       </v-col> -->
     </v-row>
     <task
-      v-for="(taskInfo, taskId, index) in dailyTasks" :key="taskId"
+      v-for="(taskInfo, taskId) in dailyTasks" :key="taskId"
       :task="taskInfo"
       :activeDay="activeDay"
       :dayIsBlocked="dayIsBlocked(selectedDate)"
@@ -27,21 +27,9 @@
 
 <script>
 import UpdateItem from '~/components/tasks/update_item.vue'
-import { mapActions, mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 
 export default {
-  props: {
-    selectedDate: {
-      type: Object,
-      required: true
-    },
-
-    currentDate: {
-      type: Object,
-      required: true
-    }
-  },
-
   components: {
     "task": UpdateItem
   },
@@ -53,7 +41,7 @@ export default {
   },
 
   computed: {
-    ...mapState(["tasks"]),
+    ...mapState(["tasks", 'selectedDate', 'currentDate']),
     ...mapGetters(["totalTimeOfDailyTasks", "dayIsBlocked"]),
 
     dailyTasks(){

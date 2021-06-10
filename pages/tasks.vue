@@ -5,24 +5,17 @@
 
       <TomatoTimer />
     </div> -->
-    <CurrentTask
-      :day="selectedDate"
-    />
-    <DatePanel
-      v-bind:selected-date.sync="selectedDate"
-      :days="weekDays"/>
-    <DaysBar
-      :currentDate="currentDate"
-      v-bind:selected-date.sync="selectedDate"
-      :days="weekDays"/>
+    <CurrentTask />
+    <DatePanel />
+    <DaysBar/>
     <div class="main-content-container">
-      <TasksList :selectedDate="selectedDate" :currentDate="currentDate" />
+      <TasksList/>
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations, mapState } from 'vuex'
 import { DateTime } from 'luxon'
 import TomatoTimer from '@/components/tasks/tomato_timer'
 
@@ -44,8 +37,6 @@ export default {
   data () {
     return {
       dialog: false,
-      selectedDate: DateTime.local(),
-      currentDate: DateTime.local(),
       intervalId: null
     }
   },
@@ -55,12 +46,7 @@ export default {
   },
 
   computed: {
-    weekDays() {
-      let date = this.selectedDate.startOf('week')
-      return [...Array(7).keys()].map((day) => {
-        return date.plus({ days: day })
-      })
-    }
+    ...mapState(['selectedDate', 'currentDate'])
   },
 
   async fetch ({ app }) {
@@ -82,7 +68,7 @@ export default {
 
   created: function () {
     this.intervalId = setInterval(() => {
-      this.currentDate = DateTime.local()
+      this.updateCurrentDate(DateTime.local())
     }, 60000)
   },
 
@@ -91,6 +77,7 @@ export default {
   },
 
   methods: {
+    ...mapMutations['updateCurrentDate'],
     ...mapGetters(['somePendingTasks']),
     ...mapActions(['checkOnPendingTasks', 'getWeeklyTasks', 'fetchActiveTimeRecord'])
   }

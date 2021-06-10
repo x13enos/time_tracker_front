@@ -12,7 +12,7 @@
       <v-icon>mdi-chevron-right</v-icon>
     </div>
 
-    <span v-if="days.length" class="date-range ml-2">
+    <span v-if="weekDays.length" class="date-range ml-2">
       {{ currentWeek }}
       <span class="total">(
         {{ $t("time_sheet.total") }}:
@@ -23,35 +23,25 @@
 </template>
 
 <script>
-  import { mapActions, mapState, mapGetters } from 'vuex'
+  import { mapActions, mapState, mapGetters, mapMutations } from 'vuex';
 
   export default {
-    props: {
-      selectedDate: {
-        type: Object,
-        required: true
-      },
-
-      days: {
-        type: Array,
-        required: true
-      }
-    },
-
     computed: {
-      ...mapGetters(["totalTimeOfWeeklyTasks"]),
+      ...mapState(['selectedDate']),
+      ...mapGetters(["totalTimeOfWeeklyTasks", 'weekDays']),
 
       currentWeek(){
-        return `${this.$d(this.days[0], 'onlyDay')} - ${this.$d(this.days[6], 'onlyDay')}
-                ${this.$d(this.days[6], 'monthLong')}, ${this.$d(this.days[6], 'onlyYear')}`
+        return `${this.$d(this.weekDays[0], 'onlyDay')} - ${this.$d(this.weekDays[6], 'onlyDay')}
+                ${this.$d(this.weekDays[6], 'monthLong')}, ${this.$d(this.weekDays[6], 'onlyYear')}`
       }
     },
 
     methods: {
       ...mapActions(["getWeeklyTasks"]),
+      ...mapMutations(['updateSelectedDate']),
 
       async changeDay(number){
-        await this.$emit('update:selected-date', this.selectedDate.plus({ days: number }))
+        await this.updateSelectedDate(this.selectedDate.plus({ days: number }))
         this.getWeeklyTasks(this.selectedDate);
       }
 

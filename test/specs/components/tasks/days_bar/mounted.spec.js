@@ -4,33 +4,20 @@ import { DateTime } from 'luxon'
 
 describe("mounted", () => {
   const methods = {
-    weekDays: () => { return [] },
-    getWeeklyTasks: () => { return [] },
-    setTheRightTab: () => {}
+    getWeeklyTasks: () => { return [] }
   }
-  const date = DateTime.local(2019, 10, 27);
-  const propsData = {
-    days: [],
-    selectedDate: date,
-    currentDate: date,
-  }
-
 
   it('should call action for fetching weekly time records', () => {
-    sinon.stub(DateTime, "local").returns(date)
+    const selectedDate = DateTime.local(2019, 10, 27);
+    sinon.stub(DateTime, "local").returns(selectedDate)
+    const storeData = fakeStoreData();
+    Object.assign(storeData.state, 
+      { selectedDate, currentDate: selectedDate }
+    )
     const actionStub = sinon.stub(methods, "getWeeklyTasks")
-    const wrapper = createWrapper(daysBar, { methods, propsData }, fakeStoreData())
+    const wrapper = createWrapper(daysBar, { methods }, storeData)
 
-    expect(actionStub.calledOnceWith(date)).to.be.true
-
-    sinon.restore();
-  });
-
-  it('should call method for selecting right tab', async () => {
-    const tabChooserStub = sinon.stub(methods, "setTheRightTab")
-    const wrapper = await createWrapper(daysBar, { methods, propsData }, fakeStoreData())
-
-    expect(tabChooserStub.calledOnce).to.be.true
+    expect(actionStub.calledOnceWith(selectedDate)).to.be.true
 
     sinon.restore();
   });

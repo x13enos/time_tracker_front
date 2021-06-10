@@ -2,14 +2,14 @@
   <ul class="nav nav-tabs timesheet mt-4">
     <li
       :class="{ 'blue-grey lighten-3': dayIsBlocked(day) }"
-      v-for="day in days"
+      v-for="day in weekDays"
       :key="getFormattedDateForTab(day)">
       <a
         :class="{
           'current-day': isCurrentDay(day) && !isSelectedDate(day),
           'object-green active-tab': isSelectedDate(day)
         }"
-        @click="$emit('update:selected-date', day)">
+        @click="updateSelectedDate(day)">
         <div class="d-flex justify-space-between">
           <div class="gray-color subtitle-2">
             {{ $d(day, 'onlyDay') }}
@@ -25,43 +25,20 @@
 </template>
 
 <script>
-  import { mapActions, mapState, mapGetters } from 'vuex'
+  import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
 
   export default {
 
-    props: {
-      selectedDate: {
-        type: Object,
-        required: true
-      },
-
-      currentDate: {
-        type: Object,
-        required: true
-      },
-
-      days: {
-        type: Array,
-        required: true
-      }
-    },
-
-    data: function() {
-      return {
-        tab: null
-      }
-    },
-
     mounted: async function(){
       await this.getWeeklyTasks(this.selectedDate);
-      this.setTheRightTab()
     },
 
     computed: {
-      ...mapGetters(["dayIsBlocked", "totalTimeOfDailyTasks"]),
+      ...mapState(["selectedDate", 'currentDate']),
+      ...mapGetters(["dayIsBlocked", "totalTimeOfDailyTasks", 'weekDays']),
 
       currentWeek(){
-        return `${this.getFormattedDateForWeek(this.days[0])} - ${this.getFormattedDateForWeek(this.days[6])}`
+        return `${this.getFormattedDateForWeek(this.weekDays[0])} - ${this.getFormattedDateForWeek(this.weekDays[6])}`
       }
     },
 
@@ -70,7 +47,7 @@
         "getWeeklyTasks",
         "checkOnPendingTasks"
       ]),
-      ...mapState(["user"]),
+      ...mapMutations(['updateSelectedDate']),
 
       isSelectedDate(day){
         return this.getFormattedDateForTab(day) === this.getFormattedDateForTab(this.selectedDate)
@@ -91,10 +68,6 @@
       getFormattedWeekDateForTab(date) {
         return this.$d(date, 'onlyWeekday')
       },
-
-      setTheRightTab() {
-        this.tab = this.selectedDate.weekday - 1;
-      }
 
     }
   }

@@ -50,5 +50,12 @@ export default {
         return 0.0
       }
     }
+  },
+
+  weekDays(state) {
+    let date = state.selectedDate.startOf('week');
+    return [...Array(7).keys()].map((day) => {
+      return date.plus({ days: day });
+    });
   }
 }

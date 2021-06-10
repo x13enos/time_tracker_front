@@ -38,13 +38,6 @@ export default {
     TimeInput: () => import('~/components/tasks/inputs/time.vue')
   },
 
-  props: {
-    day: {
-      type: Object,
-      required: true
-    }
-  },
-
   data () {
     return {
       intervalId: null,
@@ -57,7 +50,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['projects', 'currentTask', 'tasks'])
+    ...mapState(['projects', 'currentTask', 'tasks', 'selectedDate'])
   },
 
   watch: {
@@ -100,7 +93,7 @@ export default {
     },
 
     async create () {
-      await this.addTask({ params: this.formData(true), day: this.day })
+      await this.addTask({ params: this.formData(true), day: this.selectedDate })
     },
 
     async update(active = undefined) {

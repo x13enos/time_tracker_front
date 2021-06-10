@@ -1,4 +1,3 @@
-
 import mutations from '@/store/mutations'
 
 describe('updateCurrentTask', () => {

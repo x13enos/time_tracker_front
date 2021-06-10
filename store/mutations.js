@@ -133,6 +133,14 @@ export default {
 
   updateBlockedDays(state, days) {
     state.blockedDays = days;
+  },
+
+  updateSelectedDate(state, date) {
+    state.selectedDate = date;
+  },
+
+  updateCurrentDate(state, date) {
+    state.currentDate = date;
   }
 }
 
