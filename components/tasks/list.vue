@@ -15,8 +15,8 @@
       </v-col> -->
     </v-row>
     <task
-      v-for="(taskInfo, taskId) in dailyTasks" :key="taskId"
-      :task="taskInfo"
+      v-for="task in dailyTasks" :key="task.id"
+      :task="task"
       :activeDay="activeDay"
       :dayIsBlocked="dayIsBlocked(selectedDate)"
       @keepIntervalId="keepIntervalId($event, intervalId)"
