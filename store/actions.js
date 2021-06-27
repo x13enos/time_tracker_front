@@ -1,4 +1,5 @@
 import BlockedDaysSearcher from "@/services/blocked_days_searcher";
+import { DateTime } from 'luxon';
 
 export default {
   async getUserInfo ({ commit }) {
@@ -36,14 +37,24 @@ export default {
     return response;
   },
 
-  async updateTask ({ state, commit, dispatch }, params) {
+  async updateTask ({ commit, dispatch }, params) {
     const response = await this.$api.updateTimeRecord(params)
-    if (params.active === false)
-      commit('updateCurrentTask', null)
+    if (params.active === false) 
+      await dispatch('handleStoppingTask', response.data)
     if (params.active === true)
       commit('updateCurrentTask', response.data)
     commit('updateTask', response.data)
     return response;
+  },
+
+  async handleStoppingTask({ commit, getters, dispatch }, taskData) {
+    const parsedDate = taskData.assigned_date.split('/');
+    const newDate = DateTime.fromObject({ year: parsedDate[2], month: parsedDate[1], day: parsedDate[0] });
+    const needToFetchWeekTasks = !getters.weekDays.some(day => day.ts === newDate.ts);
+    commit('updateSelectedDate', newDate);
+    if (needToFetchWeekTasks)
+      await dispatch('getWeeklyTasks', newDate);
+    commit('updateCurrentTask', null);
   },
 
   async deleteTask ({ commit }, data) {

@@ -36,12 +36,12 @@ describe("updateTask", () => {
     sinon.restore()
   })
 
-  it('should cleap up current task in case of stopping time record', async () => {
-    const commitStub = sinon.stub(commitObject, 'commit')
+  it('should call method for handle stopped task', async () => {
+    const dispatchStub = sinon.stub(commitObject, 'dispatch')
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
-    await actions.updateTask(commitObject, { active: false })
 
-    expect(commitStub.args[0]).to.eql(['updateCurrentTask', null])
+    await actions.updateTask(commitObject, { active: false })
+    expect(dispatchStub.calledOnceWith('handleStoppingTask', successResponse.data)).to.be.true;
     sinon.restore()
   })
 
