@@ -30,7 +30,6 @@
         :label="tag.name"
         selected="selected"
         :value="tag.id"
-        @change="updateTags"
       />
     </v-container>
   </v-menu>

@@ -242,9 +242,10 @@ export default {
 
     taskHasTheSameAttributes(){
       const tagsIdsEqual = this.task.tagIds.every( e => this.tagIds.includes(e)) && this.task.tagIds.length === this.tagIds.length;
-      return ["project", "description", "spentTime"].every((attr) => {
-        return this.task[attr].toString() === this[attr].toString()
-      }) && tagsIdsEqual
+      const spentTimeIsTheSame = this.task["spentTime"].toString() === this["spentTime"].toString();
+      return ["project", "description"].every((attr) => {
+        return this.task[attr] === this[attr]
+      }) && tagsIdsEqual && spentTimeIsTheSame;
     },
 
     removePendingState(){

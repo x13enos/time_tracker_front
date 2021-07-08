@@ -5,7 +5,11 @@
     </v-col>
     <v-col cols="8" class="clickable">
       <div class="d-flex justify-end">
-        <DescriptionInput :description="description" @update="updateAttribute($event, 'description')" />
+        <DescriptionInput
+          placeholder="What are you working on?"
+          :description="description"
+          @update="updateAttribute($event, 'description')"
+        />
         <TagsMenu :tagIds="tagIds" @update="updateAttribute($event, 'tagIds')" />
       </div>
     </v-col>

@@ -1,7 +1,7 @@
 <template>
   <v-input class="description-input">
     <input 
-      placeholder="What are you working on?" 
+      :placeholder="placeholder" 
       :value="description" 
       @input="$emit('selectPendingClass')"
       @blur="updateDescription">
@@ -14,6 +14,12 @@ export default {
       type: String,
       required: false,
       default: null
+    },
+
+    placeholder: {
+      type: String,
+      required: false,
+      default: 'Add Description'
     }
   },
 
