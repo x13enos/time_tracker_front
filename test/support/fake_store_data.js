@@ -54,7 +54,8 @@ const storeData = function () {
       totalTimeOfDailyTasks: () => { return () => {} },
       totalTimeOfWeeklyTasks: () => {},
       dayIsBlocked: () => { return () => false },
-      weekDays: () => []
+      weekDays: () => [],
+      activeDay: () => {}
     }
   }
 }

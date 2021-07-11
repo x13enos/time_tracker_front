@@ -17,7 +17,6 @@
     <task
       v-for="task in dailyTasks" :key="task.id"
       :task="task"
-      :activeDay="activeDay"
       :dayIsBlocked="dayIsBlocked(selectedDate)"
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
@@ -47,10 +46,6 @@ export default {
     dailyTasks(){
       const tasks = this.tasks[this.$appMethods.systemFormatDate(this.selectedDate)] || {}
       return Object.values(tasks).filter(t => !t.timeStart )
-    },
-
-    activeDay(){
-      return this.currentDate.startOf('day').ts === this.selectedDate.startOf('day').ts
     }
   },
 

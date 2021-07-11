@@ -68,7 +68,7 @@ import formMixin from '@/mixins/form'
 
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 
 export default {
   mixins: [validationMixin, formMixin],
@@ -84,11 +84,6 @@ export default {
     task: {
       type: Object,
       default: () => { return {} },
-      required: true
-    },
-
-    activeDay: {
-      type: Boolean,
       required: true
     },
 
@@ -129,6 +124,7 @@ export default {
 
   computed: {
     ...mapState(["projects", "activeTaskIntervalId"]),
+    ...mapGetters(["activeDay"]),
 
     active(){
       return !this.$appMethods.isEmpty(this.task.timeStart)

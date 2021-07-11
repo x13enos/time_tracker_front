@@ -16,22 +16,26 @@
     <v-col>
       <TimeInput :spentTime="spentTime" @update="updateAttribute($event, 'spentTime')" />
     </v-col>
-    <v-col>
-      <div class="start-timer" v-if="!intervalId" @click="create">
-        <v-icon >
-          mdi-play-circle
-        </v-icon>
+    <v-col v-if="activeDay">
+      <div class="start-timer" v-if="!intervalId" @click="createAndStart">
+        <v-icon>mdi-play-circle</v-icon>
         <span>Start</span>
       </div>
 
 
       <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="intervalId" :text="true" @click="update(false)"/>
     </v-col>
+    <v-col v-else>
+      <div class="start-timer" @click="create">
+        <v-icon>mdi-plus-circle</v-icon>
+        <span>Add</span>
+      </div>
+    </v-col>
   </v-row>
 </template>
 
 <script>
-import { mapActions, mapState, mapMutations } from 'vuex'
+import { mapActions, mapState, mapMutations, mapGetters } from 'vuex'
 
 export default {
 
@@ -54,7 +58,8 @@ export default {
   },
 
   computed: {
-    ...mapState(['projects', 'currentTask', 'tasks', 'selectedDate'])
+    ...mapState(['projects', 'currentTask', 'tasks', 'selectedDate', 'currentDate']),
+    ...mapGetters(["activeDay"]),
   },
 
   watch: {
@@ -71,13 +76,7 @@ export default {
         this.start();
       } else {
         this.clearIntervalId();
-        Object.assign(this, {
-          project: null,
-          tagIds: [],
-          description: null,
-          spentTime: null,
-          assignedDate: null
-        })
+        this.cleanUpData();
       }
 
     }
@@ -97,6 +96,11 @@ export default {
     },
 
     async create () {
+      await this.addTask({ params: this.formData(false), day: this.selectedDate })
+      this.cleanUpData();
+    },
+
+    async createAndStart () {
       await this.addTask({ params: this.formData(true), day: this.selectedDate })
     },
 
@@ -109,6 +113,16 @@ export default {
         params.active = active
 
       await this.updateTask(params)
+    },
+
+    cleanUpData () {
+      Object.assign(this, {
+        project: null,
+        tagIds: [],
+        description: null,
+        spentTime: null,
+        assignedDate: null
+      })
     },
 
     start(){

@@ -57,5 +57,9 @@ export default {
     return [...Array(7).keys()].map((day) => {
       return date.plus({ days: day });
     });
+  },
+
+  activeDay(state) {
+    return state.currentDate.startOf('day').ts === state.selectedDate.startOf('day').ts;
   }
 }

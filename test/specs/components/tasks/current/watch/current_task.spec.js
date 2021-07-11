@@ -1,6 +1,7 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import currentTask from '@/components/tasks/current'
 import { DateTime } from 'luxon'
+import { expect } from 'chai';
 
  describe('currentTask', () => {
    const day = DateTime.local();
@@ -52,9 +53,10 @@ import { DateTime } from 'luxon'
        sinon.restore();
      });
 
-     it('should clear components data', () => {
+     it('should call method for cleaning up the component\'s data', () => {
        const store = fakeStoreData();
        const wrapper = createWrapper(currentTask, { propsData }, store);
+       const methodStub = sinon.stub(wrapper.vm, 'cleanUpData');
        Object.assign(wrapper.vm, {
          description: "First",
          project: 1,
@@ -64,13 +66,8 @@ import { DateTime } from 'luxon'
        })
 
        wrapper.vm.$options.watch.currentTask.call(wrapper.vm, null);
-       wrapper.vm.$nextTick(() => {
-         expect(wrapper.vm.description).to.be.null;
-         expect(wrapper.vm.project).to.be.null;
-         expect(wrapper.vm.tagIds).to.eql([]);
-         expect(wrapper.vm.assignedDate).to.be.null;
-         expect(wrapper.vm.spentTime).to.be.null;
-       });
+       expect(methodStub.calledOnce).to.be.true;
+       sinon.restore();
      });
    });
  });
