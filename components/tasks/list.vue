@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row class="d-none d-sm-flex subtitle-2 titles">
+    <v-row v-if="dailyTasks.length || showNewTask" class="d-none d-sm-flex subtitle-2 titles">
       <v-col cols="2">
         {{ $t("time_sheet.project") }}
       </v-col>
@@ -21,21 +21,38 @@
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
     />
+    <v-icon 
+      large 
+      class="add-icon"
+      v-if="!showNewTask" 
+      @click="showNewTask = true">
+      mdi-plus-circle-outline
+    </v-icon>
+    <new-task v-if="showNewTask" />
   </div>
 </template>
 
 <script>
-import UpdateItem from '~/components/tasks/update_item.vue'
+import UpdateItem from '~/components/tasks/update_item.vue';
+import CreateItem from '~/components/tasks/create_item.vue';
 import { mapState, mapGetters } from 'vuex'
 
 export default {
   components: {
-    "task": UpdateItem
+    "task": UpdateItem,
+    "new-task": CreateItem
   },
 
   data: function() {
     return {
-      intervalId: null
+      intervalId: null,
+      showNewTask: false
+    }
+  },
+
+  watch: {
+    selectedDate: function () {
+      this.showNewTask = false;
     }
   },
 
@@ -61,8 +78,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .titles {
     color: #828282;
+  }
+
+  .add-icon {
+    cursor: pointer;
+    margin: 0.5rem 0 0 -0.5rem;
+    color: $font-green;
   }
 </style>
