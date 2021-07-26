@@ -73,13 +73,7 @@ export default {
 
   watch: {
     menuOpened (value) {
-      if (!value) { this.$emit('change') }
-    }
-  },
-
-  methods: {
-    updateTags () {
-      this.$emit('update', this.selectedTags)
+      if (!value) { this.$emit('update', this.selectedTags) }
     }
   }
 }
