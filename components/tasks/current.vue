@@ -16,13 +16,11 @@
     <v-col>
       <TimeInput :spentTime="spentTime" @update="updateAttribute($event, 'spentTime')" />
     </v-col>
-    <v-col v-if="activeDay">
+    <v-col v-if="activeDay || intervalId">
       <div class="start-timer" v-if="!intervalId" @click="createAndStart">
         <v-icon>mdi-play-circle</v-icon>
         <span>Start</span>
       </div>
-
-
       <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="intervalId" :text="true" @click="update(false)"/>
     </v-col>
     <v-col v-else>

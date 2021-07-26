@@ -49,12 +49,16 @@ export default {
 
   async handleStoppingTask({ commit, getters, dispatch }, taskData) {
     const parsedDate = taskData.assigned_date.split('/');
-    const newDate = DateTime.fromObject({ year: parsedDate[2], month: parsedDate[1], day: parsedDate[0] });
+    await dispatch('updateSelectedDate', parsedDate);
+    commit('updateCurrentTask', null);
+  },
+
+  async updateSelectedDate({ getters, commit, dispatch }, date) {
+    const newDate = DateTime.fromObject({ year: date[2], month: date[1], day: date[0] });
     const needToFetchWeekTasks = !getters.weekDays.some(day => day.ts === newDate.ts);
     commit('updateSelectedDate', newDate);
     if (needToFetchWeekTasks)
       await dispatch('getWeeklyTasks', newDate);
-    commit('updateCurrentTask', null);
   },
 
   async deleteTask ({ commit }, data) {

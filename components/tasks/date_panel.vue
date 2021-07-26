@@ -4,9 +4,7 @@
       <v-icon>mdi-chevron-left</v-icon>
     </div>
 
-    <div class="btn calendar-btn">
-      <v-icon >mdi-calendar-month</v-icon>
-    </div>
+    <date-select />
 
     <div @click="changeDay(7)" class="btn">
       <v-icon>mdi-chevron-right</v-icon>
@@ -23,9 +21,14 @@
 </template>
 
 <script>
+  import dateSelect from "@/components/tasks/date_select";
   import { mapActions, mapState, mapGetters, mapMutations } from 'vuex';
 
   export default {
+    components: {
+      "date-select": dateSelect
+    },
+
     computed: {
       ...mapState(['selectedDate']),
       ...mapGetters(["totalTimeOfWeeklyTasks", 'weekDays']),
@@ -49,49 +52,51 @@
   }
 </script>
 
-<style lang="scss" scoped>
-  .date-range {
-    text-transform: lowercase;
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 2.5rem;
-  }
-
-  .btn {
-    text-align: center;
-    cursor: pointer;
-    padding: 8px 0;
-    width: 45px;
-    background-color: white;
-    border-radius: 5px;
-    height: 40px;
-    margin-right: 0.5rem;
-  }
-
-  .calendar-btn {
-    padding: 8px 10px;
-  }
-
-  .btn > i {
-    color: $font-green;
-    width: 13px;
-    font-size: 32px;
-    height: 24px;
-  }
-
-  .calendar-btn > i {
-    font-size: 24px;
-  }
-
+<style lang="scss">
   .date-panel {
-    padding: 0px 0.3rem;
-  }
+    .date-range {
+      text-transform: lowercase;
+      font-size: 16px;
+      font-weight: 500;
+      line-height: 2.5rem;
+    }
 
-  .total {
-    color: $gray-color;
-  }
+    .btn {
+      text-align: center;
+      cursor: pointer;
+      padding: 8px 0;
+      width: 45px;
+      background-color: white;
+      border-radius: 5px;
+      height: 40px;
+      margin-right: 0.5rem;
+    }
 
-  .total-time {
-    color: black;
+    .calendar-btn {
+      padding: 8px 10px;
+    }
+
+    .btn > i {
+      color: $font-green;
+      width: 13px;
+      font-size: 32px;
+      height: 24px;
+    }
+
+    .calendar-btn > i {
+      font-size: 24px;
+    }
+
+    .date-panel {
+      padding: 0px 0.3rem;
+    }
+
+    .total {
+      color: $gray-color;
+    }
+
+    .total-time {
+      color: black;
+    }
   }
 </style>
