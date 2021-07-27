@@ -1,62 +1,31 @@
 <template>
-  <v-row justify="center" align="center" class="task-attributes" :class="rowClass">
+  <v-row class="task-attributes mb-2">
     <v-col class="col-sm-2 col-12">
-      <span v-if="projects.length == 1">
-        {{ projects[0].name }}
-      </span>
-      <v-select
-        v-else
-        v-model="project"
-        :items="projects"
-        item-text="name"
-        item-value="id"
-        item-key="id"
-        single-line
-        :disabled="dayIsBlocked"
-        :label="$t('time_sheet.project')"
-        @focus="selectPendingClass"
-      ></v-select>
+      <ProjectSelect :project="project"  @update="updateAttribute($event, 'project')" />
     </v-col>
     <v-col class="col-sm-8 col-12">
-      <div class='d-flex justify-end'>
-        <v-textarea
-          v-model="description"
-          :placeholder="$t('time_sheet.description')"
-          autocomplete="off"
-          rows="1"
-          :auto-grow="true"
-          :disabled="dayIsBlocked"
-          @input="selectPendingClass"
-        />
-        <tags-menu
-          :tagIds="tagIds"
-          :disabled="dayIsBlocked"
-          @updateTags="tagIds = $event; selectPendingClass()">
-        </tags-menu>
+      <div class="d-flex justify-end">
+        <DescriptionInput 
+          :description="description" 
+          @update="updateAttribute($event, 'description')" 
+          @selectPendingClass="selectPendingClass"/>
+        <TagsMenu 
+          :tagIds="tagIds" 
+          @update="updateAttribute($event, 'tagIds');"
+          @selectPendingClass="selectPendingClass" />
       </div>
     </v-col>
     <v-col class="col-sm-1 col-6">
-      <v-form v-model="valid">
-        <v-text-field
-          v-model="$v.spentTime.$model"
-          placeholder="0.0"
-          :disabled="doesNotReadyForAction"
-          :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
-          @input="delete errorMessages['spent_time']"
-          @blur="onlyCreate"
-        />
-      </v-form>
+      <TimeInput :spentTime="this.spentTime" @update="updateAttribute($event, 'spentTime')" />
     </v-col>
-    <v-col class="col-sm-1 col-6">
-      <v-icon
-      @click="create"
-      :text="true"
-      :large="true"
-      @mouseover="toggleBtnStatus"
-      @mouseout="toggleBtnStatus"
-      :disabled="doesNotReadyForAction || !this.activeDay || !valid">
-        mdi-play-circle
-      </v-icon>
+    <v-col class="buttons">
+      <div class="start-timer" @click="create(false)">
+        <v-icon>mdi-plus-circle</v-icon>
+      </div>
+      <div v-if="activeDay" class="start-timer" @click="create(true)">
+        |
+        <v-icon>mdi-play-circle</v-icon>
+      </div>
     </v-col>
     <v-col class="col-12" v-if="!!errorMessages.base">
       <span class='red--text'>{{ errorMessages.base.join(", ") }}</span>
@@ -67,33 +36,18 @@
 <script>
 import formMixin from '@/mixins/form'
 
-import TagsMenu from '@/components/tasks/inputs/tags_menu'
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 
 export default {
   mixins: [validationMixin, formMixin],
 
   components: {
-    'tags-menu': TagsMenu
-  },
-
-  props: {
-    day: {
-      type: Object,
-      required: true
-    },
-
-    activeDay: {
-      type: Boolean,
-      required: true
-    },
-
-    dayIsBlocked: {
-      type: Boolean,
-      required: true
-    }
+    TagsMenu: () => import('@/components/tasks/inputs/tags_menu'),
+    ProjectSelect: () => import('~/components/tasks/inputs/project_select.vue'),
+    DescriptionInput: () => import('~/components/tasks/inputs/description.vue'),
+    TimeInput: () => import('~/components/tasks/inputs/time.vue')
   },
 
   data: function() {
@@ -103,7 +57,6 @@ export default {
       project: null,
       description: null,
       spentTime: null,
-      btnStartFocused: false,
       valid: false,
     }
   },
@@ -119,50 +72,39 @@ export default {
   },
 
   computed: {
-    ...mapState(["projects", "tags"]),
-
-    selectedTags() {
-      const tags = this.tags.filter((t) => this.tagIds.includes(t.id))
-      return tags.map((t) => t.name).join(', ')
-    },
-
-    doesNotReadyForAction(){
-      return this.$appMethods.isEmpty(this.project) ||
-        this.$appMethods.isEmpty(this.description)  ||
-        this.dayIsBlocked;
-    },
-
-    internalId(){
-      return `f${(~~(Math.random()*1e8)).toString(16)}`;
-    }
+    ...mapState(["projects", "tags", "selectedDate"]),
+    ...mapGetters(["activeDay"])
   },
 
   methods: {
     ...mapActions(["addTask"]),
     ...mapMutations([
       "updateSnack",
-      "updateCounterOfPendingTasks",
-      "addPendingTaskId",
-      "deletePendingTaskId"
+      "deletePendingTaskId",
+      "addPendingTaskId"
     ]),
+    
 
-    onlyCreate(){
-      if(!this.btnStartFocused && this.valid)
-        this.create()
-    },
-
-    async create(){
-      try {
+    async create(startTask) {
+      try{
         this.errorMessages = []
-        const response = await this.addTask({params: this.formData(), day: this.day })
-        this.removePendingState();
-        Object.assign(this, this.defaultData())
-        this.selectOneProject()
+        await this.addTask({ params: this.formData(startTask), day: this.selectedDate })
+        this.removePendingState()
+        this.cleanUpData();
         this.updateSnack({ message: this.$t("time_sheet.task_was_created"), color: "green" })
-      } catch (errors){
+      } catch (errors) {
         this.updateSnack({ message: this.$t("time_sheet.task_was_not_created"), color: "red" })
         this.errorMessages = errors
       }
+    },
+
+    cleanUpData () {
+      Object.assign(this, {
+        project: null,
+        tagIds: [],
+        description: null,
+        spentTime: null
+      })
     },
 
     selectPendingClass(){
@@ -173,18 +115,14 @@ export default {
       }
     },
 
-    formData(){
+    formData (active) {
       return {
         project: this.project,
         description: this.description,
         spentTime: parseFloat(this.spentTime || 0.0).toFixed(2),
-        active: this.btnStartFocused,
+        active,
         tagIds: this.tagIds
       }
-    },
-
-    toggleBtnStatus(){
-        this.btnStartFocused = !this.btnStartFocused
     },
 
     containsEmptyData(){
@@ -197,27 +135,18 @@ export default {
         this.project = this.projects[0].id
     },
 
-    defaultData(){
-      return {
-        rowClass: "",
-        tagIds: [],
-        project: null,
-        description: null,
-        spentTime: null,
-        btnStartFocused: false
-      }
-    },
-
     removePendingState(){
       this.deletePendingTaskId(this.internalId)
-      this.rowClass = ""
     },
 
     addPendingState(){
       if(this.$appMethods.isEmpty(this.rowClass)){
         this.addPendingTaskId(this.internalId)
-        this.rowClass = "yellow lighten-3"
       }
+    },
+
+    updateAttribute(value, attr) {
+      this[attr] = value
     }
   }
 }
@@ -229,8 +158,15 @@ const spentTimeFormat = (value) => {
 </script>
 
 <style scoped>
-  .task-attributes > .col {
-    padding-top: 0;
-    padding-bottom: 0;
+  .task-attributes{
+    padding: 6px 0;
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  .buttons > div {
+    float: left;
+    cursor: pointer;
+    margin-right: 5px;
   }
 </style>

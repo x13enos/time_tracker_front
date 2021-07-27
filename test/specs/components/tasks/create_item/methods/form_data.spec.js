@@ -1,38 +1,20 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import task from '@/components/tasks/create_item'
-import { DateTime } from 'luxon'
 
 describe('formData', () => {
 
-  const propsData = {
-    day: DateTime.local(),
-    activeDay: false,
-    dayIsBlocked: false
-  }
-
   const newData = {
-    project: "1",
+    project: 1,
     description: "test",
     spentTime: "0.50",
     tagIds: [1]
   }
 
-  it('should return task data', () => {
-    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    wrapper.vm.btnStartFocused = false
+  it('should return task\'s data', () => {
+    const wrapper = createWrapper(task, {}, fakeStoreData())
     Object.assign(wrapper.vm, newData)
-    expect(wrapper.vm.formData()).to.eql(Object.assign(newData, { active: false }))
-  });
-
-  it('should return default data', () => {
-    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    expect(wrapper.vm.formData()).to.eql({
-      active: false,
-      description: null,
-      spentTime: "0.00",
-      project: null,
-      tagIds: []
-    })
+    expect(wrapper.vm.formData(true)).to.eql(Object.assign(newData, { active: true }))
+    expect(wrapper.vm.formData(false)).to.eql(Object.assign(newData, { active: false }))
   });
 
 });

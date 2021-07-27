@@ -1,5 +1,5 @@
 <template>
-  <v-row class="task-attributes mb-2" :class="stateClass">
+  <v-row class="task-attributes mb-2">
     <v-col class="col-sm-2 col-12">
       <ProjectSelect :project="project"  @update="updateAttribute($event, 'project')" />
     </v-col>
@@ -134,10 +134,6 @@ export default {
       return `f${(~~(Math.random()*1e8)).toString(16)}`;
     },
 
-    stateClass() {
-      return this.active ? "amber lighten-3" : this.rowClass
-    },
-
     formattedSpentTime() {
       if(this.spentTime)
         return this.spentTime.toString();
@@ -163,7 +159,6 @@ export default {
       "keepActiveTaskIntervalId",
       "clearActiveTaskIntervalId",
       "updateSnack",
-      "updateCounterOfPendingTasks",
       "deletePendingTaskId",
       "addPendingTaskId"
     ]),

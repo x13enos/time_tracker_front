@@ -56,7 +56,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['projects', 'currentTask', 'tasks', 'selectedDate', 'currentDate']),
+    ...mapState(['projects', 'currentTask', 'tasks', 'selectedDate']),
     ...mapGetters(["activeDay"]),
   },
 
@@ -82,11 +82,7 @@ export default {
 
   methods: {
     ...mapActions(['addTask', 'updateTask']),
-    ...mapMutations([
-      "updateTaskSpentTime",
-      "keepActiveTaskIntervalId",
-      "clearActiveTaskIntervalId",
-    ]),
+    ...mapMutations(["updateTaskSpentTime"]),
 
     clearIntervalId () {
       clearInterval(this.intervalId);
