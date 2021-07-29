@@ -72,6 +72,12 @@ export default {
   },
 
   watch: {
+    tagIds (value) {
+      if (!value.length) {
+        this.selectedTags = [];
+      }
+    },
+
     menuOpened (value) {
       if (!value) { this.$emit('update', this.selectedTags) }
     }

@@ -255,11 +255,6 @@ export default {
       this.btnStartFocused = !this.btnStartFocused
     },
 
-    // handleSpentTimeInput() {
-    //   this.selectPendingClass()
-    //   delete this.errorMessages['spent_time']
-    // },
-
     deleteItem(){
       this.dialog = false
       this.deleteTask({
