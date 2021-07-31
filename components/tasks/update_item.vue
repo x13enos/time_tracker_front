@@ -39,7 +39,6 @@
         </v-list>
       </v-menu>
     </v-col>
-
     <v-col class="col-12" v-if="!!errorMessages.base">
       <span class='red--text'>{{ errorMessages.base.join(", ") }}</span>
     </v-col>

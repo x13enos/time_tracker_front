@@ -60,101 +60,40 @@
         </v-list-item>
       </div>
     </v-list>
-
-  </v-navigation-drawer>
-  <!-- <div>
-    <v-app-bar
-      color="primary"
-      :dark="true"
-    >
-      <v-app-bar-nav-icon class="d-flex d-sm-none" @click="drawer = true" />
-
-      <v-toolbar-title>
-        Time Tracker
-      </v-toolbar-title>
-
-      <div class="flex-grow-1" />
-
-      <template v-if="isMobile">
-        <nuxt-link to="/tasks">
-          <v-btn text>
-            {{ $t("navigation.tasks") }}
-          </v-btn>
-        </nuxt-link>
-
-        <nuxt-link to="/reports">
-          <v-btn text>
-            {{ $t("navigation.reports") }}
-          </v-btn>
-        </nuxt-link>
-
-        <nuxt-link v-if="isManager" to="/admin/projects">
-          <v-btn text>
-            {{ $t("navigation.projects") }}
-          </v-btn>
-        </nuxt-link>
-
-        <nuxt-link v-if="isManager" to="/admin/users">
-          <v-btn text>
-            {{ $t("navigation.users") }}
-          </v-btn>
-        </nuxt-link>
-
-        <nuxt-link v-if="isManager" to="/admin/tags">
-          <v-btn text>
-            {{ $t("navigation.tags") }}
-          </v-btn>
-        </nuxt-link>
-
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn icon v-bind="attrs" class="profile-button" v-on="on">
-              <v-icon>mdi-account-circle</v-icon>
-            </v-btn>
+    <template v-slot:append>
+      <v-subheader>{{ $t("navigation.workspace") }}</v-subheader>
+      <div>
+        <v-menu
+          v-model="menuOpened"
+          :close-on-content-click="true"
+          nudge-top="8"
+          offset-x
+        >
+          <template v-slot:activator="{ on }">
+            <div class="d-flex workspace-button justify-space-between" v-on="on">
+              {{ activeWorkspace.name }}
+              <v-icon dense>mdi-chevron-down</v-icon>
+            </div>
           </template>
-          <v-card>
-            <v-list>
-              <v-list-item-group>
-              <div class="workspaces d-flex">
-                {{ $t("profile.workspaces") }}:
-                <nuxt-link to="/workspaces" class="ml-3">
-                  {{ $t("workspaces.manage") }}
-                </nuxt-link>
+          <v-container fluid class="workspaces-menu">
+            <div v-for="workspace in user.workspaces" :key="workspace.id">
+              <div class="d-flex justify-space-between workspace-link" @click="changeWorkspace(workspace.id)">
+                {{ workspace.name }}
+                <span v-if="workspace.id === user.activeWorkspaceId" >
+                  {{ $t("profile.active_workspace") }}
+                  <v-icon color="green">mdi-checkbox-marked</v-icon>
+                </span>
               </div>
-              <v-list-item v-for="workspace in user.workspaces" :key="workspace.id">
-                <v-list-item-content @click="changeWorkspace(workspace.id)">
-                  <v-list-item-title class="link-color">
-                    {{ workspace.name }}
-                    <span v-if="workspace.id === user.activeWorkspaceId" >
-                      {{ $t("profile.active_workspace") }}
-                      <v-icon color="green">mdi-checkbox-marked</v-icon>
-                    </span>
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-divider></v-divider>
-
-              <nuxt-link to="/profile">
-                <v-list-item>
-                  <v-list-item-title class="link-color">
-                      {{ $t("navigation.profile") }}
-                  </v-list-item-title>
-                </v-list-item>
-              </nuxt-link>
-
-
-              <v-list-item @click="signOut">
-                  <v-list-item-title class="link-color">
-                    {{ $t("navigation.sign_out") }}
-                  </v-list-item-title>
-              </v-list-item>
-            </v-list-item-group>
-            </v-list>
-          </v-card>
+            </div>
+            <hr>
+            <nuxt-link to="/workspaces" class="manage">
+              {{ $t("workspaces.manage") }}
+            </nuxt-link>
+          </v-container>
         </v-menu>
-      </template>
-    </v-app-bar> -->
+      </div>
+    </template>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -167,11 +106,16 @@ export default {
 
     isMobile(){
       return this.$vuetify.breakpoint.smAndUp;
+    },
+
+    activeWorkspace(){
+      return this.user.workspaces.find((w) => w.id === this.user.activeWorkspaceId)
     }
   },
 
   data: () => ({
     drawer: false,
+    menuOpened: false
   }),
 
   methods: {
@@ -195,16 +139,41 @@ export default {
     color: green;
   }
 
-  .workspaces{
-    margin: 5px 15px;
+  .workspace-button{
+    border-radius: 5px;
+    margin: 0.25rem 1rem 1rem 1rem;
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #E0E0E0;
+    cursor: pointer;
   }
 
-  .profile-button {
-    margin-right: 10px;
+  .workspace-button:hover {
+    border: 1px solid #66C5B6;
   }
 
-  .link-color {
-    color: #1976d2;
+  .workspaces-menu {
+    background-color: white;
+    border-radius: 5px;
+  }
+
+  .workspaces-menu hr{
+    margin: 0.5rem 0;
+    border-top: 1px solid #E0E0E0;
+    height: 0px;
+  }
+
+  .manage {
+    display: block;
+    width: 100%;
+    text-align: center;
+  } 
+
+  .manage:hover {
+    background-color: #E0E0E0;
+  } 
+
+  .workspace-link {
+    cursor: pointer;
   }
 
   .navbar .v-subheader {
