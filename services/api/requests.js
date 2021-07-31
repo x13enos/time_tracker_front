@@ -1,30 +1,29 @@
-import axios from 'axios';
+import axios from 'axios'
 
 function getLocale() {
   return localStorage.getItem("locale") || 'en';
 }
 
-function Api({ router, store }, appMethods) {
-
+function Api ({ router, store }, appMethods) {
   this.signIn = (data) => {
-    return client.post("/auth", data)
+    return client.post('/auth', data)
   }
 
   this.signUp = (data) => {
-    data.locale = getLocale();
-    return client.post("/users/registrations", data)
+    data.locale = getLocale()
+    return client.post('/users/registrations', data)
   }
 
   this.signOut = () => {
-    return client.delete("/auth")
+    return client.delete('/auth')
   }
 
   this.allProjects = (data) => {
-    return client.get("/projects")
+    return client.get('/projects')
   }
 
   this.createTimeRecord = (data) => {
-    return client.post("/time_records", {
+    return client.post('/time_records', {
       start_task: data.active,
       description: data.description,
       project_id: data.project,
@@ -49,23 +48,24 @@ function Api({ router, store }, appMethods) {
   }
 
   this.weeklyTimeRecords = (date) => {
-    const assigned_date = date.toLocaleString({ locale: 'en-gb' });
-    return client.get("/time_records", { params: { assigned_date } })
+    const assigned_date = date.toLocaleString({ locale: 'en-gb' })
+    return client.get('/time_records', { params: { assigned_date } })
   }
 
   this.personalInfo = () => {
-    return client.get("/auth")
+    return client.get('/auth')
   }
 
   this.updateUserProfile = (data) => {
-    return client.put("/users", data)
+    return client.put('/users', data)
   }
 
   this.allTimeRecords = (data) => {
-    return client.get("/reports", { params: {
+    return client.get('/reports', { params: {
       from_date: data.fromDate,
       to_date: data.toDate,
-      user_id: data.userId
+      user_id: data.userId,
+      tags_ids: data.tagsIds
     } })
   }
 
@@ -78,11 +78,11 @@ function Api({ router, store }, appMethods) {
   }
 
   this.getUsersByCurrentWorkspace = () => {
-    return client.get("/users")
+    return client.get('/users')
   }
 
   this.getUsersForManaging = () => {
-    return client.get("/admin/users")
+    return client.get('/admin/users')
   }
 
   this.getUserTimeReports = (userId) => {
@@ -94,7 +94,7 @@ function Api({ router, store }, appMethods) {
   }
 
   this.generateReport = (data) => {
-    return client.get("/reports", { params: {
+    return client.get('/reports', { params: {
       from_date: data.fromDate,
       to_date: data.toDate,
       user_id: data.userId,
@@ -103,7 +103,7 @@ function Api({ router, store }, appMethods) {
   }
 
   this.createProject = (data) => {
-    return client.post("/projects", data)
+    return client.post('/projects', data)
   }
 
   this.updateProject = (id, data) => {
@@ -115,7 +115,7 @@ function Api({ router, store }, appMethods) {
   }
 
   this.assignUserToProject = (projectId, userId) => {
-    return client.post(`/projects/${projectId}/project_users/`, { user_id: userId } )
+    return client.post(`/projects/${projectId}/project_users/`, { user_id: userId })
   }
 
   this.removeUserFromProject = (projectId, userId) => {
@@ -123,7 +123,7 @@ function Api({ router, store }, appMethods) {
   }
 
   this.forgotPassword = (email) => {
-    return client.post("/users/passwords", { email, locale: getLocale() })
+    return client.post('/users/passwords', { email, locale: getLocale() })
   }
 
   this.changePassword = (data) => {
@@ -137,11 +137,11 @@ function Api({ router, store }, appMethods) {
   }
 
   this.allWorkspaces = () => {
-    return client.get("/workspaces")
+    return client.get('/workspaces')
   }
 
   this.createWorkspace = (data) => {
-    return client.post("/workspaces", data)
+    return client.post('/workspaces', data)
   }
 
   this.updateWorkspace = (id, data) => {
@@ -157,15 +157,15 @@ function Api({ router, store }, appMethods) {
   }
 
   this.inviteUser = (workspaceId, email) => {
-    return client.post(`/workspaces/${workspaceId}/workspace_users/`, { email } )
+    return client.post(`/workspaces/${workspaceId}/workspace_users/`, { email })
   }
 
   this.allTags = () => {
-    return client.get("/tags")
+    return client.get('/tags')
   }
 
   this.createTag = (data) => {
-    return client.post("/tags", data)
+    return client.post('/tags', data)
   },
 
   this.updateTag = (id, data) => {
@@ -177,11 +177,11 @@ function Api({ router, store }, appMethods) {
   },
 
   this.getTimeLockingRulesByWorkspace = (data) => {
-    return client.get("/time_locking_rules", { params: data })
+    return client.get('/time_locking_rules', { params: data })
   },
 
   this.createTimeLockingRule = (data) => {
-    return client.post("/time_locking_rules", data)
+    return client.post('/time_locking_rules', data)
   },
 
   this.deleteTimeLockingRule = (id) => {
@@ -193,7 +193,7 @@ function Api({ router, store }, appMethods) {
   }
 
   this.changeActiveWorkspaceId = (workspaceId) => {
-    return client.put("/users/change_workspace", { workspace_id: workspaceId })
+    return client.put('/users/change_workspace', { workspace_id: workspaceId })
   }
 
   this.updateUserData = (userId, data) => {
@@ -204,37 +204,36 @@ function Api({ router, store }, appMethods) {
 
   const client = axios.create({
     baseURL: '/api'
-  });
+  })
 
-  client.defaults.headers.common['Accept'] = 'application/json'
+  client.defaults.headers.common.Accept = 'application/json'
 
   client.interceptors.request.use((config) => {
-    config.params = config.params || {};
-    config.params['current_timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    return config;
-  });
+    config.params = config.params || {}
+    config.params.current_timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return config
+  })
 
   client.interceptors.response.use(function (response) {
-    return response;
+    return response
   }, function (error) {
     showError(error.response)
     redirectIfUserUnathorized(error.response)
-    return Promise.reject(error.response.data.errors);
-  });
-
+    return Promise.reject(error.response.data.errors)
+  })
 
   const redirectIfUserUnathorized = (response) => {
-    if(response.status === 401){
-      router.push("/auth/sign-in")
+    if (response.status === 401) {
+      router.push('/auth/sign-in')
     }
   }
 
   const showError = (response) => {
-    const itIsNotAuthPage = document.location.pathname.match("/auth/") === null;
-    if(itIsNotAuthPage && !!response.data.error){
-      store.commit("updateSnack", { message: response.data.error, color: "red" });
+    const itIsNotAuthPage = document.location.pathname.match('/auth/') === null
+    if (itIsNotAuthPage && !!response.data.error) {
+      store.commit('updateSnack', { message: response.data.error, color: 'red' })
     }
   }
 }
 
-export default Api;
+export default Api

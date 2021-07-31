@@ -1,13 +1,17 @@
 import createWrapper from '@/test/support/create_wrapper.js'
 import reports from '@/pages/reports'
 
-describe("mounted", () => {
+describe('mounted', () => {
+  const mocks = { $api: {
+    allTags: () => { return { data: [] } }
+  } }
+
   it('should set user id from store', async () => {
     const store = fakeStoreData()
-    store.state.user.id = "Vx2f9sdf"
-    const wrapper = createWrapper(reports, {}, store)
+    store.state.user.id = 'Vx2f9sdf'
+    const wrapper = createWrapper(reports, { mocks }, store)
 
-    expect(wrapper.vm.filters.userId).to.eq("Vx2f9sdf")
+    expect(wrapper.vm.filters.userId).to.eq('Vx2f9sdf')
   })
 
   it('should call method for fetching users if user is admin', async () => {
@@ -18,7 +22,7 @@ describe("mounted", () => {
 
     const methods = { fetchUsers: () => {} }
     const methodStub = sinon.stub(methods, 'fetchUsers')
-    createWrapper(reports, { methods }, store)
+    createWrapper(reports, { mocks, methods }, store)
 
     expect(methodStub.calledOnce).to.be.true
 
@@ -35,11 +39,10 @@ describe("mounted", () => {
       fetchUsers: () => {}
     }
     const methodStub = sinon.stub(methods, 'fetchUsers')
-    createWrapper(reports, { methods }, store)
+    createWrapper(reports, { mocks, methods }, store)
 
     expect(methodStub.calledOnce).to.be.false
 
     methodStub.restore()
   })
-
 })

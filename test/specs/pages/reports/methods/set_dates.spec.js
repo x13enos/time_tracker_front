@@ -1,15 +1,16 @@
+import { DateTime } from 'luxon'
 import createWrapper from '@/test/support/create_wrapper.js'
-import reports from '@/pages/reports';
-import { DateTime } from 'luxon';
+import reports from '@/pages/reports'
 
-describe("setDates", () => {
+describe('setDates', () => {
   const mocks = {
     $api: {
+      allTags: () => { return { data: [] } },
       allTimeRecords: () => {
         return {
           data: {
             total_spent_time: 110,
-            time_records: ["time_records"]
+            time_records: ['time_records']
           }
         }
       }
@@ -21,13 +22,13 @@ describe("setDates", () => {
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     await wrapper.vm.setDates('week', time)
-    expect(wrapper.vm.filters.fromDate).to.eq("2019-12-30")
+    expect(wrapper.vm.filters.fromDate).to.eq('2019-12-30')
   })
 
   it('should set date to', async () => {
     const wrapper = createWrapper(reports, { mocks }, fakeStoreData())
 
     await wrapper.vm.setDates('week', time)
-    expect(wrapper.vm.filters.toDate).to.eq("2020-01-05")
+    expect(wrapper.vm.filters.toDate).to.eq('2020-01-05')
   })
 })
