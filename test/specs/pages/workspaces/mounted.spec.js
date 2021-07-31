@@ -3,21 +3,16 @@ import Workspaces from '@/pages/workspaces'
 
 describe('mounted', () => {
 
-  const methods = {
-    fetchWorkspaces: () => {}
-  }
-
   const mocks = {
-    $config: {
-      extensionEnabled: true
-    }
+    $config: { extensionEnabled: false },
+    $api: { allWorkspaces: () => ({}) }
   }
 
   it("should fetch projects", () => {
-    const methodStub = sinon.stub(methods, 'fetchWorkspaces')
-    createWrapper(Workspaces, { methods, mocks }, fakeStoreData())
+    const endpointStub = sinon.stub(mocks.$api, 'allWorkspaces').returns({})
+    createWrapper(Workspaces, { mocks }, fakeStoreData())
 
-    expect(methodStub.calledOnce).to.be.true
+    expect(endpointStub.calledOnce).to.be.true
 
     sinon.restore()
   });

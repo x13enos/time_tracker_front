@@ -3,14 +3,17 @@ import Projects from '@/pages/admin/projects'
 
 describe('updateProjectData', () => {
 
-  const methods = {
-    fetchProjects: () => {},
-    fetchUsers: () => {}
+  const mocks = {
+    $api: {
+      allProjects: () => ({}),
+      getUsersByCurrentWorkspace: () => ({})
+    }
   }
+
   const projectData = { name: "new-test-project", id: 1  }
 
   it("should replace project data in the list of projects", async () => {
-    const wrapper = createWrapper(Projects, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.projects = [{ id: 1, name: 'test-project' }]
 
     await wrapper.vm.updateProjectData(1, projectData)

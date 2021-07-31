@@ -9,12 +9,8 @@ describe('closeDialog', () => {
     }
   }
 
-  const methods = {
-    fetchUsersByWorkspace: () => {}
-  }
-
   it('should call method for closing dialog of inviting user', () => {
-    const wrapper = createWrapper(UsersBlock, { propsData, methods }, fakeStoreData())
+    const wrapper = createWrapper(UsersBlock, { propsData }, fakeStoreData())
     const methodStub = sinon.stub(wrapper.vm, "closeDialogOfInvitingUser")
 
     wrapper.vm.closeDialog()
@@ -25,7 +21,7 @@ describe('closeDialog', () => {
 
   it('should change dialog attribute to false', () => {
 
-    const wrapper = createWrapper(UsersBlock, { propsData, methods }, fakeStoreData())
+    const wrapper = createWrapper(UsersBlock, { propsData }, fakeStoreData())
     wrapper.vm.dialog = true
 
     wrapper.vm.closeDialog()

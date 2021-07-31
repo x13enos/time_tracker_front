@@ -10,8 +10,7 @@ describe('watched tagIds', () => {
   it('should emit method for updating tag ids', async () => {
     const wrapper = createWrapper(TagsMenu, { propsData }, fakeStoreData());
 
-    wrapper.setProps({ tagIds: [] });
-    await wrapper.vm.$nextTick();
+    await wrapper.setProps({ tagIds: [] });
     expect(wrapper.vm.selectedTags).to.be.empty;
   });
 

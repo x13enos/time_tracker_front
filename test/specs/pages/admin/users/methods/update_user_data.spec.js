@@ -3,18 +3,13 @@ import Users from '@/pages/admin/users'
 
 describe('updateUserData', () => {
 
-  const methods = {
-    fetchUsers: () => {}
-  }
-
   const mocks = {
-    $config: {
-      extensionEnabled: true
-    }
+    $config: { extensionEnabled: true },
+    $api: { getUsersForManaging: () => ({}) }
   }
 
   it("should update data for users list", () => {
-    const wrapper = createWrapper(Users, { mocks, methods }, fakeStoreData());
+    const wrapper = createWrapper(Users, { mocks }, fakeStoreData());
     wrapper.vm.users = [{
       id: 1,
       name: 'user-1'

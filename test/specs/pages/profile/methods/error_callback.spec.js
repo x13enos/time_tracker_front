@@ -2,11 +2,6 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import profile from '@/pages/profile'
 
 describe("errorCallback", () => {
-  const methods = {
-    fetchWorkspaces: () => {},
-    setNotificationValues: () => {}
-  }
-
   const mocks = {
     $config: {
       extensionEnabled: false
@@ -14,7 +9,7 @@ describe("errorCallback", () => {
   }
 
   it('should update snack', () => {
-    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks }, fakeStoreData())
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
     const callback = wrapper.vm.errorCallback()
 

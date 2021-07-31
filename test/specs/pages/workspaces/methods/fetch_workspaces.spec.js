@@ -3,13 +3,8 @@ import Workspaces from '@/pages/workspaces'
 
 describe('fetchWorkspaces', () => {
   const mocks = {
-    $api: {
-      allUsers: () => { return { data: "" } },
-      allWorkspaces: () => {}
-    },
-    $config: {
-      extensionEnabled: false
-    }
+    $config: { extensionEnabled: false },
+    $api: { allWorkspaces: () => ({}) }
   }
 
   const successResponse = {

@@ -3,13 +3,13 @@ import Tags from '@/pages/admin/tags'
 
 describe('updateTagData', () => {
 
-  const methods = {
-    fetchTags: () => {}
+  const mocks = {
+    $api: { allTags: () => ({}) }
   }
   const tagData = { name: "new-test-tag", id: 1  }
 
   it("should replace tag's data in the list of tags", async () => {
-    const wrapper = createWrapper(Tags, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Tags, { mocks }, fakeStoreData())
     wrapper.vm.tags = [{ id: 1, name: 'test-workspace' }]
 
     await wrapper.vm.updateTagData(1, tagData)

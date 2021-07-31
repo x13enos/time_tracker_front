@@ -3,26 +3,20 @@ import Workspaces from '@/pages/workspaces'
 
 describe('markWorkspaceAsPendingDelete', () => {
 
-  const methods = {
-    fetchWorkspaces: () => {},
-    fetchUsers: () => {}
-  }
-
   const mocks = {
-    $config: {
-      extensionEnabled: false
-    }
+    $config: { extensionEnabled: false },
+    $api: { allWorkspaces: () => ({}) }
   }
 
   it("should keep workspace id", () => {
-    const wrapper = createWrapper(Workspaces, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks }, fakeStoreData())
 
     wrapper.vm.markWorkspaceAsPendingDelete(1)
     expect(wrapper.vm.deletingWorkspaceId).to.eq(1)
   });
 
   it("should open dialog for approving process of deleting workspace", async () => {
-    const wrapper = createWrapper(Workspaces, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(Workspaces, { mocks }, fakeStoreData())
     wrapper.vm.deleteDialog = false
 
     wrapper.vm.markWorkspaceAsPendingDelete(1)

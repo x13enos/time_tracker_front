@@ -102,25 +102,18 @@ export default {
     }
   },
 
-  mounted(){
-    this.fetchProjects();
-    this.fetchUsers();
+  async mounted(){
+    const projectsResponse = await this.$api.allProjects()
+    if(projectsResponse.data)
+      this.projects = projectsResponse.data
+
+    const usersResponse = await this.$api.getUsersByCurrentWorkspace()
+    if(usersResponse.data)
+      this.users = usersResponse.data
   },
 
   methods: {
     ...mapMutations(["updateSnack"]),
-
-    async fetchProjects(){
-      const response = await this.$api.allProjects()
-      if(response.data)
-        this.projects = response.data
-    },
-
-    async fetchUsers(){
-      const response = await this.$api.getUsersByCurrentWorkspace()
-      if(response.data)
-        this.users = response.data
-    },
 
     addNewProject(data){
       this.projects.push(data)

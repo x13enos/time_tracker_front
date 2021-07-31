@@ -6,10 +6,12 @@ describe("watch form.email", () => {
   const successResponse = { success: () => { return true } }
   const stubs =  { NuxtLink: RouterLinkStub }
 
-  it('should call clear email errors', () => {
+  it('should call clear email errors', async () => {
     const wrapper = createWrapper(signUp, { stubs }, fakeStoreData())
     wrapper.vm.errorMessages = { "email": ["error"] }
     wrapper.vm.form.email = "1"
+
+    await wrapper.vm.$nextTick();
     expect(wrapper.vm.errorMessages["email"]).to.be.empty
     sinon.restore()
   });

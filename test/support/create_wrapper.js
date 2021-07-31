@@ -1,8 +1,9 @@
 import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import VueI18n from 'vue-i18n'
-import VueTestUtils from '@vue/test-utils'
+import * as VueTestUtils from '@vue/test-utils';
 import $appMethods from '@/services/global_methods';
+import { mount } from '@vue/test-utils'
 
 VueTestUtils.config.mocks.$t = key => key
 VueTestUtils.config.mocks.$tc = key => key

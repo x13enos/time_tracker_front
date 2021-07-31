@@ -92,18 +92,14 @@ export default {
     }
   },
 
-  mounted(){
-    this.fetchTags();
+  async mounted(){
+    const response = await this.$api.allTags()
+    if(response.data)
+      this.tags = response.data
   },
 
   methods: {
     ...mapMutations(["updateSnack"]),
-
-    async fetchTags(){
-      const response = await this.$api.allTags()
-      if(response.data)
-        this.tags = response.data
-    },
 
     addNewTag(data){
       this.tags.push(data)

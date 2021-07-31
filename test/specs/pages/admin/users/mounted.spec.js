@@ -3,21 +3,16 @@ import Users from '@/pages/admin/users'
 
 describe('mounted', () => {
 
-  const methods = {
-    fetchUsers: () => {}
-  }
-
   const mocks = {
-    $config: {
-      extensionEnabled: true
-    }
+    $config: { extensionEnabled: true },
+    $api: { getUsersForManaging: () => ({}) }
   }
 
   it("should fetch users", () => {
-    const methodStub = sinon.stub(methods, 'fetchUsers')
-    createWrapper(Users, { mocks, methods }, fakeStoreData())
+    const endpointStub = sinon.stub(mocks.$api, 'getUsersForManaging').returns({ data: {} })
+    createWrapper(Users, { mocks }, fakeStoreData())
 
-    expect(methodStub.calledOnce).to.be.true
+    expect(endpointStub.calledOnce).to.be.true
 
     sinon.restore()
   });

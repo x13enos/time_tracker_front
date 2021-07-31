@@ -112,7 +112,6 @@ import formMixin from '@/mixins/form';
 import { TIMEZONES } from "@/services/constants";
 import { required, email, helpers } from 'vuelidate/lib/validators';
 import { mapState, mapActions, mapMutations } from 'vuex';
-import Clipboard from 'v-clipboard';
 
 export default {
 
@@ -131,7 +130,6 @@ export default {
     return {
       showPassword: false,
       valid: false,
-      workspaceList: [],
       errorMessages: [],
       form: {
         name: "",
@@ -157,8 +155,9 @@ export default {
 
   created(){
     Object.assign(this.form, this.user)
-    this.fetchWorkspaces()
-    this.setNotificationValues()
+    this.form.emailSettings = this.user.notificationSettings.filter((v) => v.indexOf("email") > -1)
+    if (this.$config.extensionEnabled)
+      this.form.telegramSettings = this.user.notificationSettings.filter((v) => v.indexOf("telegram") > -1)
   },
 
   computed: {
@@ -180,21 +179,6 @@ export default {
       return Object.keys(TIMEZONES).map((key) => {
         return { text: TIMEZONES[key], value: key }
       });
-    },
-
-    setNotificationValues() {
-      this.form.emailSettings = this.user.notificationSettings.filter((v) => v.indexOf("email") > -1)
-      if (this.$config.extensionEnabled)
-        this.form.telegramSettings = this.user.notificationSettings.filter((v) => v.indexOf("telegram") > -1)
-    },
-
-    async fetchWorkspaces(){
-      const response = await this.$api.allWorkspaces()
-      if(response.data){
-        this.workspaceList = response.data.map((w) => {
-          return { text: w.name, value: w.id }
-        })
-      }
     },
 
     async save() {
