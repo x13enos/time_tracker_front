@@ -2,7 +2,7 @@
   <div>
     <v-divider />
 
-    <v-row align="center" justify="start">
+    <!-- <v-row align="center" justify="start">
       <v-col cols="4">
         <v-btn @click="checkOnPendingTasks(() => { changeDay(-7) })" class="previous-week" :min-width="0" outlined color="blue lighten-1">
           <v-icon>mdi-chevron-left</v-icon>
@@ -24,7 +24,7 @@
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </v-col>
-    </v-row>
+    </v-row> -->
 
     <v-divider />
 
@@ -48,24 +48,7 @@
           <div class="weekDayName">{{ getFormattedWeekDateForTab(day) }}</div>
         </a>
       </li>
-
-      <li class="total-time">
-        <v-icon class="mr-2">mdi-calendar-clock</v-icon>
-        {{ $t("time_sheet.total") }}: {{ totalTimeOfWeeklyTasks }}
-      </li>
     </ul>
-
-    <v-divider />
-
-    <transition-group name="fade" mode="out-in">
-      <tasksList
-        v-for="day in days"
-        :key="getFormattedDateForTab(day)"
-        v-if="isSelectedDate(day)"
-        :day="day"
-        :currentDate="currentDate" />
-    </transition-group>
-
   </div>
 </template>
 

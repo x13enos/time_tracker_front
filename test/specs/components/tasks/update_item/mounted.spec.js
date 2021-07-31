@@ -9,7 +9,7 @@ describe('mounted', () => {
     id: 125,
     project: 1,
     description: "test",
-    spentTime: 0.5,
+    spentTime: "0.5",
     timeStart: 28218231828,
     tagIds: []
   }

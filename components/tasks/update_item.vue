@@ -1,137 +1,88 @@
 <template>
-  <div>
-    <v-row justify="center" align="center" class="task-attributes" :class="stateClass">
-      <v-col class="col-sm-2 col-12">
-        <span v-if="projects.length == 1">
-          {{ projects[0].name }}
-        </span>
-        <v-select
-          v-else
-          v-model="project"
-          :items="projects"
-          item-text="name"
-          item-value="id"
-          item-key="id"
-          single-line
-          :label="$t('time_sheet.project')"
-          :hide-selected="true"
-          :disabled="dayIsBlocked"
-          @focus="selectPendingClass"
-          @change="onlyUpdate()"
-        ></v-select>
-      </v-col>
-      <v-col class="col-sm-8 col-12">
-        <div class='d-flex justify-end'>
-          <v-textarea
-            v-model="description"
-            :placeholder="$t('time_sheet.description')"
-            autocomplete="off"
-            @input="selectPendingClass"
-            :disabled="dayIsBlocked"
-            rows="1"
-            :auto-grow="true"
-            @blur="onlyUpdate()"
-          />
-          <tags-menu
-            :tagIds="tagIds"
-            :disabled="dayIsBlocked"
-            @updateTags="tagIds = $event; selectPendingClass()"
-            @change="onlyUpdate()">
-          </tags-menu>
-        </div>
-      </v-col>
-      <v-col class="col-sm-1 col-6">
-        <v-form v-model="valid">
-          <v-text-field
-            v-model="$v.spentTime.$model"
-            placeholder="0.0"
-            :disabled="active || dayIsBlocked"
-            @input="handleSpentTimeInput"
-            :error-messages="$formErrorMessage('spentTime', ['spentTimeFormat'])"
-            @blur="onlyUpdate()"
-          />
-        </v-form>
-      </v-col>
-      <v-col class="col-sm-1 col-6">
-        <v-row>
-          <v-col cols="6">
-            <img class="clock-image" src="/circle-loader.svg" alt="loader" v-if="loading" :text="true"/>
-            <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
-            <v-icon
-              v-if="!active && !loading"
-              @click="launchTask"
-              :text="true"
-              :large="true"
-              @mouseover="toggleBtnStatus"
-              @mouseout="toggleBtnStatus"
-              :disabled="!activeDay || !valid || dayIsBlocked">mdi-play-circle</v-icon>
-          </v-col>
-          <v-col cols="6">
-            <v-menu v-if="!dayIsBlocked" offset-y>
-              <template v-slot:activator="{ on }">
-                <v-icon v-on="on" :large="true" :text="true" :disabled="active">mdi-dots-vertical</v-icon>
-              </template>
-              <v-list>
-                <v-list-item @click="dialog = true">
-                  <v-icon>mdi-delete</v-icon>
-                  {{ $t("time_sheet.remove") }}
-                </v-list-item>
-              </v-list>
-            </v-menu>
-
-          </v-col>
-        </v-row>
-      </v-col>
-
-      <v-col class="col-12" v-if="!!errorMessages.base">
-        <span class='red--text'>{{ errorMessages.base.join(", ") }}</span>
-      </v-col>
-      <v-dialog v-model="dialog" max-width="290">
-        <v-card>
-          <v-card-title class="headline">{{ $t("are_you_sure") }}</v-card-title>
-          <v-card-text>
-            {{ $t("time_sheet.approve_deleting") }}
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="blue darken-1" text @click="deleteItem">
-              {{ $t("yes") }}
-            </v-btn>
-            <v-btn color="blue darken-1" text @click="dialog = false">
-              {{ $t("cancel") }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </v-row>
-    <v-divider />
-  </div>
+  <v-row class="task-attributes mb-2">
+    <v-col class="col-sm-2 col-12">
+      <ProjectSelect :project="project"  @update="updateAttribute($event, 'project')" />
+    </v-col>
+    <v-col class="col-sm-8 col-12">
+      <div class="d-flex justify-end">
+        <DescriptionInput 
+          :description="description" 
+          @update="updateAttribute($event, 'description')" 
+          @selectPendingClass="selectPendingClass"/>
+        <TagsMenu 
+          :tagIds="tagIds" 
+          @update="updateAttribute($event, 'tagIds');"
+          @selectPendingClass="selectPendingClass" />
+      </div>
+    </v-col>
+    <v-col class="col-sm-1 col-6">
+      <TimeInput :spentTime="formattedSpentTime" @update="updateAttribute($event, 'spentTime')" />
+    </v-col>
+    <v-col class="col-sm-1 col-6">
+      <img class="clock-image" src="/circle-loader.svg" alt="loader" v-if="loading" :text="true"/>
+      <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
+      <v-icon
+        v-if="!active && !loading"
+        @click="launchTask"
+        @mouseover="toggleBtnStatus"
+        @mouseout="toggleBtnStatus"
+        :disabled="!activeDay || !valid || dayIsBlocked">mdi-play-circle</v-icon>
+      <v-menu v-if="!dayIsBlocked" offset-y>
+        <template v-slot:activator="{ on }">
+          <v-icon v-on="on" :disabled="active">mdi-dots-vertical</v-icon>
+        </template>
+        <v-list>
+          <v-list-item @click="dialog = true">
+            <v-icon>mdi-delete</v-icon>
+            {{ $t("time_sheet.remove") }}
+          </v-list-item>
+        </v-list>
+      </v-menu>
+    </v-col>
+    <v-col class="col-12" v-if="!!errorMessages.base">
+      <span class='red--text'>{{ errorMessages.base.join(", ") }}</span>
+    </v-col>
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">{{ $t("are_you_sure") }}</v-card-title>
+        <v-card-text>
+          {{ $t("time_sheet.approve_deleting") }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="blue darken-1" text @click="deleteItem">
+            {{ $t("yes") }}
+          </v-btn>
+          <v-btn color="blue darken-1" text @click="dialog = false">
+            {{ $t("cancel") }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
 import formMixin from '@/mixins/form'
 
-import TagsMenu from '@/components/tasks/tags_menu'
 import { validationMixin } from 'vuelidate'
 import { helpers } from 'vuelidate/lib/validators'
-import { mapActions, mapMutations, mapState } from 'vuex'
+import { mapActions, mapMutations, mapState, mapGetters } from 'vuex'
 
 export default {
   mixins: [validationMixin, formMixin],
 
   components: {
-    'tags-menu': TagsMenu
+    TagsMenu: () => import('@/components/tasks/inputs/tags_menu'),
+    ProjectSelect: () => import('~/components/tasks/inputs/project_select.vue'),
+    DescriptionInput: () => import('~/components/tasks/inputs/description.vue'),
+    TimeInput: () => import('~/components/tasks/inputs/time.vue')
   },
 
   props: {
     task: {
       type: Object,
       default: () => { return {} },
-      required: true
-    },
-
-    activeDay: {
-      type: Boolean,
       required: true
     },
 
@@ -172,6 +123,7 @@ export default {
 
   computed: {
     ...mapState(["projects", "activeTaskIntervalId"]),
+    ...mapGetters(["activeDay"]),
 
     active(){
       return !this.$appMethods.isEmpty(this.task.timeStart)
@@ -181,8 +133,11 @@ export default {
       return `f${(~~(Math.random()*1e8)).toString(16)}`;
     },
 
-    stateClass() {
-      return this.active ? "amber lighten-3" : this.rowClass
+    formattedSpentTime() {
+      if(this.spentTime)
+        return this.spentTime.toString();
+      else
+        return '0.00';
     }
   },
 
@@ -203,7 +158,6 @@ export default {
       "keepActiveTaskIntervalId",
       "clearActiveTaskIntervalId",
       "updateSnack",
-      "updateCounterOfPendingTasks",
       "deletePendingTaskId",
       "addPendingTaskId"
     ]),
@@ -278,9 +232,10 @@ export default {
 
     taskHasTheSameAttributes(){
       const tagsIdsEqual = this.task.tagIds.every( e => this.tagIds.includes(e)) && this.task.tagIds.length === this.tagIds.length;
-      return ["project", "description", "spentTime"].every((attr) => {
-        return this.task[attr].toString() === this[attr].toString()
-      }) && tagsIdsEqual
+      const spentTimeIsTheSame = this.task["spentTime"].toString() === this["spentTime"].toString();
+      return ["project", "description"].every((attr) => {
+        return this.task[attr] === this[attr]
+      }) && tagsIdsEqual && spentTimeIsTheSame;
     },
 
     removePendingState(){
@@ -299,17 +254,17 @@ export default {
       this.btnStartFocused = !this.btnStartFocused
     },
 
-    handleSpentTimeInput() {
-      this.selectPendingClass()
-      delete this.errorMessages['spent_time']
-    },
-
     deleteItem(){
       this.dialog = false
       this.deleteTask({
         assignedDate: this.task.assignedDate,
         id: this.id
       })
+    },
+
+    updateAttribute(value, attr) {
+      this[attr] = value
+      this.onlyUpdate()
     }
   }
 
@@ -322,9 +277,10 @@ const spentTimeFormat = (value) => {
 </script>
 
 <style scoped>
-  .task-attributes > .col {
-    padding-top: 0;
-    padding-bottom: 0;
+  .task-attributes{
+    padding: 6px 0;
+    background-color: white;
+    border-radius: 5px;
   }
 
   .clock-image{

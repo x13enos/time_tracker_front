@@ -1,4 +1,5 @@
 import BlockedDaysSearcher from "@/services/blocked_days_searcher";
+import { DateTime } from 'luxon';
 
 export default {
   async getUserInfo ({ commit }) {
@@ -20,19 +21,44 @@ export default {
     return response;
   },
 
+  async fetchActiveTimeRecord({ commit }) {
+    const response = await this.$api.activeTimeRecord()
+    if (response.data)
+      commit('updateCurrentTask', response.data)
+  },
+
   async addTask ({ commit, dispatch }, { params, day }) {
     params.assignedDate = this.$appMethods.systemFormatDate(day)
     const response = await this.$api.createTimeRecord(params)
     dispatch("stopOtherTasks", params.active)
+    await commit('updateTask', response.data)
+    if (response.data.time_start)
+      commit('updateCurrentTask', response.data)
+    return response;
+  },
+
+  async updateTask ({ commit, dispatch }, params) {
+    const response = await this.$api.updateTimeRecord(params)
+    if (params.active === false) 
+      await dispatch('handleStoppingTask', response.data)
+    if (params.active === true)
+      commit('updateCurrentTask', response.data)
     commit('updateTask', response.data)
     return response;
   },
 
-  async updateTask ({ state, commit, dispatch }, params) {
-    const response = await this.$api.updateTimeRecord(params)
-    dispatch("stopOtherTasks", params.active)
-    commit('updateTask', response.data)
-    return response;
+  async handleStoppingTask({ commit, getters, dispatch }, taskData) {
+    const parsedDate = taskData.assigned_date.split('/');
+    await dispatch('updateSelectedDate', parsedDate);
+    commit('updateCurrentTask', null);
+  },
+
+  async updateSelectedDate({ getters, commit, dispatch }, date) {
+    const newDate = DateTime.fromObject({ year: date[2], month: date[1], day: date[0] });
+    const needToFetchWeekTasks = !getters.weekDays.some(day => day.ts === newDate.ts);
+    commit('updateSelectedDate', newDate);
+    if (needToFetchWeekTasks)
+      await dispatch('getWeeklyTasks', newDate);
   },
 
   async deleteTask ({ commit }, data) {

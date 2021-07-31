@@ -6,7 +6,7 @@ describe('clearIntervalId', () => {
   const $api = { allTimeRecords: () => { return { data: [] } } }
   const params = { description: "text" }
   const propsData = {
-    day: DateTime.local(2019, 10, 27),
+    selectedDate: DateTime.local(2019, 10, 27),
     currentDate: DateTime.local(2019, 10, 27)
   }
 

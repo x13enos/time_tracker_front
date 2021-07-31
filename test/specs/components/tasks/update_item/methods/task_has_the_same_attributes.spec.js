@@ -5,8 +5,8 @@ describe('taskHasTheSameAttributes', () => {
   const taskData = {
     id: 125,
     project: 1,
-    description: "test",
-    spentTime: 0.5,
+    description: null,
+    spentTime: '0.5',
     tagIds: [1]
   }
   const propsData = { activeDay: false, task: taskData, dayIsBlocked: false }
@@ -15,7 +15,7 @@ describe('taskHasTheSameAttributes', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
 
     wrapper.vm.project = 1
-    wrapper.vm.description = "test"
+    wrapper.vm.description = null
     wrapper.vm.spentTime = '0.5'
     wrapper.vm.tagIds = [1]
 

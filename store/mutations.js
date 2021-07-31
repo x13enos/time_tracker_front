@@ -38,6 +38,13 @@ export default {
     }
   },
 
+  updateCurrentTask(state, task) {
+    if (task)
+      state.currentTask = collectTaskData(task);
+    else
+      state.currentTask = null;
+  },
+
   updateTask(state, data){
     Vue.set(state.tasks[data.assigned_date], data.id, collectTaskData(data));
   },
@@ -46,10 +53,8 @@ export default {
     Vue.delete(state.tasks[assignedDate], id)
   },
 
-  updateTaskSpentTime(state, { assignedDate, spentTime, id }){
-    const task = Object.assign({}, state.tasks[assignedDate][id])
-    task.spentTime = spentTime
-    Vue.set(state.tasks[assignedDate], id, task);
+  updateTaskSpentTime(state, spentTime){
+    state.currentTask.spentTime = spentTime;
   },
 
   keepActiveTaskIntervalId(state, intervalId){
@@ -128,6 +133,14 @@ export default {
 
   updateBlockedDays(state, days) {
     state.blockedDays = days;
+  },
+
+  updateSelectedDate(state, date) {
+    state.selectedDate = date;
+  },
+
+  updateCurrentDate(state, date) {
+    state.currentDate = date;
   }
 }
 

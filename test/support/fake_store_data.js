@@ -1,3 +1,5 @@
+const { DateTime } = require('luxon');
+
 const storeData = function () {
   return {
     state: {
@@ -17,14 +19,18 @@ const storeData = function () {
         color: ''
       },
       tasks: [],
-      unapprovedPeriods: []
+      unapprovedPeriods: [],
+      currentDate: DateTime.local(),
+      selectedDate: DateTime.local()
     },
     actions: {
       signIn: () => {},
       addTask: () => {},
       updateTask: () => {},
       deleteTask: () => {},
-      getWeeklyTasks: () => {}
+      getWeeklyTasks: () => {},
+      fetchActiveTimeRecord: () => {},
+      updateSelectedDate: () => {}
     },
     mutations: {
       updateUserData: () => {},
@@ -38,7 +44,9 @@ const storeData = function () {
       addPendingTaskId: () => {},
       deletePendingTaskId: () => {},
       addWorkspaceToUserInfo: () => {},
-      changeWorkspaceInfo: () => {}
+      changeWorkspaceInfo: () => {},
+      updateSelectedDate: () => {},
+      updateCurrentDate: () => {}
     },
     getters: {
       isAdmin: () => {},
@@ -46,7 +54,9 @@ const storeData = function () {
       isOwner: () => {},
       totalTimeOfDailyTasks: () => { return () => {} },
       totalTimeOfWeeklyTasks: () => {},
-      dayIsBlocked: () => { return () => false }
+      dayIsBlocked: () => { return () => false },
+      weekDays: () => [],
+      activeDay: () => {}
     }
   }
 }

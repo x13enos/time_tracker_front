@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 function getLocale() {
-  return localStorage.getItem("locale");
+  return localStorage.getItem("locale") || 'en';
 }
 
 function Api({ router, store }, appMethods) {
@@ -67,6 +67,10 @@ function Api({ router, store }, appMethods) {
       to_date: data.toDate,
       user_id: data.userId
     } })
+  }
+
+  this.activeTimeRecord = () => {
+    return client.get("/time_records/active")
   }
 
   this.getUsersByWorkspace = (workspaceId) => {

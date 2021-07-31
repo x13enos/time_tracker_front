@@ -1,75 +1,68 @@
 <template>
   <div>
-    <v-row class="caption font-weight-black d-none d-sm-flex">
+    <v-row v-if="dailyTasks.length || showNewTask" class="d-none d-sm-flex subtitle-2 titles">
       <v-col cols="2">
         {{ $t("time_sheet.project") }}
       </v-col>
       <v-col cols="8">
         {{ $t("time_sheet.description") }}
       </v-col>
-      <v-col cols="1">
+      <v-col cols="1" class='text-center'>
         {{ $t("time_sheet.time") }}
       </v-col>
-      <v-col cols="1" class="text-right">
-        {{ $t("time_sheet.total") }}: {{ totalTimeOfDailyTasks(day) }}
-      </v-col>
+      <!-- <v-col cols="1" class="text-right">
+        {{ $t("time_sheet.total") }}: {{ totalTimeOfDailyTasks(selectedDate) }}
+      </v-col> -->
     </v-row>
-    <v-divider />
     <task
-      v-for="(taskInfo, taskId, index) in dailyTasks" :key="taskId"
-      :task="taskInfo"
-      :activeDay="activeDay"
-      :dayIsBlocked="dayIsBlocked(day)"
+      v-for="task in dailyTasks" :key="task.id"
+      :task="task"
+      :dayIsBlocked="dayIsBlocked(selectedDate)"
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
     />
-    <new-task
-      :dayIsBlocked="dayIsBlocked(day)"
-      :activeDay="activeDay"
-      :day="day"
-    />
+    <v-icon 
+      large 
+      class="add-icon"
+      v-if="!showNewTask" 
+      @click="showNewTask = true">
+      mdi-plus-circle-outline
+    </v-icon>
+    <new-task v-if="showNewTask" />
   </div>
 </template>
 
 <script>
-import CreateItem from '~/components/tasks/create_item.vue'
-import UpdateItem from '~/components/tasks/update_item.vue'
-import { mapActions, mapState, mapGetters } from 'vuex'
+import UpdateItem from '~/components/tasks/update_item.vue';
+import CreateItem from '~/components/tasks/create_item.vue';
+import { mapState, mapGetters } from 'vuex'
 
 export default {
-  props: {
-    day: {
-      type: Object,
-      required: true
-    },
-
-    currentDate: {
-      type: Object,
-      required: true
-    }
-  },
-
   components: {
-    "new-task": CreateItem,
-    "task": UpdateItem
+    "task": UpdateItem,
+    "new-task": CreateItem
   },
 
   data: function() {
     return {
-      intervalId: null
+      intervalId: null,
+      showNewTask: false
+    }
+  },
+
+  watch: {
+    selectedDate: function () {
+      this.showNewTask = false;
     }
   },
 
   computed: {
-    ...mapState(["tasks"]),
+    ...mapState(["tasks", 'selectedDate', 'currentDate']),
     ...mapGetters(["totalTimeOfDailyTasks", "dayIsBlocked"]),
 
     dailyTasks(){
-      return this.tasks[this.$appMethods.systemFormatDate(this.day)] || []
-    },
-
-    activeDay(){
-      return this.currentDate.startOf('day').ts === this.day.startOf('day').ts
+      const tasks = this.tasks[this.$appMethods.systemFormatDate(this.selectedDate)] || {}
+      return Object.values(tasks).filter(t => !t.timeStart )
     }
   },
 
@@ -84,3 +77,15 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  .titles {
+    color: #828282;
+  }
+
+  .add-icon {
+    cursor: pointer;
+    margin: 0.5rem 0 0 -0.5rem;
+    color: $font-green;
+  }
+</style>

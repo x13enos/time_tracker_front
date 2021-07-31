@@ -1,3 +1,5 @@
+import { DateTime } from 'luxon';
+
 export default function state(){
   return {
     activeTaskIntervalId: null,
@@ -8,6 +10,9 @@ export default function state(){
     pendingTasks: [],
     blockedDays: [],
     unapprovedPeriods: [],
+    currentTask: null,
+    currentDate: DateTime.local(),
+    selectedDate: DateTime.local(),
     snack: {
       message: "",
       color: ""
