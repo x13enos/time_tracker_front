@@ -252,10 +252,13 @@ export default {
     }
   },
 
-  mounted () {
+  async mounted () {
+    if (this.isManager) { 
+      const response = await this.$api.getUsersByCurrentWorkspace()
+      this.users = response.data
+    }
     this.filters.userId = this.user.id
     this.fetchTags()
-    if (this.isManager) { this.fetchUsers() }
   },
 
   methods: {
@@ -264,11 +267,6 @@ export default {
       const response = await this.$api.allTimeRecords(this.handledFilters())
       this.totalAmount = response.data.total_spent_time
       this.tasks = response.data.time_records
-    },
-
-    async fetchUsers () {
-      const response = await this.$api.getUsersByCurrentWorkspace()
-      this.users = response.data
     },
 
     async fetchTags () {

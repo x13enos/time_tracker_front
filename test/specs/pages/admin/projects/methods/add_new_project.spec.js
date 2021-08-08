@@ -3,15 +3,17 @@ import Projects from '@/pages/admin/projects'
 
 describe('addNewProject', () => {
 
-  const methods = {
-    fetchProjects: () => {},
-    fetchUsers: () => {}
+  const mocks = {
+    $api: {
+      allProjects: () => ({}),
+      getUsersByCurrentWorkspace: () => ({})
+    }
   }
 
   const projectData = { name: "test-project" }
 
   it("should add passed data to the list of projects", () => {
-    const wrapper = createWrapper(Projects, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
 
     wrapper.vm.addNewProject(projectData)
     expect(wrapper.vm.projects[0]).to.eql(projectData)

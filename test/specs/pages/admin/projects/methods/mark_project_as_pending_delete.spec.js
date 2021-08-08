@@ -3,20 +3,22 @@ import Projects from '@/pages/admin/projects'
 
 describe('markProjectAsPendingDelete', () => {
 
-  const methods = {
-    fetchProjects: () => {},
-    fetchUsers: () => {}
+  const mocks = {
+    $api: {
+      allProjects: () => ({}),
+      getUsersByCurrentWorkspace: () => ({})
+    }
   }
 
   it("should keep project id", () => {
-    const wrapper = createWrapper(Projects, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
 
     wrapper.vm.markProjectAsPendingDelete(1)
     expect(wrapper.vm.deletingProjectId).to.eq(1)
   });
 
   it("should open dialog for approving process of deleting project", async () => {
-    const wrapper = createWrapper(Projects, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.deleteDialog = false
 
     wrapper.vm.markProjectAsPendingDelete(1)

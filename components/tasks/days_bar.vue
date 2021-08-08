@@ -29,10 +29,6 @@
 
   export default {
 
-    mounted: async function(){
-      await this.getWeeklyTasks(this.selectedDate);
-    },
-
     computed: {
       ...mapState(["selectedDate", 'currentDate']),
       ...mapGetters(["dayIsBlocked", "totalTimeOfDailyTasks", 'weekDays']),
@@ -44,7 +40,6 @@
 
     methods: {
       ...mapActions([
-        "getWeeklyTasks",
         "checkOnPendingTasks"
       ]),
       ...mapMutations(['updateSelectedDate']),

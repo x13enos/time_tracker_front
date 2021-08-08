@@ -12,7 +12,8 @@ const storeData = function () {
         name: null,
         email: null,
         locale: 'en',
-        activeWorkspaceId: null
+        activeWorkspaceId: null,
+        notificationSettings: []
       },
       snack: {
         message: '',

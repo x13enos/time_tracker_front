@@ -6,11 +6,13 @@ describe('watch approved status', () => {
     userId: 1
   }
 
-  it("should fetch periods if this dialog was opened", () => {
+  it("should fetch periods if this dialog was opened", async () => {
     const wrapper = createWrapper(TimeReportsBlock, { propsData }, fakeStoreData())
     const fetchPeriodsStub = sinon.stub(wrapper.vm, "fetchUserTimeReports")
 
     wrapper.vm.dialog = true
+
+    await wrapper.vm.$nextTick();
     expect(fetchPeriodsStub.calledOnce).to.be.true
 
     sinon.restore()

@@ -3,11 +3,6 @@ import profile from '@/pages/profile'
 
 describe('localeList', () => {
 
-  const methods = {
-    fetchWorkspaces: () => {},
-    setNotificationValues: () => {}
-  }
-
   const mocks = {
     $config: {
       extensionEnabled: false
@@ -15,7 +10,7 @@ describe('localeList', () => {
   }
 
   it('should return list of locales', function(){
-    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks }, fakeStoreData())
 
     expect(wrapper.vm.localeList()).to.eql([
       { text: "English", value: "en" },

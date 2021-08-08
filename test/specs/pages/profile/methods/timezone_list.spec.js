@@ -3,11 +3,6 @@ import profile from '@/pages/profile'
 
 describe('localeList', () => {
 
-  const methods = {
-    fetchWorkspaces: () => {},
-    setNotificationValues: () => {}
-  }
-
   const mocks = {
     $config: {
       extensionEnabled: false
@@ -15,7 +10,7 @@ describe('localeList', () => {
   }
 
   it('should return list of timezones', function(){
-    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks }, fakeStoreData())
 
     expect(wrapper.vm.timezoneList()[0]).to.eql(
       { text: "International Date Line West - GMT-12", value: "Etc/GMT+12" }

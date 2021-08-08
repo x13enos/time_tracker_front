@@ -7,7 +7,7 @@
     {{ snack.message }}
 
     <template v-slot:action="{ attrs }">
-      <v-icon v-bind="attrs" @click="show = false">mdi-close-circle</v-icon>
+      <v-icon v-bind="attrs" @click="updateSnack({ message: '', color: ''})">mdi-close-circle</v-icon>
     </template>
   </v-snackbar>
 </template>
@@ -28,17 +28,8 @@ export default {
 
   watch: {
     "snack.message"(val){
-      if(val)
+      if(val) 
         this.show = true
-    },
-
-    show(val){
-      if(!val){
-        this.updateSnack({
-          message: "",
-          color: ""
-        })
-      }
     }
   },
 

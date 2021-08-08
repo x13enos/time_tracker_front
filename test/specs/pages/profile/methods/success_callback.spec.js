@@ -2,11 +2,6 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import profile from '@/pages/profile'
 
 describe("successCallback", () => {
-  const methods = {
-    fetchWorkspaces: () => {},
-    setNotificationValues: () => {}
-  }
-
   const mocks = {
     $config: {
       extensionEnabled: false
@@ -14,7 +9,7 @@ describe("successCallback", () => {
   }
 
   it('should update snack', () => {
-    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks }, fakeStoreData())
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
     const callback = wrapper.vm.successCallback()
 
@@ -27,7 +22,7 @@ describe("successCallback", () => {
   });
 
   it('should clean up password', () => {
-    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks }, fakeStoreData())
     wrapper.vm.form.password = "11111111"
     const callback = wrapper.vm.successCallback()
 

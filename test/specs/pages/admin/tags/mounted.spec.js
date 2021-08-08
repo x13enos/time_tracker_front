@@ -3,17 +3,30 @@ import Tags from '@/pages/admin/tags'
 
 describe('mounted', () => {
 
-  const methods = {
-    fetchTags: () => {}
+  const mocks = {
+    $api: { allTags: () => ({}) }
   }
 
-  it("should fetch tags", () => {
-    const methodStub = sinon.stub(methods, 'fetchTags')
-    createWrapper(Tags, { methods }, fakeStoreData())
+  const successResponse = {
+    data: [{ name: 'Tag', id: 11 }]
+  }
 
-    expect(methodStub.calledOnce).to.be.true
+  it("should call endpoint for getting tags", async () => {
+    const endpointStub = sinon.stub(mocks.$api, 'allTags').returns(successResponse)
+    await createWrapper(Tags, { mocks }, fakeStoreData())
+
+    expect(endpointStub.calledOnce).to.be.true
 
     sinon.restore()
   });
+
+  it('should keep projects from recieved data if request was successful', async () => {
+    const apiStub = sinon.stub(mocks.$api, "allTags").returns(successResponse)
+    const wrapper = await createWrapper(Tags, { mocks }, fakeStoreData())
+
+    expect(wrapper.vm.tags).to.eql([{ name: 'Tag', id: 11 }])
+
+    sinon.restore()
+  })
 
 });

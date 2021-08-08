@@ -79,7 +79,9 @@ export default {
     },
 
     menuOpened (value) {
-      if (!value) { this.$emit('update', this.selectedTags) }
+      if (!value) { 
+        this.$emit('update', this.selectedTags
+      ) }
     }
   }
 }

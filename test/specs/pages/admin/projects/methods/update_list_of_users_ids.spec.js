@@ -2,13 +2,15 @@ import createWrapper from '@/test/support/create_wrapper.js'
 import Projects from '@/pages/admin/projects'
 
 describe('updateListOfUserIds', () => {
-  const methods = {
-    fetchProjects: () => {},
-    fetchUsers: () => {}
+  const mocks = {
+    $api: {
+      allProjects: () => ({}),
+      getUsersByCurrentWorkspace: () => ({})
+    }
   }
 
   it("should add passed id to the project user ids list", () => {
-    const wrapper = createWrapper(Projects, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.projects = [{ user_ids: [1] }]
 
     wrapper.vm.updateListOfUserIds('assign', 2, wrapper.vm.projects[0])
@@ -16,7 +18,7 @@ describe('updateListOfUserIds', () => {
   });
 
   it("should remove passed id from the list of project's user ids", () => {
-    const wrapper = createWrapper(Projects, { methods }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.projects = [{ user_ids: [1, 2] }]
 
     wrapper.vm.updateListOfUserIds('remove', 2, wrapper.vm.projects[0])

@@ -3,17 +3,17 @@ import Tags from '@/pages/admin/tags'
 
 describe('deleteTag', () => {
 
-  const methods = {
-    fetchTags: () => {}
-  }
   const mocks = {
-    $api: { deleteTag: () => {} }
+    $api: { 
+      deleteTag: () => {},
+      allTags: () => ({}) 
+    }
   }
   const successResponse = { data: { name: 'new-test-tag', id: 1 } }
 
   it("should close dialog of deleting tag", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteTag').returns(successResponse)
-    const wrapper = createWrapper(Tags, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Tags, { mocks }, fakeStoreData())
     wrapper.vm.tags = [{ id: 1, name: 'test-tag' }]
     wrapper.vm.deletingTagId = 1
     wrapper.vm.deleteDialog = true
@@ -26,7 +26,7 @@ describe('deleteTag', () => {
 
   it("should call api method for deleting tag", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteTag').returns(successResponse)
-    const wrapper = createWrapper(Tags, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Tags, { mocks }, fakeStoreData())
     wrapper.vm.tags = [{ id: 1, name: 'test-tag' }]
     wrapper.vm.deletingTagId = 1
 
@@ -38,7 +38,7 @@ describe('deleteTag', () => {
 
   it("should remove tag from the list of tags", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteTag').returns(successResponse)
-    const wrapper = createWrapper(Tags, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Tags, { mocks }, fakeStoreData())
     wrapper.vm.tags = [{ id: 1, name: 'test-tag' }]
     wrapper.vm.deletingTagId = 1
 
@@ -50,7 +50,7 @@ describe('deleteTag', () => {
 
   it("should show snack message", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteTag').returns(successResponse)
-    const wrapper = createWrapper(Tags, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Tags, { mocks }, fakeStoreData())
     wrapper.vm.tags = [{ id: 1, name: 'test-tag' }]
     wrapper.vm.deletingTagId = 1
     const snackStub = sinon.stub(wrapper.vm, "updateSnack")

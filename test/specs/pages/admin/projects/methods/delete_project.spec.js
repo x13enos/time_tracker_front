@@ -3,18 +3,19 @@ import Projects from '@/pages/admin/projects'
 
 describe('deleteProject', () => {
 
-  const methods = {
-    fetchProjects: () => {},
-    fetchUsers: () => {}
-  }
   const mocks = {
-    $api: { deleteProject: () => {} }
+    $api: { 
+      allProjects: () => ({}),
+      getUsersByCurrentWorkspace: () => ({}),
+      deleteProject: () => {} 
+    }
   }
+
   const successResponse = { data: { name: 'new-test-project', id: 1 } }
 
   it("should close dialog of deleting project", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteProject').returns(successResponse)
-    const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.projects = [{ id: 1, name: 'test-project' }]
     wrapper.vm.deletingProjectId = 1
     wrapper.vm.deleteDialog = true
@@ -27,7 +28,7 @@ describe('deleteProject', () => {
 
   it("should call api method for deleting project", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteProject').returns(successResponse)
-    const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.projects = [{ id: 1, name: 'test-project' }]
     wrapper.vm.deletingProjectId = 1
 
@@ -39,7 +40,7 @@ describe('deleteProject', () => {
 
   it("should remove project from the list of projects", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteProject').returns(successResponse)
-    const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.projects = [{ id: 1, name: 'test-project' }]
     wrapper.vm.deletingProjectId = 1
 
@@ -51,7 +52,7 @@ describe('deleteProject', () => {
 
   it("should show snack message", async () => {
     const methodStub = sinon.stub(mocks.$api, 'deleteProject').returns(successResponse)
-    const wrapper = createWrapper(Projects, { methods, mocks }, fakeStoreData())
+    const wrapper = createWrapper(Projects, { mocks }, fakeStoreData())
     wrapper.vm.projects = [{ id: 1, name: 'test-project' }]
     wrapper.vm.deletingProjectId = 1
     const snackStub = sinon.stub(wrapper.vm, "updateSnack")

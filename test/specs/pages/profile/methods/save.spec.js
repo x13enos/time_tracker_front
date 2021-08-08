@@ -3,10 +3,6 @@ import profile from '@/pages/profile'
 
 describe("save", () => {
   const successResponse = { success: () => { return true } }
-  const methods = {
-    fetchWorkspaces: () => {},
-    setNotificationValues: () => {}
-  }
 
   const mocks = {
     $config: {
@@ -15,7 +11,7 @@ describe("save", () => {
   }
 
   it('should call formSubmit method and pass callbacks', async () => {
-    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks }, fakeStoreData())
     sinon.stub(wrapper.vm, 'successCallback').returns("successCallback")
     sinon.stub(wrapper.vm, 'errorCallback').returns("errorCallback")
     const formSubmitStub = sinon.stub(wrapper.vm, "$formSubmit")
@@ -35,7 +31,7 @@ describe("save", () => {
       password: null,
       notification_rules: ["email_approve_period", "telegram_assign_user_to_project"]
     }
-    const wrapper = createWrapper(profile, { mocks, methods }, fakeStoreData())
+    const wrapper = createWrapper(profile, { mocks }, fakeStoreData())
     const updateStub = sinon.stub(wrapper.vm, "updateUserProfile").returns(successResponse)
     wrapper.setData({ form: {
       name: 'john',
