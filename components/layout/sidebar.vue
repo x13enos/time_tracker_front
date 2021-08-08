@@ -9,7 +9,7 @@
       <v-list-item>
           <v-list-item-content class="text-truncate">
             <nuxt-link to="/tasks">
-                Time Tracker
+              <img  src="/images/toime.svg" alt="Toime"/>
             </nuxt-link>
           </v-list-item-content>
           <v-btn icon x-small>
