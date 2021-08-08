@@ -61,7 +61,7 @@
       </div>
     </v-list>
     <template v-slot:append>
-      <v-subheader>{{ $t("navigation.workspace") }}</v-subheader>
+      <v-subheader class="workspace-title">{{ $t("navigation.workspace") }}</v-subheader>
       <div>
         <v-menu
           v-model="menuOpened"
@@ -133,10 +133,9 @@ export default {
 <style scoped>
   .v-application a{
     text-decoration: none;
-  }
-
-  a.active {
-    color: green;
+    color: #222222;
+    font-weight: 400;
+    font-size: 14px;
   }
 
   .workspace-button{
@@ -182,5 +181,9 @@ export default {
 
   .group-items .v-list-item {
     min-height: 36px;
+  }
+
+  .workspace-title {
+    font-size: 12px;
   }
 </style>

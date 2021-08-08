@@ -18,3 +18,12 @@ $object-green: #66C5B6;
 .main-content-container {
   padding: 0.3rem 1rem;
 }
+
+* {
+  font-family: "Poppins";
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.v-application .subtitle-2 {
+  font-family: "Poppins" !important;
+}
