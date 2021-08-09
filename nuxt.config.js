@@ -55,7 +55,8 @@ export default {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/vuetify',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
+    '@nuxtjs/google-fonts'
   ],
   /*
    ** Nuxt.js modules
@@ -89,6 +90,12 @@ export default {
   serverMiddleware: [
     '~/middleware/redirects.js'
   ],
+  googleFonts: {
+    families: {
+      Poppins: true,
+    },
+    download: true
+  },
   /*
    ** Build configuration
    */

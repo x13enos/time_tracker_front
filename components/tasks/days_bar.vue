@@ -13,12 +13,12 @@
         <div class="d-flex justify-space-between">
           <div class="gray-color subtitle-2">
             {{ $d(day, 'onlyDay') }}
-            {{ $d(day, 'onlyMonth') }}
+            <span class="month-name">{{ $d(day, 'onlyMonth') }}</span>
             <v-icon v-if="dayIsBlocked(day)" class="lock-icon">mdi-lock</v-icon>
           </div>
           <div class="subtitle-2">{{ totalTimeOfDailyTasks(day) }}</div>
         </div>
-        <div class="weekDayName subtitle-2 mt-1">{{ getFormattedWeekDateForTab(day) }}</div>
+        <div class="week-day-name subtitle-2 mt-1">{{ getFormattedWeekDateForTab(day) }}</div>
       </a>
     </li>
   </ul>
@@ -97,7 +97,6 @@
     min-height: 70px;
     text-decoration: none;
     color: #2d2c2c;
-    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
   }
 
   .active-tab div {
@@ -108,7 +107,12 @@
     color: $font-green;
   }
 
-  .weekDayName {
+  .month-name {
+    text-transform: lowercase;
+  }
+
+  .week-day-name {
+    color: #222222;
     text-transform: uppercase;
   }
 

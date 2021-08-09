@@ -39,7 +39,6 @@ export default {
   div.v-input.description-input input::placeholder {
     font-size: 16px;
     color: #828282;
-    font-family: "Roboto", sans-serif;
     line-height: 1.5;
   };
 </style>

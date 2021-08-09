@@ -45,7 +45,6 @@ function parseTime (value) {
   div.v-input.time-input input::placeholder {
     font-size: 16px;
     color: #828282;
-    font-family: "Roboto", sans-serif;
     line-height: 1.5;
   };
 </style>
