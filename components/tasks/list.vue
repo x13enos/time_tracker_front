@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-row v-if="dailyTasks.length || showNewTask" class="d-none d-sm-flex subtitle-2 titles">
+    <v-row class="d-none d-sm-flex subtitle-2 titles">
       <v-col cols="2">
         {{ $t("time_sheet.project") }}
       </v-col>
@@ -21,13 +21,23 @@
       @keepIntervalId="keepIntervalId($event, intervalId)"
       @clearIntervalId="clearIntervalId"
     />
-    <v-icon 
-      large 
-      class="add-icon"
+    <v-row 
+      class="add-task-block mb-2 font-green"
       v-if="!showNewTask" 
       @click="showNewTask = true">
-      mdi-plus-circle-outline
-    </v-icon>
+      <v-col class="col-sm-2 col-12">
+        <div>
+          <v-icon
+            small
+            class="add-icon font-green "
+            v-if="!showNewTask" 
+            @click="showNewTask = true">
+            mdi-plus
+          </v-icon>
+          Add
+        </div>
+      </v-col>
+    </v-row>
     <new-task v-if="showNewTask" />
   </div>
 </template>
@@ -83,9 +93,12 @@ export default {
     color: #828282;
   }
 
-  .add-icon {
-    cursor: pointer;
-    margin: 0.5rem 0 0 -0.5rem;
-    color: $font-green;
+  .add-task-block {
+    cursor:pointer;
+    padding: 6px 0;
+    background-color: #FAFAFA;
+    border-radius: 5px;
+    border: 1px dashed #66C5B6;
+    box-sizing: border-box;
   }
 </style>
