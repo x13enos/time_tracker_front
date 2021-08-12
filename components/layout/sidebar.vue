@@ -18,44 +18,44 @@
       </v-list-item>
 
       <v-list-item class="mt-4">
-            <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+            <v-icon class="mr-2 green-icon">mdi-clock-time-four</v-icon>
             <nuxt-link to="/tasks">{{ $t("navigation.tasks") }}</nuxt-link>
       </v-list-item>
       <div class="group-items mt-2">
         <v-subheader>{{ $t("navigation.analyze") }}</v-subheader>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <v-icon class="mr-2 green-icon">mdi-view-dashboard</v-icon>
           <nuxt-link to="/tasks">Dashboard</nuxt-link>
         </v-list-item>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <v-icon class="mr-2 green-icon">mdi-chart-box</v-icon>
           <nuxt-link to="/reports">{{ $t("navigation.reports") }}</nuxt-link>
         </v-list-item>
       </div>
       <div class="group-items mt-4" v-if="isManager" >
         <v-subheader>{{ $t("navigation.manage") }}</v-subheader>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <v-icon class="mr-2 green-icon">mdi-folder</v-icon>
           <nuxt-link to="/admin/projects">{{ $t("navigation.projects") }}</nuxt-link>
         </v-list-item>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <v-icon class="mr-2 green-icon">mdi-account-multiple</v-icon>
           <nuxt-link to="/admin/users">{{ $t("navigation.users") }}</nuxt-link>
         </v-list-item>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
-          <nuxt-link to="/admin/tags">{{ $t("navigation.users") }}</nuxt-link>
+          <v-icon dense class="mr-2 green-icon">mdi-tag-multiple</v-icon>
+          <nuxt-link to="/admin/tags">{{ $t("navigation.tags") }}</nuxt-link>
         </v-list-item>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <v-icon dense class="mr-2 green-icon">mdi-account-tie</v-icon>
           <nuxt-link to="/tasks">Clients</nuxt-link>
         </v-list-item>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <v-icon class="mr-2 green-icon">mdi-cog</v-icon>
           <nuxt-link to="/tasks">Settings</nuxt-link>
         </v-list-item>
         <v-list-item>
-          <v-icon dense class="mr-2">mdi-block-helper</v-icon>
+          <v-icon class="mr-2 green-icon">mdi-help-box</v-icon>
           <nuxt-link to="/tasks">Help</nuxt-link>
         </v-list-item>
       </div>
@@ -130,7 +130,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .v-application a{
     text-decoration: none;
     color: #222222;
@@ -185,5 +185,9 @@ export default {
 
   .workspace-title {
     font-size: 12px;
+  }
+
+  .green-icon {
+    color: $font-green;
   }
 </style>
