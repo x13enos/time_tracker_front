@@ -91,6 +91,11 @@ export default {
 <style lang="scss" scoped>
   .titles {
     color: #828282;
+
+    .col {
+      margin-top: 0.6rem;
+      padding-bottom: 0.2rem;
+    }
   }
 
   .add-task-block {
