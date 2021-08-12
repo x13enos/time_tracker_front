@@ -58,7 +58,7 @@
       text-transform: lowercase;
       font-size: 16px;
       font-weight: 500;
-      line-height: 2.5rem;
+      margin-top: 0.6rem;
     }
 
     .btn {

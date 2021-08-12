@@ -161,6 +161,10 @@ export default {
   .start-timer {
     cursor: pointer;
   }
+
+  .row {
+    margin-top: 0;
+  }
 </style>
 
 <style>
