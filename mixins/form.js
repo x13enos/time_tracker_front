@@ -35,7 +35,7 @@ export default {
         this.formSubmitting = false
       } catch(errors) {
         this.errorMessages = errors
-        errorCallback()
+        errorCallback(errors)
         this.formSubmitting = false
       }
     },
