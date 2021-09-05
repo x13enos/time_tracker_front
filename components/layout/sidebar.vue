@@ -75,21 +75,26 @@
               <v-icon dense>mdi-chevron-down</v-icon>
             </div>
           </template>
-          <v-container fluid class="workspaces-menu">
-            <div v-for="workspace in user.workspaces" :key="workspace.id">
+          <div fluid class="workspaces-menu">
+            <div class="d-flex justify-space-between pt-5 pb-4 px-5 workspaces-manage-section">
+              <span class="workspace-title">{{ $t("workspaces.title") }}</span>
+              <nuxt-link to="/workspaces">
+                <v-icon dense class="green-icon">mdi-cog</v-icon>
+              </nuxt-link>
+            </div>
+            <div 
+              v-for="workspace in user.workspaces"
+              :key="workspace.id"
+              class="py-2 px-6 workspace-item"
+              :class="{ 'workspace-active-item': workspace.id === user.activeWorkspaceId }">
               <div class="d-flex justify-space-between workspace-link" @click="changeWorkspace(workspace.id)">
                 {{ workspace.name }}
-                <span v-if="workspace.id === user.activeWorkspaceId" >
+                <span v-if="workspace.id === user.activeWorkspaceId" class="font-green workspace-active" >
                   {{ $t("profile.active_workspace") }}
-                  <v-icon color="green">mdi-checkbox-marked</v-icon>
                 </span>
               </div>
             </div>
-            <hr>
-            <nuxt-link to="/workspaces" class="manage">
-              {{ $t("workspaces.manage") }}
-            </nuxt-link>
-          </v-container>
+          </div>
         </v-menu>
       </div>
     </template>
@@ -97,7 +102,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations, mapActions } from 'vuex'
+import { mapGetters, mapState, mapMutations, mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -109,7 +114,7 @@ export default {
     },
 
     activeWorkspace(){
-      return this.user.workspaces.find((w) => w.id === this.user.activeWorkspaceId)
+      return this.user.workspaces.find((w) => w.id === this.user.activeWorkspaceId);
     }
   },
 
@@ -151,6 +156,7 @@ export default {
   }
 
   .workspaces-menu {
+    min-width: 16rem;
     background-color: white;
     border-radius: 5px;
   }
@@ -183,11 +189,32 @@ export default {
     min-height: 36px;
   }
 
+  .workspaces-manage-section {
+    border-bottom: 1px solid #E0E0E0;
+  }
+
   .workspace-title {
-    font-size: 12px;
+    font-size: 0.75rem;
+    color: #828282;
+  }
+
+  .workspace-item {
+    font-size: 0.875rem;
+  }
+
+  .workspace-item:hover {
+    background-color: #F2F2F2;
   }
 
   .green-icon {
     color: $font-green;
+  }
+
+  .workspaces-menu .workspace-active-item {
+    background-color: rgba(102, 197, 182, 0.1);
+  }
+
+  .workspace-active {
+    font-size: 0.75rem;
   }
 </style>
