@@ -99,13 +99,28 @@
 
       async create(){
         this.errorMessage = ""
-        const response = await this.$api.createWorkspace(this.form)
-        this.dialog = false
-        this.updateSnack({ message: this.$t("workspaces.was_created"), color: "green" })
-        this.form = { name: "" }
-        this.$emit("processData", response.data)
-        this.addWorkspaceToUserInfo(response.data)
-        this.$nextTick(() => { this.$v.$reset() })
+        await this.$formSubmit(
+          () => { return this.$api.createWorkspace(this.form) },
+          this.successCreatedCallback(),
+          this.errorCallback()
+        )
+      },
+
+      successCreatedCallback(response) {
+        return (data) => {
+          this.dialog = false
+          this.updateSnack({ message: this.$t("workspaces.was_created"), color: "green" })
+          this.form = { name: "" }
+          this.$emit("processData", data)
+          this.addWorkspaceToUserInfo(data)
+          this.$nextTick(() => { this.$v.$reset() })
+        }
+      },
+
+      errorCallback() {
+        return (errors) => {
+          this.updateSnack({ message: errors.base.join(', '), color: "red" });
+        }
       },
 
       async update(){

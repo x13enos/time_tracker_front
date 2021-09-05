@@ -30,61 +30,16 @@ describe('create', () => {
       expect(wrapper.vm.errorMessage).to.be.empty
     });
 
-    it('should call the api method', async () => {
+    it('should call formSubmit method and pass callbacks', async () => {
       const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      wrapper.setData({ form: {
-        name: "test-example"
-      } })
+      const successCallbackStub = sinon.stub(wrapper.vm, 'successCreatedCallback').returns("successCallback")
+      const errorCallbackStub = sinon.stub(wrapper.vm, 'errorCallback').returns("errorCallback")
+      const formSubmitStub = sinon.stub(wrapper.vm, "$formSubmit")
 
       await wrapper.vm.create()
-      expect(apiStub.calledOnceWith({
-        name: "test-example"
-      })).to.be.true
+      expect(formSubmitStub.calledOnce).to.be.true
+      expect(formSubmitStub.args[0][1]).to.eq("successCallback")
+      expect(formSubmitStub.args[0][2]).to.eq("errorCallback")
     });
-
-    it('should close the dialog', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      wrapper.vm.dialog = true
-
-      await wrapper.vm.create()
-      expect(wrapper.vm.dialog).to.be.false
-    });
-
-    it('should emit form data to the parent component', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      wrapper.setData({ form: {
-        name: "test-example"
-      } })
-
-      await wrapper.vm.create()
-
-      expect(wrapper.emitted("processData")[0]).to.eql([{ name: 'new-test-workspace', id: 1 }])
-    });
-
-    it('should clean the form', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      wrapper.vm.form = { name: "test" }
-
-      await wrapper.vm.create()
-      expect(wrapper.vm.form).to.eql({ name: "" })
-    });
-
-    it('should call the mutation for adding new workspace to the user info', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData());
-      const mutationStub = sinon.stub(wrapper.vm, 'addWorkspaceToUserInfo');
-
-      await wrapper.vm.create();
-      expect(mutationStub.calledOnceWith(successResponse.data)).to.be.true;
-    });
-
-    it('should show snack message', async () => {
-      const wrapper = createWrapper(form, { mocks }, fakeStoreData())
-      const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
-      wrapper.vm.form = { name: "test" }
-
-      await wrapper.vm.create()
-      expect(snackStub.calledOnceWith({ message: 'workspaces.was_created', color: "green" })).to.be.true
-    });
-
   });
 });
