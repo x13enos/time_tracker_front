@@ -53,7 +53,7 @@ describe("submit", () => {
 
   it('should update errorMessage in case of failed request', async () => {
     const $api = { setPassword: () => { return successResponse } }
-    sinon.stub($api, "setPassword").rejects({ base: 'error' })
+    sinon.stub($api, "setPassword").rejects({ errors: { base: 'error' } })
     const wrapper = createWrapper(Invitation, { mocks: { $api, $route }, stubs }, fakeStoreData())
 
     await wrapper.vm.submit()

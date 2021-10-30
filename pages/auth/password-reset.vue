@@ -112,7 +112,7 @@ export default {
           password: this.form.password
         })
         this.passwordWasChanged = true
-      } catch ( errors ) {
+      } catch ({ errors }) {
         this.errorMessages = errors
       }
     }

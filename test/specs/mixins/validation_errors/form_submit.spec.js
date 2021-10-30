@@ -62,12 +62,12 @@ describe('$formErrorMessage', () => {
 
   it('should add errors to errorMessages in case of fail', async () => {
     const wrapper = mount({ render() {}, mixins: [formMixin] }, { mocks })
-    sinon.stub(attributes, "request").rejects({ name: "incorrect" })
+    sinon.stub(attributes, "request").rejects({ errors: "incorrect" })
     wrapper.vm.errorMessages = {}
 
     await wrapper.vm.$formSubmit(attributes.request)
 
-    expect(wrapper.vm.errorMessages).to.eql({ name: "incorrect" })
+    expect(wrapper.vm.errorMessages).to.eq("incorrect")
     sinon.restore()
   });
 

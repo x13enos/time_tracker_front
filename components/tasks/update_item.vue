@@ -180,7 +180,7 @@ export default {
         await this.updateTask(params)
         this.removePendingState()
         this.updateSnack({ message: this.$t("time_sheet.task_was_updated"), color: "green" })
-      } catch (errors) {
+      } catch ({ errors }) {
         this.updateSnack({ message: this.$t("time_sheet.task_was_not_updated"), color: "red" })
         this.errorMessages = errors
       }

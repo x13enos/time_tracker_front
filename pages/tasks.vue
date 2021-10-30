@@ -49,6 +49,12 @@ export default {
     ...mapState(['selectedDate', 'currentDate'])
   },
 
+  watch:{
+      $route () {
+        this.updateSelectedDate(this.currentDate);
+      }
+  },
+
   async fetch ({ app }) {
     const projectsResponse = await app.$api.allProjects()
     if (projectsResponse.data) { app.store.commit('updateProjects', projectsResponse.data) }
@@ -58,6 +64,9 @@ export default {
   },
 
   async mounted () {
+    if (this.$route.query.date)
+      await this.updateSelectedDate(this.$route.query.date.split('-').reverse());
+
     await this.getWeeklyTasks(this.selectedDate);
     await this.fetchActiveTimeRecord();
 
@@ -79,7 +88,7 @@ export default {
   methods: {
     ...mapMutations['updateCurrentDate'],
     ...mapGetters(['somePendingTasks']),
-    ...mapActions(['checkOnPendingTasks', 'getWeeklyTasks', 'fetchActiveTimeRecord'])
+    ...mapActions(['checkOnPendingTasks', 'getWeeklyTasks', 'fetchActiveTimeRecord', 'updateSelectedDate'])
   }
 }
 </script>

@@ -1,5 +1,4 @@
 import createWrapper from '@/test/support/create_wrapper.js'
-import { RouterLinkStub } from '@vue/test-utils'
 import TimeReportApprove from '@/pages/time_reports/approve'
 
 describe("approveTimeReport", () => {
@@ -44,14 +43,14 @@ describe("approveTimeReport", () => {
     sinon.restore()
   });
 
-  it('should update errorMessage in case of failed request', async () => {
+  it('should call handleError method in case of having problem', async () => {
     const $api = { approveTimeReport: () => { return successResponse } }
-    sinon.stub($api, "approveTimeReport").rejects({ base: ['error', 'another error'] })
+    sinon.stub($api, "approveTimeReport").rejects({ errors: { base: 'another error' } })
     const wrapper = createWrapper(TimeReportApprove, { mocks: { $api, $route } }, fakeStoreData())
+    const methodStub = sinon.stub(wrapper.vm, 'handleError');
 
     await wrapper.vm.approveTimeReport()
-    expect(wrapper.vm.errorMessages).to.eql({ base: ['error', 'another error'] })
-
+    expect(methodStub.args[0][0]).to.eql({ errors: { base: 'another error' } });
     sinon.restore()
   });
 })

@@ -63,7 +63,7 @@ describe('create', () => {
     const actionStub = sinon.stub(wrapper.vm, "addTask").rejects({ errors: "Big message of errors" });
 
     await wrapper.vm.create();
-    expect(wrapper.vm.errorMessages).to.eql({ errors: "Big message of errors" });
+    expect(wrapper.vm.errorMessages).to.eql("Big message of errors");
     sinon.restore();
   });
 

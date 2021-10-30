@@ -106,7 +106,7 @@ export default {
         const response = await this.$api.signUp(this.form);
         this.updatePersonalInfo(response.data);
         this.$router.push('/tasks');
-      } catch (errors) {
+      } catch ({ errors }) {
         this.errorMessages = errors;
       }
     }

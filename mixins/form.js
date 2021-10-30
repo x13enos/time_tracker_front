@@ -33,7 +33,7 @@ export default {
         const response = await request() || {}
         successCallback(response.data)
         this.formSubmitting = false
-      } catch(errors) {
+      } catch({ errors }) {
         this.errorMessages = errors
         errorCallback(errors)
         this.formSubmitting = false

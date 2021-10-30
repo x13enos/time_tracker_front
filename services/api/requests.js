@@ -219,7 +219,7 @@ function Api ({ router, store }, appMethods) {
   }, function (error) {
     showError(error.response)
     redirectIfUserUnathorized(error.response)
-    return Promise.reject(error.response.data.errors)
+    return Promise.reject(error.response.data)
   })
 
   const redirectIfUserUnathorized = (response) => {
