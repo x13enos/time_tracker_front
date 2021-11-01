@@ -86,16 +86,15 @@ export default {
   },
 
   async approveTimeReport({ commit, state }, periodId) {
-    if(this.app.$config.extensionEnabled){
-      const period = state.unapprovedPeriods.find(p => p.id === periodId);
-      const currentDates = Object.keys(state.tasks)
-      const blockedDays = new BlockedDaysSearcher(period, currentDates).perform();
-      if(blockedDays.length > 0) {
-        commit('updateBlockedDays', blockedDays);
-      }
-    }
     await this.$api.approveTimeReport(periodId, {})
-    commit("removeUnapprovedTimePeriod", periodId)
+    if (this.app.$config.extensionEnabled){
+      const period = state.unapprovedPeriods.find(p => p.id === periodId);
+      const currentDates = Object.keys(state.tasks);
+      const blockedDays = new BlockedDaysSearcher(period, currentDates).perform();
+      if (blockedDays.length > 0)
+        commit('updateBlockedDays', blockedDays);
+    };
+    commit("removeUnapprovedTimePeriod", periodId);
   },
 
   async changeWorkspace(app, id) {

@@ -7,9 +7,7 @@
 
   <v-card v-else class="elevation-12">
     <v-card-text>
-      <span class='red--text' v-if="!!errorMessages.base">
-        {{ errorMessages.base.join(", ") }}
-      </span>
+      <span class='red--text' v-if="!!errorMessages" v-html="errorMessages" />
       <div v-else class="loader" />
     </v-card-text>
   </v-card>
@@ -52,9 +50,14 @@ export default {
           }
         )
         this.reportWasApproved = true
-      } catch ( errors ) {
-        this.errorMessages = errors
+      } catch (data) {
+        this.handleError(data);
       }
+    },
+
+    handleError({ errors, dates }) {
+      const links = dates.map((date) => `<a href='/tasks?date=${date}' class="red--text">${date}</a>`).join(', ');
+      this.errorMessages = [errors.base[0], links].join(' ');
     }
   }
 }

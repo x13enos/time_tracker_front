@@ -56,7 +56,7 @@ describe("approveTimeReport", () => {
       boundAction = actions.approveTimeReport.bind(mockedNuxtInstance)
     });
 
-    it('should commit blocked days if they were found', () => {
+    it('should save blocked days if they were found', async () => {
       commitObject.state = {
         unapprovedPeriods: [{
           from: '11/02/2020',
@@ -67,7 +67,7 @@ describe("approveTimeReport", () => {
       }
       const mutationStub = sinon.stub(commitObject, "commit")
 
-      boundAction(commitObject, 1)
+      await boundAction(commitObject, 1)
       expect(mutationStub.args[0]).to.eql(["updateBlockedDays", ["11/02/2020"]]);
       sinon.restore();
     });

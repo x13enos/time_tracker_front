@@ -37,7 +37,7 @@ export default {
     ...mapActions(['updateSelectedDate']),
 
     updateValue(value){
-      const parsedDate = value.split('-').reverse();;
+      const parsedDate = value.split('-').reverse();
       this.updateSelectedDate(parsedDate);
       this.dateMenu = false
     }

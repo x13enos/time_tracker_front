@@ -54,12 +54,12 @@ describe("onSubmit", () => {
 
   it('should write errors from response to variable if status is "fail"', async () => {
     const $api = { signUp: () => {} }
-    sinon.stub($api, "signUp").rejects({ base: 'error' })
+    sinon.stub($api, "signUp").rejects({ errors: 'error' })
     const wrapper = createWrapper(signUp, { mocks: { $api }, stubs }, fakeStoreData())
 
     await wrapper.vm.onSubmit()
 
-    expect(wrapper.vm.errorMessages).to.eql({ base: 'error' })
+    expect(wrapper.vm.errorMessages).to.eql('error')
     sinon.restore()
   });
 })

@@ -22,8 +22,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations } from "vuex"
-
+import { mapState, mapActions, mapMutations } from "vuex";
 export default {
 
   computed: {
@@ -41,9 +40,15 @@ export default {
           message: this.$t("time_reports.you_approved_this"),
           color: "green"
         })
-      } catch(errors){
-        this.updateSnack({ message: errors.base[0], color: "red" })
+      } catch(data){
+        this.handleError(data);
       }
+    },
+
+    handleError({ errors, dates }) {
+      const links = dates.map((date) => `<a href='/tasks?date=${date}' class="snackbar-link">${date}</a>`).join(', ');
+      const message = [errors.base[0], links].join(' ');
+      this.updateSnack({ htmlContent: message, color: "red" })
     }
   }
 }

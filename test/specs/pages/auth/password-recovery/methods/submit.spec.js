@@ -48,12 +48,12 @@ describe("submit", () => {
 
   it('should write errors from response to variable if status is "fail"', async () => {
     const $api = { forgotPassword: () => {} }
-    sinon.stub($api, "forgotPassword").rejects(Error)
+    sinon.stub($api, "forgotPassword").rejects({ errors: "error data"})
     const wrapper = createWrapper(PasswordRecovery, { mocks: { $api }, stubs }, fakeStoreData())
 
     await wrapper.vm.submit()
 
-    expect(wrapper.vm.errorMessages).to.eq(Error)
+    expect(wrapper.vm.errorMessages).to.eq("error data")
     sinon.restore()
   });
 })

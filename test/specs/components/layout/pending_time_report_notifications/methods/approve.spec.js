@@ -27,15 +27,14 @@ describe('approve', () => {
     sinon.restore()
   });
 
-  it('should show notification in case of fail', async () => {
-    const wrapper = createWrapper(Notifications, {}, fakeStoreData())
-    const actionStub = sinon.stub(wrapper.vm, "approveTimeReport").rejects({ base: ["Big message of fail"] })
-    const snackStub = sinon.stub(wrapper.vm, "updateSnack")
+  it('should call method for handling error in case of fail', async () => {
+    const wrapper = createWrapper(Notifications, {}, fakeStoreData());
+    const actionStub = sinon.stub(wrapper.vm, "approveTimeReport").rejects({ errors: 'data' });
+    const methodStub = sinon.stub(wrapper.vm, "handleError");
 
-    await wrapper.vm.approve(1)
-    expect(snackStub.calledOnceWith({ message: "Big message of fail", color: "red"})).to.be.true
-
-    actionStub.restore()
+    await wrapper.vm.approve(1);
+    expect(methodStub.calledOnceWith({ errors: 'data' })).to.be.true;
+    sinon.restore();
   });
 
 });

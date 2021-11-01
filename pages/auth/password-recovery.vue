@@ -97,7 +97,7 @@ export default {
         this.updateSnack({ message: this.$t("password_recovery.we_sent_email"), color: "green" })
         this.email = ""
         this.$nextTick(() => { this.$v.$reset() })
-      } catch (errors) {
+      } catch ({ errors }) {
         this.errorMessages = errors;
       }
     }

@@ -92,7 +92,7 @@ export default {
         this.removePendingState()
         this.cleanUpData();
         this.updateSnack({ message: this.$t("time_sheet.task_was_created"), color: "green" })
-      } catch (errors) {
+      } catch ({ errors }) {
         this.updateSnack({ message: this.$t("time_sheet.task_was_not_created"), color: "red" })
         this.errorMessages = errors
       }

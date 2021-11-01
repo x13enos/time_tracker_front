@@ -4,11 +4,17 @@
     :color="snack.color"
     :top="true"
     :right="true"
-    @input="updateSnack({ message: '', color: '' })">
-    {{ snack.message }}
+    @input="clean">
+    <template v-if="snack.message">
+      {{ snack.message }}
+    </template>
+
+    <template v-if="snack.htmlContent">
+      <div v-html="snack.htmlContent" />
+    </template>
 
     <template v-slot:action="{ attrs }">
-      <v-icon v-bind="attrs" @click="updateSnack({ message: '', color: '' })">
+      <v-icon v-bind="attrs" @click="clean">
         mdi-close-circle
       </v-icon>
     </template>
@@ -32,11 +38,25 @@ export default {
   watch: {
     "snack.message"(val){
       this.show = !!val;
+    },
+
+    "snack.htmlContent"(val){
+      this.show = !!val;
     }
   },
 
   methods: {
-    ...mapMutations(["updateSnack"])
+    ...mapMutations(["updateSnack"]),
+
+    clean() {
+      this.updateSnack({ htmlContent: '', message: '', color: '' });
+    }
   }
 }
 </script>
+
+<style>
+  .v-application .snackbar-link {
+    color: white;
+  }
+</style>

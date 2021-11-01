@@ -14,6 +14,7 @@ export default function state(){
     currentDate: DateTime.local(),
     selectedDate: DateTime.local(),
     snack: {
+      htmlContent: "",
       message: "",
       color: ""
     },

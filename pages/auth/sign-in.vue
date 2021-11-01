@@ -105,7 +105,7 @@ export default {
         const response = await this.$api.signIn(this.handledFormData());
         this.updatePersonalInfo(response.data);
         this.$router.replace({ path: '/tasks' });
-      } catch (errors) {
+      } catch ({ errors }) {
         this.errorMessages = errors;
       }
     },

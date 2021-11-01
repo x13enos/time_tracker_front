@@ -118,7 +118,7 @@ export default {
           password: this.form.password
         })
         this.dataWasUpdated = true
-      } catch ( errors ) {
+      } catch ({ errors }) {
         this.errorMessages = errors
       }
     }

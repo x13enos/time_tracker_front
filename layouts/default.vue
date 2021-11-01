@@ -4,7 +4,7 @@
     <v-main>
       <!-- <Header /> -->
         <v-container :fluid="true" class="main-container">
-          <!-- <PendingTimeReportNotifications /> -->
+          <PendingTimeReportNotifications />
           <nuxt />
         </v-container>
 
@@ -14,10 +14,10 @@
 </template>
 
 <script>
-import Snackbar from '~/components/layout/snackbar.vue'
-import Sidebar from '~/components/layout/sidebar.vue'
-import PendingTimeReportNotifications from '~/components/layout/pending_time_report_notifications.vue'
-import { mapGetters } from 'vuex'
+import Snackbar from '~/components/layout/snackbar.vue';
+import Sidebar from '~/components/layout/sidebar.vue';
+import PendingTimeReportNotifications from '~/components/layout/pending_time_report_notifications.vue';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
   name:"DefaultLayout",
@@ -25,6 +25,7 @@ export default {
   components: { Sidebar, Snackbar, PendingTimeReportNotifications },
 
   computed: {
+    ...mapState(["snack"]),
     ...mapGetters(["userAuthorized"])
   }
 }
