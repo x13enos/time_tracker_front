@@ -9,16 +9,12 @@ describe('signOut', () => {
       signOut: () => { return {} }
     }
   }
-  const computed = {
-    isMobile: () => true
-  }
 
   it('should call api method for sign out ', async () => {
     const actionSpy = sinon.spy(mocks.$api, "signOut")
     const wrapper = createWrapper(sidebar,
       {
         mocks,
-        computed,
         stubs: { NuxtLink: RouterLinkStub },
         vuetify: new Vuetify()
       },
@@ -35,7 +31,6 @@ describe('signOut', () => {
     const wrapper = createWrapper(sidebar,
       {
         mocks,
-        computed,
         stubs: { NuxtLink: RouterLinkStub },
         vuetify: new Vuetify()
       },
