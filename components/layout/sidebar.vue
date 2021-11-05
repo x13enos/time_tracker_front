@@ -76,7 +76,7 @@
             </div>
           </template>
           <div fluid class="workspaces-menu">
-            <div class="d-flex justify-space-between pt-5 pb-4 px-5 workspaces-manage-section">
+            <div class="d-flex justify-space-between pt-5 pb-4 px-5">
               <span class="workspace-title">{{ $t("workspaces.title") }}</span>
               <nuxt-link to="/workspaces">
                 <v-icon dense class="green-icon">mdi-cog</v-icon>
@@ -87,12 +87,54 @@
               :key="workspace.id"
               class="py-2 px-6 workspace-item"
               :class="{ 'workspace-active-item': workspace.id === user.activeWorkspaceId }">
-              <div class="d-flex justify-space-between workspace-link" @click="changeWorkspace(workspace.id)">
+              <div class="d-flex justify-space-between cursor-pointer" @click="changeWorkspace(workspace.id)">
                 {{ workspace.name }}
                 <span v-if="workspace.id === user.activeWorkspaceId" class="font-green workspace-active" >
                   {{ $t("profile.active_workspace") }}
                 </span>
               </div>
+            </div>
+          </div>
+        </v-menu>
+      </div>
+      <div>
+        <v-menu
+          v-model="profileOpened"
+          :close-on-content-click="true"
+          nudge-top="8"
+          offset-x
+        >
+          <template v-slot:activator="{ on }">
+            <div
+              :class="{ active: profileOpened }"
+              class="d-flex user-data py-2 px-4 mb-5" 
+              v-on="on">
+              <div class="d-flex align-center avatar text-uppercase rounded-circle">
+                <div>{{ avatarInitials() }}</div>
+              </div>
+              <div class="ml-2 d-flex flex-column">
+                <div v-if="user.name" class="user-name">{{ user.name }}</div>
+                <div class="user-email">{{ user.email }}</div>
+              </div>
+            </div>
+          </template>
+          <div fluid class="workspaces-menu">
+            <div class="d-flex py-4 px-5 justify-space-between profile-section">
+              <div class="d-flex flex-column">
+                <div v-if="user.name" class="user-name">{{ user.name }}</div>
+                <div class="user-email mt-1">{{ user.email }}</div>
+              </div>
+              <div class="d-flex align-center big-avatar text-uppercase rounded-circle">
+                <div class="mx-auto">{{ avatarInitials() }}</div>
+              </div>
+            </div>
+            <nuxt-link to="/profile" class="d-flex menu-link py-2 pl-5">
+              <v-icon dense class="green-icon">mdi-cog</v-icon>
+              <span class="ml-2 profile-link-title">{{ $t("navigation.profile") }}</span>
+            </nuxt-link>
+            <div class="d-flex cursor-pointer menu-link py-2 pl-5" @click="signOut">
+              <v-icon dense class="green-icon">mdi-logout-variant</v-icon>
+              <span class="ml-2 profile-link-title">{{ $t("navigation.sign_out") }}</span>
             </div>
           </div>
         </v-menu>
@@ -109,10 +151,6 @@ export default {
     ...mapState(["user"]),
     ...mapGetters(["isManager"]),
 
-    isMobile(){
-      return this.$vuetify.breakpoint.smAndUp;
-    },
-
     activeWorkspace(){
       return this.user.workspaces.find((w) => w.id === this.user.activeWorkspaceId);
     }
@@ -120,7 +158,8 @@ export default {
 
   data: () => ({
     drawer: false,
-    menuOpened: false
+    menuOpened: false,
+    profileOpened: false
   }),
 
   methods: {
@@ -130,6 +169,14 @@ export default {
     async signOut(){
       await this.$api.signOut()
       this.$router.push("/auth/sign-in")
+    },
+
+    avatarInitials() {
+      if (this.user.name)
+        return this.user.name.split(' ').map((n) => n[0]).join('').toUpperCase();
+
+      if (this.user.email)
+        return this.user.email.slice(0, 2).toUpperCase();
     }
   }
 }
@@ -161,12 +208,6 @@ export default {
     border-radius: 5px;
   }
 
-  .workspaces-menu hr{
-    margin: 0.5rem 0;
-    border-top: 1px solid #E0E0E0;
-    height: 0px;
-  }
-
   .manage {
     display: block;
     width: 100%;
@@ -177,7 +218,7 @@ export default {
     background-color: #E0E0E0;
   } 
 
-  .workspace-link {
+  .cursor-pointer {
     cursor: pointer;
   }
 
@@ -189,21 +230,21 @@ export default {
     min-height: 36px;
   }
 
-  .workspaces-manage-section {
-    border-bottom: 1px solid #E0E0E0;
-  }
-
   .workspace-title {
     font-size: 0.75rem;
     color: #828282;
   }
 
-  .workspace-item {
+  .workspace-item, .menu-link {
     font-size: 0.875rem;
   }
 
-  .workspace-item:hover {
+  .workspace-item:hover, .menu-link:hover {
     background-color: #F2F2F2;
+  }
+
+  .profile-link-title {
+    margin-top: 1px;
   }
 
   .green-icon {
@@ -216,5 +257,48 @@ export default {
 
   .workspace-active {
     font-size: 0.75rem;
+  }
+
+  .user-data {
+    cursor: pointer;
+  }
+
+  .user-data:hover, .user-data.active  {
+    background-color: #FAFAFA;
+  }
+
+  .user-name {
+    font-size: 14px;
+    line-height: 16.8px;
+    font-weight: 500;
+  }
+
+  .user-email {
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: 400;
+    color: #828282;
+  }
+
+  .avatar {
+    padding: 6px 8px;
+    width: 28px;
+    height: 28px;
+    font-size: 10px;
+    line-height: 12px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background-color: #4BBBA9;
+  }
+
+  .big-avatar {
+    padding: 7px;
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+    line-height: 20px;
+    font-weight: 600;
+    color: #FFFFFF;
+    background-color: #4BBBA9;
   }
 </style>
