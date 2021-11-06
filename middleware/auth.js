@@ -1,4 +1,7 @@
-export default async function ({ store }) {
-  if (store.state.user.email) return
-  await store.dispatch("getUserInfo")
+export default async function ({ redirect, store }) {
+  if (store.state.user.email) return;
+
+  return store.dispatch("getUserInfo")
+    .then()
+    .catch(() => { redirect('/auth/sign-in') })
 }
