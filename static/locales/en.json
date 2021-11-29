@@ -67,7 +67,7 @@
     }
   },
   "sign_in_form": {
-    "title": "Log into Time Tracker",
+    "title": "Log into Toime",
     "email": "Email",
     "password": "Password",
     "login": "Login",
@@ -76,7 +76,7 @@
     "remember_me": "Remember me"
   },
   "sign_up_form": {
-    "title": "Create your Time Tracker Account",
+    "title": "Create your Toime Account",
     "email": "Email",
     "password": "Password",
     "submit": "Submit"
@@ -113,7 +113,7 @@
     "name": "Name",
     "password": "Password",
     "confirm_password": "Confirm password",
-    "accept_invitation": "Accept Invitation"
+    "sign_up": "Submit"
   },
   "time_sheet": {
     "title": "Time Sheet",

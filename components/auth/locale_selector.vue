@@ -1,16 +1,13 @@
 <template>
   <v-menu offset-y>
     <template v-slot:activator="{ on, attrs }">
-      <span
-        v-bind="attrs"
-        v-on="on"
-      >
+      <span class="flag-block" v-bind="attrs" v-on="on">
         <gb-flag :code="currentFlag" size="small" />
       </span>
     </template>
     <v-list>
       <v-list-item
-        v-for="(locale, index) in locales"
+        v-for="locale in locales"
         :key="locale.title"
         link
         @click="changeLocale(locale.code)"
@@ -57,5 +54,9 @@ export default {
 <style>
   .locale-title {
     margin-left: 0.5rem;
+  }
+
+  .flag-block {
+    margin-top: 0.5rem;
   }
 </style>
