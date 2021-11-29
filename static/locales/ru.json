@@ -66,7 +66,7 @@
     }
   },
   "sign_in_form": {
-    "title": "Вход на Time Tracker",
+    "title": "Вход на Toime",
     "email": "Email",
     "password": "Пароль",
     "login": "Войти",
@@ -75,7 +75,7 @@
     "forgot_password": "Забыли пароль?"
   },
   "sign_up_form": {
-    "title": "Зарегистрируйтесь на Time Tracker",
+    "title": "Зарегистрируйтесь на Toime",
     "email": "Email",
     "password": "Пароль",
     "submit": "Зарегистрироваться"
@@ -106,6 +106,13 @@
       },
       "home": "Вернуться домой"
     }
+  },
+  "invitation": {
+    "title": "Зарегистрируйтесь на Toime",
+    "name": "Имя",
+    "password": "Пароль",
+    "confirm_password": "Пароль ещё раз",
+    "sign_up": "Зарегистрироваться"
   },
   "time_sheet": {
     "title": "Учет рабочего времени",

@@ -16,6 +16,9 @@
         <v-toolbar-title>
           {{ $t('invitation.title') }}
         </v-toolbar-title>
+
+        <v-spacer />
+        <locale-selector />
       </v-toolbar>
       <v-card-text>
         <v-form v-model="valid">
@@ -48,7 +51,7 @@
           :block="true"
           @click="submit()"
           :disabled="!valid || !this.form.name || !this.form.password || !this.form.confirmPassword">
-          {{ $t('invitation.accept_invitation') }}
+          {{ $t('invitation.sign_up') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -60,6 +63,7 @@
 <script>
 
 import formMixin from '@/mixins/form'
+import LocaleSelector from "~/components/auth/locale_selector.vue"
 import AdditionalLinks from  "~/components/auth/additional_links.vue"
 import { validationMixin } from 'vuelidate'
 import { required, helpers, sameAs } from 'vuelidate/lib/validators'
@@ -76,7 +80,8 @@ export default {
   mixins: [validationMixin, formMixin],
 
   components: {
-    "additional-links": AdditionalLinks
+    "additional-links": AdditionalLinks,
+    "locale-selector": LocaleSelector
   },
 
   validations() {
