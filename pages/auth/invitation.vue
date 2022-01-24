@@ -1,17 +1,6 @@
 <template>
   <div>
-    <v-card v-if="dataWasUpdated" class="elevation-12">
-      <v-card-text>
-        <p>You succesfully updated your data.</p>
-        <p>Please go to the login page and try to authorise.</p>
-        <nuxt-link to="/auth/sign-in">
-          <v-btn :block="true" class="primary" text>
-            {{ $t("navigation.login") }}
-          </v-btn>
-        </nuxt-link>
-      </v-card-text>
-    </v-card>
-    <v-card v-else class="elevation-12">
+    <v-card class="elevation-12">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
           {{ $t('invitation.title') }}
@@ -108,8 +97,7 @@ export default {
         confirmPassword: ""
       },
       valid: true,
-      errorMessages: {},
-      dataWasUpdated: false
+      errorMessages: {}
     }
   },
 
@@ -117,12 +105,12 @@ export default {
     async submit () {
       this.errorMessages = {}
       try {
-        const response = await this.$api.setPassword({
+        await this.$api.setPassword({
           token: this.$route.query.token,
           name: this.form.name,
           password: this.form.password
         })
-        this.dataWasUpdated = true
+        this.$router.push('/');
       } catch ({ errors }) {
         this.errorMessages = errors
       }
