@@ -235,9 +235,13 @@
     "sum_time_should_be_less_than24_hours": "Общее количество потраченного времени не может превышать 24 часа за день"
   },
   "pomodoro": {
-    "title": "Помидорка",
+    "title": "Таймер",
     "long_break": "Большой перерыв",
+    "long_break_mins": "10 м",
     "short_break": "Маленький перерыв",
+    "short_break_mins": "5 м",
+    "pomodoro_option": "Помидорка",
+    "pomodoro_option_mins": "25 м",
     "time_is_up": "Время вышло!",
     "stop": "Стоп"
   }

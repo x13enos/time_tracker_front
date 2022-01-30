@@ -236,10 +236,14 @@
     "sum_time_should_be_less_than24_hours": "The total amount of spent time cannot exceed 24 hours per day"
   },
   "pomodoro": {
-    "title": "Pomodoro",
+    "title": "Focus",
     "long_break": "Long Break",
+    "long_break_mins": "10 m",
     "short_break": "Short Break",
+    "short_break_mins": "5 m",
     "time_is_up": "Your time is up!",
+    "pomodoro_option": "Pomodoro",
+    "pomodoro_option_mins": "25 m",
     "stop": "Stop"
   }
 }

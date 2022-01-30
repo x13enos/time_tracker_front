@@ -1,18 +1,18 @@
 <template>
-  <div class='date-panel mt-12 d-flex'>
-    <div @click="changeDay(-7)" class="btn">
+  <div class='date-panel d-flex'>
+    <div @click="changeDay(-7)" class="default-btn btn-icon mr-1">
       <v-icon>mdi-chevron-left</v-icon>
     </div>
 
     <date-select />
 
-    <div @click="changeDay(7)" class="btn">
+    <div @click="changeDay(7)" class="default-btn btn-icon ml-1">
       <v-icon>mdi-chevron-right</v-icon>
     </div>
 
-    <span v-if="weekDays.length" class="date-range ml-2">
+    <span v-if="weekDays.length" class="date-range ml-5">
       {{ currentWeek }}
-      <span class="total">(
+      <span class="gray-color">(
         {{ $t("time_sheet.total") }}:
         <span class="total-time">{{ totalTimeOfWeeklyTasks }}{{ $t("time_sheet.hour_short") }}</span>
       )</span>
@@ -59,40 +59,6 @@
       font-size: 16px;
       font-weight: 500;
       margin-top: 0.6rem;
-    }
-
-    .btn {
-      text-align: center;
-      cursor: pointer;
-      padding: 8px 0;
-      width: 45px;
-      background-color: white;
-      border-radius: 5px;
-      height: 40px;
-      margin-right: 0.5rem;
-    }
-
-    .calendar-btn {
-      padding: 8px 10px;
-    }
-
-    .btn > i {
-      color: $font-green;
-      width: 13px;
-      font-size: 32px;
-      height: 24px;
-    }
-
-    .calendar-btn > i {
-      font-size: 24px;
-    }
-
-    .date-panel {
-      padding: 0px 0.3rem;
-    }
-
-    .total {
-      color: $gray-color;
     }
 
     .total-time {

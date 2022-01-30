@@ -10,14 +10,13 @@ describe('checkTimer', () => {
       wrapper.vm.totalSeconds = 0
     });
 
-    it('should clear interval', () => {
+    it('should call stopTimer method', () => {
       window.Notification = { permission: "default" }
       const timeStub = sinon.useFakeTimers()
-      const clearIntervalStub = sinon.stub(timeStub, 'clearInterval')
-      wrapper.vm.intervalId = 13
+      const stopTimerStub = sinon.stub(wrapper.vm, 'stopTimer')
 
       wrapper.vm.checkTimer()
-      expect(clearIntervalStub.calledOnce).to.be.true
+      expect(stopTimerStub.calledOnce).to.be.true
 
       sinon.restore()
     });

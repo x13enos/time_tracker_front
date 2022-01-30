@@ -1,6 +1,7 @@
 $gray-color: #828282;
 $font-green: #4BBBA9;
 $object-green: #66C5B6;
+$pale-green-color: #F0F9F8;
 
 .gray-color {
   color: $gray-color;
@@ -26,4 +27,26 @@ $object-green: #66C5B6;
 
 .v-application .subtitle-2 {
   font-family: "Poppins" !important;
+}
+
+.default-btn {
+  text-align: center;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 5px;
+  height: 40px;
+}
+
+.btn-icon > .v-icon, .btn-icon-with-text > .v-icon {
+  color: $font-green;
+  height: 24px;
+}
+
+.btn-icon > .v-icon {
+  margin: 8px 1rem;
+  width: 13px;
+}
+
+.btn-icon-with-text > .v-icon {
+  margin: 8px 0 8px 1rem;
 }
