@@ -10,8 +10,8 @@
     min-width="290px"
   >
     <template v-slot:activator="{ on }">
-      <div class="btn calendar-btn" v-on="on">
-        <v-icon class="tasks-calendar-icon">mdi-calendar-month</v-icon>
+      <div class="default-btn calendar-btn" v-on="on">
+        <v-icon class="font-green">mdi-calendar-month</v-icon>
       </div>
     </template>
     <v-date-picker
@@ -45,8 +45,14 @@ export default {
 }
 </script>
 
-<style lang="scss">
-  .date-panel .tasks-calendar-icon {
-    color: $font-green;
+<style lang="scss" scoped>
+  .date-panel {
+    .default-btn {
+      padding: 8px 10px;
+    }
+
+    .default-btn > i {
+      font-size: 24px;
+    }
   }
 </style>

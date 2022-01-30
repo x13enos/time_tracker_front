@@ -1,12 +1,10 @@
 <template>
   <div>
-    <!-- <div class="d-flex justify-space-between mb-2">
-      <h1>{{ $t("time_sheet.title") }}</h1>
-
-      <TomatoTimer />
-    </div> -->
     <CurrentTask />
-    <DatePanel />
+    <div class='d-flex justify-space-between mt-12 date-pomodoro-panel'>
+      <DatePanel />
+      <TomatoTimer />
+    </div>
     <DaysBar/>
     <div class="main-content-container">
       <TasksList/>
@@ -92,3 +90,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .date-pomodoro-panel {
+    padding: 0px 0.3rem;
+  }
+</style>
+
