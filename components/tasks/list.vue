@@ -29,7 +29,7 @@
         <div>
           <v-icon
             small
-            class="add-icon font-green "
+            class="font-green"
             v-if="!showNewTask" 
             @click="showNewTask = true">
             mdi-plus
@@ -105,5 +105,7 @@ export default {
     border-radius: 5px;
     border: 1px dashed #66C5B6;
     box-sizing: border-box;
+
+    &:hover { background-color: #FFFFFF; }
   }
 </style>
