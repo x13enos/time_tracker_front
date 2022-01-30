@@ -90,9 +90,7 @@
     "title": "Изменение Пароля",
     "password": "Новый пароль",
     "confirm_password": "Введите пароль еще раз",
-    "create_new_password": "Обновить пароль",
-    "password_was_updated": "Пароль был изменен!",
-    "go_to_login_page": "Теперь вы можете вернуться на страницу входа и попытаться войти в систему."
+    "create_new_password": "Обновить пароль"
   },
   "auth": {
     "additional_links": {

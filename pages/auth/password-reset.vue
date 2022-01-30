@@ -1,12 +1,6 @@
 <template>
   <div>
-    <v-card v-if="passwordWasChanged" class="elevation-4">
-      <v-card-text>
-        <p>{{ $t('password-reset.password_was_updated') }}</p>
-        {{ $t('password-reset.go_to_login_page') }}
-      </v-card-text>
-    </v-card>
-    <v-card v-else class="elevation-4">
+    <v-card class="elevation-4">
       <v-toolbar color="primary" dark flat>
         <v-toolbar-title>
           {{ $t('password-reset.title') }}
@@ -98,8 +92,7 @@ export default {
         confirmPassword: ""
       },
       valid: true,
-      errorMessages: {},
-      passwordWasChanged: false
+      errorMessages: {}
     }
   },
 
@@ -111,7 +104,7 @@ export default {
           token: this.$route.query.token,
           password: this.form.password
         })
-        this.passwordWasChanged = true
+        this.$router.push('/');
       } catch ({ errors }) {
         this.errorMessages = errors
       }
