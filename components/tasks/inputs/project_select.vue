@@ -1,53 +1,54 @@
 <template>
-  <v-menu>
-    <template v-slot:activator="{ on }">
-      <template v-on="on">
-        <span :class="{ 'gray-color': !projectName }" v-on="on">
-          {{ projectName || 'Select Project' }}
-        </span>
-      </template>
-    </template>
-    <v-card>
-      <v-list>
-        <v-list-item-group>
-          <v-list-item v-for="project in projects" :key="project.id">
-            <v-list-item-content @click="selectProject(project.id)" @focus="$emit('selectPendingClass')">
-              <v-list-item-title>
-                {{ project.name }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-card>
-  </v-menu>
+  <Select 
+    :items="projectsOptions"
+    v-model="project"
+    title="Project"
+    addLink="Add Project">
+    {{  project ? projectName : 'Select Project' }}
+  </Select>
 </template>
+
 <script>
 import { mapState } from 'vuex'
 
 export default {
 
   props: {
-    project: {
+    value: {
       type: Number,
       required: false,
       default: undefined
     }
   },
 
+  data: function() {
+    return {
+      project: this.value,
+    }
+  },
+
+  components: {
+    Select: () => import('~/components/shared/select.vue')
+  },
+
   computed: {
     ...mapState(['projects']),
 
     projectName () {
-      if (this.project) {
-        return this.projects.find(p => p.id === this.project).name
-      }
+      const project = this.projects.find(p => p.id === this.project)
+      return project ? project.name : null
+    },
+
+    projectsOptions() {
+      return this.projects.map(project => { 
+        return { name: project.name, value: project.id } 
+      })
     }
   },
 
-  methods: {
-    selectProject (projectId) {
-      this.$emit('update', projectId)
+  watch: {
+    project: function(value){
+      this.$emit('update', value)
     }
   }
 }

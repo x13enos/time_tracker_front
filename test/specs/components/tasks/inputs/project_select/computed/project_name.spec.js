@@ -3,11 +3,8 @@ import ProjectSelect from '@/components/tasks/inputs/project_select'
 
 describe('projectName', () => {
 
-  const propsData = {
-    project: 2
-  }
-
   it('should return name of project', () => {
+    const propsData = { value: 2 }
     const storeData = fakeStoreData();
     storeData.state.projects = [{ id: 1, name: 'First' }, { id: 2, name: 'Second' }]
     const wrapper = createWrapper(ProjectSelect, { propsData }, storeData)
@@ -18,9 +15,9 @@ describe('projectName', () => {
   it('should return undefined if project doesn\'t exist', () => {
     const storeData = fakeStoreData();
     storeData.state.projects = [{ id: 1, name: 'First' }, { id: 2, name: 'Second' }]
-    const wrapper = createWrapper(ProjectSelect, { project: null }, storeData)
+    const wrapper = createWrapper(ProjectSelect, { value: null }, storeData)
 
-    expect(wrapper.vm.projectName).to.be.undefined;
+    expect(wrapper.vm.projectName).to.be.null;
   });
 
 });

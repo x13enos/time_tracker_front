@@ -1,38 +1,21 @@
 <template>
-  <v-menu
-    v-if="!$appMethods.isEmpty(tags)"
-    v-model="menuOpened"
-    content-class="tags-menu"
-    :close-on-content-click="false"
-    nudge-top="15"
-    :disabled="disabled"
-    offset-y
-  >
-    <template v-slot:activator="{ on }">
-      <div 
-      class="tags d-flex justify-end align-center"
-      :class="{ 'tags-selected': !$appMethods.isEmpty(tagIds) }"
-      v-on="on">
-        <div v-if="tagNames" class="multiple-tags lighten-5">
+  <div 
+    class="tags d-flex justify-end align-center"
+    :class="{ 'tags-selected': !$appMethods.isEmpty(tagIds) }">
+    <MultipleSelect 
+      :items="tagsOptions"
+      v-model="selectedTags"
+      title="Tags"
+      addLink="Add Tag"
+      @update="$emit('update', selectedTags)">
+        <div v-if="tagNames" class="multiple-tags">
           {{ tagNames }}
         </div>
         <v-icon v-if="$appMethods.isEmpty(tagIds)">
           mdi-tag-multiple
         </v-icon>
-      </div>
-    </template>
-    <v-container fluid>
-      <v-checkbox
-        v-for="tag in tags"
-        :key="tag.id"
-        v-model="selectedTags"
-        class="tag-checkbox"
-        :label="tag.name"
-        selected="selected"
-        :value="tag.id"
-      />
-    </v-container>
-  </v-menu>
+    </MultipleSelect>
+  </div>
 </template>
 
 <script>
@@ -51,9 +34,12 @@ export default {
     }
   },
 
+  components: {
+    MultipleSelect: () => import('~/components/shared/multiple_select.vue')
+  },
+
   data () {
     return {
-      menuOpened: false,
       selectedTags: this.tagIds
     }
   },
@@ -61,8 +47,10 @@ export default {
   computed: {
     ...mapState(['tags']),
 
-    isChecked () {
-      return value => this.selectedTags.includes(value)
+    tagsOptions() {
+      return this.tags.map(tag => { 
+        return { name: tag.name, value: tag.id } 
+      })
     },
 
     tagNames () {
@@ -76,18 +64,12 @@ export default {
       if (!value.length) {
         this.selectedTags = [];
       }
-    },
-
-    menuOpened (value) {
-      if (!value) { 
-        this.$emit('update', this.selectedTags
-      ) }
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
   .tags{
     margin-left: 10px;
     height: 1.5rem;
