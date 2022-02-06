@@ -39,7 +39,7 @@
           class="d-flex option" :class="{ 'active-timer': selectedPeriod === period }"
           >
           <div class="description">
-            <div class="option_title">{{ $t(`pomodoro.${period}`) }}</div>
+            <div class="option-title subtitle">{{ $t(`pomodoro.${period}`) }}</div>
             <div class="mins">
               {{ selectedPeriod === period ? parsedTime : $t(`pomodoro.${period}_mins`) }}
             </div>
@@ -145,7 +145,7 @@ export default {
     }
 
     .active, .option:hover {
-      background-color: $pale-green-color;
+      background-color: $active-bg;
 
       .option_title {
         color: $font-green;
@@ -164,11 +164,8 @@ export default {
       margin-right: 85px;
     }
 
-    .option_title {
+    .option-title {
       margin-top: 0.125rem;
-      font-weight: 400;
-      font-size: 10px;
-      color: #828282;
     }
 
     .mins {
@@ -178,9 +175,9 @@ export default {
   }
 
   .active-timer, .current-time-block, .pomodoro-menu .option:hover {
-    background-color: $pale-green-color;
+    background-color: $active-bg;
 
-    .option_title {
+    .option-title {
       color: $font-green;
     }
 
@@ -219,7 +216,7 @@ export default {
 
     .gray-border {
       border-radius: 5px 0 0 5px;
-      border-right: 1px solid #F2F2F2;
+      border-right: 1px solid $gray-color-6;
     }
   }
 </style>

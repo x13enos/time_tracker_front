@@ -1,7 +1,7 @@
 <template>
   <v-row class="task-attributes mb-2">
     <v-col class="col-sm-2 col-12">
-      <ProjectSelect :project="project"  @update="updateAttribute($event, 'project')" />
+      <ProjectSelect :value="project"  @update="updateAttribute($event, 'project')" />
     </v-col>
     <v-col class="col-sm-8 col-12">
       <div class="d-flex justify-end">

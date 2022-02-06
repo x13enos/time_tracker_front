@@ -240,7 +240,7 @@ export default {
   }
 
   .workspace-item:hover, .menu-link:hover {
-    background-color: #F2F2F2;
+    background-color:  $gray-color-6;
   }
 
   .profile-link-title {
