@@ -8,7 +8,7 @@ describe('clean', () => {
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack');
 
     wrapper.vm.clean();
-    expect(snackStub.calledOnceWith({ htmlContent: '', message: '', color: '' })).to.be.true;
+    expect(snackStub.calledOnceWith({ message: '', color: '' })).to.be.true;
     sinon.restore();
   });
 

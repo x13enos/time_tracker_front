@@ -13,8 +13,8 @@ describe('handleError', () => {
     const wrapper = createWrapper(TimeReportApprove, { mocks: { $route, $api } }, fakeStoreData())
     
     wrapper.vm.handleError({ errors: { base: ['Data error'] }, dates: ["2021-10-28", "2021-10-29"] })
-    const htmlContent = `Data error <a href='/tasks?date=2021-10-28' class="red--text">2021-10-28</a>, <a href='/tasks?date=2021-10-29' class="red--text">2021-10-29</a>`
-    expect(wrapper.vm.errorMessages).to.eq(htmlContent)
+    const message = `Data error <a href='/tasks?date=2021-10-28' class="red--text">2021-10-28</a>, <a href='/tasks?date=2021-10-29' class="red--text">2021-10-29</a>`
+    expect(wrapper.vm.errorMessages).to.eq(message)
   });
 
 });

@@ -8,8 +8,8 @@ describe('handleError', () => {
     const snackStub = sinon.stub(wrapper.vm, "updateSnack")
 
     wrapper.vm.handleError({ errors: { base: ['Data error'] }, dates: ["2021-10-28", "2021-10-29"] })
-    const htmlContent = `Data error <a href='/tasks?date=2021-10-28' class="snackbar-link">2021-10-28</a>, <a href='/tasks?date=2021-10-29' class="snackbar-link">2021-10-29</a>`
-    expect(snackStub.calledOnceWith({ htmlContent, color: 'red' })).to.be.true
+    const message = `Data error <a href='/tasks?date=2021-10-28' class="snackbar-link">2021-10-28</a>, <a href='/tasks?date=2021-10-29' class="snackbar-link">2021-10-29</a>`
+    expect(snackStub.calledOnceWith({ message, color: 'red' })).to.be.true
     sinon.restore()
   });
 
@@ -18,7 +18,7 @@ describe('handleError', () => {
     const snackStub = sinon.stub(wrapper.vm, "updateSnack")
 
     wrapper.vm.handleError({ errors: { base: ['Data error'] }, dates: [] })
-    expect(snackStub.calledOnceWith({ htmlContent: 'Data error ', color: 'red' })).to.be.true
+    expect(snackStub.calledOnceWith({ message: 'Data error ', color: 'red' })).to.be.true
     sinon.restore()
   });
 

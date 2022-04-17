@@ -1,23 +1,24 @@
 <template>
   <div>
-    <v-alert
+    <div 
       v-for="period in unapprovedPeriods"
-      :key="period.id"
-      outlined
-      color="orange"
-    >
-      <div class="d-flex justify-space-between align-center">
-        {{ $t('time_reports.please_approve_your_report_for_following_dates', { from: period.from, to: period.to }) }}
+      :key="period.id" 
+      class="block">
+      <div class="notification d-flex justify-space-between">
+        <span class="message">
+          {{ $t('time_reports.please_approve_your_report_for_following_dates', { from: period.from, to: period.to }) }}
+        </span>
         <v-btn
           dark
           small
+          outlined
           @click="approve(period.id)"
-          color="orange">
+          color="white">
           {{ $t('time_reports.approve') }}
           <v-icon>mdi-lock-check</v-icon>
         </v-btn>
       </div>
-    </v-alert>
+    </div>
   </div>
 </template>
 
@@ -48,8 +49,26 @@ export default {
     handleError({ errors, dates }) {
       const links = dates.map((date) => `<a href='/tasks?date=${date}' class="snackbar-link">${date}</a>`).join(', ');
       const message = [errors.base[0], links].join(' ');
-      this.updateSnack({ htmlContent: message, color: "red" })
+      this.updateSnack({ message: message, color: "red" })
     }
   }
 }
 </script>
+
+<style scoped>
+  .block {
+    margin-top: 1.5rem;
+    padding: 0px 0.3rem;
+  }
+
+  .notification {
+    background-color: #EFB625;
+    color: #FFFFFF;
+    border-radius: 5px;
+    padding: 10px 30px;
+  }
+
+  .message {
+    line-height: 175%;
+  }
+</style>
