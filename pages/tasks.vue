@@ -1,6 +1,8 @@
 <template>
   <div>
     <CurrentTask />
+    <Snackbar />
+    <PendingTimeReportNotifications />
     <div class='d-flex justify-space-between mt-12 date-pomodoro-panel'>
       <DatePanel />
       <TomatoTimer />
@@ -16,6 +18,8 @@
 import { mapGetters, mapActions, mapMutations, mapState } from 'vuex'
 import { DateTime } from 'luxon'
 import TomatoTimer from '@/components/tasks/tomato_timer'
+import Snackbar from '~/components/layout/snackbar.vue';
+import PendingTimeReportNotifications from '~/components/layout/pending_time_report_notifications.vue';
 
 export default {
   head () {
@@ -29,7 +33,9 @@ export default {
     DaysBar: () => import('~/components/tasks/days_bar.vue'),
     CurrentTask: () => import('~/components/tasks/current.vue'),
     TasksList: () => import('~/components/tasks/list.vue'),
-    TomatoTimer
+    TomatoTimer,
+    Snackbar,
+    PendingTimeReportNotifications
   },
 
   data () {
