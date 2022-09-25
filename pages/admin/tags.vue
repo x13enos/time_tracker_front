@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>
+    <h1 class="row main-content-container title-block mt-1">
       {{ $t('tags.title') }}
       <tag-form @processData="addNewTag">
         <v-btn
@@ -12,7 +12,7 @@
       </tag-form>
     </h1>
 
-    <div v-if="tags.length">
+    <div v-if="tags.length" class="mt-8">
       <v-simple-table>
         <thead>
           <tr>
@@ -46,7 +46,7 @@
         </tbody>
       </v-simple-table>
     </div>
-    <h3 v-else>{{ $t('tags.no_tags') }}</h3>
+    <h3 v-if="!isLoading && !tags.length">{{ $t('tags.no_tags') }}</h3>
 
     <v-dialog v-model="deleteDialog" max-width="450">
       <v-card>
@@ -88,7 +88,8 @@ export default {
     return {
       tags: [],
       deleteDialog: false,
-      deletingTagId: null
+      deletingTagId: null,
+      isLoading: true
     }
   },
 
@@ -96,6 +97,8 @@ export default {
     const response = await this.$api.allTags()
     if(response.data)
       this.tags = response.data
+
+    this.isLoading = false
   },
 
   methods: {

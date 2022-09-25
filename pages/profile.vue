@@ -1,107 +1,107 @@
 <template>
   <div>
-    <h1>
+    <h1 class="row main-content-container title-block mt-1">
       {{ $t("profile.title") }}
     </h1>
 
-    <v-row>
-      <v-col class="col-sm-3 col-12">
-        <v-form
-        ref="form"
-        v-model="valid">
-          <v-text-field
-            v-model="$v.form.name.$model"
-            :label="$t('profile.name')"
-            :error-messages="$formErrorMessage('name', ['required'])"
-            :disabled="formSubmitting"
-            required
-          />
+   <div class="main-content-container content-block mt-8">
+      <v-row class="my-2">
+        <v-col class="col-sm-3 col-12">
+          <v-form
+          ref="form"
+          v-model="valid">
+            <v-text-field
+              v-model="$v.form.name.$model"
+              :label="$t('profile.name')"
+              :error-messages="$formErrorMessage('name', ['required'])"
+              :disabled="formSubmitting"
+              required
+            />
 
-          <v-text-field
-            v-model="$v.form.email.$model"
-            :label="$t('profile.email')"
-            :error-messages="$formErrorMessage('email', ['required', 'email'])"
-            @keydown="$formErrorMessageCleanUp('email')"
-            :disabled="formSubmitting"
-            required
-          />
+            <v-text-field
+              v-model="$v.form.email.$model"
+              :label="$t('profile.email')"
+              :error-messages="$formErrorMessage('email', ['required', 'email'])"
+              @keydown="$formErrorMessageCleanUp('email')"
+              :disabled="formSubmitting"
+              required
+            />
 
-          <v-select
-            v-model="form.locale"
-            :label="$t('profile.locale')"
-            :items="localeList()"
-            :disabled="formSubmitting"
-            required
-          />
+            <v-select
+              v-model="form.locale"
+              :label="$t('profile.locale')"
+              :items="localeList()"
+              :disabled="formSubmitting"
+              required
+            />
 
-          <v-select
-            v-model="form.timezone"
-            label="Timezone"
-            :items="timezoneList()"
-            required
-          />
+            <v-select
+              v-model="form.timezone"
+              label="Timezone"
+              :items="timezoneList()"
+              required
+            />
 
-          <v-text-field
-          v-model="$v.form.password.$model"
-            :label="$t('profile.new_password')"
-            :disabled="formSubmitting"
-            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-            :type="showPassword ? 'text' : 'password'"
-            :error-messages="$formErrorMessage('password', ['passwordLength'])"
-            @click:append="showPassword = !showPassword"
-          />
-        </v-form>
-      </v-col>
+            <v-text-field
+            v-model="$v.form.password.$model"
+              :label="$t('profile.new_password')"
+              :disabled="formSubmitting"
+              :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+              :type="showPassword ? 'text' : 'password'"
+              :error-messages="$formErrorMessage('password', ['passwordLength'])"
+              @click:append="showPassword = !showPassword"
+            />
+          </v-form>
+        </v-col>
+      </v-row>
 
-    </v-row>
+      <v-divider />
 
-    <v-divider />
+      <v-row class="my-2">
+        <v-col class="col-12">
+          <h2>{{ $t("profile.notification_settings.title") }}</h2>
 
-    <v-row>
-      <v-col class="col-12">
-        <h2>{{ $t("profile.notification_settings.title") }}</h2>
+          <p v-if="$config.extensionEnabled" class="mt-2">
+            {{ $t("profile.telegram_token") }}
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <code v-bind="attrs" v-on="on" v-clipboard="user.telegramToken" @click="updateSnack({ message: $t('profile.token_was_copied'), color: 'success' })">{{ user.telegramToken }}</code>
+              </template>
+              <span>{{ $t('profile.click_for_copy') }}</span>
+            </v-tooltip>
+            <span v-if="user.telegramActive">
+              - {{ $t("profile.account_was_linked") }} <v-icon class="mr-2" color="success">mdi-check-circle</v-icon>
+            </span>
+          </p>
 
-        <p v-if="$config.extensionEnabled" class="mt-2">
-          {{ $t("profile.telegram_token") }}
-          <v-tooltip top>
-            <template v-slot:activator="{ on, attrs }">
-              <code v-bind="attrs" v-on="on" v-clipboard="user.telegramToken" @click="updateSnack({ message: $t('profile.token_was_copied'), color: 'success' })">{{ user.telegramToken }}</code>
-            </template>
-            <span>{{ $t('profile.click_for_copy') }}</span>
-          </v-tooltip>
-          <span v-if="user.telegramActive">
-            - {{ $t("profile.account_was_linked") }} <v-icon class="mr-2" color="success">mdi-check-circle</v-icon>
+          <h3>{{ $t("profile.notification_settings.email") }}:</h3>
+          <notification-settings v-model="form.emailSettings" typeOfNotifications="email" />
+
+          <template v-if="$config.extensionEnabled && user.telegramActive">
+            <h3>{{ $t("profile.notification_settings.telegram") }}:</h3>
+            <notification-settings v-model="form.telegramSettings" typeOfNotifications="telegram" />
+          </template>
+        </v-col>
+      </v-row>
+
+      <v-divider class="mb-2" />
+
+      <v-btn
+        class="my-2"
+        :loading="formSubmitting"
+        :disabled="formSubmitting || !valid"
+        color="info"
+        @click="save"
+      >
+        {{ $t('profile.save') }}
+
+        <template v-slot:loader>
+          <span class="custom-loader">
+            <v-icon light>mdi-cached</v-icon>
           </span>
-        </p>
-
-        <h3>{{ $t("profile.notification_settings.email") }}:</h3>
-        <notification-settings v-model="form.emailSettings" typeOfNotifications="email" />
-
-        <template v-if="$config.extensionEnabled && user.telegramActive">
-          <h3>{{ $t("profile.notification_settings.telegram") }}:</h3>
-          <notification-settings v-model="form.telegramSettings" typeOfNotifications="telegram" />
         </template>
-      </v-col>
-    </v-row>
-
-    <v-divider />
-
-    <v-btn
-      class="ma-2"
-      :loading="formSubmitting"
-      :disabled="formSubmitting || !valid"
-      color="info"
-      @click="save"
-    >
-      {{ $t('profile.save') }}
-
-      <template v-slot:loader>
-        <span class="custom-loader">
-          <v-icon light>mdi-cached</v-icon>
-        </span>
-      </template>
-    </v-btn>
-
+      </v-btn>
+    </div>
   </div>
 </template>
 

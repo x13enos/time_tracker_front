@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h1>
+    <h1 class="row main-content-container title-block mt-1">
       {{ $t('reports.title') }}
       <v-btn
         v-if="tasks.length && !reportLink"
-        class="ma-2"
+        class="ma-2 ml-4"
         :loading="loadingReport"
         :disabled="loadingReport"
         color="info"
@@ -20,7 +20,7 @@
 
       <v-btn
         v-if="reportLink"
-        class="ma-2"
+        class="ma-2 ml-4"
         color="success"
         :href="reportLink"
       >
@@ -28,62 +28,61 @@
       </v-btn>
     </h1>
 
-    <v-row>
-      <v-col class="col-sm-2 col-6">
-        <date-select
-          v-model="filters.fromDate"
-          :label="$t('reports.from_date')"
-          :max="filters.toDate"
-          :locale="user.locale"
-        />
-      </v-col>
+    <div class="main-content-container filters-block mt-8">
+      <v-row>
+        <v-col class="col-sm-2 col-6">
+          <date-select
+            v-model="filters.fromDate"
+            :label="$t('reports.from_date')"
+            :max="filters.toDate"
+            :locale="user.locale"
+          />
+        </v-col>
 
-      <v-col class="col-sm-2 col-6">
-        <date-select
-          v-model="filters.toDate"
-          :label="$t('reports.to_date')"
-          :min="filters.fromDate"
-          :locale="user.locale"
-        />
-      </v-col>
+        <v-col class="col-sm-2 col-6">
+          <date-select
+            v-model="filters.toDate"
+            :label="$t('reports.to_date')"
+            :min="filters.fromDate"
+            :locale="user.locale"
+          />
+        </v-col>
 
-      <v-col class="col-sm-2 col-6">
-        <v-select
-          v-model="quickDate"
-          :items="quickDates"
-          single-line
-          :label="$t('reports.quick_date')"
-        />
-      </v-col>
+        <v-col class="col-sm-2 col-6">
+          <v-select
+            v-model="quickDate"
+            :items="quickDates"
+            single-line
+            :label="$t('reports.quick_date')"
+          />
+        </v-col>
 
-      <v-col v-if="tags.length" class="col-sm-3 col-6">
-        <v-select
-          v-model="filters.tagsIds"
-          :items="tags"
-          item-text="name"
-          item-value="id"
-          item-key="id"
-          :multiple="true"
-          single-line
-          :label="$t('reports.tags')"
-        />
-      </v-col>
+        <v-col v-if="tags.length" class="col-sm-3 col-6">
+          <v-select
+            v-model="filters.tagsIds"
+            :items="tags"
+            item-text="name"
+            item-value="id"
+            item-key="id"
+            :multiple="true"
+            single-line
+            :label="$t('reports.tags')"
+          />
+        </v-col>
 
-      <v-col v-if="users.length" class="col-sm-3 col-6">
-        <v-select
-          v-model="filters.userId"
-          :items="users"
-          item-text="name"
-          item-value="id"
-          item-key="id"
-          single-line
-          :label="$t('reports.employee')"
-        />
-      </v-col>
-      </v-col>
-    </v-row>
-
-    <v-divider />
+        <v-col v-if="users.length" class="col-sm-3 col-6">
+          <v-select
+            v-model="filters.userId"
+            :items="users"
+            item-text="name"
+            item-value="id"
+            item-key="id"
+            single-line
+            :label="$t('reports.employee')"
+          />
+        </v-col>
+      </v-row>
+    </div>
 
     <v-data-table
       v-if="tasks.length > 0"
@@ -154,7 +153,7 @@
         </tr>
       </template>
     </v-data-table>
-    <h3 v-else>
+    <h3 class="main-content-container records-block pb-2" v-else>
       {{ $t('reports.no_records') }}
     </h3>
   </div>
@@ -323,6 +322,10 @@ export default {
 </script>
 
 <style scoped>
+  .filters-block, .records-block {
+    background-color: white;
+  }
+
   .custom-loader {
     animation: loader 1s infinite;
     display: flex;
