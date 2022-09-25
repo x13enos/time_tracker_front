@@ -77,8 +77,19 @@ describe('update', () => {
     const actionStub = sinon.stub(wrapper.vm, 'updateTask')
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
 
-    await wrapper.vm.update(true)
+    await wrapper.vm.update()
     expect(snackStub.calledOnceWith({ message: wrapper.vm.$t("time_sheet.task_was_updated"), color: "green" })).to.be.true
+
+    actionStub.restore()
+  });
+
+  it('should not update notification in case of launching timer', async () => {
+    const wrapper = createWrapper(task, { propsData }, fakeStoreData())
+    const actionStub = sinon.stub(wrapper.vm, 'updateTask')
+    const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
+
+    await wrapper.vm.update(true)
+    expect(snackStub.called).to.be.false
 
     actionStub.restore()
   });

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>
+    <h1 class="row main-content-container title-block mt-1">
       {{ $t('projects.title') }}
       <project-form @processData="addNewProject">
         <v-btn
@@ -12,7 +12,7 @@
       </project-form>
     </h1>
 
-    <div v-if="projects.length">
+    <div v-if="projects.length" class="mt-8">
       <v-simple-table>
         <thead>
           <tr>
@@ -53,7 +53,7 @@
         </tbody>
       </v-simple-table>
     </div>
-    <h3 v-else>{{ $t('projects.no_projects') }}</h3>
+    <h3 v-if="!isLoading && !users.length">{{ $t('projects.no_projects') }}</h3>
 
     <v-dialog v-model="deleteDialog" max-width="450">
       <v-card>
@@ -98,7 +98,8 @@ export default {
       projects: [],
       users: [],
       deleteDialog: false,
-      deletingProjectId: null
+      deletingProjectId: null,
+      isLoading: true
     }
   },
 
@@ -110,6 +111,8 @@ export default {
     const usersResponse = await this.$api.getUsersByCurrentWorkspace()
     if(usersResponse.data)
       this.users = usersResponse.data
+
+    this.isLoading = false
   },
 
   methods: {

@@ -20,7 +20,6 @@
     </v-col>
     <v-col class="col-sm-1 col-6">
       <img class="clock-image" src="/circle-loader.svg" alt="loader" v-if="loading" :text="true"/>
-      <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="active" :text="true" @click="stop"/>
       <v-icon
         v-if="!active && !loading"
         @click="launchTask"
@@ -179,7 +178,8 @@ export default {
         this.errorMessages = []
         await this.updateTask(params)
         this.removePendingState()
-        this.updateSnack({ message: this.$t("time_sheet.task_was_updated"), color: "green" })
+        if (!launch)
+          this.updateSnack({ message: this.$t("time_sheet.task_was_updated"), color: "green" })
       } catch ({ errors }) {
         this.updateSnack({ message: this.$t("time_sheet.task_was_not_updated"), color: "red" })
         this.errorMessages = errors
@@ -281,12 +281,5 @@ const spentTimeFormat = (value) => {
     padding: 6px 0;
     background-color: white;
     border-radius: 5px;
-  }
-
-  .clock-image{
-    width: 2.25rem;
-    cursor: pointer;
-    height: inherit;
-    align-items: center;
   }
 </style>

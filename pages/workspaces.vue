@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>
+    <h1 class="row main-content-container title-block mt-1">
       {{ $t('workspaces.title') }}
       <workspace-form @processData="addNewWorkspace">
         <v-btn
@@ -12,7 +12,7 @@
       </workspace-form>
     </h1>
 
-    <div v-if="workspaces.length">
+    <div v-if="workspaces.length" class="mt-8">
       <v-simple-table>
         <thead>
           <tr>

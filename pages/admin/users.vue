@@ -1,8 +1,10 @@
 <template>
   <div>
-    <h1>{{ $t('users.title') }}</h1>
+    <h1 class="row main-content-container title-block mt-1">
+      {{ $t('users.title') }}
+    </h1>
 
-    <div v-if="users.length">
+    <div v-if="users.length" class="mt-8">
       <v-simple-table>
         <thead>
           <tr>
@@ -28,7 +30,7 @@
         </tbody>
       </v-simple-table>
     </div>
-    <h3 v-else>{{ $t('users.no_users') }}</h3>
+    <h3 v-if="!isLoading && !users.length">{{ $t('users.no_users') }}</h3>
   </div>
 </template>
 
@@ -51,7 +53,8 @@ export default {
 
   data() {
     return {
-      users: []
+      users: [],
+      isLoading: true
     }
   },
 
@@ -63,8 +66,10 @@ export default {
 
     async fetchUsers(){
       const response = await this.$api.getUsersForManaging()
-      if(response.data)
+      if(response.data) 
         this.users = response.data
+
+      this.isLoading = false
     },
 
     updateUserData(data) {
