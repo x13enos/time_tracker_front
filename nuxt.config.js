@@ -70,17 +70,11 @@ export default {
    */
   i18n: require("./i18n.config.js"),
   axios: {
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    credentials: true,
+    proxy: true // Can be also an object with default options
   },
   proxy: {
-    '/api': {
-      target: process.env.BASE_URL || 'http://localhost:3000/',
-      pathRewrite: {
-        '^/api' : '/v1'
-      }
-    }
+    '/v1/': process.env.BASE_URL || 'http://localhost:3000'
   },
   serverMiddleware: [
     '~/middleware/redirects.js'

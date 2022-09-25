@@ -190,8 +190,10 @@ function Api({ router, store }, appMethods) {
   // private logic
 
   const client = axios.create({
-    baseURL: '/api'
-  });
+    baseURL: '/v1'
+  })
+
+  client.defaults.headers.common.Accept = 'application/json'
 
   client.defaults.headers.common['Accept'] = 'application/json'
 

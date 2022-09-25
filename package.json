@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@growthbunker/vueflags": "^0.1.9",
-    "@nuxtjs/axios": "^5.12.2",
+    "@nuxtjs/axios": "5.12.1",
     "@nuxtjs/pwa": "^3.2.2",
     "@nuxtjs/vuetify": "^1.11.2",
     "acorn": "^8.0.4",
