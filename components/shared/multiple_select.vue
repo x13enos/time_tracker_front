@@ -29,7 +29,7 @@
           </div>
         </div>
 
-        <template v-if="addLink">
+        <template v-if="addLink && isManager">
           <div class="ml-4 mt-2 mb-2 font-green cursor-pointer add-link" @click="$router.push('/admin/tags')">
             <v-icon class="font-green" small>mdi-plus</v-icon>
             {{ addLink }}
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   props: ['value', 'items', 'title', 'addLink'],
   
@@ -47,6 +49,10 @@ export default {
     return {
       menuOpened: false
     }
+  },
+
+  computed: {
+    ...mapGetters(["isManager"])
   },
 
   watch: {

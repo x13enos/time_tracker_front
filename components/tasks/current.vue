@@ -21,7 +21,14 @@
         <v-icon>mdi-play-circle</v-icon>
         <span>Start</span>
       </div>
-      <img class="clock-image" src="/clock.svg" alt="Stop Timer" v-if="intervalId" :text="true" @click="update(false)"/>
+      <div v-else class="start-timer" @click="update(false)">
+        <img
+          class="clock-image v-icon" 
+          src="/clock.svg" 
+          alt="Stop Timer" 
+          :text="true"/>
+          <span>Stop</span>
+      </div>
     </v-col>
     <v-col v-else>
       <div class="start-timer" @click="create">
@@ -147,7 +154,7 @@ export default {
 
 <style scoped>
   .clock-image{
-    width: 2rem;
+    width: 1.5rem;
     cursor: pointer;
     height: inherit;
     align-items: center;

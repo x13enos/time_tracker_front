@@ -18,7 +18,7 @@
             <v-icon v-if="item.value === value" class="font-green ml-4" small>mdi-check-circle</v-icon>
         </div>
 
-        <template v-if="addLink">
+        <template v-if="addLink && isManager">
           <div class="add-link ml-4 mt-4 mb-2 font-green cursor-pointer" @click="$router.push('/admin/projects')">
             <v-icon class="font-green" small>mdi-plus</v-icon>
             {{ addLink }}
@@ -29,8 +29,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
-  props: ['value', 'items', 'title', 'addLink']
+  props: ['value', 'items', 'title', 'addLink'],
+
+  computed: {
+    ...mapGetters(["isManager"])
+  }
 }
 </script>
 
