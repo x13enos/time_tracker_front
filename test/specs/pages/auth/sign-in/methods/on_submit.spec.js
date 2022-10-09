@@ -48,6 +48,7 @@ describe("onSubmit", () => {
 
     routerStub.restore()
   });
+  
 
   it('should write errors from response to variable if status is "fail"', async () => {
     const $api = { signIn: () => {} }
