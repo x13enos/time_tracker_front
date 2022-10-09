@@ -18,15 +18,15 @@
     <v-col class="col-sm-1 col-6">
       <TimeInput :spentTime="this.spentTime" @update="updateAttribute($event, 'spentTime')" />
     </v-col>
-    <v-col class="buttons">
-      <div class="start-timer" @click="create(false)">
+    <div class="buttons d-flex align-center">
+      <div class="start-timer mr-1" @click="create(false)">
         <v-icon>mdi-plus-circle</v-icon>
       </div>
-      <div v-if="activeDay" class="start-timer" @click="create(true)">
-        |
+      |
+      <div v-if="activeDay" class="start-timer ml-1" @click="create(true)">
         <v-icon>mdi-play-circle</v-icon>
       </div>
-    </v-col>
+    </div>
     <v-col class="col-12" v-if="!!errorMessages.base">
       <span class='red--text'>{{ errorMessages.base.join(", ") }}</span>
     </v-col>
@@ -164,9 +164,7 @@ const spentTimeFormat = (value) => {
     border-radius: 5px;
   }
 
-  .buttons > div {
-    float: left;
+  .buttons {
     cursor: pointer;
-    margin-right: 5px;
   }
 </style>
