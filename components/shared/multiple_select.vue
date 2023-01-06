@@ -10,7 +10,7 @@
         <slot />
       </div>
     </template>
-      <v-card class="pt-4 pb-2">
+      <v-card class="pt-4 pb-2" :class="$currentFontClass()">
         <div class="pl-5 pr-5 d-flex justify-space-between">
           <div class="subtitle">{{title}}</div>
           <v-icon small class="cursor-pointer" @click="menuOpened = false">mdi-close</v-icon>
