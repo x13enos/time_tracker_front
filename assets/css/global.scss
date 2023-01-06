@@ -21,13 +21,16 @@ $active-bg: #F0F9F8;
   padding: 0.3rem 1rem;
 }
 
-* {
-  font-family: "Poppins";
-  -webkit-font-smoothing: subpixel-antialiased;
+.poppins, .poppins .subtitle-2 {
+  font-family: "Poppins" !important;
 }
 
-.v-application .subtitle-2 {
-  font-family: "Poppins" !important;
+.montserrat, .montserrat .subtitle-2 {
+  font-family: "Montserrat" !important;
+}
+
+* {
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 .subtitle {

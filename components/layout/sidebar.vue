@@ -4,6 +4,7 @@
     floating
     width="236"
     class="navbar"
+    :class="$currentFontClass()"
   >
     <v-list class="pt-1">
       <v-list-item>
@@ -63,7 +64,7 @@
               <v-icon dense>mdi-chevron-down</v-icon>
             </div>
           </template>
-          <div fluid class="workspaces-menu">
+          <div fluid class="workspaces-menu" :class="$currentFontClass()">
             <div class="d-flex justify-space-between pt-5 pb-4 px-5">
               <span class="workspace-title">{{ $t("workspaces.title") }}</span>
               <nuxt-link to="/workspaces">
@@ -106,7 +107,7 @@
               </div>
             </div>
           </template>
-          <div fluid class="workspaces-menu">
+          <div fluid class="workspaces-menu" :class="$currentFontClass()">
             <div class="d-flex py-4 px-5 justify-space-between profile-section">
               <div class="d-flex flex-column">
                 <div v-if="user.name" class="user-name">{{ user.name }}</div>

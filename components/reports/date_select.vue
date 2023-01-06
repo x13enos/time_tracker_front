@@ -16,14 +16,16 @@
         v-on="on"
       ></v-text-field>
     </template>
-    <v-date-picker
-      :locale="locale"
-      :value="value"
-      :max="max"
-      :min="min"
-      @input="updateValue"
-      no-title
-    ></v-date-picker>
+    <div :class="$currentFontClass()">
+      <v-date-picker
+        :locale="locale"
+        :value="value"
+        :max="max"
+        :min="min"
+        @input="updateValue"
+        no-title
+      ></v-date-picker>
+    </div>
   </v-menu>
 </template>
 

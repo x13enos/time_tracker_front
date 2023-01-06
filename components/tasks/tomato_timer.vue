@@ -36,7 +36,7 @@
         <div
           v-for="period in ['short_break', 'long_break', 'pomodoro_option']"
           :key="period"
-          class="d-flex option" :class="{ 'active-timer': selectedPeriod === period }"
+          class="d-flex option justify-space-between" :class="[{ 'active-timer': selectedPeriod === period }, $currentFontClass()]"
           >
           <div class="description">
             <div class="option-title subtitle">{{ $t(`pomodoro.${period}`) }}</div>
@@ -44,14 +44,16 @@
               {{ selectedPeriod === period ? parsedTime : $t(`pomodoro.${period}_mins`) }}
             </div>
           </div>
-          <div v-if="selectedPeriod === period && !!intervalId" class="timer-btn mr-2" @click="pauseTimer">
-            <v-icon small>mdi-pause</v-icon>
-          </div>
-          <div v-else class="timer-btn mr-2" @click="startTimer(period)">
-            <v-icon small>mdi-play</v-icon>
-          </div>
-          <div class="timer-btn stop-btn" @click="stopTimer">
-            <v-icon small>mdi-stop</v-icon>
+          <div class="d-flex">
+            <div v-if="selectedPeriod === period && !!intervalId" class="timer-btn mr-2" @click="pauseTimer">
+              <v-icon small>mdi-pause</v-icon>
+            </div>
+            <div v-else class="timer-btn mr-2" @click="startTimer(period)">
+              <v-icon small>mdi-play</v-icon>
+            </div>
+            <div class="timer-btn stop-btn" @click="stopTimer">
+              <v-icon small>mdi-stop</v-icon>
+            </div>
           </div>
         </div>
       </template>

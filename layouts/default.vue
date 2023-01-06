@@ -3,15 +3,18 @@
     <Sidebar />
     <v-main>
       <!-- <Header /> -->
-        <v-container :fluid="true" class="main-container">
+        <v-container 
+          :fluid="true" 
+          class="main-container"
+          :class="$currentFontClass()">
           <nuxt />
         </v-container>
-  </v-main>
+    </v-main>
   </v-app>
 </template>
 
 <script>
-import Sidebar from '~/components/layout/sidebar.vue';
+import Sidebar from '~/components/layout/sidebar.vue'; 
 import { mapGetters, mapState } from 'vuex';
 
 export default {
