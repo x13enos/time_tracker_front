@@ -54,7 +54,6 @@
             :items="quickDates"
             single-line
             :label="$t('reports.quick_date')"
-            :menu-props="{ contentClass: $currentFontClass() }"
           />
         </v-col>
 
@@ -68,7 +67,6 @@
             :multiple="true"
             single-line
             :label="$t('reports.tags')"
-            :menu-props="{ contentClass: $currentFontClass() }"
           />
         </v-col>
 
@@ -81,7 +79,6 @@
             item-key="id"
             single-line
             :label="$t('reports.employee')"
-            :menu-props="{ contentClass: $currentFontClass() }"
           />
         </v-col>
       </v-row>

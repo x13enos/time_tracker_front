@@ -2,9 +2,9 @@
   <Select 
     :items="projectsOptions"
     v-model="project"
-    title="Project"
-    addLink="Add Project">
-    {{  project ? projectName : 'Select Project' }}
+    :title="$t('projects.project')"
+    :addLink="$t('projects.add')">
+    {{  project ? projectName : $t("projects.select") }}
   </Select>
 </template>
 

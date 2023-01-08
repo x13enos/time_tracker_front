@@ -36,7 +36,7 @@
         <div
           v-for="period in ['short_break', 'long_break', 'pomodoro_option']"
           :key="period"
-          class="d-flex option justify-space-between" :class="[{ 'active-timer': selectedPeriod === period }, $currentFontClass()]"
+          class="d-flex option justify-space-between" :class="{'active-timer': selectedPeriod === period}"
           >
           <div class="description">
             <div class="option-title subtitle">{{ $t(`pomodoro.${period}`) }}</div>

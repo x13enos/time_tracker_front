@@ -34,7 +34,7 @@
             @click="showNewTask = true">
             mdi-plus
           </v-icon>
-          Add
+          {{$t("time_sheet.add")}}
         </div>
       </v-col>
     </v-row>

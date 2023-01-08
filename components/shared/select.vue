@@ -5,7 +5,7 @@
         <slot />
       </div>
     </template>
-      <v-card class="pt-4 pb-2" :class="$currentFontClass()">
+      <v-card class="pt-4 pb-2">
         <div class="pl-5 pb-2 subtitle">{{title}}</div>
         <div
           class="item-block d-flex justify-space-between"

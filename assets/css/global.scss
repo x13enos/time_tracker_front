@@ -21,11 +21,11 @@ $active-bg: #F0F9F8;
   padding: 0.3rem 1rem;
 }
 
-.poppins, .poppins .subtitle-2 {
+.poppins *, .poppins .subtitle-2, .poppins .headline {
   font-family: "Poppins" !important;
 }
 
-.montserrat, .montserrat .subtitle-2 {
+.montserrat *, .montserrat .subtitle-2, .montserrat .headline {
   font-family: "Montserrat" !important;
 }
 
