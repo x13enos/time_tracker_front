@@ -5,8 +5,8 @@
     <MultipleSelect 
       :items="tagsOptions"
       v-model="selectedTags"
-      title="Tags"
-      addLink="Add Tag"
+      :title="$t('tags.title')"
+      :addLink="$t('tags.add_tag')"
       @update="$emit('update', selectedTags)">
         <div v-if="tagNames" class="multiple-tags">
           {{ tagNames }}

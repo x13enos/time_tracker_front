@@ -1,7 +1,7 @@
 <template>
   <v-input class="description-input">
     <input 
-      :placeholder="placeholder" 
+      :placeholder="placeholder || $t('time_sheet.add_description')" 
       :value="description" 
       @input="$emit('selectPendingClass')"
       @blur="updateDescription">
@@ -18,8 +18,7 @@ export default {
 
     placeholder: {
       type: String,
-      required: false,
-      default: 'Add Description'
+      required: false
     }
   },
 

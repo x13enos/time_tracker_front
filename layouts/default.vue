@@ -1,16 +1,17 @@
 <template>
-  <v-app>
-    <Sidebar />
-    <v-main>
-      <!-- <Header /> -->
-        <v-container 
-          :fluid="true" 
-          class="main-container"
-          :class="$currentFontClass()">
-          <nuxt />
-        </v-container>
-    </v-main>
-  </v-app>
+  <div :class="$currentFontClass()">
+    <v-app>
+      <Sidebar />
+      <v-main>
+        <!-- <Header /> -->
+          <v-container 
+            :fluid="true" 
+            class="main-container">
+            <nuxt />
+          </v-container>
+      </v-main>
+    </v-app>
+  </div>
 </template>
 
 <script>

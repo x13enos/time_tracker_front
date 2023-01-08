@@ -6,7 +6,7 @@
     <v-col cols="8" class="clickable">
       <div class="d-flex justify-end">
         <DescriptionInput
-          placeholder="What are you working on?"
+          :placeholder="$t('time_sheet.what_are_you_working_on')"
           :description="description"
           @update="updateAttribute($event, 'description')"
         />
@@ -19,7 +19,7 @@
     <v-col v-if="activeDay || intervalId">
       <div class="start-timer" v-if="!intervalId" @click="createAndStart">
         <v-icon>mdi-play-circle</v-icon>
-        <span>Start</span>
+        <span>{{$t('time_sheet.start')}}</span>
       </div>
       <div v-else class="start-timer" @click="update(false)">
         <img
@@ -27,13 +27,13 @@
           src="/clock.svg" 
           alt="Stop Timer" 
           :text="true"/>
-          <span>Stop</span>
+          <span>{{$t('time_sheet.stop')}}</span>
       </div>
     </v-col>
     <v-col v-else>
       <div class="start-timer" @click="create">
         <v-icon>mdi-plus-circle</v-icon>
-        <span>Add</span>
+        <span>{{$t('time_sheet.add')}}</span>
       </div>
     </v-col>
   </v-row>
