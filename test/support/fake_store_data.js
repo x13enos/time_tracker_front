@@ -27,7 +27,8 @@ const storeData = function () {
     actions: {
       signIn: () => {},
       addTask: () => {},
-      updateTask: () => {},
+      updateActiveTask: () => {},
+      updateNonActiveTask: () => {},
       deleteTask: () => {},
       getWeeklyTasks: () => {},
       fetchActiveTimeRecord: () => {},

@@ -1,33 +1,6 @@
 <template>
   <div>
     <v-divider />
-
-    <!-- <v-row align="center" justify="start">
-      <v-col cols="4">
-        <v-btn @click="checkOnPendingTasks(() => { changeDay(-7) })" class="previous-week" :min-width="0" outlined color="blue lighten-1">
-          <v-icon>mdi-chevron-left</v-icon>
-          <span class="d-none d-md-flex">
-            {{ $t("time_sheet.previous_week") }}
-          </span>
-        </v-btn>
-      </v-col>
-
-      <v-col cols="4" class="text-center">
-        <span v-if="days.length" class="title">{{ currentWeek }}</span>
-      </v-col>
-
-      <v-col cols="4" class="text-right">
-        <v-btn @click="checkOnPendingTasks(() => { changeDay(7) })" class="next-week" :min-width="0"  outlined color="blue lighten-1">
-          <span class="d-none d-md-flex">
-            {{ $t("time_sheet.next_week") }}
-          </span>
-          <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
-      </v-col>
-    </v-row> -->
-
-    <v-divider />
-
     <ul class="nav nav-tabs timesheet">
       <li
         :class="{ 'blue-grey lighten-3': dayIsBlocked(day) }"

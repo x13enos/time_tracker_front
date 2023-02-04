@@ -1,7 +1,10 @@
 import BlockedDaysSearcher from "@/services/blocked_days_searcher";
+import updateTaskActions from './actions/update_task_actions';
 import { DateTime } from 'luxon';
 
 export default {
+  ...updateTaskActions,
+
   async getUserInfo ({ commit }) {
     const response = await this.$api.personalInfo()
     commit('updatePersonalInfo', response.data)
@@ -30,35 +33,12 @@ export default {
   async addTask ({ commit, dispatch }, { params, day }) {
     params.assignedDate = this.$appMethods.systemFormatDate(day)
     const response = await this.$api.createTimeRecord(params)
-    dispatch("stopOtherTasks", params.active)
+    if (params.active)
+      dispatch("stopOtherTasks")
     await commit('updateTask', response.data)
     if (response.data.time_start)
       commit('updateCurrentTask', response.data)
     return response;
-  },
-
-  async updateTask ({ commit, dispatch }, params) {
-    const response = await this.$api.updateTimeRecord(params)
-    if (params.active === false) 
-      await dispatch('handleStoppingTask', response.data)
-    if (params.active === true)
-      commit('updateCurrentTask', response.data)
-    commit('updateTask', response.data)
-    return response;
-  },
-
-  async handleStoppingTask({ commit, getters, dispatch }, taskData) {
-    const parsedDate = taskData.assigned_date.split('/');
-    await dispatch('updateSelectedDate', parsedDate);
-    commit('updateCurrentTask', null);
-  },
-
-  async updateSelectedDate({ getters, commit, dispatch }, date) {
-    const newDate = DateTime.fromObject({ year: date[2], month: date[1], day: date[0] });
-    const needToFetchWeekTasks = !getters.weekDays.some(day => day.ts === newDate.ts);
-    commit('updateSelectedDate', newDate);
-    if (needToFetchWeekTasks)
-      await dispatch('getWeeklyTasks', newDate);
   },
 
   async deleteTask ({ commit }, data) {
@@ -67,11 +47,9 @@ export default {
     return response;
   },
 
-  stopOtherTasks ({ commit }, taskIsActive) {
-    if(taskIsActive){
-      commit("clearActiveTaskIntervalId")
-      commit("cleanTasksStartTime")
-    }
+  stopOtherTasks ({ commit }) {
+    commit("clearActiveTaskIntervalId")
+    commit("cleanTasksStartTime")
   },
 
   checkOnPendingTasks({ commit, getters }, callback){
@@ -100,6 +78,14 @@ export default {
   async changeWorkspace(app, id) {
     await this.$api.changeActiveWorkspaceId(id)
     this.$router.go();
+  },
+
+  async updateSelectedDate({ getters, commit, dispatch }, date) {
+    const newDate = DateTime.fromObject({ year: date[2], month: date[1], day: date[0] });
+    const needToFetchWeekTasks = !getters.weekDays.some(day => day.ts === newDate.ts);
+    commit('updateSelectedDate', newDate);
+    if (needToFetchWeekTasks)
+      await dispatch('getWeeklyTasks', newDate);
   },
 
   async deleteWorkspaceFromUserInfo({ commit, state, dispatch }, id) {
