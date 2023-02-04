@@ -48,13 +48,15 @@ describe('start', () => {
     sinon.restore();
   });
 
-  it('should keep interval id', () => {
+  it('should call mutation keepActiveTaskIntervalId', () => {
     const wrapper = createWrapper(currentTask, { propsData }, fakeStoreData());
     Object.assign(wrapper.vm, taskData);
-    wrapper.vm.intervalId = null;
+    const methodStub = sinon.stub(wrapper.vm, 'keepActiveTaskIntervalId')
+    const timer = sinon.useFakeTimers()
+    sinon.stub(timer, 'setInterval').returns(101)
 
     wrapper.vm.start();
-    expect(wrapper.vm.intervalId === null).to.be.false;
+    expect(methodStub.calledOnceWith(101)).to.be.true;
     sinon.restore();
   });
 });

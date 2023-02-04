@@ -20,11 +20,19 @@ describe("handleStoppingTask", () => {
     sinon.restore()
   });
 
+  it('should clear active record interval id', async () => {
+    const commitStub = sinon.stub(commitObject, 'commit');
+    await actions.handleStoppingTask(commitObject, { assigned_date: '1/1/2021' });
+
+    expect(commitStub.args[0]).to.eql(['clearActiveTaskIntervalId']);
+    sinon.restore()
+  })
+
   it('should clean up the current task', async () => {
     const commitStub = sinon.stub(commitObject, 'commit');
     await actions.handleStoppingTask(commitObject, { assigned_date: '1/1/2021' });
 
-    expect(commitStub.calledOnceWith('updateCurrentTask', null)).to.be.true;
+    expect(commitStub.args[1]).to.eql(['updateCurrentTask', null]);
     sinon.restore()
   })
 

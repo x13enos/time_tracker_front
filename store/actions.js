@@ -18,7 +18,6 @@ export default {
 
   async getWeeklyTasks ({ commit }, day) {
     commit('reinitTasksObject', day)
-    commit('clearActiveTaskIntervalId')
     const response = await this.$api.weeklyTimeRecords(day)
     commit('updateTasks', response.data)
     return response;
