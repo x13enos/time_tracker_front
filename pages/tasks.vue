@@ -90,7 +90,7 @@ export default {
   },
 
   methods: {
-    ...mapMutations['updateCurrentDate'],
+    ...mapMutations(['updateCurrentDate']),
     ...mapGetters(['somePendingTasks']),
     ...mapActions(['checkOnPendingTasks', 'getWeeklyTasks', 'fetchActiveTimeRecord', 'updateSelectedDate'])
   }

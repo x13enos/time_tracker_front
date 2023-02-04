@@ -18,7 +18,7 @@ describe('filters', () => {
 
     expect(methodSpy.calledOnce).to.be.true
 
-    methodSpy.restore()
+    sinon.restore()
   })
 
   it('should not call method for fetching tasks if fromDate is empty', async () => {
@@ -32,7 +32,7 @@ describe('filters', () => {
 
     expect(methodSpy.called).to.be.false
 
-    methodSpy.restore()
+    sinon.restore()
   })
 
   it('should not call method for fetching tasks if toDate is empty', async () => {
@@ -46,6 +46,6 @@ describe('filters', () => {
 
     expect(methodSpy.called).to.be.false
 
-    methodSpy.restore()
+    sinon.restore()
   })
 })
