@@ -1,6 +1,6 @@
 import actions from '@/store/actions';
 
-describe("updateTask", () => {
+describe("updateActiveTask", () => {
   const commitObject = {
     commit: (type, payload) => {},
     dispatch: (type, payload) => {},
@@ -22,7 +22,7 @@ describe("updateTask", () => {
   it('should call api for updating time record', async () => {
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
 
-    await actions.updateTask(commitObject, { params: "params" })
+    await actions.updateActiveTask(commitObject, { params: "params" })
     expect(apiStub.calledOnceWith({ params: "params" })).to.be.true
     sinon.restore()
   })
@@ -31,7 +31,7 @@ describe("updateTask", () => {
     const commitStub = sinon.stub(commitObject, 'commit')
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
 
-    await actions.updateTask(commitObject, { params: "params" })
+    await actions.updateActiveTask(commitObject, { params: "params" })
     expect(commitStub.args[0]).to.eql(['updateTask', 'data' ])
     sinon.restore()
   })
@@ -40,14 +40,14 @@ describe("updateTask", () => {
     const dispatchStub = sinon.stub(commitObject, 'dispatch')
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
 
-    await actions.updateTask(commitObject, { active: false })
+    await actions.updateActiveTask(commitObject, { active: false })
     expect(dispatchStub.calledOnceWith('handleStoppingTask', successResponse.data)).to.be.true;
     sinon.restore()
   })
 
   it('should return response', async () => {
     const apiStub = sinon.stub(actions.$api, 'updateTimeRecord').returns(successResponse)
-    const response = await actions.updateTask(commitObject, { params: "data" })
+    const response = await actions.updateActiveTask(commitObject, { params: "data" })
     expect(response).to.eql(successResponse)
     sinon.restore()
   })

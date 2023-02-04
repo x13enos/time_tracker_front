@@ -11,7 +11,7 @@ describe('update', () => {
     const storeData = fakeStoreData();
     storeData.state.currentTask = null;
     const wrapper = createWrapper(currentTask, { propsData }, storeData)
-    const actionStub = sinon.stub(wrapper.vm, "updateTask")
+    const actionStub = sinon.stub(wrapper.vm, "updateActiveTask")
 
     await wrapper.vm.update()
     expect(actionStub.called).to.be.false;
@@ -26,7 +26,7 @@ describe('update', () => {
 
     it('should call action for updating task and pass time record\'s data', async () => {
       const wrapper = createWrapper(currentTask, { propsData }, storeData);
-      const actionStub = sinon.stub(wrapper.vm, "updateTask");
+      const actionStub = sinon.stub(wrapper.vm, "updateActiveTask");
       sinon.stub(wrapper.vm, "formData").returns({ description: "text" });
 
       await wrapper.vm.update();
@@ -39,7 +39,7 @@ describe('update', () => {
 
     it('should add active param if that was passed', async () => {
       const wrapper = createWrapper(currentTask, { propsData }, storeData);
-      const actionStub = sinon.stub(wrapper.vm, "updateTask");
+      const actionStub = sinon.stub(wrapper.vm, "updateActiveTask");
       sinon.stub(wrapper.vm, "formData").returns({ description: "text" });
 
       await wrapper.vm.update(false);
@@ -54,15 +54,3 @@ describe('update', () => {
   });
 
 })
-
-
-// async update(active = undefined) {
-//   if (!this.currentTask) { return }
-//
-//   const params = this.formData()
-//   params.id = this.currentTask.id;
-//   if (typeof active !== 'undefined')
-//     params.active = active
-//
-//   await this.updateTask(params)
-// },

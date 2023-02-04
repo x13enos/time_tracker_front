@@ -88,7 +88,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(['addTask', 'updateTask']),
+    ...mapActions(['addTask', 'updateActiveTask']),
     ...mapMutations(["updateTaskSpentTime"]),
 
     clearIntervalId () {
@@ -113,7 +113,7 @@ export default {
       if (typeof active !== 'undefined')
         params.active = active
 
-      await this.updateTask(params)
+      await this.updateActiveTask(params)
     },
 
     cleanUpData () {

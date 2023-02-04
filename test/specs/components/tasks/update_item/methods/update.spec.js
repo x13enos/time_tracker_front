@@ -5,9 +5,9 @@ describe('update', () => {
 
   const propsData = { task: { tagIds: [] }, activeDay: false, dayIsBlocked: false }
 
-  it('should not call action updateTask if validation was failed', () => {
+  it('should not call action updateNonActiveTask if validation was failed', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask').returns({ success: () => { return true } })
     wrapper.vm.valid = false
 
     wrapper.vm.update(true)
@@ -16,10 +16,10 @@ describe('update', () => {
     actionStub.restore()
   });
 
-  it('should call action updateTask and form data should have active status as true', () => {
+  it('should call action updateNonActiveTask and form data should have active status as true', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask').returns({ success: () => { return true } })
 
     wrapper.vm.update(true)
     expect(actionStub.calledOnce).to.be.true
@@ -31,10 +31,10 @@ describe('update', () => {
     sinon.restore()
   });
 
-  it('should call action updateTask and form data should have active status as false', () => {
+  it('should call action updateNonActiveTask and form data should have active status as false', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask').returns({ success: () => { return true } })
 
     wrapper.vm.update(false)
     expect(actionStub.calledOnce).to.be.true
@@ -46,10 +46,10 @@ describe('update', () => {
     sinon.restore()
   });
 
-  it('should call action updateTask and form data should not have "active" value', () => {
+  it('should call action updateNonActiveTask and form data should not have "active" value', () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
     const paramsStub = sinon.stub(wrapper.vm, 'formData').returns({ description: "text" })
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask').returns({ success: () => { return true } })
 
     wrapper.vm.update()
     expect(actionStub.calledOnce).to.be.true
@@ -62,7 +62,7 @@ describe('update', () => {
 
   it('should remove pending state if request was successful', async () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask').returns({ success: () => { return true } })
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask').returns({ success: () => { return true } })
     const mutationStub = sinon.stub(wrapper.vm, "removePendingState")
 
     await wrapper.vm.update(true)
@@ -74,7 +74,7 @@ describe('update', () => {
 
   it('should update notification in case of success', async () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask')
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask')
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
 
     await wrapper.vm.update()
@@ -85,7 +85,7 @@ describe('update', () => {
 
   it('should not update notification in case of launching timer', async () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask')
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask')
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
 
     await wrapper.vm.update(true)
@@ -96,7 +96,7 @@ describe('update', () => {
 
   it('should update attribute errorMessages with rejected data', async () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask').rejects({ errors: "Big message of errors" })
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask').rejects({ errors: "Big message of errors" })
 
     await wrapper.vm.update(true)
     expect(wrapper.vm.errorMessages).to.eql("Big message of errors")
@@ -106,7 +106,7 @@ describe('update', () => {
 
   it('should update notification in case of fail', async () => {
     const wrapper = createWrapper(task, { propsData }, fakeStoreData())
-    const actionStub = sinon.stub(wrapper.vm, 'updateTask').rejects({ errors: "Big message of errors" })
+    const actionStub = sinon.stub(wrapper.vm, 'updateNonActiveTask').rejects({ errors: "Big message of errors" })
     const snackStub = sinon.stub(wrapper.vm, 'updateSnack')
 
     await wrapper.vm.update(true)

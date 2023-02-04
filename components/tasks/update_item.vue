@@ -149,7 +149,7 @@ export default {
 
   methods: {
     ...mapActions([
-      "updateTask",
+      "updateNonActiveTask",
       "deleteTask"
     ]),
     ...mapMutations([
@@ -176,7 +176,7 @@ export default {
 
       try{
         this.errorMessages = []
-        await this.updateTask(params)
+        await this.updateNonActiveTask(params)
         this.removePendingState()
         if (!launch)
           this.updateSnack({ message: this.$t("time_sheet.task_was_updated"), color: "green" })

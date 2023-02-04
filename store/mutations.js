@@ -39,10 +39,7 @@ export default {
   },
 
   updateCurrentTask(state, task) {
-    if (task)
-      state.currentTask = collectTaskData(task);
-    else
-      state.currentTask = null;
+    state.currentTask = task ? collectTaskData(task) : null;
   },
 
   updateTask(state, data){
