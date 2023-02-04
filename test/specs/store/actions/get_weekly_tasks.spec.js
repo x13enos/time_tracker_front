@@ -22,7 +22,7 @@ describe("getWeeklyTasks", () => {
     const apiStub = sinon.stub(actions.$api, 'weeklyTimeRecords').returns(successResponse)
     await actions.getWeeklyTasks(commitObject, new Date())
     expect(apiStub.calledOnce).to.be.true
-    apiStub.restore()
+    sinon.restore()
   })
 
   it('should clean list of tasks', async () => {
@@ -31,26 +31,15 @@ describe("getWeeklyTasks", () => {
     const apiStub = sinon.stub(actions.$api, 'weeklyTimeRecords').returns(successResponse)
     await actions.getWeeklyTasks(commitObject, date)
     expect(commitStub.args[0]).to.eql(['reinitTasksObject', date])
-    apiStub.restore()
-    commitStub.restore()
-  })
-
-  it('should clean interval id', async () => {
-    const commitStub = sinon.stub(commitObject, 'commit')
-    const apiStub = sinon.stub(actions.$api, 'weeklyTimeRecords').returns(successResponse)
-    await actions.getWeeklyTasks(commitObject, new Date())
-    expect(commitStub.args[1]).to.eql(['clearActiveTaskIntervalId'])
-    apiStub.restore()
-    commitStub.restore()
+    sinon.restore()
   })
 
   it('should commit data if response is success', async () => {
     const commitStub = sinon.stub(commitObject, 'commit')
     const apiStub = sinon.stub(actions.$api, 'weeklyTimeRecords').returns(successResponse)
     await actions.getWeeklyTasks(commitObject, new Date())
-    expect(commitStub.args[2]).to.eql([ 'updateTasks', { time_records: "data" } ])
-    apiStub.restore()
-    commitStub.restore()
+    expect(commitStub.args[1]).to.eql([ 'updateTasks', { time_records: "data" } ])
+    sinon.restore()
   })
 
   it('should not commit data if response is failed', async () => {
@@ -59,17 +48,16 @@ describe("getWeeklyTasks", () => {
     try{
       await actions.getWeeklyTasks(commitObject, new Date())
     } catch (error) {
-      expect(commitStub.calledOnce).to.be.false
+      expect(commitStub.calledOnce).to.be.true
     }
-    apiStub.restore()
-    commitStub.restore()
+    sinon.restore()
   })
 
   it('should return response', async () => {
     const apiStub = sinon.stub(actions.$api, 'weeklyTimeRecords').returns(successResponse)
     const response = await actions.getWeeklyTasks(commitObject, new Date())
     expect(response).to.eql(successResponse)
-    apiStub.restore()
+    sinon.restore()
   })
 
 })

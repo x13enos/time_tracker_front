@@ -43,16 +43,6 @@ import { expect } from 'chai';
    });
 
    describe('currentTask is null', () => {
-     it('should clear timer', () => {
-       const store = fakeStoreData();
-       const wrapper = createWrapper(currentTask, { propsData }, store);
-       const clearTimerStub = sinon.stub(wrapper.vm, 'clearIntervalId');
-
-       wrapper.vm.$options.watch.currentTask.call(wrapper.vm, null);
-       expect(clearTimerStub.calledOnce).to.be.true;
-       sinon.restore();
-     });
-
      it('should call method for cleaning up the component\'s data', () => {
        const store = fakeStoreData();
        const wrapper = createWrapper(currentTask, { propsData }, store);

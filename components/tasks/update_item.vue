@@ -155,7 +155,6 @@ export default {
     ...mapMutations([
       "updateTaskSpentTime",
       "keepActiveTaskIntervalId",
-      "clearActiveTaskIntervalId",
       "updateSnack",
       "deletePendingTaskId",
       "addPendingTaskId"
@@ -166,19 +165,19 @@ export default {
         this.update()
     },
 
-    async update(launch=undefined){
+    async update(active=undefined){
       if(!this.valid)
         return
 
       const params = this.formData()
-      if(typeof launch !== 'undefined')
-        params.active = launch
+      if(typeof active !== 'undefined')
+        params.active = active
 
       try{
         this.errorMessages = []
         await this.updateNonActiveTask(params)
         this.removePendingState()
-        if (!launch)
+        if (!active)
           this.updateSnack({ message: this.$t("time_sheet.task_was_updated"), color: "green" })
       } catch ({ errors }) {
         this.updateSnack({ message: this.$t("time_sheet.task_was_not_updated"), color: "red" })
@@ -215,11 +214,6 @@ export default {
       }, 36000);
       this.keepActiveTaskIntervalId(intervalId)
       this.btnStartFocused = false
-    },
-
-    stop(){
-      this.clearActiveTaskIntervalId()
-      this.update(false)
     },
 
     selectPendingClass(){

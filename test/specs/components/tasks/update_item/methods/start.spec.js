@@ -23,9 +23,7 @@ describe('start', () => {
     expect(mutationStub.calledOnce).to.be.true
     expect(mutationStub.args[0]).to.eql([101])
 
-    timer.restore()
-    intervalStub.restore()
-    mutationStub.restore()
+    sinon.restore()
   });
 
   it('should change spent time on 0.01 each 36 seconds', () => {
@@ -37,7 +35,7 @@ describe('start', () => {
 
     expect(wrapper.vm.spentTime).to.eq('0.51')
 
-    clock.restore();
+    sinon.restore()
   });
 
   it('should pass updated time to parent each 36 seconds', () => {
@@ -55,8 +53,7 @@ describe('start', () => {
       id: 125
     }])
 
-    clock.restore();
-    mutationStub.restore();
+    sinon.restore()
   });
 
   it('should not change spent time on 0.01 each 35 seconds', () => {
@@ -68,7 +65,7 @@ describe('start', () => {
 
     expect(wrapper.vm.spentTime).to.eq('0.50')
 
-    clock.restore();
+    sinon.restore()
   });
 
   it('should set btnStartFocused as false', () => {
@@ -78,6 +75,7 @@ describe('start', () => {
 
     wrapper.vm.start()
     expect(wrapper.vm.btnStartFocused).to.be.false
+    sinon.restore()
   });
 
 });

@@ -22,6 +22,7 @@ export default {
   async handleStoppingTask({ commit, dispatch }, taskData) {
     const parsedDate = taskData.assigned_date.split('/');
     await dispatch('updateSelectedDate', parsedDate);
+    commit('clearActiveTaskIntervalId');
     commit('updateCurrentTask', null);
   }
 }

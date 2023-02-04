@@ -16,8 +16,8 @@
     <v-col>
       <TimeInput :spentTime="spentTime" @update="updateAttribute($event, 'spentTime')" />
     </v-col>
-    <v-col v-if="activeDay || intervalId">
-      <div class="start-timer" v-if="!intervalId" @click="createAndStart">
+    <v-col v-if="activeDay || activeTaskIntervalId">
+      <div class="start-timer" v-if="!activeTaskIntervalId" @click="createAndStart">
         <v-icon>mdi-play-circle</v-icon>
         <span>{{$t('time_sheet.start')}}</span>
       </div>
@@ -53,7 +53,6 @@ export default {
 
   data () {
     return {
-      intervalId: null,
       project: null,
       tagIds: [],
       description: null,
@@ -63,7 +62,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['projects', 'currentTask', 'tasks', 'selectedDate']),
+    ...mapState(['projects', 'currentTask', 'tasks', 'selectedDate', 'activeTaskIntervalId']),
     ...mapGetters(["activeDay"]),
   },
 
@@ -80,7 +79,6 @@ export default {
         })
         this.start();
       } else {
-        this.clearIntervalId();
         this.cleanUpData();
       }
 
@@ -89,12 +87,7 @@ export default {
 
   methods: {
     ...mapActions(['addTask', 'updateActiveTask']),
-    ...mapMutations(["updateTaskSpentTime"]),
-
-    clearIntervalId () {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    },
+    ...mapMutations(["updateTaskSpentTime", 'keepActiveTaskIntervalId']),
 
     async create () {
       await this.addTask({ params: this.formData(false), day: this.selectedDate })
@@ -131,7 +124,7 @@ export default {
         this.spentTime = (parseFloat(this.spentTime) + parseFloat("0.01")).toFixed(2)
         this.updateTaskSpentTime(this.spentTime)
       }, 36000);
-      this.intervalId = intervalId
+      this.keepActiveTaskIntervalId(intervalId);
     },
 
     formData (active) {
