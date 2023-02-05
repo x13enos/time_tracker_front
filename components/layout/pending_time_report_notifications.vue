@@ -4,8 +4,8 @@
       v-for="period in unapprovedPeriods"
       :key="period.id" 
       class="block">
-      <div class="notification d-flex justify-space-between">
-        <span class="message">
+      <div class="notification d-flex flex-sm-row flex-column justify-space-between">
+        <span :class="$vuetify.breakpoint.smAndDown ? 'small-message' : 'message'">
           {{ $t('time_reports.please_approve_your_report_for_following_dates', { from: period.from, to: period.to }) }}
         </span>
         <v-btn
@@ -70,5 +70,10 @@ export default {
 
   .message {
     line-height: 175%;
+  }
+
+  .small-message {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
   }
 </style>
