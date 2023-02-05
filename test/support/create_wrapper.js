@@ -10,7 +10,6 @@ VueTestUtils.config.mocks.$tc = key => key
 // we use randString in case when we want to avoid warnings about using non-primitive keys for lists
 VueTestUtils.config.mocks.$d = (key) => { key || randString() }
 VueTestUtils.config.mocks.$appMethods = $appMethods
-VueTestUtils.config.mocks.$currentFontClass = () => "poppins";
 
 const { shallowMount, createLocalVue } = VueTestUtils
 

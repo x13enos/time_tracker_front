@@ -1,5 +1,5 @@
 <template>
-  <div :class="$currentFontClass()">
+  <div :class="$i18n.locale === 'ru' ? 'montserrat' : 'poppins'">
     <v-app>
       <Sidebar />
       <v-main>
