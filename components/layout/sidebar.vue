@@ -1,134 +1,146 @@
 <template>
-  <v-navigation-drawer
-    app
-    floating
-    width="236"
-    class="navbar"
-  >
-    <v-list class="pt-1">
-      <v-list-item>
-          <v-list-item-content class="text-truncate">
-            <nuxt-link to="/tasks">
-              <img  src="/images/toime.svg" alt="Toime"/>
-            </nuxt-link>
-          </v-list-item-content>
-          <v-btn icon x-small>
-              <v-icon>mdi-bell</v-icon>
-          </v-btn>
-      </v-list-item>
+  <div class="app-bar-mobile">
+    <v-app-bar
+      color="white"
+      elevate-on-scroll
+      class="d-sm-none"
+    >
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
 
-      <v-list-item class="mt-4">
-            <v-icon class="mr-2 green-icon">mdi-clock-time-four</v-icon>
-            <nuxt-link to="/tasks">{{ $t("navigation.tasks") }}</nuxt-link>
-      </v-list-item>
-      <div class="group-items mt-2">
-        <v-subheader>{{ $t("navigation.analyze") }}</v-subheader>
-        <!-- <v-list-item>
-          <v-icon class="mr-2 green-icon">mdi-view-dashboard</v-icon>
-          <nuxt-link to="/tasks">Dashboard</nuxt-link>
-        </v-list-item> -->
-        <v-list-item>
-          <v-icon class="mr-2 green-icon">mdi-chart-box</v-icon>
-          <nuxt-link to="/reports">{{ $t("navigation.reports") }}</nuxt-link>
-        </v-list-item>
-      </div>
-      <div class="group-items mt-4" v-if="isManager" >
-        <v-subheader>{{ $t("navigation.manage") }}</v-subheader>
-        <v-list-item>
-          <v-icon class="mr-2 green-icon">mdi-folder</v-icon>
-          <nuxt-link to="/admin/projects">{{ $t("navigation.projects") }}</nuxt-link>
-        </v-list-item>
-        <v-list-item>
-          <v-icon class="mr-2 green-icon">mdi-account-multiple</v-icon>
-          <nuxt-link to="/admin/users">{{ $t("navigation.users") }}</nuxt-link>
-        </v-list-item>
-        <v-list-item>
-          <v-icon dense class="mr-2 green-icon">mdi-tag-multiple</v-icon>
-          <nuxt-link to="/admin/tags">{{ $t("navigation.tags") }}</nuxt-link>
-        </v-list-item>
-      </div>
-    </v-list>
-    <template v-slot:append>
-      <v-subheader class="workspace-title">{{ $t("navigation.workspace") }}</v-subheader>
-      <div>
-        <v-menu
-          v-model="menuOpened"
-          :close-on-content-click="true"
-          nudge-top="8"
-          offset-x
-        >
-          <template v-slot:activator="{ on }">
-            <div class="d-flex workspace-button justify-space-between" v-on="on">
-              {{ activeWorkspace.name }}
-              <v-icon dense>mdi-chevron-down</v-icon>
-            </div>
-          </template>
-          <div fluid class="workspaces-menu">
-            <div class="d-flex justify-space-between pt-5 pb-4 px-5">
-              <span class="workspace-title">{{ $t("workspaces.title") }}</span>
-              <nuxt-link to="/workspaces">
-                <v-icon dense class="green-icon">mdi-cog</v-icon>
-              </nuxt-link>
-            </div>
-            <div 
-              v-for="workspace in user.workspaces"
-              :key="workspace.id"
-              class="py-2 px-6 workspace-item"
-              :class="{ 'workspace-active-item': workspace.id === user.activeWorkspaceId }">
-              <div class="d-flex justify-space-between cursor-pointer" @click="changeWorkspace(workspace.id)">
-                {{ workspace.name }}
-                <span v-if="workspace.id === user.activeWorkspaceId" class="font-green workspace-active" >
-                  {{ $t("profile.active_workspace") }}
-                </span>
-              </div>
-            </div>
+      <v-toolbar-title>
+        <nuxt-link to="/tasks">
+          <img class="mobile-logo" src="/images/toime.svg" alt="Toime"/>
+        </nuxt-link>
+      </v-toolbar-title>
+    </v-app-bar>
+
+    <v-navigation-drawer
+        v-model="drawer"
+        app
+        :permanent="!$vuetify.breakpoint.xsOnly"
+        class="navbar"
+      >
+        <v-list class="pt-1">
+          <v-list-item class="d-none d-sm-flex">
+              <v-list-item-content class="text-truncate">
+                <nuxt-link to="/tasks">
+                  <img class="logo" src="/images/toime.svg" alt="Toime"/>
+                </nuxt-link>
+              </v-list-item-content>
+              <v-btn icon x-small>
+                  <v-icon>mdi-bell</v-icon>
+              </v-btn>
+          </v-list-item>
+
+          <v-list-item class="mt-4">
+                <v-icon class="mr-2 green-icon">mdi-clock-time-four</v-icon>
+                <nuxt-link to="/tasks">{{ $t("navigation.tasks") }}</nuxt-link>
+          </v-list-item>
+          <div class="group-items mt-2">
+            <v-subheader>{{ $t("navigation.analyze") }}</v-subheader>
+            <v-list-item>
+              <v-icon class="mr-2 green-icon">mdi-chart-box</v-icon>
+              <nuxt-link to="/reports">{{ $t("navigation.reports") }}</nuxt-link>
+            </v-list-item>
           </div>
-        </v-menu>
-      </div>
-      <div>
-        <v-menu
-          v-model="profileOpened"
-          :close-on-content-click="true"
-          nudge-top="8"
-          offset-x
-        >
-          <template v-slot:activator="{ on }">
-            <div
-              :class="{ active: profileOpened }"
-              class="d-flex user-data py-2 px-4 mb-5" 
-              v-on="on">
-              <div class="d-flex align-center avatar text-uppercase rounded-circle">
-                <div>{{ avatarInitials() }}</div>
-              </div>
-              <div class="ml-2 d-flex flex-column">
-                <div v-if="user.name" class="user-name">{{ user.name }}</div>
-                <div class="user-email">{{ user.email }}</div>
-              </div>
-            </div>
-          </template>
-          <div fluid class="workspaces-menu">
-            <div class="d-flex py-4 px-5 justify-space-between profile-section">
-              <div class="d-flex flex-column">
-                <div v-if="user.name" class="user-name">{{ user.name }}</div>
-                <div class="user-email mt-1">{{ user.email }}</div>
-              </div>
-              <div class="d-flex align-center big-avatar text-uppercase rounded-circle">
-                <div class="mx-auto">{{ avatarInitials() }}</div>
-              </div>
-            </div>
-            <nuxt-link to="/profile" class="d-flex menu-link py-2 pl-5">
-              <v-icon dense class="green-icon">mdi-cog</v-icon>
-              <span class="ml-2 profile-link-title">{{ $t("navigation.profile") }}</span>
-            </nuxt-link>
-            <div class="d-flex cursor-pointer menu-link py-2 pl-5" @click="signOut">
-              <v-icon dense class="green-icon">mdi-logout-variant</v-icon>
-              <span class="ml-2 profile-link-title">{{ $t("navigation.sign_out") }}</span>
-            </div>
+          <div class="group-items mt-4" v-if="isManager" >
+            <v-subheader>{{ $t("navigation.manage") }}</v-subheader>
+            <v-list-item>
+              <v-icon class="mr-2 green-icon">mdi-folder</v-icon>
+              <nuxt-link to="/admin/projects">{{ $t("navigation.projects") }}</nuxt-link>
+            </v-list-item>
+            <v-list-item>
+              <v-icon class="mr-2 green-icon">mdi-account-multiple</v-icon>
+              <nuxt-link to="/admin/users">{{ $t("navigation.users") }}</nuxt-link>
+            </v-list-item>
+            <v-list-item>
+              <v-icon dense class="mr-2 green-icon">mdi-tag-multiple</v-icon>
+              <nuxt-link to="/admin/tags">{{ $t("navigation.tags") }}</nuxt-link>
+            </v-list-item>
           </div>
-        </v-menu>
-      </div>
-    </template>
-  </v-navigation-drawer>
+        </v-list>
+        <template v-slot:append>
+          <v-subheader class="workspace-title">{{ $t("navigation.workspace") }}</v-subheader>
+          <div>
+            <v-menu
+              v-model="menuOpened"
+              :close-on-content-click="true"
+              nudge-top="8"
+              offset-x
+            >
+              <template v-slot:activator="{ on }">
+                <div class="d-flex workspace-button justify-space-between" v-on="on">
+                  {{ activeWorkspace.name }}
+                  <v-icon dense>mdi-chevron-down</v-icon>
+                </div>
+              </template>
+              <div fluid class="workspaces-menu">
+                <div class="d-flex justify-space-between pt-5 pb-4 px-5">
+                  <span class="workspace-title">{{ $t("workspaces.title") }}</span>
+                  <nuxt-link to="/workspaces">
+                    <v-icon dense class="green-icon">mdi-cog</v-icon>
+                  </nuxt-link>
+                </div>
+                <div 
+                  v-for="workspace in user.workspaces"
+                  :key="workspace.id"
+                  class="py-2 px-6 workspace-item"
+                  :class="{ 'workspace-active-item': workspace.id === user.activeWorkspaceId }">
+                  <div class="d-flex justify-space-between cursor-pointer" @click="changeWorkspace(workspace.id)">
+                    {{ workspace.name }}
+                    <span v-if="workspace.id === user.activeWorkspaceId" class="font-green workspace-active" >
+                      {{ $t("profile.active_workspace") }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </v-menu>
+          </div>
+          <div>
+            <v-menu
+              v-model="profileOpened"
+              :close-on-content-click="true"
+              nudge-top="8"
+              offset-x
+            >
+              <template v-slot:activator="{ on }">
+                <div
+                  :class="{ active: profileOpened }"
+                  class="d-flex user-data py-2 px-4 mb-5" 
+                  v-on="on">
+                  <div class="d-flex align-center avatar text-uppercase rounded-circle">
+                    <div>{{ avatarInitials() }}</div>
+                  </div>
+                  <div class="ml-2 d-flex flex-column">
+                    <div v-if="user.name" class="user-name">{{ user.name }}</div>
+                    <div class="user-email">{{ user.email }}</div>
+                  </div>
+                </div>
+              </template>
+              <div fluid class="workspaces-menu">
+                <div class="d-flex py-4 px-5 justify-space-between profile-section">
+                  <div class="d-flex flex-column">
+                    <div v-if="user.name" class="user-name">{{ user.name }}</div>
+                    <div class="user-email mt-1">{{ user.email }}</div>
+                  </div>
+                  <div class="d-flex align-center big-avatar text-uppercase rounded-circle">
+                    <div class="mx-auto">{{ avatarInitials() }}</div>
+                  </div>
+                </div>
+                <nuxt-link to="/profile" class="d-flex menu-link py-2 pl-5">
+                  <v-icon dense class="green-icon">mdi-cog</v-icon>
+                  <span class="ml-2 profile-link-title">{{ $t("navigation.profile") }}</span>
+                </nuxt-link>
+                <div class="d-flex cursor-pointer menu-link py-2 pl-5" @click="signOut">
+                  <v-icon dense class="green-icon">mdi-logout-variant</v-icon>
+                  <span class="ml-2 profile-link-title">{{ $t("navigation.sign_out") }}</span>
+                </div>
+              </div>
+            </v-menu>
+          </div>
+        </template>
+      </v-navigation-drawer>
+  </div>
 </template>
 
 <script>
@@ -288,5 +300,18 @@ export default {
     font-weight: 600;
     color: #FFFFFF;
     background-color: #4BBBA9;
+  }
+
+  .mobile-logo {
+    width: 100px;
+    margin-top: 5px;
+  }
+
+  .logo {
+    width: 100px;
+  }
+
+  .app-bar-mobile {
+    border-bottom: 2px solid #4BBBA9;
   }
 </style>
