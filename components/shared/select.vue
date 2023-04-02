@@ -1,7 +1,10 @@
 <template>
   <v-menu>
     <template v-slot:activator="{ on }">
-      <div class="cursor-pointer" v-on="on">
+      <div 
+        class="cursor-pointer" 
+        :class="{ 'gray-color': !value }"
+        v-on="on">
         <slot />
       </div>
     </template>
